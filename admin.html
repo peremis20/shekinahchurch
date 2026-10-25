@@ -55,6 +55,15 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 .act select{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff}
 .act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;resize:vertical;min-height:38px}
 .saved{color:var(--green);font-size:13px;font-weight:700}
+.ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
+.ef label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.ef input,.ef select,.ef textarea{padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-weight:400}
+.ef .wide{grid-column:1/-1}
+.ef .chk{flex-direction:row;align-items:center;gap:8px}
+.dbtn{background:#fff;border:1.5px solid #E7C3BC;color:var(--red);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600}
+.dbtn:hover{background:#FBEDEA}
+.lbtn{background:#fff;border:1.5px solid var(--line);color:var(--navy);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600}
+.lbtn:hover{border-color:var(--navy)}
 .empty{text-align:center;color:var(--muted);padding:40px 10px;background:#fff;border:1px dashed var(--line);border-radius:12px}
 </style>
 </head>
@@ -99,8 +108,10 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
       <option value="archived">Archived</option>
       <option value="all">Everything</option>
     </select>
+    <button class="pbtn" id="addb" style="border-radius:10px">+ Add entry</button>
     <button class="sbtn" id="csv">Download CSV</button>
   </div>
+  <div id="addbox" style="margin-bottom:12px"></div>
   <div class="list" id="list"></div>
 </div>
 
@@ -155,7 +166,41 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
       (i.message?'<div class="msg">'+esc(i.message)+'</div>':'')+
       (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
       '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
-      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea><span class="saved"></span></div></div>';
+      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea><button class="lbtn" data-a="edit">Edit</button><button class="dbtn" data-a="delete">Delete</button><span class="saved"></span></div>'+
+      ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+'</div>';
+  }
+  function form(i){
+    i=i||{kind:kind==='all'?'prayer':kind,status:'new'};
+    var opt=function(list,v){return list.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===v?' selected':'')+'>'+o[1]+'</option>';}).join('');};
+    return '<div class="card" style="border-left-color:var(--navy)" data-id="'+esc(i.id||'')+'"><div class="top"><span class="who">'+(i.id?'Edit entry':'Add a new entry')+'</span></div>'+
+      '<div class="ef">'+
+      '<label>Type<select name="kind">'+opt([['prayer','Prayer request'],['contact','Question or contact'],['visit','Visit request'],['newsletter','Email sign up']],i.kind)+'</select></label>'+
+      '<label>Status<select name="status">'+opt([['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']],i.status)+'</select></label>'+
+      '<label>Name<input name="name" value="'+esc(i.name||'')+'"></label>'+
+      '<label>Email<input name="email" type="email" value="'+esc(i.email||'')+'"></label>'+
+      '<label>Phone<input name="phone" value="'+esc(i.phone||'')+'"></label>'+
+      '<label>Topic<input name="topic" value="'+esc(i.topic||'')+'"></label>'+
+      '<label class="wide">Message or request<textarea name="message" rows="4">'+esc(i.message||'')+'</textarea></label>'+
+      '<label class="wide">Private note for the team<textarea name="admin_note" rows="2">'+esc(i.admin_note||'')+'</textarea></label>'+
+      '<label class="chk wide"><input name="is_private" type="checkbox"'+(i.is_private?' checked':'')+'> Private, pastor only</label>'+
+      '</div><div class="act"><button class="pbtn" data-a="savef">'+(i.id?'Save changes':'Add entry')+'</button><button class="lbtn" data-a="cancel">Cancel</button><span class="saved"></span></div></div>';
+  }
+  function readForm(el){var g=function(n){return el.querySelector('[name="'+n+'"]');};
+    return {kind:g('kind').value,status:g('status').value,name:g('name').value,email:g('email').value,phone:g('phone').value,topic:g('topic').value,message:g('message').value,admin_note:g('admin_note').value,is_private:g('is_private').checked};}
+  function submitForm(el){
+    var id=el.getAttribute('data-id'), body=readForm(el), msg=el.querySelector('.saved');
+    if(id)body.id=id; msg.textContent='Saving...';
+    api(id?'/admin/edit':'/admin/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){
+      if(id){items=items.map(function(x){return String(x.id)===String(id)?j.item:x;});}else{items.unshift(j.item);$('addbox').innerHTML='';}
+      show();
+    }).catch(function(e){msg.textContent='Not saved: '+e.message;});
+  }
+  function del(cardEl){
+    var id=cardEl.getAttribute('data-id'), it=items.filter(function(x){return String(x.id)===String(id);})[0]||{};
+    if(!confirm('Delete this '+(SHORT[it.kind]||'entry').toLowerCase()+(it.name?' from '+it.name:'')+' for good? This cannot be undone.'))return;
+    api('/admin/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){items=items.filter(function(x){return String(x.id)!==String(id);});show();}).catch(function(e){alert('Could not delete: '+e.message);});
+  }
+  function noop(){
   }
   function save(el,patch){
     var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
@@ -194,6 +239,13 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   $('csv').onclick=csv;
   $('q').oninput=show;$('st').onchange=show;
   $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;kind=b.getAttribute('data-k');show();});
+  $('addb').onclick=function(){$('addbox').innerHTML=form(null);var n=$('addbox').querySelector('[name="name"]');n&&n.focus();};
+  function onAct(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a'),cardEl=b.closest('.card');
+    if(a==='edit'){var id=cardEl.getAttribute('data-id');var it=items.filter(function(x){return String(x.id)===String(id);})[0];cardEl.outerHTML=form(it);}
+    else if(a==='delete')del(cardEl);
+    else if(a==='savef')submitForm(cardEl);
+    else if(a==='cancel'){if(cardEl.parentNode.id==='addbox')$('addbox').innerHTML='';else show();}}
+  $('list').addEventListener('click',onAct);$('addbox').addEventListener('click',onAct);
   $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='note')save(e.target,{admin_note:e.target.value});});
   if(pw())signedIn().catch(function(){});
 })();
