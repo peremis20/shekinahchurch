@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://shekinahsda.org/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://shekinahsda.org/plan-your-visit/</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://shekinahsda.org/</loc><priority>1.0</priority></url>
+  <url><loc>https://shekinahsda.org/plan-your-visit/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/about/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/ministries/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/blog/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/gallery/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/prayer-request/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/contact/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/beliefs/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/bible-study/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/blog/resting-in-his-presence-what-the-sabbath-teaches-us-about-trust/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/five-ways-to-build-faith-at-the-dinner-table/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/eating-for-life-simple-plant-based-meals-from-our-kitchen/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/the-gift-of-rest-why-sleep-is-part-of-our-worship/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/soup-joumou-plant-based-a-freedom-tradition-for-the-whole-table/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/when-prayer-feels-quiet/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/walk-with-me-starting-a-sabbath-afternoon-walking-group/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/diri-ak-pwa-the-healthy-way/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/faith-for-the-journey-lessons-from-abraham/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/water-first-small-habits-for-big-energy/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/legim-without-meat-a-family-favorite/</loc><priority>0.6</priority></url>
+  <url><loc>https://shekinahsda.org/blog/stress-less-trusting-god-with-your-worries/</loc><priority>0.6</priority></url>
 </urlset>
