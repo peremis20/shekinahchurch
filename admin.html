@@ -91,10 +91,10 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 
 <div class="wrap hide" id="team">
   <div class="card" style="border-left-color:var(--navy)">
-    <div class="top"><span class="who">Admin team</span></div>
-    <p class="meta" style="margin-top:6px">Anyone listed here can sign in with their email and see every message, including private prayer requests.</p>
+    <div class="top"><span class="who">Team and roles</span></div>
+    <p class="meta" style="margin-top:6px"><b>Admin:</b> everything, including this team page, the email list, the website editor and deleting. <b>Staff:</b> read and manage messages, reply, assign, add and edit entries, and edit the website. No deleting, email list or team. <b>Volunteer:</b> read messages, change status and add notes only. Private prayer requests are hidden from anyone who does not have the private box ticked.</p>
     <div id="tlist" style="margin-top:10px"></div>
-    <form id="tadd" class="bar" style="margin:14px 0 0"><input id="temail" type="email" placeholder="New admin email" required><button class="pbtn">Add admin</button></form>
+    <form id="tadd" class="bar" style="margin:14px 0 0;align-items:center"><input id="temail" type="email" placeholder="New person's email" required><select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select><label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pbtn">Add person</button></form>
     <div class="err" id="terr"></div>
   </div>
 </div>
@@ -150,11 +150,15 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   var KEY='shk_admin_session';
   var LABEL={prayer:'Prayer requests',contact:'Questions and contacts',visit:'Visit requests',newsletter:'Email sign ups'};
   var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit',newsletter:'Email list'};
-  var items=[], kind='all', replies={}, admins=[], me='';
+  var items=[], kind='all', replies={}, admins=[], me='', myRole='volunteer', myPriv=false;
+  var RANK={volunteer:1,staff:2,admin:3}; function can(r){return (RANK[myRole]||1)>=RANK[r];}
+  var ROLE_LABEL={admin:'Admin',staff:'Staff',volunteer:'Volunteer'};
   var VIEWS=['app','team','news','site'];
   function view(v){$('login').classList.add('hide');VIEWS.forEach(function(x){$(x).classList.toggle('hide',x!==v);});
     document.querySelectorAll('.nav').forEach(function(b){b.style.background=(b.id===({app:'msgb',team:'teamb',news:'newsb',site:'siteb'})[v])?'rgba(255,255,255,.18)':'';});
-    ['refresh','logout','msgb','newsb','siteb','teamb'].forEach(function(x){$(x).classList.remove('hide');});}
+    ['refresh','logout','msgb'].forEach(function(x){$(x).classList.remove('hide');});
+    $('newsb').classList.toggle('hide',!can('admin'));$('siteb').classList.toggle('hide',!can('staff'));$('teamb').classList.toggle('hide',!can('admin'));
+    $('addb').classList.toggle('hide',!can('staff'));$('csv').classList.toggle('hide',!can('staff'));}
   var $=function(id){return document.getElementById(id);};
   var mem='';
   function pw(){try{return localStorage.getItem(KEY)||mem;}catch(e){return mem;}}
@@ -165,7 +169,7 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 
   function load(){
     $('list').innerHTML='<div class="empty">Loading...</div>';
-    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).map(function(a){return a.email;});me=r[1].me||me;show();}).catch(function(e){
+    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).filter(function(a){return a.role!=='volunteer';}).map(function(a){return a.email;});me=r[1].me||me;show();}).catch(function(e){
       if(e.status===401){logout('Your session ended. Please sign in again.');}
       else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
     });
@@ -201,8 +205,8 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
       (i.message?'<div class="msg">'+esc(i.message)+'</div>':'')+
       (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
       '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
-      '<select data-f="assign" title="Assign to">'+'<option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>'+
-      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+(i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply" style="border-radius:10px;padding:8px 14px">Reply</button>':'')+'<button class="lbtn" data-a="edit">Edit</button><button class="dbtn" data-a="delete">Delete</button><span class="saved"></span></div>'+
+      (can('staff')?'<select data-f="assign" title="Assign to">'+'<option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>':(i.assigned_to?'<span class="meta" style="margin:0">Assigned to '+esc(i.assigned_to)+'</span>':''))+
+      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+(can('staff')&&i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply" style="border-radius:10px;padding:8px 14px">Reply</button>':'')+(can('staff')?'<button class="lbtn" data-a="edit">Edit</button>':'')+(can('admin')?'<button class="dbtn" data-a="delete">Delete</button>':'')+'<span class="saved"></span></div>'+
       '<div class="replybox"></div>'+
       ((replies[i.id]||[]).length?'<div class="meta" style="margin-top:10px">'+replies[i.id].map(function(r){return '<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><b style="color:var(--green)">Replied by '+esc(r.sent_by)+'</b> on '+esc(when(r.sent_at))+'<div style="white-space:pre-wrap;color:var(--ink);margin-top:4px">'+esc(r.body)+'</div></div>';}).join('')+'</div>':'')+
       ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+'</div>';
@@ -382,7 +386,7 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   function logout(msg){setPw('');items=[];VIEWS.concat(['refresh','logout','msgb','newsb','siteb','teamb']).forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
   function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
-  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';$('who').textContent=me;return load();});}
+  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;$('who').textContent=me+' ('+(ROLE_LABEL[myRole]||myRole)+')';return load();});}
 
   $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
     post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
@@ -391,13 +395,16 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     post('/admin/login/verify',{email:$('em').value.trim(),code:$('code').value}).then(function(j){setPw(j.token);signedIn();}).catch(function(err){$('lerr').textContent=err.message;});});
   $('back').onclick=function(e){e.preventDefault();showEmailStep();};
   $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
-  function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){return '<div class="contact" style="display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)"><b style="color:var(--navy)">'+esc(a.email)+'</b>'+(a.email===list.me?' <span class="tag">You</span>':'')+'<span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(a.email===list.me?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
+  function roleSel(v,dis){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+['admin','staff','volunteer'].map(function(r){return '<option value="'+r+'"'+(r===v?' selected':'')+'>'+ROLE_LABEL[r]+'</option>';}).join('')+'</select>';}
+  function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me;return '<div class="contact" data-em="'+esc(a.email)+'" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)"><b style="color:var(--navy);min-width:200px">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(a.role,mine)+'<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(mine?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
+  $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;$('terr').textContent='';
+    api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:row.getAttribute('data-em'),role:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked})}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').textContent=e2.message;});});
   $('teamb').onclick=function(){view('team');$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});};
   $('msgb').onclick=function(){view('app');};
   $('newsb').onclick=function(){view('news');loadNews();};
   $('siteb').onclick=function(){view('site');loadSite();};
   $('asg').onchange=show;
-  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value})}).then(function(j){$('temail').value='';team(j);}).catch(function(e){$('terr').textContent=e.message;});});
+  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,role:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);}).catch(function(e){$('terr').textContent=e.message;});});
   $('tlist').addEventListener('click',function(e){var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' as an admin?'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   $('refresh').onclick=load;
   $('csv').onclick=csv;
