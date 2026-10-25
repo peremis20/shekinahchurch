@@ -1248,7 +1248,7 @@ class Component extends DCLogic {
       churchNext: () => this.setState({ churchIdx: ((s.churchIdx || 0) + 1) % 27 }),
       churchPause: () => { this._churchPaused = true; },
       churchResume: () => { this._churchPaused = false; },
-      goAbout: () => this.go('about'), goMinistries: () => this.go('ministries'), goBlog: () => this.go('blog'), goGallery: () => this.go('gallery'), goGive: () => this.go('give'), isGallery: s.page === 'gallery',
+      goAbout: () => this.go('about'), goMinistries: () => this.go('ministries'), goBlog: () => this.go('blog'), goGallery: () => this.go('gallery'), goGive: () => { window.open('https://adventistgiving.org/donate/ANWB24', '_blank', 'noopener'); }, isGallery: s.page === 'gallery',
       albums: ALBUMS.map(c => ({ label: c, active: s.album === c, inactive: s.album !== c, pick: () => this.setState({ album: c }) })),
       galleryItems: GALLERY.filter(g => s.album === 'All' || g.album === s.album).map(g => ({ ...g, ...UCRED(GAL_IMG[+g.slotId.split('-')[1] - 1]), small: !g.big, label: g.album + ' photo' })),
       isHome: s.page === 'home', isAbout: s.page === 'about', isMinistries: s.page === 'ministries', isSermons: s.page === 'sermons',
