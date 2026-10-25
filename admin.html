@@ -62,6 +62,8 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 <header>
   <img src="assets/logo-mark-light.png" alt="">
   <h1>Shekinah Church Admin</h1>
+  <span id="who" style="font-size:13px;opacity:.8"></span>
+  <button class="hbtn hide" id="teamb">Team</button>
   <button class="hbtn hide" id="refresh">Refresh</button>
   <button class="hbtn hide" id="logout">Sign out</button>
 </header>
@@ -69,9 +71,20 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 <div id="login">
   <img src="assets/logo-mark.png" alt="" style="height:56px">
   <h2>Admin sign in</h2>
-  <p>For church staff only.</p>
-  <form id="lf"><input id="pw" type="password" placeholder="Admin password" autocomplete="current-password" required><button class="pbtn" style="width:100%">Sign in</button></form>
+  <p id="lmsg">Enter your admin email and we will send you a sign in code.</p>
+  <form id="lf"><input id="em" type="email" placeholder="Your email" autocomplete="email" required><button class="pbtn" style="width:100%" id="lbtn">Send me a code</button></form>
+  <form id="cf" class="hide"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 digit code" required style="text-align:center;letter-spacing:6px;font-size:20px"><button class="pbtn" style="width:100%">Sign in</button><p style="margin:12px 0 0"><a href="#" id="back" style="color:var(--green)">Use a different email</a></p></form>
   <div class="err" id="lerr"></div>
+</div>
+
+<div class="wrap hide" id="team">
+  <div class="card" style="border-left-color:var(--navy)">
+    <div class="top"><span class="who">Admin team</span><button class="sbtn" id="teamclose" style="margin-left:auto">Back to messages</button></div>
+    <p class="meta" style="margin-top:6px">Anyone listed here can sign in with their email and see every message, including private prayer requests.</p>
+    <div id="tlist" style="margin-top:10px"></div>
+    <form id="tadd" class="bar" style="margin:14px 0 0"><input id="temail" type="email" placeholder="New admin email" required><button class="pbtn">Add admin</button></form>
+    <div class="err" id="terr"></div>
+  </div>
 </div>
 
 <div class="wrap hide" id="app">
@@ -94,13 +107,14 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-shekinah.compute.c-7.us-east-2.aws.neon.tech';
-  var KEY='shk_admin_pw';
+  var KEY='shk_admin_session';
   var LABEL={prayer:'Prayer requests',contact:'Questions and contacts',visit:'Visit requests',newsletter:'Email sign ups'};
   var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit',newsletter:'Email list'};
   var items=[], kind='all';
   var $=function(id){return document.getElementById(id);};
-  function pw(){try{return sessionStorage.getItem(KEY)||'';}catch(e){return '';}}
-  function setPw(v){try{v?sessionStorage.setItem(KEY,v):sessionStorage.removeItem(KEY);}catch(e){}}
+  var mem='';
+  function pw(){try{return localStorage.getItem(KEY)||mem;}catch(e){return mem;}}
+  function setPw(v){mem=v||'';try{v?localStorage.setItem(KEY,v):localStorage.removeItem(KEY);}catch(e){}}
   function api(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(API+path,opt).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function when(t){var d=new Date(String(t).replace(' ','T').replace(/\+00$/,'Z'));return isNaN(d)?t:d.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}
@@ -108,12 +122,12 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   function load(){
     $('list').innerHTML='<div class="empty">Loading...</div>';
     return api('/admin/list').then(function(j){items=j.items||[];show();}).catch(function(e){
-      if(e.status===401){logout('Your password did not work. Please sign in again.');}
+      if(e.status===401){logout('Your session ended. Please sign in again.');}
       else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
     });
   }
   function show(){
-    $('login').classList.add('hide');$('app').classList.remove('hide');$('refresh').classList.remove('hide');$('logout').classList.remove('hide');
+    $('login').classList.add('hide');$('team').classList.add('hide');$('app').classList.remove('hide');['refresh','logout','teamb'].forEach(function(x){$(x).classList.remove('hide');});
     var counts={all:{t:0,n:0}};['prayer','contact','visit','newsletter'].forEach(function(k){counts[k]={t:0,n:0};});
     items.forEach(function(i){if(i.status==='archived')return;counts.all.t++;counts[i.kind].t++;if(i.status==='new'){counts.all.n++;counts[i.kind].n++;}});
     var keys=['all','prayer','contact','visit','newsletter'];
@@ -159,17 +173,29 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+out.join('\r\n')],{type:'text/csv'}));
     a.download='shekinah-'+(kind==='all'?'messages':kind)+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
   }
-  function logout(msg){setPw('');items=[];$('app').classList.add('hide');$('refresh').classList.add('hide');$('logout').classList.add('hide');$('login').classList.remove('hide');$('lerr').textContent=msg||'';$('pw').value='';}
+  function logout(msg){setPw('');items=[];['app','team','refresh','logout','teamb'].forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
+  function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
+  function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
+  function signedIn(){return api('/admin/check').then(function(j){$('who').textContent=j.email||'';return load();});}
 
-  $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';setPw($('pw').value);
-    api('/admin/check').then(load).catch(function(err){setPw('');$('lerr').textContent=err.status===401?'That password is not right.':err.message;});});
-  $('logout').onclick=function(){logout();};
+  $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
+    post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
+    .catch(function(err){$('lerr').textContent=err.message;}).then(function(){$('lbtn').disabled=false;});});
+  $('cf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';
+    post('/admin/login/verify',{email:$('em').value.trim(),code:$('code').value}).then(function(j){setPw(j.token);signedIn();}).catch(function(err){$('lerr').textContent=err.message;});});
+  $('back').onclick=function(e){e.preventDefault();showEmailStep();};
+  $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
+  function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){return '<div class="contact" style="display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)"><b style="color:var(--navy)">'+esc(a.email)+'</b>'+(a.email===list.me?' <span class="tag">You</span>':'')+'<span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(a.email===list.me?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
+  $('teamb').onclick=function(){$('app').classList.add('hide');$('team').classList.remove('hide');$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});};
+  $('teamclose').onclick=function(){$('team').classList.add('hide');$('app').classList.remove('hide');};
+  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value})}).then(function(j){$('temail').value='';team(j);}).catch(function(e){$('terr').textContent=e.message;});});
+  $('tlist').addEventListener('click',function(e){var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' as an admin?'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   $('refresh').onclick=load;
   $('csv').onclick=csv;
   $('q').oninput=show;$('st').onchange=show;
   $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;kind=b.getAttribute('data-k');show();});
   $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='note')save(e.target,{admin_note:e.target.value});});
-  if(pw())load();
+  if(pw())signedIn().catch(function(){});
 })();
 </script>
 </body>
