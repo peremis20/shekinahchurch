@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Church Admin | Shekinah</title>
+<link rel="icon" href="assets/logo-mark.png">
+<style>
+:root{--navy:#13294B;--gold:#E2B85C;--green:#0E4A36;--cream:#F4EDDE;--paper:#FBF8F2;--line:#E3DAC6;--ink:#1B2433;--muted:#5B6270;--red:#A23B2A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+button,input,select,textarea{font:inherit}
+.hide{display:none!important}
+header{background:var(--navy);color:#fff;padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+header img{height:36px}
+header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
+.hbtn{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:30px;padding:8px 14px;cursor:pointer}
+.hbtn:hover{background:rgba(255,255,255,.1)}
+.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+#login{max-width:380px;margin:12vh auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center}
+#login h2{font:700 22px Georgia,serif;color:var(--navy);margin:8px 0 4px}
+#login p{color:var(--muted);margin:0 0 18px}
+#login input{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:12px}
+.pbtn{background:var(--green);color:#fff;border:none;border-radius:30px;padding:12px 20px;font-weight:700;cursor:pointer}
+.pbtn:hover{background:#0A3A2A}
+.err{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left}
+.stat.on{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy) inset}
+.stat b{display:block;font-size:26px;color:var(--navy);line-height:1.1}
+.stat span{color:var(--muted);font-size:13px}
+.stat em{font-style:normal;color:#8A6420;font-weight:700;font-size:12px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.bar input,.bar select{padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.bar input{flex:1;min-width:180px}
+.sbtn{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;color:var(--navy);font-weight:600}
+.sbtn:hover{border-color:var(--navy)}
+.list{display:flex;flex-direction:column;gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;border-left:5px solid var(--line)}
+.card.new{border-left-color:var(--gold)}
+.card.in_progress{border-left-color:#3B6DB3}
+.card.done{border-left-color:var(--green)}
+.card.archived{opacity:.6}
+.top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.tag{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--cream);color:#8A6420}
+.tag.priv{background:#F7E3DF;color:var(--red)}
+.who{font-weight:700;color:var(--navy);font-size:16px}
+.when{color:var(--muted);font-size:13px;margin-left:auto}
+.contact{margin-top:4px;font-size:14px}
+.contact a{color:var(--green);margin-right:14px}
+.msg{white-space:pre-wrap;margin:10px 0 0;background:var(--paper);border-radius:8px;padding:10px 12px}
+.meta{margin-top:8px;font-size:13px;color:var(--muted)}
+.act{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.act select{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff}
+.act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;resize:vertical;min-height:38px}
+.saved{color:var(--green);font-size:13px;font-weight:700}
+.empty{text-align:center;color:var(--muted);padding:40px 10px;background:#fff;border:1px dashed var(--line);border-radius:12px}
+</style>
+</head>
+<body>
+<header>
+  <img src="assets/logo-mark-light.png" alt="">
+  <h1>Shekinah Church Admin</h1>
+  <button class="hbtn hide" id="refresh">Refresh</button>
+  <button class="hbtn hide" id="logout">Sign out</button>
+</header>
+
+<div id="login">
+  <img src="assets/logo-mark.png" alt="" style="height:56px">
+  <h2>Admin sign in</h2>
+  <p>For church staff only.</p>
+  <form id="lf"><input id="pw" type="password" placeholder="Admin password" autocomplete="current-password" required><button class="pbtn" style="width:100%">Sign in</button></form>
+  <div class="err" id="lerr"></div>
+</div>
+
+<div class="wrap hide" id="app">
+  <div class="stats" id="stats"></div>
+  <div class="bar">
+    <input id="q" type="search" placeholder="Search names, emails, messages">
+    <select id="st">
+      <option value="open">Open (new and in progress)</option>
+      <option value="new">New only</option>
+      <option value="in_progress">In progress</option>
+      <option value="done">Done</option>
+      <option value="archived">Archived</option>
+      <option value="all">Everything</option>
+    </select>
+    <button class="sbtn" id="csv">Download CSV</button>
+  </div>
+  <div class="list" id="list"></div>
+</div>
+
+<script>
+(function(){
+  var API='https://br-old-sea-b51wuht3-shekinah.compute.c-7.us-east-2.aws.neon.tech';
+  var KEY='shk_admin_pw';
+  var LABEL={prayer:'Prayer requests',contact:'Questions and contacts',visit:'Visit requests',newsletter:'Email sign ups'};
+  var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit',newsletter:'Email list'};
+  var items=[], kind='all';
+  var $=function(id){return document.getElementById(id);};
+  function pw(){try{return sessionStorage.getItem(KEY)||'';}catch(e){return '';}}
+  function setPw(v){try{v?sessionStorage.setItem(KEY,v):sessionStorage.removeItem(KEY);}catch(e){}}
+  function api(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(API+path,opt).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
+  function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function when(t){var d=new Date(String(t).replace(' ','T').replace(/\+00$/,'Z'));return isNaN(d)?t:d.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}
+
+  function load(){
+    $('list').innerHTML='<div class="empty">Loading...</div>';
+    return api('/admin/list').then(function(j){items=j.items||[];show();}).catch(function(e){
+      if(e.status===401){logout('Your password did not work. Please sign in again.');}
+      else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
+    });
+  }
+  function show(){
+    $('login').classList.add('hide');$('app').classList.remove('hide');$('refresh').classList.remove('hide');$('logout').classList.remove('hide');
+    var counts={all:{t:0,n:0}};['prayer','contact','visit','newsletter'].forEach(function(k){counts[k]={t:0,n:0};});
+    items.forEach(function(i){if(i.status==='archived')return;counts.all.t++;counts[i.kind].t++;if(i.status==='new'){counts.all.n++;counts[i.kind].n++;}});
+    var keys=['all','prayer','contact','visit','newsletter'];
+    $('stats').innerHTML=keys.map(function(k){return '<button class="stat'+(k===kind?' on':'')+'" data-k="'+k+'"><b>'+counts[k].t+'</b><span>'+(k==='all'?'All messages':LABEL[k])+'</span><br><em>'+(counts[k].n?counts[k].n+' new':'&nbsp;')+'</em></button>';}).join('');
+    var q=$('q').value.toLowerCase().trim(), st=$('st').value;
+    var rows=items.filter(function(i){
+      if(kind!=='all'&&i.kind!==kind)return false;
+      if(st==='open'&&!(i.status==='new'||i.status==='in_progress'))return false;
+      if(st!=='open'&&st!=='all'&&i.status!==st)return false;
+      if(q){var hay=[i.name,i.email,i.phone,i.topic,i.message,i.admin_note].join(' ').toLowerCase();if(hay.indexOf(q)<0)return false;}
+      return true;
+    });
+    if(!rows.length){$('list').innerHTML='<div class="empty">Nothing here right now.</div>';return;}
+    $('list').innerHTML=rows.map(card).join('');
+  }
+  function card(i){
+    var d=i.details||{}, extra=[];
+    if(i.kind==='visit'){if(d.date)extra.push('Visiting: '+esc(d.date));if(d.guests)extra.push('Guests: '+esc(d.guests));if(d.kids)extra.push('Bringing children');if(d.language)extra.push('Language: '+esc(d.language));}
+    if(i.topic)extra.unshift('Topic: '+esc(i.topic));
+    var c=[];if(i.email)c.push('<a href="mailto:'+esc(i.email)+'">'+esc(i.email)+'</a>');if(i.phone)c.push('<a href="tel:'+esc(i.phone.replace(/[^\d+]/g,''))+'">'+esc(i.phone)+'</a>');
+    return '<div class="card '+esc(i.status)+'" data-id="'+esc(i.id)+'">'+
+      '<div class="top"><span class="tag">'+SHORT[i.kind]+'</span>'+(i.is_private?'<span class="tag priv">Private, pastor only</span>':'')+
+      '<span class="who">'+esc(i.name||(i.kind==='newsletter'?i.email:'Anonymous'))+'</span><span class="when">'+esc(when(i.created_at))+'</span></div>'+
+      (c.length&&!(i.kind==='newsletter')?'<div class="contact">'+c.join('')+'</div>':'')+
+      (i.message?'<div class="msg">'+esc(i.message)+'</div>':'')+
+      (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
+      '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
+      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea><span class="saved"></span></div></div>';
+  }
+  function save(el,patch){
+    var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
+    msg.textContent='Saving...';
+    patch.id=id;
+    api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(patch)}).then(function(j){
+      items.forEach(function(i){if(String(i.id)===String(id)){if(patch.status)i.status=patch.status;if(patch.admin_note!==undefined)i.admin_note=patch.admin_note;}});
+      msg.textContent='Saved';if(patch.status){cardEl.className='card '+patch.status;}setTimeout(function(){msg.textContent='';},1800);
+    }).catch(function(e){msg.textContent='Not saved: '+e.message;});
+  }
+  function csv(){
+    var rows=items.filter(function(i){return kind==='all'||i.kind===kind;});
+    var cols=['id','kind','status','created_at','name','email','phone','topic','message','is_private','admin_note','details'];
+    var out=[cols.join(',')].concat(rows.map(function(i){return cols.map(function(c){var v=c==='details'?JSON.stringify(i.details||{}):i[c];v=v==null?'':String(v);return '"'+v.replace(/"/g,'""')+'"';}).join(',');}));
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+out.join('\r\n')],{type:'text/csv'}));
+    a.download='shekinah-'+(kind==='all'?'messages':kind)+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+  }
+  function logout(msg){setPw('');items=[];$('app').classList.add('hide');$('refresh').classList.add('hide');$('logout').classList.add('hide');$('login').classList.remove('hide');$('lerr').textContent=msg||'';$('pw').value='';}
+
+  $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';setPw($('pw').value);
+    api('/admin/check').then(load).catch(function(err){setPw('');$('lerr').textContent=err.status===401?'That password is not right.':err.message;});});
+  $('logout').onclick=function(){logout();};
+  $('refresh').onclick=load;
+  $('csv').onclick=csv;
+  $('q').oninput=show;$('st').onchange=show;
+  $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;kind=b.getAttribute('data-k');show();});
+  $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='note')save(e.target,{admin_note:e.target.value});});
+  if(pw())load();
+})();
+</script>
+</body>
+</html>
