@@ -72,7 +72,10 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   <img src="assets/logo-mark-light.png" alt="">
   <h1>Shekinah Church Admin</h1>
   <span id="who" style="font-size:13px;opacity:.8"></span>
-  <button class="hbtn hide" id="teamb">Team</button>
+  <button class="hbtn hide nav" id="msgb">Messages</button>
+  <button class="hbtn hide nav" id="newsb">Email list</button>
+  <button class="hbtn hide nav" id="siteb">Website</button>
+  <button class="hbtn hide nav" id="teamb">Team</button>
   <button class="hbtn hide" id="refresh">Refresh</button>
   <button class="hbtn hide" id="logout">Sign out</button>
 </header>
@@ -88,12 +91,33 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 
 <div class="wrap hide" id="team">
   <div class="card" style="border-left-color:var(--navy)">
-    <div class="top"><span class="who">Admin team</span><button class="sbtn" id="teamclose" style="margin-left:auto">Back to messages</button></div>
+    <div class="top"><span class="who">Admin team</span></div>
     <p class="meta" style="margin-top:6px">Anyone listed here can sign in with their email and see every message, including private prayer requests.</p>
     <div id="tlist" style="margin-top:10px"></div>
     <form id="tadd" class="bar" style="margin:14px 0 0"><input id="temail" type="email" placeholder="New admin email" required><button class="pbtn">Add admin</button></form>
     <div class="err" id="terr"></div>
   </div>
+</div>
+
+<div class="wrap hide" id="news">
+  <div class="card" style="border-left-color:var(--navy)">
+    <div class="top"><span class="who">Send an email to the email list</span><span class="when" id="ncount"></span></div>
+    <p class="meta" style="margin-top:6px">Goes from info@shekinahsda.org to everyone who signed up on the website. Each person gets their own copy with a link to unsubscribe.</p>
+    <div class="ef">
+      <label class="wide">Subject<input id="nsub" maxlength="200" placeholder="For example: This Sabbath at Shekinah"></label>
+      <label class="wide">Message<textarea id="nbody" rows="9" placeholder="Write your message here."></textarea></label>
+    </div>
+    <div class="act"><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
+  </div>
+  <h3 style="font:700 17px Georgia,serif;color:var(--navy);margin:22px 0 10px">Past emails</h3>
+  <div class="list" id="nhist"></div>
+  <h3 style="font:700 17px Georgia,serif;color:var(--navy);margin:22px 0 10px">People on the list</h3>
+  <div class="card" id="nlist"></div>
+</div>
+
+<div class="wrap hide" id="site">
+  <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
+  <div id="siteed"></div>
 </div>
 
 <div class="wrap hide" id="app">
@@ -108,6 +132,11 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
       <option value="archived">Archived</option>
       <option value="all">Everything</option>
     </select>
+    <select id="asg">
+      <option value="any">Assigned to anyone</option>
+      <option value="me">Assigned to me</option>
+      <option value="none">Not assigned</option>
+    </select>
     <button class="pbtn" id="addb" style="border-radius:10px">+ Add entry</button>
     <button class="sbtn" id="csv">Download CSV</button>
   </div>
@@ -121,7 +150,11 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   var KEY='shk_admin_session';
   var LABEL={prayer:'Prayer requests',contact:'Questions and contacts',visit:'Visit requests',newsletter:'Email sign ups'};
   var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit',newsletter:'Email list'};
-  var items=[], kind='all';
+  var items=[], kind='all', replies={}, admins=[], me='';
+  var VIEWS=['app','team','news','site'];
+  function view(v){$('login').classList.add('hide');VIEWS.forEach(function(x){$(x).classList.toggle('hide',x!==v);});
+    document.querySelectorAll('.nav').forEach(function(b){b.style.background=(b.id===({app:'msgb',team:'teamb',news:'newsb',site:'siteb'})[v])?'rgba(255,255,255,.18)':'';});
+    ['refresh','logout','msgb','newsb','siteb','teamb'].forEach(function(x){$(x).classList.remove('hide');});}
   var $=function(id){return document.getElementById(id);};
   var mem='';
   function pw(){try{return localStorage.getItem(KEY)||mem;}catch(e){return mem;}}
@@ -132,20 +165,22 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
 
   function load(){
     $('list').innerHTML='<div class="empty">Loading...</div>';
-    return api('/admin/list').then(function(j){items=j.items||[];show();}).catch(function(e){
+    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).map(function(a){return a.email;});me=r[1].me||me;show();}).catch(function(e){
       if(e.status===401){logout('Your session ended. Please sign in again.');}
       else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
     });
   }
   function show(){
-    $('login').classList.add('hide');$('team').classList.add('hide');$('app').classList.remove('hide');['refresh','logout','teamb'].forEach(function(x){$(x).classList.remove('hide');});
+    view('app');
     var counts={all:{t:0,n:0}};['prayer','contact','visit','newsletter'].forEach(function(k){counts[k]={t:0,n:0};});
     items.forEach(function(i){if(i.status==='archived')return;counts.all.t++;counts[i.kind].t++;if(i.status==='new'){counts.all.n++;counts[i.kind].n++;}});
     var keys=['all','prayer','contact','visit','newsletter'];
     $('stats').innerHTML=keys.map(function(k){return '<button class="stat'+(k===kind?' on':'')+'" data-k="'+k+'"><b>'+counts[k].t+'</b><span>'+(k==='all'?'All messages':LABEL[k])+'</span><br><em>'+(counts[k].n?counts[k].n+' new':'&nbsp;')+'</em></button>';}).join('');
-    var q=$('q').value.toLowerCase().trim(), st=$('st').value;
+    var q=$('q').value.toLowerCase().trim(), st=$('st').value, asg=$('asg').value;
     var rows=items.filter(function(i){
       if(kind!=='all'&&i.kind!==kind)return false;
+      if(asg==='me'&&i.assigned_to!==me)return false;
+      if(asg==='none'&&i.assigned_to)return false;
       if(st==='open'&&!(i.status==='new'||i.status==='in_progress'))return false;
       if(st!=='open'&&st!=='all'&&i.status!==st)return false;
       if(q){var hay=[i.name,i.email,i.phone,i.topic,i.message,i.admin_note].join(' ').toLowerCase();if(hay.indexOf(q)<0)return false;}
@@ -166,7 +201,10 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
       (i.message?'<div class="msg">'+esc(i.message)+'</div>':'')+
       (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
       '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
-      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea><button class="lbtn" data-a="edit">Edit</button><button class="dbtn" data-a="delete">Delete</button><span class="saved"></span></div>'+
+      '<select data-f="assign" title="Assign to">'+'<option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>'+
+      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+(i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply" style="border-radius:10px;padding:8px 14px">Reply</button>':'')+'<button class="lbtn" data-a="edit">Edit</button><button class="dbtn" data-a="delete">Delete</button><span class="saved"></span></div>'+
+      '<div class="replybox"></div>'+
+      ((replies[i.id]||[]).length?'<div class="meta" style="margin-top:10px">'+replies[i.id].map(function(r){return '<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><b style="color:var(--green)">Replied by '+esc(r.sent_by)+'</b> on '+esc(when(r.sent_at))+'<div style="white-space:pre-wrap;color:var(--ink);margin-top:4px">'+esc(r.body)+'</div></div>';}).join('')+'</div>':'')+
       ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+'</div>';
   }
   function form(i){
@@ -200,7 +238,32 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     if(!confirm('Delete this '+(SHORT[it.kind]||'entry').toLowerCase()+(it.name?' from '+it.name:'')+' for good? This cannot be undone.'))return;
     api('/admin/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){items=items.filter(function(x){return String(x.id)!==String(id);});show();}).catch(function(e){alert('Could not delete: '+e.message);});
   }
-  function noop(){
+  var KLABEL={prayer:'prayer request',contact:'message',visit:'visit request',newsletter:'message'};
+  function openReply(cardEl){
+    var id=cardEl.getAttribute('data-id'), it=items.filter(function(x){return String(x.id)===String(id);})[0]||{}, box=cardEl.querySelector('.replybox');
+    var first=(it.name||'').split(' ')[0];
+    box.innerHTML='<div class="ef" style="background:var(--paper);border-radius:10px;padding:12px;margin-top:12px">'+
+      '<div class="wide meta" style="margin:0">Replying to <b>'+esc(it.email)+'</b> from info@shekinahsda.org</div>'+
+      '<label class="wide">Subject<input name="rsub" value="'+esc('Re: your '+(KLABEL[it.kind]||'message')+' to Shekinah Church')+'"></label>'+
+      '<label class="wide">Message<textarea name="rbody" rows="7">'+esc((first?'Hi '+first+',':'Hello,')+'\n\n\n\nBlessings,\nShekinah Haitian SDA Church')+'</textarea></label>'+
+      '<div class="wide act" style="margin:0"><button class="pbtn" data-a="sendreply">Send reply</button><button class="lbtn" data-a="cancelreply">Cancel</button><span class="saved"></span></div></div>';
+    var ta=box.querySelector('[name="rbody"]');ta.focus();var p=ta.value.indexOf('\n\n')+2;ta.setSelectionRange(p,p);
+  }
+  function sendReply(cardEl){
+    var id=cardEl.getAttribute('data-id'), box=cardEl.querySelector('.replybox'), msg=box.querySelector('.saved'), btn=box.querySelector('[data-a="sendreply"]');
+    var body={id:id,subject:box.querySelector('[name="rsub"]').value,body:box.querySelector('[name="rbody"]').value};
+    btn.disabled=true;msg.textContent='Sending...';
+    api('/admin/reply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){
+      (replies[id]=replies[id]||[]).push(j.reply);items.forEach(function(x){if(String(x.id)===String(id)&&x.status==='new')x.status='in_progress';});show();
+    }).catch(function(e){btn.disabled=false;msg.textContent='Not sent: '+e.message;});
+  }
+  function assign(el){
+    var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
+    msg.textContent='Saving...';
+    api('/admin/assign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,email:el.value||null})}).then(function(){
+      items.forEach(function(x){if(String(x.id)===String(id))x.assigned_to=el.value||null;});
+      msg.textContent=el.value&&el.value!==me?'Assigned. They got an email.':'Saved';setTimeout(function(){msg.textContent='';},2500);
+    }).catch(function(e){msg.textContent='Not saved: '+e.message;});
   }
   function save(el,patch){
     var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
@@ -218,10 +281,108 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+out.join('\r\n')],{type:'text/csv'}));
     a.download='shekinah-'+(kind==='all'?'messages':kind)+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
   }
-  function logout(msg){setPw('');items=[];['app','team','refresh','logout','teamb'].forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
+  // ---------- Email list ----------
+  var subs=[];
+  function loadNews(){
+    $('nlist').innerHTML='<div class="meta">Loading...</div>';
+    api('/admin/subscribers').then(function(j){
+      subs=j.subscribers||[];
+      var active=subs.filter(function(s){return !s.unsubscribed&&s.status!=='archived';});
+      $('ncount').textContent=active.length+(active.length===1?' person':' people')+' on the list';
+      $('nlist').innerHTML=subs.length?subs.map(function(s){return '<div class="contact" style="display:flex;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line)"><span>'+esc(s.email)+'</span>'+(s.unsubscribed?'<span class="tag priv">Unsubscribed</span>':s.status==='archived'?'<span class="tag">Archived</span>':'')+'<span class="when">Joined '+esc(when(s.created_at))+'</span></div>';}).join(''):'<div class="meta">Nobody has signed up yet.</div>';
+      var h=j.broadcasts||[];
+      $('nhist').innerHTML=h.length?h.map(function(b){return '<div class="card done"><div class="top"><span class="who">'+esc(b.subject)+'</span><span class="when">'+esc(when(b.sent_at))+'</span></div><div class="meta">Sent by '+esc(b.sent_by)+' to '+b.sent_count+' of '+b.recipient_count+' people</div><div class="msg">'+esc(b.body)+'</div></div>';}).join(''):'<div class="empty">No emails sent yet.</div>';
+    }).catch(function(e){$('nlist').innerHTML='<div class="err">'+esc(e.message)+'</div>';});
+  }
+  function sendNews(test){
+    var subject=$('nsub').value.trim(), body=$('nbody').value.trim();
+    if(!subject||!body){$('nmsg').textContent='Write a subject and a message first.';return;}
+    var active=subs.filter(function(s){return !s.unsubscribed&&s.status!=='archived';}).length;
+    if(!test&&!confirm('Send this email to '+active+(active===1?' person':' people')+' now? It cannot be unsent.'))return;
+    $('nsend').disabled=$('ntest').disabled=true;$('nmsg').textContent=test?'Sending a test to you...':'Sending... this can take a minute. Keep this page open.';
+    api('/admin/broadcast',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subject:subject,body:body,test:!!test})}).then(function(j){
+      $('nmsg').textContent=test?'Test sent to '+me+'. Check your inbox.':'Sent to '+j.sent+' of '+j.total+' people.';
+      if(!test){$('nsub').value='';$('nbody').value='';loadNews();}
+    }).catch(function(e){$('nmsg').textContent='Not sent: '+e.message;}).then(function(){$('nsend').disabled=$('ntest').disabled=false;});
+  }
+  $('ntest').onclick=function(){sendNews(true);};
+  $('nsend').onclick=function(){sendNews(false);};
+
+  // ---------- Website content ----------
+  var CATS=['Sermons','Devotional','Health','Recipes'];
+  var SECTIONS=[
+    {key:'announcement',title:'Announcement bar',help:'A short message shown at the very top of every page. Leave it off when you have nothing to announce.',single:true,
+      fields:[{k:'on',label:'Show the announcement',type:'check'},{k:'text',label:'Message',type:'text',wide:true},{k:'link',label:'Link (optional)',type:'text'},{k:'linkText',label:'Link words (optional)',type:'text'}]},
+    {key:'sermons',title:'Recent sermons',help:'Shown on the Blog page under Sermons. Put the newest first.',add:'Add sermon',
+      fields:[{k:'title',label:'Title',type:'text'},{k:'speaker',label:'Speaker',type:'text'},{k:'scripture',label:'Scripture',type:'text'},{k:'date',label:'Date',type:'text'}]},
+    {key:'ministries',title:'Ministries',help:'Shown on the Ministries page. Photos stay in the same order as the ministries.',add:'Add ministry',
+      fields:[{k:'name',label:'Name',type:'text'},{k:'when',label:'When it meets',type:'text'},{k:'desc',label:'Description',type:'textarea',wide:true}]},
+    {key:'posts',title:'Blog posts and announcements',help:'Shown on the Blog page and the home page. Put the newest first. In the story, leave a blank line between paragraphs.',add:'Add post',
+      fields:[{k:'title',label:'Title',type:'text',wide:true},{k:'cat',label:'Category',type:'select',options:CATS},{k:'date',label:'Date',type:'text'},{k:'author',label:'Author',type:'text'},{k:'read',label:'Reading time',type:'text'},{k:'excerpt',label:'Short summary',type:'textarea',wide:true},{k:'body',label:'Full story',type:'paras',wide:true},{k:'verse',label:'Bible verse (optional)',type:'textarea',wide:true}]}
+  ];
+  var content={};
+  function loadSite(){
+    $('siteed').innerHTML='<div class="empty">Loading...</div>';
+    Promise.all([api('/admin/content'),fetch('content-defaults.json',{cache:'no-store'}).then(function(r){return r.ok?r.json():{};}).catch(function(){return {};})]).then(function(r){
+      var j=r[0], defs=r[1]||{};content={};(j.content||[]).forEach(function(x){content[x.key]={value:x.value,by:x.updated_by,at:x.updated_at};});
+      Object.keys(defs).forEach(function(k){if(!content[k])content[k]={value:defs[k],by:null,at:null};});
+      renderSite();})
+      .catch(function(e){$('siteed').innerHTML='<div class="empty">'+esc(e.message)+'</div>';});
+  }
+  function fieldHtml(f,v){
+    var lab='<label'+(f.wide?' class="wide"':'')+(f.type==='check'?' style="flex-direction:row;align-items:center;gap:8px"':'')+'>';
+    if(f.type==='check')return lab+'<input data-k="'+f.k+'" type="checkbox"'+(v?' checked':'')+'> '+f.label+'</label>';
+    if(f.type==='select')return lab+f.label+'<select data-k="'+f.k+'">'+f.options.map(function(o){return '<option'+(o===v?' selected':'')+'>'+esc(o)+'</option>';}).join('')+'</select></label>';
+    if(f.type==='textarea')return lab+f.label+'<textarea data-k="'+f.k+'" rows="3">'+esc(v||'')+'</textarea></label>';
+    if(f.type==='paras')return lab+f.label+'<textarea data-k="'+f.k+'" data-paras="1" rows="8">'+esc((v||[]).join('\n\n'))+'</textarea></label>';
+    return lab+f.label+'<input data-k="'+f.k+'" value="'+esc(v||'')+'"></label>';
+  }
+  function itemHtml(sec,it,idx,total){
+    return '<div class="card" style="border-left-color:var(--gold);margin-top:10px" data-idx="'+idx+'"'+(it.id?' data-pid="'+esc(it.id)+'"':'')+'><div class="ef" style="margin-top:0">'+sec.fields.map(function(f){return fieldHtml(f,it[f.k]);}).join('')+'</div>'+
+      (sec.single?'':'<div class="act"><button class="lbtn" data-s="up"'+(idx===0?' disabled':'')+'>Move up</button><button class="lbtn" data-s="down"'+(idx===total-1?' disabled':'')+'>Move down</button><button class="dbtn" data-s="remove">Remove</button></div>')+'</div>';
+  }
+  function renderSite(){
+    $('siteed').innerHTML=SECTIONS.map(function(sec){
+      var c=content[sec.key], v=c?c.value:(sec.single?{}:[]);
+      var list=sec.single?[v]:v;
+      return '<div class="card" style="border-left-color:var(--navy);margin-bottom:18px" data-sec="'+sec.key+'"><div class="top"><span class="who">'+sec.title+'</span>'+(c&&c.by?'<span class="when">Last saved by '+esc(c.by)+' on '+esc(when(c.at))+'</span>':'')+'</div><p class="meta" style="margin-top:4px">'+sec.help+'</p>'+
+        '<div class="items">'+list.map(function(it,i){return itemHtml(sec,it||{},i,list.length);}).join('')+'</div>'+
+        '<div class="act">'+(sec.single?'':'<button class="lbtn" data-s="add">+ '+sec.add+'</button>')+'<button class="pbtn" data-s="save">Save '+sec.title.toLowerCase()+'</button><span class="saved"></span></div></div>';
+    }).join('');
+  }
+  function readSec(secEl,sec){
+    var list=[].slice.call(secEl.querySelectorAll('.items > .card')).map(function(cardEl){
+      var o={};if(cardEl.getAttribute('data-pid'))o.id=cardEl.getAttribute('data-pid');
+      sec.fields.forEach(function(f){var el=cardEl.querySelector('[data-k="'+f.k+'"]');if(!el)return;
+        if(f.type==='check')o[f.k]=el.checked;else if(f.type==='paras')o[f.k]=el.value.split(/\n\s*\n/).map(function(s){return s.trim();}).filter(Boolean);else o[f.k]=el.value.trim();});
+      return o;});
+    return sec.single?list[0]:list;
+  }
+  $('siteed').addEventListener('click',function(e){
+    var b=e.target.closest('[data-s]');if(!b)return;var a=b.getAttribute('data-s'), secEl=b.closest('[data-sec]'), key=secEl.getAttribute('data-sec');
+    var sec=SECTIONS.filter(function(s){return s.key===key;})[0], val=readSec(secEl,sec), msg=secEl.querySelector(':scope > .act .saved');
+    if(a==='save'){
+      if(!sec.single)val=val.filter(function(o){return sec.fields.some(function(f){var x=o[f.k];return Array.isArray(x)?x.length:!!x;});});
+      if(key==='posts')val.forEach(function(p,i){if(!p.id)p.id='n'+Date.now().toString(36)+i;if(!p.cat)p.cat='Devotional';});
+      msg.textContent='Saving...';
+      api('/admin/content/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:key,value:val})}).then(function(){
+        content[key]={value:val,by:me,at:new Date().toISOString()};renderSite();var m=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m)m.textContent='Saved. The website will update in about a minute.';
+      }).catch(function(e2){msg.textContent='Not saved: '+e2.message;});
+      return;
+    }
+    var idx=b.closest('[data-idx]')?Number(b.closest('[data-idx]').getAttribute('data-idx')):-1;
+    if(a==='add')val.unshift({});
+    else if(a==='remove'){if(!confirm('Remove this item? It is only gone from the website after you click Save.'))return;val.splice(idx,1);}
+    else if(a==='up'&&idx>0){var t=val[idx-1];val[idx-1]=val[idx];val[idx]=t;}
+    else if(a==='down'&&idx<val.length-1){var t2=val[idx+1];val[idx+1]=val[idx];val[idx]=t2;}
+    content[key]={value:val,by:content[key]&&content[key].by,at:content[key]&&content[key].at};renderSite();
+    var m2=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m2)m2.textContent='Not saved yet. Click Save when you are done.';
+  });
+
+  function logout(msg){setPw('');items=[];VIEWS.concat(['refresh','logout','msgb','newsb','siteb','teamb']).forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
   function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
-  function signedIn(){return api('/admin/check').then(function(j){$('who').textContent=j.email||'';return load();});}
+  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';$('who').textContent=me;return load();});}
 
   $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
     post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
@@ -231,8 +392,11 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   $('back').onclick=function(e){e.preventDefault();showEmailStep();};
   $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
   function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){return '<div class="contact" style="display:flex;gap:10px;align-items:center;padding:8px 0;border-top:1px solid var(--line)"><b style="color:var(--navy)">'+esc(a.email)+'</b>'+(a.email===list.me?' <span class="tag">You</span>':'')+'<span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(a.email===list.me?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
-  $('teamb').onclick=function(){$('app').classList.add('hide');$('team').classList.remove('hide');$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});};
-  $('teamclose').onclick=function(){$('team').classList.add('hide');$('app').classList.remove('hide');};
+  $('teamb').onclick=function(){view('team');$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});};
+  $('msgb').onclick=function(){view('app');};
+  $('newsb').onclick=function(){view('news');loadNews();};
+  $('siteb').onclick=function(){view('site');loadSite();};
+  $('asg').onchange=show;
   $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value})}).then(function(j){$('temail').value='';team(j);}).catch(function(e){$('terr').textContent=e.message;});});
   $('tlist').addEventListener('click',function(e){var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' as an admin?'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   $('refresh').onclick=load;
@@ -244,9 +408,12 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     if(a==='edit'){var id=cardEl.getAttribute('data-id');var it=items.filter(function(x){return String(x.id)===String(id);})[0];cardEl.outerHTML=form(it);}
     else if(a==='delete')del(cardEl);
     else if(a==='savef')submitForm(cardEl);
-    else if(a==='cancel'){if(cardEl.parentNode.id==='addbox')$('addbox').innerHTML='';else show();}}
+    else if(a==='cancel'){if(cardEl.parentNode.id==='addbox')$('addbox').innerHTML='';else show();}
+    else if(a==='reply')openReply(cardEl);
+    else if(a==='sendreply')sendReply(cardEl);
+    else if(a==='cancelreply')cardEl.querySelector('.replybox').innerHTML='';}
   $('list').addEventListener('click',onAct);$('addbox').addEventListener('click',onAct);
-  $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='note')save(e.target,{admin_note:e.target.value});});
+  $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='assign')assign(e.target);else if(f==='note')save(e.target,{admin_note:e.target.value});});
   if(pw())signedIn().catch(function(){});
 })();
 </script>
