@@ -175,10 +175,10 @@ for key, path in routes:
     html = clean_ssr(snaps[key])
     if key.startswith('post:'):
         p = next(x for x in POSTS if 'post:' + x['_slug'] == key)
-        s = {'title': '%s | %s' % (p['title'], NAME), 'desc': p.get('excerpt') or PAGES['blog'][2],
+        s = {'title': p.get('seoTitle') or '%s | %s' % (p['title'], NAME), 'desc': p.get('metaDesc') or p.get('excerpt') or PAGES['blog'][2],
              'url': SITE + path, 'ogTitle': p['title']}
         art = {'@context': 'https://schema.org', '@type': 'BlogPosting', 'headline': p['title'],
-               'description': p.get('excerpt', ''), 'author': {'@type': 'Person', 'name': p.get('author', NAME)},
+               'description': p.get('metaDesc') or p.get('excerpt', ''), 'author': {'@type': 'Person', 'name': p.get('author', NAME)},
                'datePublished': p.get('date', ''), 'mainEntityOfPage': SITE + path,
                'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church'}}
         extra = '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
