@@ -83,7 +83,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Mulish:wght@400;500;600;700;800&family=Great+Vibes&display=swap" rel="stylesheet">
-<script src="./image-slot.js"></script>
+<script src="./image-slot.js?v=2"></script>
 <style>
 body{margin:0;background:#FAF6EE;color:#1B2433;font-family:'Mulish',sans-serif;-webkit-font-smoothing:antialiased}
 *{box-sizing:border-box}
@@ -144,7 +144,7 @@ image-slot::part(credit){display:none !important}
 <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
   <section style="position:relative;min-height:600px;display:flex;align-items:center;background:#13294B;overflow:hidden">
     <div style="position:absolute;inset:0"><image-slot id="hero-worship" src="https://images.unsplash.com/photo-1768995872741-1c6f32676c83?auto=format&fit=crop&w=1600&q=70" credit="Photo by Marco J Haenssgen on Unsplash" credit-href="https://unsplash.com/@marcohaenssgen" shape="rect" free-pan="" placeholder="Drop a worship photo"></image-slot></div>
-    <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)"></div>
+    <div style="position:absolute;inset:0;pointer-events:none;background:{{ heroShade }}"></div>
     <div style="position:absolute;top:20px;left:20px;z-index:3;display:flex;gap:10px;flex-wrap:wrap">
     <button data-edit-ctl onClick="{{ pickHeroImage }}" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.92);color:#13294B;border:none;border-radius:40px;padding:10px 18px;font-size:14px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,0.2)" style-hover="background:#FFFFFF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg>Change background photo</button>
     <button data-edit-ctl onClick="{{ moveHeroImage }}" style="display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.92);color:#13294B;border:none;border-radius:40px;padding:10px 18px;font-size:14px;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,0.2)" style-hover="background:#FFFFFF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg>Move photo</button>
@@ -159,7 +159,7 @@ image-slot::part(credit){display:none !important}
       </div>
     </sc-if>
     <div style="position:relative;width:100%;max-width:1240px;margin:0 auto;padding:80px 24px;display:flex;justify-content:flex-end;pointer-events:none">
-      <div style="max-width:540px;display:flex;flex-direction:column;gap:22px;text-shadow:0 2px 12px rgba(0,0,0,0.45)">
+      <div style="max-width:540px;display:flex;flex-direction:column;gap:22px;text-shadow:{{ heroTextShadow }}">
                 <h1 style="margin:0;font-family:'Libre Baskerville',serif;font-weight:700;font-size:clamp(38px,5vw,58px);line-height:1.12;color:#FFFFFF;text-wrap:pretty"><span style="display:block;margin:0 0 16px;font-family:'Great Vibes',cursive;font-size:clamp(28px,3.4vw,42px);font-weight:400;letter-spacing:0;line-height:1.25;text-transform:none;color:#E2B85C">{{ t.heroKicker }}</span>{{ t.heroLine1 }}<br><span style="color:#E2B85C">{{ t.heroLine2 }}</span></h1>
         <p style="margin:0;font-size:20px;color:#FFFFFF;line-height:1.5">{{ t.heroSub }}</p>
         <p style="margin:-6px 0 0;font-size:16px;font-weight:700;color:#E2B85C;line-height:1.5">Sabbath worship every Saturday at 10:00 AM · Alvarado, Texas</p>
@@ -1485,6 +1485,8 @@ class Component extends DCLogic {
     const post = dec(POSTS.find(p => p.id === s.postId) || POSTS[0]);
     return {
       ...this.resVals(s),
+      heroShade: (typeof window !== 'undefined' && window.innerWidth < 760) ? 'linear-gradient(180deg, rgba(10,20,38,0.80) 0%, rgba(10,20,38,0.86) 45%, rgba(10,20,38,0.94) 100%)' : 'linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)',
+      heroTextShadow: (typeof window !== 'undefined' && window.innerWidth < 760) ? '0 2px 16px rgba(0,0,0,0.75)' : '0 2px 12px rgba(0,0,0,0.45)',
       t: T.en,
       nav: NAV.map(([label, key]) => ({ label, active: navKey === key, inactive: navKey !== key, go: this.nav(key, key === 'blog' ? { cat: 'All' } : null), href: ROUTE_PATHS[key] || '/' })),
       isWide: !s.narrow, narrow: s.narrow, mobileMenu: s.narrow && s.menuOpen,
