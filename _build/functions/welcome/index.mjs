@@ -42,57 +42,76 @@ export function welcomeEmail(name, email) {
   const first = String(name || '').trim().split(/\s+/)[0];
   const hi = first ? `Hi ${esc(first)},` : 'Hello and welcome,';
   const u = unsubUrl(email);
-  const btn = (href, label, bg, fg) => `<a href="${href}" style="display:inline-block;margin:6px 8px 6px 0;padding:13px 22px;border-radius:10px;background:${bg};color:${fg};font-weight:700;font-size:15px;text-decoration:none">${label}</a>`;
-  const card = (href, kicker, title, text) => `<tr><td style="padding:0 0 12px"><a href="${href}" style="display:block;padding:16px 18px;border-radius:12px;background:#F4EDDE;border-left:5px solid #E2B85C;color:#13294B;text-decoration:none"><span style="display:block;font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">${kicker}</span><span style="display:block;margin-top:4px;font-family:Georgia,serif;font-size:17px;line-height:1.35">${title}</span><span style="display:block;margin-top:4px;font-size:14px;line-height:1.5;color:#3D4554">${text}</span></a></td></tr>`;
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Welcome to the Shekinah family</title></head>
-<body style="margin:0;padding:0;background:#FAF6EE;font-family:Helvetica,Arial,sans-serif;color:#1B2433">
-<div style="display:none;max-height:0;overflow:hidden">Thank you for joining us. Here is what to expect, plus a few places to start.</div>
+  const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
+  // Bulletproof button: a padded table cell with a link, so it is clickable and looks like a button in every inbox.
+  const btn = (href, label, bg, fg, border) => `<table role="presentation" cellpadding="0" cellspacing="0" style="display:inline-table;margin:4px 8px 4px 0"><tr><td align="center" bgcolor="${bg}" style="border-radius:10px;background:${bg};${border ? 'border:2px solid ' + border + ';' : ''}"><a href="${href}" target="_blank" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:700;line-height:1.2;color:${fg};text-decoration:none;border-radius:10px">${label}</a></td></tr></table>`;
+  const help = (href, title, text, label) => `<tr><td style="padding:0 0 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:16px 18px">
+<a href="${href}" target="_blank" style="font-family:${S};font-size:18px;line-height:1.35;color:#13294B;text-decoration:none;font-weight:700">${title}</a>
+<p style="margin:4px 0 12px;font-family:${F};font-size:14px;line-height:1.5;color:#3D4554">${text}</p>
+${btn(href, label + ' &rarr;', '#13294B', '#FFFFFF')}
+</td></tr></table></td></tr>`;
+  const time = (t, label) => `<td width="50%" align="center" valign="top" style="padding:16px 8px;background:#FFFFFF;border-radius:12px"><div style="font-family:${S};font-size:26px;font-weight:700;line-height:1.1;color:#13294B;white-space:nowrap">${t}</div><div style="margin-top:6px;font-family:${F};font-size:13px;font-weight:800;letter-spacing:1px;color:#8A6420;text-transform:uppercase">${label}</div></td>`;
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>Welcome to the Shekinah family</title></head>
+<body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
+<div style="display:none;max-height:0;overflow:hidden">We are so glad you are here. Join us this Saturday at 10 AM.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF6EE"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden">
 <tr><td align="center" style="background:#FFFFFF;padding:26px 28px 20px">
-<a href="${SITE}/" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="170" height="176" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:170px;height:auto;margin:0 auto"></a>
+<a href="${SITE}/" target="_blank" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="150" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:150px;height:auto;margin:0 auto"></a>
 </td></tr>
-<tr><td style="background:#13294B;padding:26px 28px 24px;text-align:left">
-<div style="font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">BYENVENI · WELCOME</div>
-<h1 style="margin:8px 0 0;font-family:Georgia,serif;font-size:28px;line-height:1.25;color:#FFFFFF">Welcome to the Shekinah family</h1>
+<tr><td style="background:#13294B;padding:24px 28px 22px">
+<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">BYENVENI · WELCOME</div>
+<h1 style="margin:8px 0 0;font-family:${S};font-size:28px;line-height:1.25;color:#FFFFFF">Welcome to the Shekinah family</h1>
 </td></tr>
-<tr><td style="padding:28px 28px 8px;font-size:16px;line-height:1.7;color:#2C3443">
-<p style="margin:0 0 16px">${hi}</p>
-<p style="margin:0 0 16px">Thank you for joining the Shekinah Haitian Seventh-day Adventist Church newsletter. We are so glad you are here. Whether you found us while searching for answers from the Bible, a word of encouragement, or a healthy plant based recipe, we pray that what we share will bless you and your family.</p>
-<p style="margin:0 0 16px">Each week we publish a new Bible answer, a devotional, a health article, and a recipe on our website. As a subscriber you will hear about new articles and news from our church family. We will never sell or share your email address.</p>
-<h2 style="margin:24px 0 12px;font-family:Georgia,serif;font-size:20px;color:#13294B">A few good places to start</h2>
+<tr><td style="padding:0"><a href="${SITE}/plan-your-visit/" target="_blank"><img src="${SITE}/assets/email/church-family.jpg" width="600" alt="Smiling children and adults from the Shekinah church family gathered together" style="display:block;border:0;width:100%;max-width:600px;height:auto"></a></td></tr>
+<tr><td style="padding:26px 28px 6px;font-family:${F};font-size:17px;line-height:1.65;color:#2C3443">
+<p style="margin:0 0 14px">${hi}</p>
+<p style="margin:0 0 14px">We are so glad you are here! Thank you for joining our newsletter. Each week we will send you new Bible answers, words of encouragement, healthy recipes, and news from our church family.</p>
+<p style="margin:0 0 6px">Wherever you are on your faith journey, there is a place for you at Shekinah.</p>
+</td></tr>
+<tr><td style="padding:14px 28px 6px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#13294B;border-radius:16px"><tr><td style="padding:22px 18px 20px">
+<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C;text-align:center">JOIN US THIS SATURDAY</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="8" style="margin-top:8px"><tr>${time('10:00 AM', 'Sabbath School')}${time('11:00 AM', 'Divine Worship')}</tr></table>
+<p style="margin:10px 0 4px;font-family:${F};font-size:15px;line-height:1.5;color:#FFFFFF;text-align:center"><strong>205 E Carver St, Alvarado, TX 76009</strong><br><span style="color:#C9D0DC">Prayer meeting Wednesday at 7:30 PM · A shared meal after the Sabbath service</span></p>
+<div style="text-align:center;margin-top:12px">${btn(SITE + '/plan-your-visit/', 'Plan your visit', '#E2B85C', '#13294B')}${btn('https://www.youtube.com/@SHEKINAHHaitianSDA/streams', 'Watch live', '#13294B', '#FFFFFF', '#E2B85C')}</div>
+</td></tr></table>
+</td></tr>
+<tr><td style="padding:22px 28px 4px">
+<h2 style="margin:0 0 14px;font-family:${S};font-size:22px;color:#13294B">We're Here for You</h2>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-${card(SITE + '/blog/', 'READ', 'Bible answers, devotionals, health, and recipes', 'Clear, Scripture centered articles for everyday life.')}
-${card(SITE + '/bible-study/', 'GO DEEPER', 'Request a free Bible study', 'Study with us in Kreyòl, French, or English, at church, by phone, or online.')}
-${card(SITE + '/prayer-request/', 'WE WILL PRAY WITH YOU', 'Send a prayer request', 'Share what is on your heart. You can keep your request private.')}
+${help(SITE + '/bible-study/', 'Study the Bible with us', 'Free and friendly, in Kreyòl, French, or English, at church, by phone, or online.', 'Start a Bible study')}
+${help(SITE + '/prayer-request/', 'Let us pray with you', 'Share what is on your heart. You can keep your request private.', 'Send a prayer request')}
+${help(SITE + '/blog/', 'Read and grow', 'Bible answers, devotionals, health, and recipes for everyday life.', 'Read our articles')}
 </table>
-<h2 style="margin:24px 0 8px;font-family:Georgia,serif;font-size:20px;color:#13294B">Worship with us this Sabbath</h2>
-<p style="margin:0 0 6px">Sabbath School begins Saturday at 10:00 AM, and our Divine Worship Service begins at 11:00 AM. Our prayer meeting is Wednesday at 7:30 PM. Our church family shares a meal after the Sabbath service, and you are welcome at the table.</p>
-<p style="margin:0 0 14px"><strong>205 E Carver St, Alvarado, TX 76009</strong></p>
-<div style="margin:0 0 8px">${btn(SITE + '/plan-your-visit/', 'Plan your visit', '#E2B85C', '#13294B')}${btn('https://www.youtube.com/@SHEKINAHHaitianSDA/streams', 'Watch worship live', '#13294B', '#FFFFFF')}</div>
-<p style="margin:22px 0 4px;font-family:Georgia,serif;font-size:17px;line-height:1.6;color:#13294B">"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV</p>
-<p style="margin:22px 0 0">With joy and love,<br>Your church family at Shekinah</p>
 </td></tr>
-<tr><td style="padding:20px 28px 28px;font-size:12px;line-height:1.6;color:#6B7280">
+<tr><td style="padding:10px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
+<p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV</p>
+<p style="margin:0">With joy and love,<br>Your church family at Shekinah</p>
+</td></tr>
+<tr><td style="padding:18px 28px 26px;border-top:1px solid #EDE5D3;font-family:${F};font-size:12px;line-height:1.6;color:#6B7280">
 You are receiving this because you subscribed at shekinahsda.org. Just reply to this email if you have a question.<br>
 Shekinah Haitian Seventh-day Adventist Church · 205 E Carver St, Alvarado, TX 76009<br>
-<a href="${u}" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>
+<a href="${u}" target="_blank" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>
 </td></tr></table></td></tr></table></body></html>`;
   const text = `${first ? 'Hi ' + first + ',' : 'Hello and welcome,'}
 
-Thank you for joining the Shekinah Haitian Seventh-day Adventist Church newsletter. We are so glad you are here. Whether you found us while searching for answers from the Bible, a word of encouragement, or a healthy plant based recipe, we pray that what we share will bless you and your family.
+We are so glad you are here! Thank you for joining our newsletter. Each week we will send you new Bible answers, words of encouragement, healthy recipes, and news from our church family.
 
-Each week we publish a new Bible answer, a devotional, a health article, and a recipe on our website. As a subscriber you will hear about new articles and news from our church family. We will never sell or share your email address.
+Wherever you are on your faith journey, there is a place for you at Shekinah.
 
-A few good places to start:
-Read our articles: ${SITE}/blog/
-Request a free Bible study: ${SITE}/bible-study/
-Send a prayer request: ${SITE}/prayer-request/
-
-Worship with us this Sabbath: Sabbath School Saturday 10:00 AM, Divine Worship Service 11:00 AM, prayer meeting Wednesday 7:30 PM. Our church family shares a meal after the Sabbath service.
+JOIN US THIS SATURDAY
+10:00 AM Sabbath School
+11:00 AM Divine Worship
 205 E Carver St, Alvarado, TX 76009
+Prayer meeting Wednesday at 7:30 PM. A shared meal after the Sabbath service.
 Plan your visit: ${SITE}/plan-your-visit/
-Watch worship live: https://www.youtube.com/@SHEKINAHHaitianSDA/streams
+Watch live: https://www.youtube.com/@SHEKINAHHaitianSDA/streams
+
+WE'RE HERE FOR YOU
+Start a free Bible study: ${SITE}/bible-study/
+Send a prayer request: ${SITE}/prayer-request/
+Read our articles: ${SITE}/blog/
 
 "The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV
 
