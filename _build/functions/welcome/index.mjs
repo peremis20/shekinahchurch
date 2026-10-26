@@ -49,8 +49,10 @@ export function welcomeEmail(name, email) {
 <div style="display:none;max-height:0;overflow:hidden">Thank you for joining us. Here is what to expect, plus a few places to start.</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF6EE"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden">
-<tr><td style="background:#13294B;padding:28px 28px 24px;text-align:left">
-<img src="${SITE}/assets/logo-mark.png" width="56" height="56" alt="Shekinah" style="display:block;border:0;margin-bottom:14px">
+<tr><td align="center" style="background:#FFFFFF;padding:26px 28px 20px">
+<a href="${SITE}/" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="170" height="176" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:170px;height:auto;margin:0 auto"></a>
+</td></tr>
+<tr><td style="background:#13294B;padding:26px 28px 24px;text-align:left">
 <div style="font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">BYENVENI · WELCOME</div>
 <h1 style="margin:8px 0 0;font-family:Georgia,serif;font-size:28px;line-height:1.25;color:#FFFFFF">Welcome to the Shekinah family</h1>
 </td></tr>
