@@ -12,6 +12,8 @@ built page, creates blog/<slug>/index.html for new posts, and adds them to sitem
 The nightly rebuild later replaces the new pages with fully pre-rendered HTML.
 """
 import json, re, sys, os, glob, subprocess, html as H
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import seo as SEO  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -57,6 +59,15 @@ def check(meta, b, path):
         t = re.sub(r'https?://\S+', '', p).replace('Seventh-day', '')
         if re.search(r'[-–—]', t):
             errs.append('hyphen or dash in: ' + p[:60])
+    if not any(x.startswith('[[link]]') for x in b):
+        errs.append('needs a [[link]] card to a related article')
+    if not any(x.startswith('[[source]]') for x in b):
+        errs.append('needs [[source]] lines')
+    if meta.get('cat') == 'Recipes' and '[[table]] Ingredient | Amount' not in b:
+        errs.append('recipe needs a "[[table]] Ingredient | Amount" table')
+    n = len(SEO.faqs({'title': meta.get('title', ''), 'body': b}))
+    if n < 3:
+        print('note: %s has only %d question headings; aim for 4 or more for AI answers' % (os.path.basename(path), n))
     if errs:
         raise SystemExit('%s:\n  ' % path + '\n  '.join(errs))
 
@@ -77,6 +88,8 @@ def main(folder):
         p = {'id': None, 'slug': sl, 'cat': meta['cat'], 'title': meta['title'], 'date': meta['date'],
              'author': meta['author'], 'read': read_time(b), 'seoTitle': meta['seoTitle'],
              'metaDesc': meta['metaDesc'], 'excerpt': meta['excerpt'], 'body': b, 'verse': meta['verse']}
+        if meta.get('keywords'):
+            p['keywords'] = meta['keywords'] if isinstance(meta['keywords'], list) else [k.strip() for k in str(meta['keywords']).split(',') if k.strip()]
         if sl in by_slug:
             p['id'] = by_slug[sl]['id']
             posts[posts.index(by_slug[sl])] = p
@@ -117,15 +130,15 @@ def main(folder):
         s = s.replace('<meta name="robots" content="noindex">', '<link rel="canonical" href="%s">' % url, 1)
         for k, v in (('og:type', 'article'), ('og:url', url), ('og:title', p['title']), ('og:description', p['metaDesc'])):
             s = re.sub(r'<meta property="%s" content="[^"]*">' % k, '<meta property="%s" content="%s">' % (k, H.escape(v, quote=True)), s, count=1)
-        art = {'@context': 'https://schema.org', '@type': 'BlogPosting', 'headline': p['title'], 'description': p['metaDesc'],
-               'author': {'@type': 'Person', 'name': p['author']}, 'datePublished': p['date'], 'mainEntityOfPage': url,
-               'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church'}}
+        img = feat.get(p['id'])
+        s = re.sub(r'<meta property="og:image" content="[^"]*">', '<meta property="og:image" content="%s">' % H.escape(SEO.img_url(img), quote=True), s, count=1)
+        s = re.sub(r'<script type="application/ld\+json">\{"@context":"https://schema.org","@type":"FAQPage".*?</script>\n?', '', s, flags=re.S)
         anchor = '<meta name="twitter:card" content="summary_large_image">'
-        s = s.replace(anchor, anchor + '\n<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False), 1)
+        s = s.replace(anchor, anchor + '\n' + SEO.post_meta_tags(p, url, img) + '\n' + SEO.ld_tags(SEO.post_schemas(p, url, img)), 1)
         os.makedirs('blog/' + p['slug'], exist_ok=True)
         open('blog/%s/index.html' % p['slug'], 'w', encoding='utf-8').write(s)
         if url not in sm:
-            sm = sm.replace('</urlset>', '  <url><loc>%s</loc><priority>0.6</priority></url>\n</urlset>' % url)
+            sm = sm.replace('</urlset>', '  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.7</priority></url>\n</urlset>' % (url, SEO.iso_date(p['date'])))
     open('sitemap.xml', 'w', encoding='utf-8').write(sm)
     for p in added:
         print('added', p['id'], p['cat'], p['slug'])

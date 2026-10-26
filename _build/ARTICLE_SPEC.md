@@ -45,6 +45,17 @@ Always get the current list from content-defaults.json (each post's slug, or its
 - Diri ak Pwa the Healthy Way | /blog/diri-ak-pwa-the-healthy-way/
 - Does Hell Burn Forever? What the Bible Really Says About Hell | /blog/does-hell-burn-forever-what-the-bible-says/
 
+## AI search (AEO) and conversion rules (required for every article)
+The build turns the article itself into structured data for Google and AI answer engines (ChatGPT, Perplexity, Gemini, Claude, Google AI Overviews). Write so the page can be quoted accurately:
+- Answer first. "## The short answer" comes right after the intro and its first paragraph directly answers the title in plain words (about 40 to 70 words) before adding nuance. If the title is a question, this paragraph becomes the main FAQ answer in the page markup.
+- Question headings. Write most ## and ### headings as the real questions people type (for example "### How long does pikliz last in the fridge?"). The first one or two sentences under each question must answer it completely on their own, so they still make sense when quoted alone. Every heading ending in "?" is turned into a FAQ entry automatically, so only use a question mark when the paragraph below truly answers it.
+- Include a section of 3 to 5 common questions (for example "## Honest questions people ask" or "## Questions people ask") with each question as a ### heading followed by one full paragraph answer.
+- Name things clearly: say "Seventh-day Adventist", "Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas", the Bible book and verse, and the official source by name (for example "the NIH Office of Dietary Supplements") inside the sentence, so a quoted passage carries its own attribution.
+- Facts must be specific and sourced: numbers with units and the source named in the text, plus the matching [[source]] line.
+- Conversion: every article needs at least one [[link]] card to a related article, the "## Your next step" section with ONE action that fits the category (Bible Answers: free Bible study; Devotional: prayer request or worship; Health and Recipes: plan a visit and share the meal after Sabbath service), and a warm, specific invitation to Shekinah in that section using only the verified church facts above. The page template already adds Bible study, visit, prayer, and beliefs buttons below every article, so do not paste raw URLs into the prose.
+- Metadata: seoTitle should lead with the main keyword (under 60 characters). metaDesc (120 to 158 characters) should answer the question or promise the benefit and include the main keyword. The excerpt is shown as the article summary under the title, so make it one clear sentence that stands alone.
+- Recipes: the ingredient table header must be exactly `[[table]] Ingredient | Amount` (a second table such as "Epis ingredient | Amount" is fine), the method must be a `[[steps]]` strip placed after the ingredient table, and the first `[[stats]]` should give real times and yield using these labels so Google recipe results can read them: `20 min | Prep time || 15 min | Cook time || 6 servings | Makes` (values like "20 min", "1 hour", "1 hour 15 min", "6 servings", "2 quarts").
+
 ## Research (do this before writing each article)
 Search the web for the topic the way a real person would. Note the questions people ask (People Also Ask style), what the top ranking pages cover, and what they miss. Write to fill those gaps with more depth, clearer Scripture, practical steps, and the Haitian and local angle where natural. Do not invent search volumes.
 

@@ -9,9 +9,11 @@ Reads src/index.html (the app template) and writes into github-upload/:
   404.html                       app shell for any other path (e.g. new posts)
   sitemap.xml, robots.txt
 """
-import json, os, re, subprocess, shutil, urllib.request, html as H
+import json, os, re, subprocess, shutil, sys, urllib.request, html as H
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, ROOT)
+import seo as SEO  # noqa: E402
 # Local layout: src/index.html -> github-upload/.  In the GitHub repo: _build/index.src.html -> repo root.
 if os.path.exists(os.path.join(ROOT, 'index.src.html')):
     SRC = os.path.join(ROOT, 'index.src.html')
@@ -25,11 +27,11 @@ SITE = 'https://shekinahsda.org'
 NAME = 'Shekinah Haitian SDA Church'
 
 PAGES = {
-  'home': ('/', 'Haitian Seventh-day Adventist Church in Alvarado, TX | Shekinah',
+  'home': ('/', 'Haitian Seventh-day Adventist Church, Alvarado TX | Shekinah',
            'Shekinah is a Haitian Seventh-day Adventist church in Alvarado, TX. Join us every Saturday at 10 AM for Sabbath worship in Kreyòl, French, and English.',
            'Shekinah Haitian Seventh-day Adventist Church in Alvarado, TX'),
-  'visit': ('/plan-your-visit/', 'Plan Your Visit | Shekinah Haitian SDA Church in Alvarado, TX',
-            'First time visiting a church in Alvarado, Texas? Plan your visit to Shekinah Haitian SDA Church: Sabbath service times, what to expect, parking, kids, and worship in Kreyòl, French, and English.',
+  'visit': ('/plan-your-visit/', 'Plan Your Visit | Shekinah Haitian SDA Church, Alvarado TX',
+            'First time visiting a church in Alvarado, TX? See Sabbath service times, what to expect, and kids at Shekinah, with worship in Kreyòl, French, and English.',
             'Plan Your First Visit to Shekinah Haitian SDA Church'),
   'about': ('/about/', 'About Us | Shekinah Haitian SDA Church in Alvarado, TX',
             'Meet Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas: our story, our pastor, and the church family that welcomes you every Sabbath.',
@@ -50,12 +52,12 @@ PAGES = {
               'Contact Shekinah Haitian Seventh-day Adventist Church at 205 E Carver St, Alvarado, TX 76009. Questions, pastoral visits, Bible studies, and more.',
               'Contact Shekinah Haitian SDA Church'),
   'beliefs': ('/beliefs/', 'What Seventh-day Adventists Believe | Shekinah SDA Church',
-              'Learn the core beliefs of Seventh-day Adventists: the Bible, salvation by grace, the Sabbath, baptism, and the hope of Jesus’ return, at Shekinah in Alvarado, TX.',
+              'Learn what Seventh-day Adventists believe: the Bible, salvation by grace, the Sabbath, baptism, and the hope of Jesus’ return, from Shekinah in Alvarado, TX.',
               'What Seventh-day Adventists Believe'),
   'resources': ('/resources/', 'Free Help and Community Resources | Shekinah SDA Church',
             'Free help for food, rent, utilities, health care, legal aid, and crisis support near Alvarado and Fort Worth, plus tools to find help in any state.',
             'Community Resources and Free Help'),
-  'bible': ('/bible-study/', 'Free Bible Study in Alvarado, TX | Shekinah Haitian SDA Church',
+  'bible': ('/bible-study/', 'Free Bible Study in Alvarado, TX | Shekinah Haitian SDA',
             'Request a free Bible study in Kreyòl, French, or English with Shekinah Haitian Seventh-day Adventist Church. Meet at church in Alvarado, by phone, or online.',
             'Free Bible Study with Shekinah Haitian SDA Church'),
 }
@@ -98,11 +100,21 @@ ld = re.findall(r'<script type="application/ld\+json">.*?</script>', helmet, re.
 for pat in [r'<title>.*?</title>\n?', r'<meta name="description"[^>]*>\n?', r'<meta name="keywords"[^>]*>\n?',
             r'<meta property="og:[^"]*"[^>]*>\n?', r'<script type="application/ld\+json">.*?</script>\n?']:
     helmet = re.sub(pat, '', helmet, flags=re.S)
-template_src = src[:hs] + helmet + src[he:]
+template_src = (src[:hs] + helmet + src[he:]).replace('<html>', '<html lang="en">', 1)
+ld = [SEO.refresh_church_events(x) for x in ld]
+SITE_FAQ = [x for x in ld if '"FAQPage"' in x]
+ld = [x for x in ld if '"FAQPage"' not in x]
+try:  # The Plan Your Visit page shows these questions, so its FAQ markup matches what visitors see.
+    _vt = json.loads(re.search(r'const VT = (\{.*?\});\n', src, re.S).group(1))['en']['faqs']
+    SITE_FAQ = [SEO.ld_tags([{'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in _vt]}])]
+except Exception as e:
+    print('visit FAQ not found, keeping site FAQ:', e)
+POST_IMG = json.loads(re.search(r'const POST_IMG = (\{.*?\});', src).group(1))
 SEO_PAGES_JS = json.dumps({k: seo(k) for k in PAGES}, ensure_ascii=False)
 
 
-def head_block(s, extra_ld=None, noindex=False):
+def head_block(s, extra_ld=None, noindex=False, key=None, post=None):
     parts = ['<base href="/">',
              '<title>%s</title>' % H.escape(s['title']),
              '<meta name="description" content="%s">' % H.escape(s['desc'], quote=True)]
@@ -116,20 +128,21 @@ def head_block(s, extra_ld=None, noindex=False):
         '<meta property="og:url" content="%s">' % s['url'],
         '<meta property="og:title" content="%s">' % H.escape(s['ogTitle'], quote=True),
         '<meta property="og:description" content="%s">' % H.escape(s['desc'], quote=True),
-        '<meta property="og:image" content="%s/assets/church/church-01.jpg">' % SITE,
+        '<meta property="og:image" content="%s">' % (SEO.img_url(POST_IMG.get(post['id'])) if post else SITE + '/assets/church/church-01.jpg'),
         '<meta name="twitter:card" content="summary_large_image">',
+    ] + ([SEO.post_meta_tags(post, s['url'], POST_IMG.get(post['id']))] if post else []) + [
         '<link rel="icon" href="/assets/logo-mark.png">',
         '<style>x-dc{display:none!important}#ssr .ssr-slot{display:block}</style>',
         '<script>window.__SEO_PAGES=%s;window.__SEO_HOME=window.__SEO_PAGES.home;window.__SEO_VISIT=window.__SEO_PAGES.visit;</script>' % SEO_PAGES_JS,
-    ] + ld + ([extra_ld] if extra_ld else [])
+    ] + ld + (SITE_FAQ if key == 'visit' else []) + ([extra_ld] if extra_ld else [])
     return '\n'.join(parts) + '\n'
 
 
-def assemble(s, ssr_html, extra_ld=None, noindex=False):
+def assemble(s, ssr_html, extra_ld=None, noindex=False, key=None, post=None):
     h = template_src
     anchor = '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
     assert h.count(anchor) == 1
-    h = h.replace(anchor, anchor + head_block(s, extra_ld, noindex))
+    h = h.replace(anchor, anchor + head_block(s, extra_ld, noindex, key, post))
     xs, xe = h.index('<x-dc>'), h.index('</x-dc>') + len('</x-dc>')
     boot = ('<script>(function(){var t=document.getElementById("dc-src");if(t)t.replaceWith(t.content);'
             'var o=new MutationObserver(function(){var r=document.getElementById("dc-root");'
@@ -180,22 +193,20 @@ for key, path in routes:
         p = next(x for x in POSTS if 'post:' + x['_slug'] == key)
         s = {'title': p.get('seoTitle') or '%s | %s' % (p['title'], NAME), 'desc': p.get('metaDesc') or p.get('excerpt') or PAGES['blog'][2],
              'url': SITE + path, 'ogTitle': p['title']}
-        art = {'@context': 'https://schema.org', '@type': 'BlogPosting', 'headline': p['title'],
-               'description': p.get('metaDesc') or p.get('excerpt', ''), 'author': {'@type': 'Person', 'name': p.get('author', NAME)},
-               'datePublished': p.get('date', ''), 'mainEntityOfPage': SITE + path,
-               'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church'}}
-        extra = '<script type="application/ld+json">%s</script>' % json.dumps(art, ensure_ascii=False)
-        page = assemble(s, html, extra)
+        extra = SEO.ld_tags(SEO.post_schemas(p, SITE + path, POST_IMG.get(p['id'])))
+        page = assemble(s, html, extra, post=p)
     else:
-        page = assemble(seo(key), html)
+        page = assemble(seo(key), html, key=key)
     write(path.lstrip('/') + 'index.html', page)
 
 write('404.html', assemble(seo('home'), '', noindex=True))
 
-urls = [(SITE + PAGES[k][0], '1.0' if k == 'home' else '0.8') for k in PAGES] + \
-       [(SITE + '/blog/%s/' % p['_slug'], '0.6') for p in POSTS]
-write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
-      ''.join('  <url><loc>%s</loc><priority>%s</priority></url>\n' % u for u in urls) + '</urlset>\n')
+write('sitemap.xml', SEO.sitemap([(SITE + PAGES[k][0], '1.0' if k == 'home' else '0.8') for k in PAGES],
+                                 [(SITE + '/blog/%s/' % p['_slug'], p.get('date')) for p in POSTS]))
+for p in POSTS:
+    p['_url'] = SITE + '/blog/%s/' % p['_slug']
+write('llms.txt', SEO.llms_txt([(PAGES[k][3], SITE + PAGES[k][0], PAGES[k][2]) for k in PAGES], POSTS))
+write('llms-full.txt', SEO.llms_full(POSTS))
 # Old URLs from the previous website that Google still has. Each gets a tiny page that
 # sends visitors and Google to the matching new page (meta refresh 0 acts like a 301).
 LEGACY = {
@@ -216,5 +227,5 @@ for rel, to in LEGACY.items():
                '<script>location.replace("%s")</script></head><body><p>This page has moved to '
                '<a href="%s">%s</a>.</p></body></html>\n' % (NAME, u, u, to, u, u))
 
-write('robots.txt','User-agent: *\nDisallow: /admin.html\nAllow: /\n\nSitemap: %s/sitemap.xml\n' % SITE)
+write('robots.txt', 'User-agent: *\nDisallow: /admin.html\nAllow: /\n\n# Search engines and AI assistants are welcome to read and cite our articles.\n# A plain text guide for AI tools is at %s/llms.txt\n\nSitemap: %s/sitemap.xml\n' % (SITE, SITE))
 print('built', len(routes), 'pages')
