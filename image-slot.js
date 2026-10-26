@@ -1036,8 +1036,23 @@
       const k = g.base * this._view.s;
       const w = (g.iw * k / g.fw * 100) + '%';
       const h = (g.ih * k / g.fh * 100) + '%';
-      const l = (50 + this._view.x) + '%';
-      const t = (50 + this._view.y) + '%';
+      let lx = 50 + this._view.x;
+      let ty = 50 + this._view.y;
+      // max-top-crop="N": on very wide or short frames (large monitors) never hide more than
+      // N% of the frame height from the top of the photo, so faces near the top stay visible.
+      // Display only: the saved framing is untouched and editing (data-reframe) is unaffected.
+      const cap = parseFloat(this.getAttribute('max-top-crop'));
+      if (Number.isFinite(cap) && !this.hasAttribute('data-reframe')) {
+        const hp = g.ih * k / g.fh * 100;
+        if (hp >= 100) ty = Math.min(Math.max(ty, 100 - hp / 2), hp / 2);
+        const top = Math.max(-cap, 100 - hp);
+        if (hp > 100 && ty - hp / 2 < top) ty = top + hp / 2;
+        // and never leave an empty band at the sides when the photo is wide enough to fill them.
+        const wp = g.iw * k / g.fw * 100;
+        if (wp >= 100) lx = Math.min(Math.max(lx, 100 - wp / 2), wp / 2);
+      }
+      const l = lx + '%';
+      const t = ty + '%';
       this._img.style.width = w; this._img.style.height = h;
       this._img.style.left = l; this._img.style.top = t;
       this._img.style.objectFit = '';
