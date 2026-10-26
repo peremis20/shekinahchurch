@@ -120,6 +120,23 @@ export function contactEmail(name, topic) {
   });
 }
 
+export function membershipEmail(name, transfer, church, location) {
+  const out = transfer === 'Transfer out';
+  const where = [church, location].map((x) => String(x || '').trim()).filter(Boolean).join(', ');
+  return shortEmail({
+    subject: 'We received your membership transfer request', preheader: 'Thank you. Someone from Shekinah will reach out to you soon.',
+    kicker: 'MÈSI · THANK YOU', title: 'We received your transfer request', name,
+    paras: [out ? 'Thank you for letting us know about your move. You will always be part of the Shekinah family, and we are grateful for the time we have shared.'
+               : 'Welcome home! Thank you for choosing to make Shekinah your church family. You matter to us, and we are so glad you are here.',
+      out ? 'Someone from our church will reach out as soon as possible to help send your membership to your new church. We are praying for you as you begin this new chapter.'
+          : 'Someone from our church will reach out as soon as possible to request your membership transfer. Until then, know that we are praying for you.'],
+    boxLabel: 'YOUR REQUEST', boxLines: [(out ? 'Transfer out' : 'Transfer in') + (where ? (out ? ' to ' : ' from ') + where : '')],
+    verse: out ? '"The LORD watch between me and thee, when we are absent one from another." Genesis 31:49, KJV'
+               : '"Behold, how good and how pleasant it is for brethren to dwell together in unity!" Psalm 133:1, KJV',
+    reason: 'requested a membership transfer',
+  });
+}
+
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export function visitEmail(name, date, guests) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date || ''));
@@ -182,8 +199,8 @@ async function run() {
   const since = process.env.FORMS_SINCE || '2026-10-26T20:55:00Z';
   const forms = await sql`
     SELECT s.id, s.kind, s.topic, s.name, s.email, s.details->>'language' AS language, s.details->>'format' AS format,
-           s.details->>'date' AS date, s.details->>'guests' AS guests,
-           CASE WHEN s.kind = 'contact' AND s.topic = 'Bible study request' THEN 'bible' WHEN s.kind = 'contact' THEN 'contact' ELSE 'visit' END AS mail
+           s.details->>'date' AS date, s.details->>'guests' AS guests, s.details->>'transfer' AS transfer, s.details->>'church' AS church, s.details->>'churchLocation' AS location,
+           CASE WHEN s.kind = 'contact' AND s.topic = 'Bible study request' THEN 'bible' WHEN s.kind = 'contact' AND s.topic = 'Membership transfer' THEN 'membership' WHEN s.kind = 'contact' THEN 'contact' ELSE 'visit' END AS mail
     FROM submissions s
     WHERE s.kind IN ('contact', 'visit')
       AND s.created_at > ${since}::timestamptz AND s.created_at > now() - interval '7 days'
@@ -202,12 +219,12 @@ async function run() {
     if (!recent.length) due.push(r);
   }
   const results = {};
-  for (const kind of ['bible', 'contact', 'visit']) {
-    const build = kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
+  for (const kind of ['bible', 'contact', 'visit', 'membership']) {
+    const build = kind === 'membership' ? (r) => membershipEmail(r.name, r.transfer, r.church, r.location) : kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
     results[kind] = await deliver(due.filter((r) => r.mail === kind), kind, build);
   }
   const fmt = (k, x) => `${k}: sent ${x.sent}, failed ${x.failed}`;
-  await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit)].join('; '));
+  await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit), fmt('membership', results.membership)].join('; '));
   return { welcome: a, ...results };
 }
 
