@@ -123,17 +123,20 @@ export function contactEmail(name, topic) {
 export function membershipEmail(name, transfer, church, location) {
   const out = transfer === 'Transfer out';
   const where = [church, location].map((x) => String(x || '').trim()).filter(Boolean).join(', ');
-  return shortEmail({
-    subject: 'We received your membership transfer request', preheader: 'Thank you. Someone from Shekinah will reach out to you soon.',
-    kicker: 'MÈSI · THANK YOU', title: 'We received your transfer request', name,
-    paras: [out ? 'Thank you for letting us know about your move. You will always be part of the Shekinah family, and we are grateful for the time we have shared.'
-               : 'Welcome home! Thank you for choosing to make Shekinah your church family. You matter to us, and we are so glad you are here.',
-      out ? 'Someone from our church will reach out as soon as possible to help send your membership to your new church. We are praying for you as you begin this new chapter.'
-          : 'Someone from our church will reach out as soon as possible to request your membership transfer. Until then, know that we are praying for you.'],
-    boxLabel: 'YOUR REQUEST', boxLines: [(out ? 'Transfer out' : 'Transfer in') + (where ? (out ? ' to ' : ' from ') + where : '')],
-    verse: out ? '"The LORD watch between me and thee, when we are absent one from another." Genesis 31:49, KJV'
-               : '"Behold, how good and how pleasant it is for brethren to dwell together in unity!" Psalm 133:1, KJV',
-    reason: 'requested a membership transfer',
+  const box = { boxLabel: 'YOUR REQUEST', boxLines: [(out ? 'Transfer out' : 'Transfer in') + (where ? (out ? ' to ' : ' from ') + where : '')], reason: 'requested a membership transfer', name };
+  if (out) return shortEmail({ ...box,
+    subject: 'We received your transfer request. We will miss you!', preheader: 'Wherever you go, keep the faith and keep in touch.',
+    kicker: 'MÈSI · THANK YOU', title: 'We will miss you',
+    paras: ['We received your membership transfer request. We are a little sad to see you go, but we understand that life brings new seasons and new places. Thank you for every Sabbath you shared with our church family.',
+      'Someone from our church will reach out soon to help send your membership to your new church. Wherever you go, keep the faith, and please keep in touch. You will always have a home at Shekinah.'],
+    verse: '"The LORD watch between me and thee, when we are absent one from another." Genesis 31:49, KJV',
+  });
+  return shortEmail({ ...box,
+    subject: 'Welcome to the Shekinah family!', preheader: 'We received your transfer request, and we cannot wait to see you.',
+    kicker: 'BYENVENI · WELCOME', title: 'Welcome to the Shekinah family',
+    paras: ['We received your membership transfer request, and we are so glad to have you as a new member of our church family. You are important to us, and you belong here.',
+      "Someone from our church will reach out soon to help complete your transfer. We can't wait to see you this Sabbath!"],
+    verse: '"Behold, how good and how pleasant it is for brethren to dwell together in unity!" Psalm 133:1, KJV',
   });
 }
 
