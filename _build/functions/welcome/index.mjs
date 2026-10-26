@@ -42,11 +42,12 @@ async function status(value) {
 const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
 const VISIT_TIMES = 'Sabbath School 10:00 AM · Divine Worship 11:00 AM';
 const ADDRESS = '205 E Carver St, Alvarado, TX 76009';
-const firstName = (name) => String(name || '').trim().split(/\s+/)[0];
+// Use the first name only when the person typed one. Never guess or make up a name.
+const firstName = (name) => { const f = String(name || '').trim().split(/\s+/)[0] || ''; return /[@\d]/.test(f) ? '' : f; };
 
 function shortEmail({ subject, preheader, kicker, title, name, paras, boxLabel, boxLines, verse, sign, reason, unsub }) {
   const first = firstName(name);
-  const hi = first ? `Hi ${esc(first)},` : 'Hello,';
+  const hi = first ? `Hi ${esc(first)},` : 'Hi,';
   const box = boxLines && boxLines.length ? `<tr><td style="padding:4px 28px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.55;color:#13294B"><span style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">${esc(boxLabel)}</span><br><strong>${boxLines.map(esc).join('</strong><br><strong>')}</strong></td></tr></table></td></tr>` : '';
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head>
 <body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
