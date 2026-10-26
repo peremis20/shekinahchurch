@@ -171,6 +171,12 @@ image-slot::part(credit){display:none !important}
     </div>
   </section>
 
+  <section aria-label="Newsletter signup" style="background:#E2B85C"><div style="max-width:1240px;margin:0 auto;padding:22px 24px;display:flex;flex-wrap:wrap;gap:14px 28px;align-items:center;justify-content:space-between">
+    <div style="display:flex;flex-direction:column;gap:2px;flex:1 1 320px"><span style="font-family:'Libre Baskerville',serif;font-size:clamp(19px,2.2vw,23px);font-weight:700;line-height:1.3;color:#13294B">A word of hope in your inbox every week</span><span style="font-size:15px;line-height:1.5;color:#13294B">Free Bible answers, devotionals, healthy Haitian recipes, and church news. Unsubscribe anytime.</span></div>
+    <sc-if value="{{ subForm }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px;flex:1 1 340px;max-width:520px"><label for="nl-email-3" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label><input id="nl-email-3" type="email" autocomplete="email" placeholder="Your email address" style="flex:1;min-width:190px;padding:13px 16px;border:1px solid #13294B;border-radius:10px;background:#FFFFFF;color:#1B2433;font-size:16px"><button onClick="{{ subscribeHero }}" style="border:none;border-radius:10px;background:#13294B;color:#FFFFFF;padding:13px 22px;font-size:16px;font-weight:800" style-hover="background:#1C3866">Subscribe free</button></div></sc-if>
+    <sc-if value="{{ subDone }}" hint-placeholder-val="{{ false }}"><span style="font-size:17px;font-weight:800;color:#13294B">Thank you! You're subscribed. Watch your inbox for a word of hope.</span></sc-if>
+  </div></section>
+
   <section style="background:#FAF6EE;border-bottom:1px solid #EDE5D3">
     <div style="max-width:1240px;margin:0 auto;padding:28px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:28px">
       <div style="display:flex;gap:18px;align-items:flex-start">
@@ -301,6 +307,14 @@ image-slot::part(credit){display:none !important}
       </div>
     </section>
   </sc-if>
+
+  <section aria-label="Newsletter signup" style="background:#FFFFFF;border-top:1px solid #EDE5D3;border-bottom:1px solid #EDE5D3"><div style="max-width:1100px;margin:0 auto;padding:56px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;align-items:center">
+    <div style="display:flex;flex-direction:column;gap:10px"><span style="font-size:12px;font-weight:800;letter-spacing:1.4px;color:#8A6420">FREE NEWSLETTER</span><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(24px,2.8vw,32px);line-height:1.25;color:#13294B">Never miss a new Bible answer</h2><p style="margin:0;font-size:16px;line-height:1.65;color:#3D4554">Each week we share a new Bible answer, a devotional, a health tip, and a plant based recipe from Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas. Join our list and we will send them straight to you, along with news from our church family.</p></div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding:28px;border-radius:16px;background:#13294B">
+      <sc-if value="{{ subForm }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:10px"><label for="nl-email-4" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label><input id="nl-email-4" type="email" autocomplete="email" placeholder="Your email address" style="padding:15px 16px;border:none;border-radius:10px;background:#FFFFFF;color:#1B2433;font-size:16px"><button onClick="{{ subscribeMid }}" style="border:none;border-radius:10px;background:#E2B85C;color:#13294B;padding:15px 22px;font-size:17px;font-weight:800" style-hover="background:#EBC774">Send me weekly encouragement</button><span style="font-size:13px;line-height:1.5;color:#C9D0DC">Free. No spam. Unsubscribe anytime.</span></div></sc-if>
+      <sc-if value="{{ subDone }}" hint-placeholder-val="{{ false }}"><span style="font-size:18px;font-weight:800;color:#E2B85C">Thank you! You're subscribed.</span></sc-if>
+    </div>
+  </div></section>
 
   <section style="background:#F4EDDE"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center">
     <div style="position:relative;height:440px;border-radius:12px;overflow:hidden"><image-slot id="home-gal-1" src="https://images.unsplash.com/photo-1569292567777-e5d61a759322?auto=format&fit=crop&w=1600&q=70" credit="Photo by Joel Mott on Unsplash" credit-href="https://unsplash.com/@joelmott" shape="rect" placeholder="Drop a photo"></image-slot></div>
@@ -1450,7 +1464,8 @@ class Component extends DCLogic {
       if (!body.message) { alert('Please write your message.'); return; }
       if (!body.email && !body.phone) { alert('Please add your email or phone so we can reply.'); return; }
     } else {
-      body = { kind: 'newsletter', email: v(kind === 'newsletter-inline' ? 'nl-email-2' : 'nl-email') };
+      const nlId = { 'newsletter-inline': 'nl-email-2', 'newsletter-hero': 'nl-email-3', 'newsletter-mid': 'nl-email-4' }[kind] || 'nl-email';
+      body = { kind: 'newsletter', email: v(nlId) };
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) { alert('Please enter a valid email address.'); return; }
     }
     if (this._sending) return; this._sending = true;
@@ -1557,7 +1572,7 @@ class Component extends DCLogic {
       amounts: [25, 50, 100, 250].map(v => ({ value: v, active: s.amount === v, inactive: s.amount !== v, pick: () => this.setState({ amount: v }) })),
       amount: s.amount, fund: s.fund, giveForm: !s.gave, gaveDone: s.gave,
       give: () => this.setState({ gave: true }), resetGive: () => this.setState({ gave: false }),
-      subForm: !s.subDone, subDone: !!s.subDone, subscribe: () => this.sendForm('newsletter'), subscribeInline: () => this.sendForm('newsletter-inline'), showSignupBand: s.page === 'home' || s.page === 'post' || s.page === 'blog',
+      subForm: !s.subDone, subDone: !!s.subDone, subscribe: () => this.sendForm('newsletter'), subscribeInline: () => this.sendForm('newsletter-inline'), subscribeHero: () => this.sendForm('newsletter-hero'), subscribeMid: () => this.sendForm('newsletter-mid'), showSignupBand: s.page === 'post' || s.page === 'blog',
       prayerForm: !s.prayerSent, prayerSent: !!s.prayerSent, sendPrayer: () => this.sendForm('prayer'),
       isContact: s.page === 'contact', isPrayerPage: s.page === 'prayer', contactForm: !s.contactSent, contactSent: !!s.contactSent, sendContact: () => this.sendForm('contact'),
       visitForm: !s.visitSent, visitSent: s.visitSent, sendVisit: () => this.setState({ visitSent: true }),
