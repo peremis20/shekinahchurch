@@ -3,7 +3,8 @@
 
 Usage: python3 _build/update_resources.py <resources.json>
 The JSON has keys: updated, crisis, local, national_tools (see content-defaults.json "resources"
-for the exact shape). Local categories must be one of RES_CATS in _build/index.src.html.
+for the exact shape). Crisis entries may include phone (tap to call) and sms {"number", "body"}
+(tap to text, for example the Crisis Text Line uses sms only, no phone). Local categories must be one of RES_CATS in _build/index.src.html.
 Updates content-defaults.json and the RESOURCES constant in every built page.
 """
 import json, re, sys, os, subprocess
