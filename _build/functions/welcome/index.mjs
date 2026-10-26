@@ -105,48 +105,111 @@ Shekinah Haitian Seventh-day Adventist Church, 205 E Carver St, Alvarado, TX 760
   return { subject: 'Welcome to the Shekinah family', html, text, unsub: u };
 }
 
-async function sendOne(row) {
-  const m = welcomeEmail(row.name, row.email);
+export function bibleEmail(name, language, format) {
+  const first = String(name || '').trim().split(/\s+/)[0];
+  const hi = first ? `Hi ${esc(first)},` : 'Hello,';
+  const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
+  const LANGS = { English: 'English', 'Kreyòl': 'Kreyòl', French: 'French' };
+  const FORMATS = { 'In person at church': 'In person at church', 'By phone': 'By phone', 'Online video call': 'Online video call' };
+  const pick = [LANGS[language], FORMATS[format]].filter(Boolean).map(esc).join(' &middot; ');
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>Thank you for your Bible study request</title></head>
+<body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
+<div style="display:none;max-height:0;overflow:hidden">We received your request, and someone from Shekinah will reach out to you soon.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF6EE"><tr><td align="center" style="padding:24px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden">
+<tr><td align="center" style="background:#FFFFFF;padding:26px 28px 20px">
+<a href="${SITE}/" target="_blank" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="150" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:150px;height:auto;margin:0 auto"></a>
+</td></tr>
+<tr><td style="background:#13294B;padding:24px 28px 22px">
+<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">MÈSI · THANK YOU</div>
+<h1 style="margin:8px 0 0;font-family:${S};font-size:27px;line-height:1.25;color:#FFFFFF">We're so glad you reached out</h1>
+</td></tr>
+<tr><td style="padding:26px 28px 8px;font-family:${F};font-size:17px;line-height:1.65;color:#2C3443">
+<p style="margin:0 0 14px">${hi}</p>
+<p style="margin:0 0 14px">Thank you for your interest in studying the Bible with us. Your request matters to us, and so do you.</p>
+<p style="margin:0 0 14px">Someone from our church family will reach out to you as soon as possible to find a time that works for you. Until then, know that we are praying for you.</p>
+</td></tr>
+${pick ? `<tr><td style="padding:4px 28px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.5;color:#13294B"><span style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">YOUR REQUEST</span><br><strong>${pick}</strong></td></tr></table></td></tr>` : ''}
+<tr><td style="padding:18px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
+<p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">"Thy word is a lamp unto my feet, and a light unto my path." Psalm 119:105, KJV</p>
+<p style="margin:0">With love,<br>Your church family at Shekinah</p>
+</td></tr>
+<tr><td style="padding:18px 28px 26px;border-top:1px solid #EDE5D3;font-family:${F};font-size:12px;line-height:1.6;color:#6B7280">
+You are receiving this because you requested a free Bible study at shekinahsda.org. Have a question? Just reply to this email.<br>
+Shekinah Haitian Seventh-day Adventist Church · 205 E Carver St, Alvarado, TX 76009
+</td></tr></table></td></tr></table></body></html>`;
+  const text = `${first ? 'Hi ' + first + ',' : 'Hello,'}
+
+Thank you for your interest in studying the Bible with us. Your request matters to us, and so do you.
+
+Someone from our church family will reach out to you as soon as possible to find a time that works for you. Until then, know that we are praying for you.
+${pick ? '\nYour request: ' + [LANGS[language], FORMATS[format]].filter(Boolean).join(', ') + '\n' : ''}
+"Thy word is a lamp unto my feet, and a light unto my path." Psalm 119:105, KJV
+
+With love,
+Your church family at Shekinah
+
+Shekinah Haitian Seventh-day Adventist Church, 205 E Carver St, Alvarado, TX 76009`;
+  return { subject: 'Thank you for your Bible study request', html, text };
+}
+
+async function sendEmail(row, m, tag) {
+  const headers = m.unsub ? { 'List-Unsubscribe': `<${m.unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : undefined;
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
-    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `welcome-${row.id}` },
-    body: JSON.stringify({
-      from: FROM, to: [row.email], reply_to: REPLY_TO, subject: m.subject, html: m.html, text: m.text,
-      headers: { 'List-Unsubscribe': `<${m.unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' },
-      tags: [{ name: 'type', value: 'welcome' }],
-    }),
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': `${tag}-${row.id}` },
+    body: JSON.stringify({ from: FROM, to: [row.email], reply_to: REPLY_TO, subject: m.subject, html: m.html, text: m.text, headers, tags: [{ name: 'type', value: tag }] }),
     signal: AbortSignal.timeout(15000),
   });
   const body = await r.text();
   return { ok: r.ok, detail: (r.ok ? body : `${r.status} ${body}`).slice(0, 500) };
 }
 
+async function deliver(rows, kind, build) {
+  let sent = 0, failed = 0;
+  for (const row of rows) {
+    if (!EMAIL_RE.test(row.email)) continue;
+    let res;
+    try { res = await sendEmail(row, build(row), kind); } catch (e) { res = { ok: false, detail: String(e && e.message || e).slice(0, 500) }; }
+    await sql`INSERT INTO welcome_log (submission_id, email, status, detail, sent_at, attempts, kind) VALUES (${row.id}, ${row.email}, ${res.ok ? 'sent' : 'failed'}, ${res.detail}, now(), 1, ${kind})
+              ON CONFLICT (submission_id) DO UPDATE SET status = EXCLUDED.status, detail = EXCLUDED.detail, sent_at = now(), attempts = welcome_log.attempts + 1`;
+    res.ok ? sent++ : failed++;
+    console.log(`${kind} ${row.id}: ${res.ok ? 'sent' : 'failed ' + res.detail}`);
+  }
+  return { checked: rows.length, sent, failed };
+}
+
 async function run() {
   if (!process.env.RESEND_API_KEY) { await status('waiting for RESEND_API_KEY'); return { sent: 0, waiting: true }; }
   if (!SECRET || !PUBLIC_URL) { await status('missing UNSUB_SECRET or PUBLIC_URL'); return { sent: 0 }; }
-  const rows = await sql`
+  const news = await sql`
     SELECT DISTINCT ON (lower(s.email)) s.id, s.name, s.email
     FROM submissions s
     WHERE s.kind = 'newsletter' AND coalesce(s.unsubscribed, false) = false
       AND s.email ~* '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
       AND s.created_at > now() - interval '30 days'
       AND s.email !~* '@(example|test)\\.'
-      AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE lower(w.email) = lower(s.email) AND (w.status = 'sent' OR w.attempts >= 3))
+      AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE lower(w.email) = lower(s.email) AND w.kind = 'welcome' AND (w.status = 'sent' OR w.attempts >= 3))
       AND NOT EXISTS (SELECT 1 FROM submissions u WHERE lower(u.email) = lower(s.email) AND u.unsubscribed = true)
     ORDER BY lower(s.email), s.created_at
     LIMIT ${BATCH}`;
-  let sent = 0, failed = 0;
-  for (const row of rows) {
-    if (!EMAIL_RE.test(row.email)) continue;
-    let res;
-    try { res = await sendOne(row); } catch (e) { res = { ok: false, detail: String(e && e.message || e).slice(0, 500) }; }
-    await sql`INSERT INTO welcome_log (submission_id, email, status, detail, sent_at, attempts) VALUES (${row.id}, ${row.email}, ${res.ok ? 'sent' : 'failed'}, ${res.detail}, now(), 1)
-              ON CONFLICT (submission_id) DO UPDATE SET status = EXCLUDED.status, detail = EXCLUDED.detail, sent_at = now(), attempts = welcome_log.attempts + 1`;
-    res.ok ? sent++ : failed++;
-    console.log(`welcome ${row.id}: ${res.ok ? 'sent' : 'failed ' + res.detail}`);
-  }
-  await status(`checked ${rows.length}, sent ${sent}, failed ${failed}`);
-  return { checked: rows.length, sent, failed };
+  const a = await deliver(news, 'welcome', (r) => welcomeEmail(r.name, r.email));
+  // Bible study requests: one thank you per request, at most one per address per day.
+  const since = process.env.BIBLE_SINCE || '2026-10-26T20:45:00Z';
+  const bible = await sql`
+    SELECT s.id, s.name, s.email, s.details->>'language' AS language, s.details->>'format' AS format
+    FROM submissions s
+    WHERE s.kind = 'contact' AND s.topic = 'Bible study request'
+      AND s.created_at > ${since}::timestamptz AND s.created_at > now() - interval '7 days'
+      AND s.email ~* '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
+      AND s.email !~* '@(example|test)\\.'
+      AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE w.submission_id = s.id AND (w.status = 'sent' OR w.attempts >= 3))
+      AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE lower(w.email) = lower(s.email) AND w.kind = 'bible' AND w.status = 'sent' AND w.sent_at > now() - interval '1 day')
+    ORDER BY s.created_at
+    LIMIT ${BATCH}`;
+  const b = await deliver(bible, 'bible', (r) => bibleEmail(r.name, r.language, r.format));
+  await status(`welcome: checked ${a.checked}, sent ${a.sent}, failed ${a.failed}; bible study: checked ${b.checked}, sent ${b.sent}, failed ${b.failed}`);
+  return { welcome: a, bible: b };
 }
 
 function page(title, msg) {
