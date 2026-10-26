@@ -45,11 +45,6 @@ export function welcomeEmail(name, email) {
   const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
   // Bulletproof button: a padded table cell with a link, so it is clickable and looks like a button in every inbox.
   const btn = (href, label, bg, fg, border) => `<table role="presentation" cellpadding="0" cellspacing="0" style="display:inline-table;margin:4px 8px 4px 0"><tr><td align="center" bgcolor="${bg}" style="border-radius:10px;background:${bg};${border ? 'border:2px solid ' + border + ';' : ''}"><a href="${href}" target="_blank" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:700;line-height:1.2;color:${fg};text-decoration:none;border-radius:10px">${label}</a></td></tr></table>`;
-  const help = (href, title, text, label) => `<tr><td style="padding:0 0 12px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:16px 18px">
-<a href="${href}" target="_blank" style="font-family:${S};font-size:18px;line-height:1.35;color:#13294B;text-decoration:none;font-weight:700">${title}</a>
-<p style="margin:4px 0 12px;font-family:${F};font-size:14px;line-height:1.5;color:#3D4554">${text}</p>
-${btn(href, label + ' &rarr;', '#13294B', '#FFFFFF')}
-</td></tr></table></td></tr>`;
   const time = (t, label) => `<td width="50%" align="center" valign="top" style="padding:16px 8px;background:#FFFFFF;border-radius:12px"><div style="font-family:${S};font-size:26px;font-weight:700;line-height:1.1;color:#13294B;white-space:nowrap">${t}</div><div style="margin-top:6px;font-family:${F};font-size:13px;font-weight:800;letter-spacing:1px;color:#8A6420;text-transform:uppercase">${label}</div></td>`;
   const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>Welcome to the Shekinah family</title></head>
 <body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
@@ -77,15 +72,7 @@ ${btn(href, label + ' &rarr;', '#13294B', '#FFFFFF')}
 <div style="text-align:center;margin-top:12px">${btn(SITE + '/plan-your-visit/', 'Plan your visit', '#E2B85C', '#13294B')}${btn('https://www.youtube.com/@SHEKINAHHaitianSDA/streams', 'Watch live', '#13294B', '#FFFFFF', '#E2B85C')}</div>
 </td></tr></table>
 </td></tr>
-<tr><td style="padding:22px 28px 4px">
-<h2 style="margin:0 0 14px;font-family:${S};font-size:22px;color:#13294B">We're Here for You</h2>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0">
-${help(SITE + '/bible-study/', 'Study the Bible with us', 'Free and friendly, in Kreyòl, French, or English, at church, by phone, or online.', 'Start a Bible study')}
-${help(SITE + '/prayer-request/', 'Let us pray with you', 'Share what is on your heart. You can keep your request private.', 'Send a prayer request')}
-${help(SITE + '/blog/', 'Read and grow', 'Bible answers, devotionals, health, and recipes for everyday life.', 'Read our articles')}
-</table>
-</td></tr>
-<tr><td style="padding:10px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
+<tr><td style="padding:24px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
 <p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV</p>
 <p style="margin:0">With joy and love,<br>Your church family at Shekinah</p>
 </td></tr>
@@ -107,11 +94,6 @@ JOIN US THIS SATURDAY
 Prayer meeting Wednesday at 7:30 PM. A shared meal after the Sabbath service.
 Plan your visit: ${SITE}/plan-your-visit/
 Watch live: https://www.youtube.com/@SHEKINAHHaitianSDA/streams
-
-WE'RE HERE FOR YOU
-Start a free Bible study: ${SITE}/bible-study/
-Send a prayer request: ${SITE}/prayer-request/
-Read our articles: ${SITE}/blog/
 
 "The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV
 
