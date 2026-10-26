@@ -38,119 +38,102 @@ async function status(value) {
             ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`;
 }
 
-export function welcomeEmail(name, email) {
-  const first = String(name || '').trim().split(/\s+/)[0];
-  const hi = first ? `Hi ${esc(first)},` : 'Hello and welcome,';
-  const u = unsubUrl(email);
-  const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
-  // Bulletproof button: a padded table cell with a link, so it is clickable and looks like a button in every inbox.
-  const btn = (href, label, bg, fg, border) => `<table role="presentation" cellpadding="0" cellspacing="0" style="display:inline-table;margin:4px 8px 4px 0"><tr><td align="center" bgcolor="${bg}" style="border-radius:10px;background:${bg};${border ? 'border:2px solid ' + border + ';' : ''}"><a href="${href}" target="_blank" style="display:inline-block;padding:13px 22px;font-family:${F};font-size:15px;font-weight:700;line-height:1.2;color:${fg};text-decoration:none;border-radius:10px">${label}</a></td></tr></table>`;
-  const time = (t, label) => `<td width="50%" align="center" valign="top" style="padding:16px 8px;background:#FFFFFF;border-radius:12px"><div style="font-family:${S};font-size:26px;font-weight:700;line-height:1.1;color:#13294B;white-space:nowrap">${t}</div><div style="margin-top:6px;font-family:${F};font-size:13px;font-weight:800;letter-spacing:1px;color:#8A6420;text-transform:uppercase">${label}</div></td>`;
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>Welcome to the Shekinah family</title></head>
-<body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
-<div style="display:none;max-height:0;overflow:hidden">We are so glad you are here. Join us this Saturday at 10 AM.</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF6EE"><tr><td align="center" style="padding:24px 12px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden">
-<tr><td align="center" style="background:#FFFFFF;padding:26px 28px 20px">
-<a href="${SITE}/" target="_blank" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="150" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:150px;height:auto;margin:0 auto"></a>
-</td></tr>
-<tr><td style="background:#13294B;padding:24px 28px 22px">
-<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">BYENVENI · WELCOME</div>
-<h1 style="margin:8px 0 0;font-family:${S};font-size:28px;line-height:1.25;color:#FFFFFF">Welcome to the Shekinah family</h1>
-</td></tr>
-<tr><td style="padding:0"><a href="${SITE}/plan-your-visit/" target="_blank"><img src="${SITE}/assets/email/church-family.jpg" width="600" alt="Smiling children and adults from the Shekinah church family gathered together" style="display:block;border:0;width:100%;max-width:600px;height:auto"></a></td></tr>
-<tr><td style="padding:26px 28px 6px;font-family:${F};font-size:17px;line-height:1.65;color:#2C3443">
-<p style="margin:0 0 14px">${hi}</p>
-<p style="margin:0 0 14px">We are so glad you are here! Thank you for joining our newsletter. Each week we will send you new Bible answers, words of encouragement, healthy recipes, and news from our church family.</p>
-<p style="margin:0 0 6px">Wherever you are on your faith journey, there is a place for you at Shekinah.</p>
-</td></tr>
-<tr><td style="padding:14px 28px 6px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#13294B;border-radius:16px"><tr><td style="padding:22px 18px 20px">
-<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C;text-align:center">JOIN US THIS SATURDAY</div>
-<table role="presentation" width="100%" cellpadding="0" cellspacing="8" style="margin-top:8px"><tr>${time('10:00 AM', 'Sabbath School')}${time('11:00 AM', 'Divine Worship')}</tr></table>
-<p style="margin:10px 0 4px;font-family:${F};font-size:15px;line-height:1.5;color:#FFFFFF;text-align:center"><strong>205 E Carver St, Alvarado, TX 76009</strong><br><span style="color:#C9D0DC">Prayer meeting Wednesday at 7:30 PM · A shared meal after the Sabbath service</span></p>
-<div style="text-align:center;margin-top:12px">${btn(SITE + '/plan-your-visit/', 'Plan your visit', '#E2B85C', '#13294B')}${btn('https://www.youtube.com/@SHEKINAHHaitianSDA/streams', 'Watch live', '#13294B', '#FFFFFF', '#E2B85C')}</div>
-</td></tr></table>
-</td></tr>
-<tr><td style="padding:24px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
-<p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV</p>
-<p style="margin:0">With joy and love,<br>Your church family at Shekinah</p>
-</td></tr>
-<tr><td style="padding:18px 28px 26px;border-top:1px solid #EDE5D3;font-family:${F};font-size:12px;line-height:1.6;color:#6B7280">
-You are receiving this because you subscribed at shekinahsda.org. Just reply to this email if you have a question.<br>
-Shekinah Haitian Seventh-day Adventist Church · 205 E Carver St, Alvarado, TX 76009<br>
-<a href="${u}" target="_blank" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>
-</td></tr></table></td></tr></table></body></html>`;
-  const text = `${first ? 'Hi ' + first + ',' : 'Hello and welcome,'}
+// One short template for every form: logo, banner, a few warm sentences, one summary box, a verse, sign off.
+const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
+const VISIT_TIMES = 'Sabbath School 10:00 AM · Divine Worship 11:00 AM';
+const ADDRESS = '205 E Carver St, Alvarado, TX 76009';
+const firstName = (name) => String(name || '').trim().split(/\s+/)[0];
 
-We are so glad you are here! Thank you for joining our newsletter. Each week we will send you new Bible answers, words of encouragement, healthy recipes, and news from our church family.
-
-Wherever you are on your faith journey, there is a place for you at Shekinah.
-
-JOIN US THIS SATURDAY
-10:00 AM Sabbath School
-11:00 AM Divine Worship
-205 E Carver St, Alvarado, TX 76009
-Prayer meeting Wednesday at 7:30 PM. A shared meal after the Sabbath service.
-Plan your visit: ${SITE}/plan-your-visit/
-Watch live: https://www.youtube.com/@SHEKINAHHaitianSDA/streams
-
-"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV
-
-With joy and love,
-Your church family at Shekinah
-
-Unsubscribe: ${u}
-Shekinah Haitian Seventh-day Adventist Church, 205 E Carver St, Alvarado, TX 76009`;
-  return { subject: 'Welcome to the Shekinah family', html, text, unsub: u };
-}
-
-export function bibleEmail(name, language, format) {
-  const first = String(name || '').trim().split(/\s+/)[0];
+function shortEmail({ subject, preheader, kicker, title, name, paras, boxLabel, boxLines, verse, sign, reason, unsub }) {
+  const first = firstName(name);
   const hi = first ? `Hi ${esc(first)},` : 'Hello,';
-  const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
-  const LANGS = { English: 'English', 'Kreyòl': 'Kreyòl', French: 'French' };
-  const FORMATS = { 'In person at church': 'In person at church', 'By phone': 'By phone', 'Online video call': 'Online video call' };
-  const pick = [LANGS[language], FORMATS[format]].filter(Boolean).map(esc).join(' &middot; ');
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>Thank you for your Bible study request</title></head>
+  const box = boxLines && boxLines.length ? `<tr><td style="padding:4px 28px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.55;color:#13294B"><span style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">${esc(boxLabel)}</span><br><strong>${boxLines.map(esc).join('</strong><br><strong>')}</strong></td></tr></table></td></tr>` : '';
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head>
 <body style="margin:0;padding:0;background:#FAF6EE;font-family:${F};color:#1B2433">
-<div style="display:none;max-height:0;overflow:hidden">We received your request, and someone from Shekinah will reach out to you soon.</div>
+<div style="display:none;max-height:0;overflow:hidden">${esc(preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FAF6EE"><tr><td align="center" style="padding:24px 12px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#FFFFFF;border-radius:16px;overflow:hidden">
 <tr><td align="center" style="background:#FFFFFF;padding:26px 28px 20px">
 <a href="${SITE}/" target="_blank" style="text-decoration:none"><img src="${SITE}/assets/email/shekinah-logo.png" width="150" alt="Shekinah Haitian Seventh-day Adventist Church" style="display:block;border:0;outline:none;width:150px;height:auto;margin:0 auto"></a>
 </td></tr>
 <tr><td style="background:#13294B;padding:24px 28px 22px">
-<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">MÈSI · THANK YOU</div>
-<h1 style="margin:8px 0 0;font-family:${S};font-size:27px;line-height:1.25;color:#FFFFFF">We're so glad you reached out</h1>
+<div style="font-family:${F};font-size:12px;font-weight:800;letter-spacing:1.6px;color:#E2B85C">${esc(kicker)}</div>
+<h1 style="margin:8px 0 0;font-family:${S};font-size:27px;line-height:1.25;color:#FFFFFF">${esc(title)}</h1>
 </td></tr>
 <tr><td style="padding:26px 28px 8px;font-family:${F};font-size:17px;line-height:1.65;color:#2C3443">
 <p style="margin:0 0 14px">${hi}</p>
-<p style="margin:0 0 14px">Thank you for your interest in studying the Bible with us. Your request matters to us, and so do you.</p>
-<p style="margin:0 0 14px">Someone from our church family will reach out to you as soon as possible to find a time that works for you. Until then, know that we are praying for you.</p>
+${paras.map((t) => `<p style="margin:0 0 14px">${esc(t)}</p>`).join('\n')}
 </td></tr>
-${pick ? `<tr><td style="padding:4px 28px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.5;color:#13294B"><span style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">YOUR REQUEST</span><br><strong>${pick}</strong></td></tr></table></td></tr>` : ''}
+${box}
 <tr><td style="padding:18px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
-<p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">"Thy word is a lamp unto my feet, and a light unto my path." Psalm 119:105, KJV</p>
-<p style="margin:0">With love,<br>Your church family at Shekinah</p>
+<p style="margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.6;color:#13294B">${esc(verse)}</p>
+<p style="margin:0">${esc(sign || 'With love,')}<br>Your church family at Shekinah</p>
 </td></tr>
 <tr><td style="padding:18px 28px 26px;border-top:1px solid #EDE5D3;font-family:${F};font-size:12px;line-height:1.6;color:#6B7280">
-You are receiving this because you requested a free Bible study at shekinahsda.org. Have a question? Just reply to this email.<br>
-Shekinah Haitian Seventh-day Adventist Church · 205 E Carver St, Alvarado, TX 76009
+You are receiving this because you ${esc(reason)} at shekinahsda.org. Have a question? Just reply to this email.<br>
+Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}${unsub ? `<br><a href="${unsub}" target="_blank" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>` : ''}
 </td></tr></table></td></tr></table></body></html>`;
-  const text = `${first ? 'Hi ' + first + ',' : 'Hello,'}
+  const text = [hi, ...paras, boxLines && boxLines.length ? boxLabel + ': ' + boxLines.join(', ') : '', verse, (sign || 'With love,') + '\nYour church family at Shekinah',
+    unsub ? 'Unsubscribe: ' + unsub : '', 'Shekinah Haitian Seventh-day Adventist Church, ' + ADDRESS].filter(Boolean).join('\n\n');
+  return { subject, html, text, unsub };
+}
 
-Thank you for your interest in studying the Bible with us. Your request matters to us, and so do you.
+export function welcomeEmail(name, email) {
+  return shortEmail({
+    subject: 'Welcome to the Shekinah family', preheader: 'Thank you for joining us. We are so glad you are here.',
+    kicker: 'BYENVENI · WELCOME', title: 'Welcome to the Shekinah family', name,
+    paras: ['Thank you for joining our newsletter. You matter to us, and we are so glad you are here.',
+      'Each week we will share Bible answers, words of encouragement, healthy recipes, and news from our church family. We would love to worship with you soon.'],
+    boxLabel: 'JOIN US THIS SATURDAY', boxLines: [VISIT_TIMES, ADDRESS],
+    verse: '"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV',
+    sign: 'With joy and love,', reason: 'subscribed to our newsletter', unsub: unsubUrl(email),
+  });
+}
 
-Someone from our church family will reach out to you as soon as possible to find a time that works for you. Until then, know that we are praying for you.
-${pick ? '\nYour request: ' + [LANGS[language], FORMATS[format]].filter(Boolean).join(', ') + '\n' : ''}
-"Thy word is a lamp unto my feet, and a light unto my path." Psalm 119:105, KJV
+const LANGS = { English: 'English', 'Kreyòl': 'Kreyòl', French: 'French' };
+const FORMATS = { 'In person at church': 'In person at church', 'By phone': 'By phone', 'Online video call': 'Online video call' };
+export function bibleEmail(name, language, format) {
+  const pick = [LANGS[language], FORMATS[format]].filter(Boolean).join(' · ');
+  return shortEmail({
+    subject: 'Thank you for your Bible study request', preheader: 'We received your request, and someone from Shekinah will reach out to you soon.',
+    kicker: 'MÈSI · THANK YOU', title: "We're so glad you reached out", name,
+    paras: ['Thank you for your interest in studying the Bible with us. Your request matters to us, and so do you.',
+      'Someone from our church family will reach out to you as soon as possible to find a time that works for you. Until then, know that we are praying for you.'],
+    boxLabel: 'YOUR REQUEST', boxLines: pick ? [pick] : [],
+    verse: '"Thy word is a lamp unto my feet, and a light unto my path." Psalm 119:105, KJV',
+    reason: 'requested a free Bible study',
+  });
+}
 
-With love,
-Your church family at Shekinah
+const TOPICS = ['Planning a visit', 'General question', 'Pastoral visit', 'Bible study', 'Baptism'];
+export function contactEmail(name, topic) {
+  const t = TOPICS.includes(topic) ? topic : '';
+  return shortEmail({
+    subject: 'We received your message', preheader: 'Thank you for reaching out. Someone from Shekinah will get back to you soon.',
+    kicker: 'MÈSI · THANK YOU', title: 'We received your message', name,
+    paras: ['Thank you for reaching out to us. Your message matters to us, and so do you.',
+      'Someone from our church family will get back to you as soon as possible. Until then, know that we are praying for you.'],
+    boxLabel: 'YOUR MESSAGE', boxLines: t ? [t] : [],
+    verse: '"Casting all your care upon him; for he careth for you." 1 Peter 5:7, KJV',
+    reason: 'sent us a message',
+  });
+}
 
-Shekinah Haitian Seventh-day Adventist Church, 205 E Carver St, Alvarado, TX 76009`;
-  return { subject: 'Thank you for your Bible study request', html, text };
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+export function visitEmail(name, date, guests) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date || ''));
+  const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
+  const when = d && !isNaN(d) ? ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getUTCDay()] + ', ' + MONTHS[d.getUTCMonth()] + ' ' + d.getUTCDate() : '';
+  const g = /^(\d|6\+)$/.test(String(guests || '')) ? (guests === '1' ? '1 guest' : guests + ' guests') : '';
+  return shortEmail({
+    subject: "We can't wait to meet you", preheader: 'Thank you for planning a visit to Shekinah. Here are your Sabbath details.',
+    kicker: 'BYENVENI · WELCOME', title: "We can't wait to meet you", name,
+    paras: ['Thank you for planning a visit to Shekinah. You are important to us, and we are so glad you are coming.',
+      'Someone from our church family will reach out before your visit to answer any questions. Come as you are, and know that a warm seat is waiting for you.'],
+    boxLabel: 'YOUR VISIT', boxLines: [[when, g].filter(Boolean).join(' · '), VISIT_TIMES, ADDRESS].filter(Boolean),
+    verse: '"I was glad when they said unto me, Let us go into the house of the LORD." Psalm 122:1, KJV',
+    reason: 'planned a visit',
+  });
 }
 
 async function sendEmail(row, m, tag) {
@@ -194,22 +177,37 @@ async function run() {
     ORDER BY lower(s.email), s.created_at
     LIMIT ${BATCH}`;
   const a = await deliver(news, 'welcome', (r) => welcomeEmail(r.name, r.email));
-  // Bible study requests: one thank you per request, at most one per address per day.
-  const since = process.env.BIBLE_SINCE || '2026-10-26T20:45:00Z';
-  const bible = await sql`
-    SELECT s.id, s.name, s.email, s.details->>'language' AS language, s.details->>'format' AS format
+  // Bible study, contact, and visit forms: one thank you per form sent, at most one per address per kind per day.
+  const since = process.env.FORMS_SINCE || '2026-10-26T20:55:00Z';
+  const forms = await sql`
+    SELECT s.id, s.kind, s.topic, s.name, s.email, s.details->>'language' AS language, s.details->>'format' AS format,
+           s.details->>'date' AS date, s.details->>'guests' AS guests,
+           CASE WHEN s.kind = 'contact' AND s.topic = 'Bible study request' THEN 'bible' WHEN s.kind = 'contact' THEN 'contact' ELSE 'visit' END AS mail
     FROM submissions s
-    WHERE s.kind = 'contact' AND s.topic = 'Bible study request'
+    WHERE s.kind IN ('contact', 'visit')
       AND s.created_at > ${since}::timestamptz AND s.created_at > now() - interval '7 days'
       AND s.email ~* '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
       AND s.email !~* '@(example|test)\\.'
       AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE w.submission_id = s.id AND (w.status = 'sent' OR w.attempts >= 3))
-      AND NOT EXISTS (SELECT 1 FROM welcome_log w WHERE lower(w.email) = lower(s.email) AND w.kind = 'bible' AND w.status = 'sent' AND w.sent_at > now() - interval '1 day')
     ORDER BY s.created_at
     LIMIT ${BATCH}`;
-  const b = await deliver(bible, 'bible', (r) => bibleEmail(r.name, r.language, r.format));
-  await status(`welcome: checked ${a.checked}, sent ${a.sent}, failed ${a.failed}; bible study: checked ${b.checked}, sent ${b.sent}, failed ${b.failed}`);
-  return { welcome: a, bible: b };
+  const seen = new Set();
+  const due = [];
+  for (const r of forms) {
+    const key = r.mail + ':' + r.email.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const recent = await sql`SELECT 1 FROM welcome_log WHERE lower(email) = lower(${r.email}) AND kind = ${r.mail} AND status = 'sent' AND sent_at > now() - interval '1 day' LIMIT 1`;
+    if (!recent.length) due.push(r);
+  }
+  const results = {};
+  for (const kind of ['bible', 'contact', 'visit']) {
+    const build = kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
+    results[kind] = await deliver(due.filter((r) => r.mail === kind), kind, build);
+  }
+  const fmt = (k, x) => `${k}: sent ${x.sent}, failed ${x.failed}`;
+  await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit)].join('; '));
+  return { welcome: a, ...results };
 }
 
 function page(title, msg) {

@@ -1,6 +1,6 @@
 # welcome (Neon Function)
 
-Sends one welcome email through Resend to each new newsletter subscriber, and a thank you email to each new Bible study request (submissions kind contact, topic "Bible study request").
+Sends a short, warm thank you email through Resend for every website form: newsletter signup (welcome, with unsubscribe), Plan Your Visit, Contact Us, and Bible study requests. All four share one template (shortEmail).
 
 Project "Shekinah Church Website" (silent-firefly-93121470), branch br-old-sea-b51wuht3, slug `welcome`.
 A Neon schedule trigger (`welcome-emails`, every 5 minutes) POSTs to `/`.
