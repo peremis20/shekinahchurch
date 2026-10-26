@@ -1041,7 +1041,11 @@
       // max-top-crop="N": on very wide or short frames (large monitors) never hide more than
       // N% of the frame height from the top of the photo, so faces near the top stay visible.
       // Display only: the saved framing is untouched and editing (data-reframe) is unaffected.
-      const cap = parseFloat(this.getAttribute('max-top-crop'));
+      // max-top-crop-img="N": the same idea measured in % of the photo's own height, for photos with
+      // empty space at the top (a ceiling): hide up to N% of the photo so people fill the frame.
+      const capImg = parseFloat(this.getAttribute('max-top-crop-img'));
+      let cap = parseFloat(this.getAttribute('max-top-crop'));
+      if (Number.isFinite(capImg)) cap = capImg / 100 * (g.ih * k / g.fh * 100);
       if (Number.isFinite(cap) && !this.hasAttribute('data-reframe')) {
         const hp = g.ih * k / g.fh * 100;
         if (hp >= 100) ty = Math.min(Math.max(ty, 100 - hp / 2), hp / 2);
