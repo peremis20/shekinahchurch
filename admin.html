@@ -92,6 +92,7 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   <button class="hbtn hide nav" id="msgb">Messages</button>
   <button class="hbtn hide nav" id="newsb">Email list</button>
   <button class="hbtn hide nav" id="siteb">Website</button>
+  <button class="hbtn hide nav" id="memb">Members</button>
   <button class="hbtn hide nav" id="teamb">Team</button>
   <button class="hbtn hide" id="refresh">Refresh</button>
   <button class="hbtn hide" id="logout">Sign out</button>
@@ -132,6 +133,20 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   <div class="card" id="nlist"></div>
 </div>
 
+<div class="wrap hide" id="mem">
+  <div class="card" style="border-left-color:var(--gold)" id="mbday"></div>
+  <div class="bar" style="margin-top:14px">
+    <input id="mq" type="search" placeholder="Search name, phone, email, family">
+    <select id="mst"><option value="">All statuses</option></select>
+    <button class="pbtn" id="madd" style="border-radius:10px">+ Add member</button>
+    <button class="sbtn" id="mcsv">Download CSV</button>
+  </div>
+  <p class="meta" id="mcount" style="margin:0 0 10px"></p>
+  <div id="mform"></div>
+  <div class="list" id="mlist"></div>
+  <p class="meta" style="margin-top:16px">Member records are private. Only staff and admins can see them. Only admins can delete a record.</p>
+</div>
+
 <div class="wrap hide" id="site">
   <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
   <div id="siteed"></div>
@@ -170,11 +185,11 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   var items=[], kind='all', replies={}, admins=[], me='', myRole='volunteer', myPriv=false;
   var RANK={volunteer:1,staff:2,admin:3}; function can(r){return (RANK[myRole]||1)>=RANK[r];}
   var ROLE_LABEL={admin:'Admin',staff:'Staff',volunteer:'Volunteer'};
-  var VIEWS=['app','team','news','site'];
+  var VIEWS=['app','team','news','site','mem'];
   function view(v){$('login').classList.add('hide');VIEWS.forEach(function(x){$(x).classList.toggle('hide',x!==v);});
-    document.querySelectorAll('.nav').forEach(function(b){b.style.background=(b.id===({app:'msgb',team:'teamb',news:'newsb',site:'siteb'})[v])?'rgba(255,255,255,.18)':'';});
+    document.querySelectorAll('.nav').forEach(function(b){b.style.background=(b.id===({app:'msgb',team:'teamb',news:'newsb',site:'siteb',mem:'memb'})[v])?'rgba(255,255,255,.18)':'';});
     ['refresh','logout','msgb'].forEach(function(x){$(x).classList.remove('hide');});
-    $('newsb').classList.toggle('hide',!can('admin'));$('siteb').classList.toggle('hide',!can('staff'));$('teamb').classList.toggle('hide',!can('admin'));
+    $('newsb').classList.toggle('hide',!can('admin'));$('siteb').classList.toggle('hide',!can('staff'));$('memb').classList.toggle('hide',!can('staff'));$('teamb').classList.toggle('hide',!can('admin'));
     $('addb').classList.toggle('hide',!can('staff'));$('csv').classList.toggle('hide',!can('staff'));}
   var $=function(id){return document.getElementById(id);};
   var mem='';
@@ -400,7 +415,7 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     var m2=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m2)m2.textContent='Not saved yet. Click Save when you are done.';
   });
 
-  function logout(msg){setPw('');items=[];VIEWS.concat(['refresh','logout','msgb','newsb','siteb','teamb']).forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
+  function logout(msg){setPw('');items=[];VIEWS.concat(['refresh','logout','msgb','newsb','siteb','teamb','memb']).forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
   function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
   function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;$('who').textContent=me+' ('+(ROLE_LABEL[myRole]||myRole)+')';return load();});}
@@ -438,6 +453,54 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     else if(a==='cancelreply')cardEl.querySelector('.replybox').innerHTML='';}
   $('list').addEventListener('click',onAct);$('addbox').addEventListener('click',onAct);
   $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='assign')assign(e.target);else if(f==='note')save(e.target,{admin_note:e.target.value});});
+  // ---- Members (separate members service; same sign in) ----
+  var MAPI='https://br-old-sea-b51wuht3-members.compute.c-7.us-east-2.aws.neon.tech';
+  var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
+  var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','date'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
+  function mapi(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(MAPI+path,opt).then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
+  function fmtDate(d){if(!d)return '';var p=String(d).slice(0,10).split('-');if(p.length<3)return d;return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+(p[0]&&p[0]!=='1900'?', '+p[0]:'');}
+  function nextBday(d){if(!d)return null;var p=String(d).slice(0,10).split('-'),now=new Date(),t=new Date(now.getFullYear(),now.getMonth(),now.getDate());var n=new Date(now.getFullYear(),+p[1]-1,+p[2]);if(n<t)n.setFullYear(n.getFullYear()+1);return Math.round((n-t)/86400000);}
+  function loadMembers(){$('mlist').innerHTML='<div class="empty">Loading...</div>';
+    return mapi('/members').then(function(j){members=j.members||[];mStatuses=j.statuses||mStatuses;mRole=j.role||'';
+      $('mst').innerHTML='<option value="">All statuses</option>'+mStatuses.map(function(s){return '<option>'+esc(s)+'</option>';}).join('');renderMembers();})
+    .catch(function(e){if(e.status===401){logout('Your session ended. Please sign in again.');}else $('mlist').innerHTML='<div class="empty">Could not load members. '+esc(e.message)+'</div>';});}
+  function renderMembers(){
+    var up=members.map(function(m){return {m:m,d:nextBday(m.birthday)};}).filter(function(x){return x.d!==null&&x.d<=30;}).sort(function(a,b){return a.d-b.d;});
+    $('mbday').innerHTML='<div class="top"><span class="who">Upcoming birthdays (next 30 days)</span></div>'+(up.length?up.map(function(x){return '<div class="meta" style="margin-top:6px"><b>'+esc(x.m.first_name+' '+x.m.last_name)+'</b> · '+fmtDate(x.m.birthday).replace(/, \d{4}$/,'')+' · '+(x.d===0?'<b>Today!</b>':x.d===1?'Tomorrow':'in '+x.d+' days')+(x.m.phone?' · '+esc(x.m.phone):'')+'</div>';}).join(''):'<p class="meta" style="margin-top:6px">No birthdays in the next 30 days.</p>');
+    var q=$('mq').value.toLowerCase().trim(),st=$('mst').value;
+    var list=members.filter(function(m){return (!st||m.status===st)&&(!q||[m.first_name,m.last_name,m.phone,m.email,m.household,m.city].join(' ').toLowerCase().indexOf(q)>=0);});
+    var counts={};members.forEach(function(m){counts[m.status]=(counts[m.status]||0)+1;});
+    $('mcount').textContent=list.length+' of '+members.length+' people'+(members.length?' · '+Object.keys(counts).map(function(k){return counts[k]+' '+k;}).join(', '):'');
+    $('mlist').innerHTML=list.length?list.map(function(m){return '<div class="card" style="border-left-color:var(--navy)"><div class="top"><span class="who">'+esc(m.first_name+' '+m.last_name)+'</span><span class="tag">'+esc(m.status)+'</span></div>'+
+      '<div class="contact">'+[m.phone?'<a href="tel:'+esc(m.phone.replace(/[^0-9+]/g,''))+'">'+esc(m.phone)+'</a>':'',m.email?'<a href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a>':''].filter(Boolean).join(' · ')+'</div>'+
+      '<div class="meta">'+[m.address||m.city?esc([m.address,m.city,m.state,m.zip].filter(Boolean).join(', ')):'',m.birthday?'Birthday '+fmtDate(m.birthday):'',m.household?'Family: '+esc(m.household):'',m.member_since?'Member since '+fmtDate(m.member_since):'',m.baptism_date?'Baptized '+fmtDate(m.baptism_date):''].filter(Boolean).join(' · ')+'</div>'+
+      (m.notes?'<div class="msg">'+esc(m.notes)+'</div>':'')+
+      '<div class="act"><button class="lbtn" data-m="edit" data-id="'+m.id+'">Edit</button>'+(can('admin')?'<button class="dbtn" data-m="del" data-id="'+m.id+'">Delete</button>':'')+'</div></div>';}).join(''):'<div class="empty">'+(members.length?'No one matches that search.':'No members yet. Click Add member to start.')+'</div>';}
+  function memberForm(m){m=m||{status:'Member'};
+    $('mform').innerHTML='<div class="card" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">'+(m.id?'Edit member':'Add a member')+'</span></div><div class="ef">'+MF.map(function(f){var v=m[f[0]]==null?'':String(m[f[0]]);if(f[2]==='date')v=v.slice(0,10);var lab='<label'+(f[3]?' class="wide"':'')+'>'+f[1];
+      if(f[2]==='status')return lab+'<select data-k="status">'+mStatuses.map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+esc(s)+'</option>';}).join('')+'</select></label>';
+      if(f[2]==='textarea')return lab+'<textarea data-k="'+f[0]+'" rows="3">'+esc(v)+'</textarea></label>';
+      return lab+'<input data-k="'+f[0]+'" type="'+f[2]+'" value="'+esc(v)+'"></label>';}).join('')+
+      '</div><div class="act"><button class="pbtn" data-m="save" data-id="'+(m.id||'')+'">Save</button><button class="lbtn" data-m="cancel">Cancel</button><span class="saved" id="msave"></span></div></div>';
+    $('mform').scrollIntoView({behavior:'smooth',block:'start'});}
+  function onMem(e){var b=e.target.closest('[data-m]');if(!b)return;var a=b.getAttribute('data-m'),id=+b.getAttribute('data-id')||0;
+    if(a==='edit')memberForm(members.filter(function(x){return x.id==id;})[0]);
+    else if(a==='cancel')$('mform').innerHTML='';
+    else if(a==='del'){var m=members.filter(function(x){return x.id==id;})[0];if(!m||!confirm('Delete '+m.first_name+' '+m.last_name+'? This cannot be undone.'))return;
+      mapi('/members/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){members=members.filter(function(x){return x.id!=id;});renderMembers();}).catch(function(err){alert(err.message);});}
+    else if(a==='save'){var o={id:id||undefined};$('mform').querySelectorAll('[data-k]').forEach(function(el){o[el.getAttribute('data-k')]=el.value;});
+      if(!String(o.first_name||'').trim()){$('msave').textContent='First name is required.';return;}
+      $('msave').textContent='Saving...';
+      mapi('/members/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({member:o})}).then(function(j){var m=j.member;var i=members.findIndex(function(x){return x.id==m.id;});if(i>=0)members[i]=m;else members.push(m);
+        members.sort(function(a,b){return (a.last_name+a.first_name).localeCompare(b.last_name+b.first_name);});$('mform').innerHTML='';renderMembers();})
+      .catch(function(err){$('msave').textContent='Not saved: '+err.message;});}}
+  $('mform').addEventListener('click',onMem);$('mlist').addEventListener('click',onMem);
+  $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
+  $('madd').onclick=function(){memberForm(null);};
+  $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
+    var csv=[cols.join(',')].concat(members.map(function(m){return cols.map(function(c){var v=m[c]==null?'':String(m[c]);if(/^\d{4}-\d{2}-\d{2}/.test(v))v=v.slice(0,10);return '"'+v.replace(/"/g,'""')+'"';}).join(',');})).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-members.csv';document.body.appendChild(a);a.click();a.remove();};
+  $('memb').onclick=function(){view('mem');$('mform').innerHTML='';loadMembers();};
   if(pw())signedIn().catch(function(){});
 })();
 </script>
