@@ -189,6 +189,14 @@ snaps = json.load(open(os.path.join(stage, 'snaps.json'), encoding='utf-8'))
 # ---- 3. Write pages ----
 for key, path in routes:
     html = clean_ssr(snaps[key])
+    if os.environ.get('KEEP_SSR_PAGES') and not key.startswith('post:') and key != 'blog':
+        # Manual runs without the live admin content: keep the page body that the last nightly build rendered.
+        old = os.path.join(OUT, path.lstrip('/') + 'index.html')
+        if os.path.exists(old):
+            o = open(old, encoding='utf-8').read()
+            a, b = o.find('<div id="ssr">'), o.find('</div>\n<template id="dc-src">')
+            if a >= 0 and b > a:
+                html = o[a + len('<div id="ssr">'):b]
     if key.startswith('post:'):
         p = next(x for x in POSTS if 'post:' + x['_slug'] == key)
         s = {'title': p.get('seoTitle') or '%s | %s' % (p['title'], NAME), 'desc': p.get('metaDesc') or p.get('excerpt') or PAGES['blog'][2],

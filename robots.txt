@@ -2,4 +2,7 @@ User-agent: *
 Disallow: /admin.html
 Allow: /
 
+# Search engines and AI assistants are welcome to read and cite our articles.
+# A plain text guide for AI tools is at https://shekinahsda.org/llms.txt
+
 Sitemap: https://shekinahsda.org/sitemap.xml
