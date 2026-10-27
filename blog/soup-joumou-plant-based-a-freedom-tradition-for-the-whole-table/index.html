@@ -2868,35 +2868,27 @@ image-slot::part(credit){display:none !important}
     <div style="display:flex;align-items:center;gap:14px"><span style="font-size:13px;font-weight:700;letter-spacing:1.5px;color:#E2B85C">PHOTO GALLERY</span></div>
     <h1 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(34px,4.4vw,50px);color:#FFFFFF;line-height:1.15">Moments from our church family.</h1>
   </div></section>
-  <section style="max-width:1240px;margin:0 auto;padding:40px 24px 80px;display:flex;flex-direction:column;gap:32px">
-    <div style="display:flex;flex-wrap:wrap;gap:10px">
-      <sc-for list="{{ albums }}" as="c" hint-placeholder-count="5">
-        <sc-if value="{{ c.active }}" hint-placeholder-val="{{ false }}"><button onClick="{{ c.pick }}" style="border:1px solid #13294B;background:#13294B;color:#FFFFFF;border-radius:40px;padding:10px 20px;font-size:14px;font-weight:700">{{ c.label }}</button></sc-if>
-        <sc-if value="{{ c.inactive }}" hint-placeholder-val="{{ true }}"><button onClick="{{ c.pick }}" style="border:1px solid #D9CFB8;background:#FFFFFF;color:#13294B;border-radius:40px;padding:10px 20px;font-size:14px;font-weight:700" style-hover="border-color:#13294B">{{ c.label }}</button></sc-if>
-      </sc-for>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));grid-auto-rows:240px;grid-auto-flow:dense;gap:14px">
-      <sc-for list="{{ galleryItems }}" as="g" hint-placeholder-count="12">
-        <sc-if value="{{ g.big }}" hint-placeholder-val="{{ false }}"><div style="position:relative;grid-row:span 2;border-radius:10px;overflow:hidden;background:#EDE5D3"><image-slot id="{{ g.slotId }}" shape="rect" placeholder="{{ g.label }}"></image-slot></div></sc-if>
-        <sc-if value="{{ g.small }}" hint-placeholder-val="{{ true }}"><div style="position:relative;border-radius:10px;overflow:hidden;background:#EDE5D3"><image-slot id="{{ g.slotId }}" shape="rect" placeholder="{{ g.label }}"></image-slot></div></sc-if>
-      </sc-for>
-    </div>
-    <p style="margin:0;font-size:14px;color:#5B6270;text-align:center">Drag a photo onto any frame to add it</p>
-  </section>
-  <section style="background:#FFFFFF"><div style="max-width:1240px;margin:0 auto;padding:72px 24px 80px;display:flex;flex-direction:column;gap:32px">
-    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
+  <section style="background:#FAF6EE"><div style="max-width:1320px;margin:0 auto;padding:48px 20px 80px;display:flex;flex-direction:column;gap:24px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center">
       <span style="font-size:13px;font-weight:700;letter-spacing:1.5px;color:#8A6420">OUR CHURCH FAMILY</span>
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Moments at Shekinah</h2>
+      <p style="margin:0;font-size:15px;color:#5B6270">Tap any photo to see it full size.</p>
     </div>
-    <div onMouseEnter="{{ churchPause }}" onMouseLeave="{{ churchResume }}" style="position:relative;height:clamp(220px,32vw,400px);overflow:hidden;margin:0 -6px">
-      <div style="position:absolute;top:0;left:0;height:100%;width:750%;display:flex;transition:transform 0.8s ease;transform:translateX(-{{ churchOffset }}%)">
-        <sc-if value="{{ churchReady }}" hint-placeholder-val="{{ false }}"><sc-for list="{{ churchPhotos }}" as="ph" hint-placeholder-count="0"><div style="position:relative;width:3.33333%;height:100%;flex:none;padding:0 6px"><div style="position:relative;width:100%;height:100%;border-radius:10px;overflow:hidden;background:#EDE5D3"><div role="img" aria-label="Shekinah church family" style="position:absolute;inset:0;background-image:{{ ph.bg }};background-size:cover;background-position:center 30%"></div></div></div></sc-for></sc-if>
-      </div>
-      <button onClick="{{ churchPrev }}" aria-label="Previous photo" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.2)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2.5" stroke-linecap="round"><path d="M15 5l-7 7 7 7"></path></svg></button>
-      <button onClick="{{ churchNext }}" aria-label="Next photo" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(0,0,0,0.2)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2.5" stroke-linecap="round"><path d="M9 5l7 7-7 7"></path></svg></button>
+    <div style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
+      <sc-for list="{{ galPhotos }}" as="p" hint-placeholder-count="12">
+        <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="grid-column:span {{ p.span }};grid-row:span {{ p.span }};position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;background:#EDE5D3;aspect-ratio:{{ p.ratio }};cursor:zoom-in;display:block"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease" style-hover="transform:scale(1.03)"></button>
+      </sc-for>
     </div>
-    <div style="display:flex;justify-content:center;font-size:15px;font-weight:700;color:#5B6270;letter-spacing:1px">{{ churchCounter }}</div>
   </div></section>
+  <sc-if value="{{ galOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Photo viewer" onClick="{{ galClose }}" style="position:fixed;inset:0;z-index:200;background:rgba(8,14,26,0.94);display:flex;align-items:center;justify-content:center;padding:56px 16px">
+      <img src="{{ galBig }}" alt="{{ galBigAlt }}" onClick="{{ stop }}" style="max-width:100%;max-height:100%;object-fit:contain;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.5)">
+      <button onClick="{{ galClose }}" aria-label="Close" style="position:absolute;top:14px;right:16px;width:46px;height:46px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:#13294B;font-size:24px;font-weight:700">×</button>
+      <button onClick="{{ galPrev }}" aria-label="Previous photo" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:#13294B;font-size:22px;font-weight:700">‹</button>
+      <button onClick="{{ galNext }}" aria-label="Next photo" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);color:#13294B;font-size:22px;font-weight:700">›</button>
+      <span style="position:absolute;bottom:16px;left:50%;transform:translateX(-50%);color:#FFFFFF;font-size:14px;font-weight:700">{{ galCounter }}</span>
+    </div>
+  </sc-if>
 </sc-if>
 
 <!-- CONTACT -->
@@ -3145,7 +3137,7 @@ class Component extends DCLogic {
     this.setState(routeFromLocation(), () => this.syncVisitHead());
     this._onPop = () => this.setState({ ...routeFromLocation(), menuOpen: false }, () => this.syncVisitHead());
     window.addEventListener('popstate', this._onPop);
-    this._churchTimer = setInterval(() => { if (!this._churchPaused && this.state.page === 'gallery') this.setState(s => ({ churchIdx: ((s.churchIdx || 0) + 1) % 27 })); }, 3500);
+    this._churchTimer = setInterval(() => { if (!this._churchPaused && false) this.setState(s => ({ churchIdx: ((s.churchIdx || 0) + 1) % 27 })); }, 3500);
     this.onResize = () => this.setState({ narrow: window.innerWidth < 1100 });
     this.onResize();
     window.addEventListener('resize', this.onResize);
@@ -3303,6 +3295,10 @@ class Component extends DCLogic {
       goAbout: this.nav('about'), goMinistries: this.nav('ministries'), goBlog: this.nav('blog', { cat: 'All' }), goGallery: this.nav('gallery'), goGive: this.nav('give'), goMembership: this.nav('membership'), goPastoral: this.nav('pastoral'), isPastoral: s.page === 'pastoral', pastoralForm: !s.pastoralSent, pastoralSent: !!s.pastoralSent, sendPastoral: () => this.sendForm('pastoral'), memberForm: !s.memberSent, memberSent: !!s.memberSent, mIn: s.mDir !== 'out', mOut: s.mDir === 'out', pickIn: () => this.setState({ mDir: 'in' }), pickOut: () => this.setState({ mDir: 'out' }), mChurchLabel: s.mDir === 'out' ? 'Name of your new church' : 'Name of your current church', sendMember: () => this.sendForm('membership'), copyCash: () => this.copyText('$shekinahdfw', 'cashCopied'), copyZelle: () => this.copyText('info@shekinahsda.org', 'zelleCopied'), cashCopyLabel: s.cashCopied ? 'Copied!' : 'Copy $shekinahdfw', zelleCopyLabel: s.zelleCopied ? 'Copied!' : 'Copy Zelle email', isGallery: s.page === 'gallery',
       albums: ALBUMS.map(c => ({ label: c, active: s.album === c, inactive: s.album !== c, pick: () => this.setState({ album: c }) })),
       galleryItems: GALLERY.filter(g => s.album === 'All' || g.album === s.album).map(g => ({ ...g, ...UCRED(GAL_IMG[+g.slotId.split('-')[1] - 1]), small: !g.big, label: g.album + ' photo' })),
+      galCols: (typeof window !== 'undefined' && window.innerWidth < 640) ? 1 : (typeof window !== 'undefined' && window.innerWidth < 1000) ? 2 : 4,
+      galPhotos: Array.from({ length: 30 }, (_, i) => { const wide = typeof window !== 'undefined' && window.innerWidth >= 1000; const big = wide && i % 7 === 0; return { src: 'assets/church/church-' + String(i + 1).padStart(2, '0') + '.jpg', alt: 'Shekinah church family photo ' + (i + 1), span: big ? 2 : 1, ratio: big ? 'auto' : (i === 0 ? '1600 / 865' : '3 / 2'), open: () => this.setState({ galIdx: i }) }; }),
+      galOpen: s.galIdx != null, galBig: s.galIdx != null ? 'assets/church/church-' + String(s.galIdx + 1).padStart(2, '0') + '.jpg' : '', galBigAlt: s.galIdx != null ? 'Shekinah church family photo ' + (s.galIdx + 1) : '', galCounter: s.galIdx != null ? (s.galIdx + 1) + ' of 30' : '',
+      galClose: () => this.setState({ galIdx: null }), galPrev: e => { e && e.stopPropagation && e.stopPropagation(); this.setState({ galIdx: ((s.galIdx || 0) + 29) % 30 }); }, galNext: e => { e && e.stopPropagation && e.stopPropagation(); this.setState({ galIdx: ((s.galIdx || 0) + 1) % 30 }); },
       isHome: s.page === 'home', isBeliefs: s.page === 'beliefs', scrollBible: () => { const el = document.getElementById('bible-form'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 90, behavior: 'smooth' }); }, isBible: s.page === 'bible', bibleForm: !s.bibleSent, bibleSent: !!s.bibleSent, sendBible: () => this.sendForm('bible'), isAbout: s.page === 'about', isMinistries: s.page === 'ministries', isSermons: s.page === 'sermons',
       isBlog: s.page === 'blog', isPost: s.page === 'post', isGive: s.page === 'give', isMembership: s.page === 'membership', isVisit: s.page === 'visit',
       showBlogPreview: this.props.homeBlogPreview ?? true, showCommunity: this.props.showCommunity ?? true,
