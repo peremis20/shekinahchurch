@@ -33,6 +33,9 @@ PAGES = {
   'visit': ('/plan-your-visit/', 'Plan Your Visit | Shekinah Haitian SDA Church, Alvarado TX',
             'First time visiting a church in Alvarado, TX? See Sabbath service times, what to expect, and kids at Shekinah, with worship in Kreyòl, French, and English.',
             'Plan Your First Visit to Shekinah Haitian SDA Church'),
+  'visitkr': ('/kreyol/planifye-vizit/', 'Legliz Advantis Ayisyen nan Alvarado TX | Planifye Vizit Ou',
+              'Legliz Advantis Setyèm Jou Ayisyen Shekinah nan Alvarado, Texas. Lekòl Saba a 10:00 AM, sèvis adorasyon a 11:00 AM chak Samdi, an Kreyòl, Franse, ak Anglè.',
+              'Planifye vizit ou nan Legliz Advantis Ayisyen Shekinah'),
   'about': ('/about/', 'About Us | Shekinah Haitian SDA Church in Alvarado, TX',
             'Meet Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas: our story, our pastor, and the church family that welcomes you every Sabbath.',
             'About Shekinah Haitian Seventh-day Adventist Church'),
@@ -119,6 +122,13 @@ try:  # The Plan Your Visit page shows these questions, so its FAQ markup matche
         {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in _vt]}])]
 except Exception as e:
     print('visit FAQ not found, keeping site FAQ:', e)
+SITE_FAQ_KR = []
+try:
+    _vk = json.loads(re.search(r'const VT = (\{.*?\});\n', src, re.S).group(1))['kr']['faqs']
+    SITE_FAQ_KR = [SEO.ld_tags([{'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': 'ht', 'mainEntity': [
+        {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in _vk]}])]
+except Exception as e:
+    print('Kreyol visit FAQ not found:', e)
 POST_IMG = json.loads(re.search(r'const POST_IMG = (\{.*?\});', src).group(1))
 SEO_PAGES_JS = json.dumps({k: seo(k) for k in PAGES}, ensure_ascii=False)
 
@@ -143,7 +153,10 @@ def head_block(s, extra_ld=None, noindex=False, key=None, post=None):
         '<link rel="icon" href="/assets/logo-mark.png">',
         '<style>x-dc{display:none!important}#ssr .ssr-slot{display:block}</style>',
         '<script>window.__SEO_PAGES=%s;window.__SEO_HOME=window.__SEO_PAGES.home;window.__SEO_VISIT=window.__SEO_PAGES.visit;</script>' % SEO_PAGES_JS,
-    ] + ld + (SITE_FAQ if key == 'visit' else []) + ([extra_ld] if extra_ld else [])
+    ] + (['<link rel="alternate" hreflang="en" href="%s">' % (SITE + PAGES['visit'][0]),
+          '<link rel="alternate" hreflang="ht" href="%s">' % (SITE + PAGES['visitkr'][0]),
+          '<link rel="alternate" hreflang="x-default" href="%s">' % (SITE + PAGES['visit'][0])] if key in ('visit', 'visitkr') else []
+    ) + ld + (SITE_FAQ if key == 'visit' else []) + (SITE_FAQ_KR if key == 'visitkr' else []) + ([extra_ld] if extra_ld else [])
     return '\n'.join(parts) + '\n'
 
 
@@ -214,6 +227,8 @@ for key, path in routes:
         page = assemble(s, html, extra, post=p)
     else:
         page = assemble(seo(key), html, key=key)
+        if key == 'visitkr':
+            page = page.replace('<html lang="en">', '<html lang="ht">', 1)
     write(path.lstrip('/') + 'index.html', page)
 
 write('404.html', assemble(seo('home'), '', noindex=True))
