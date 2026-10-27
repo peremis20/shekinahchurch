@@ -23,7 +23,7 @@ const srv = http.createServer((req, res) => {
     await p.route('https://unpkg.com/react@18.3.1/**', (r) => r.fulfill({ path: RX + '/react/umd/react.production.min.js', contentType: 'text/javascript' }));
     await p.route('https://unpkg.com/react-dom@18.3.1/**', (r) => r.fulfill({ path: RX + '/react-dom/umd/react-dom.production.min.js', contentType: 'text/javascript' }));
     await p.route('**/br-old-sea-*/**', (r) => r.fulfill({ status: 200, contentType: 'application/json', headers: { 'access-control-allow-origin': '*' }, body: /\/content(\?|$)/.test(r.request().url()) ? CONTENT : '{}' }));
-    await p.route(/fonts\.(googleapis|gstatic)\.com|images\.unsplash\.com/, (r) => r.abort());
+    await p.route(/fonts\.(googleapis|gstatic)\.com|images\.unsplash\.com|googletagmanager\.com|google-analytics\.com/, (r) => r.abort());
     await p.goto('http://localhost:8790' + url);
     await p.waitForFunction(() => { const r = document.getElementById('dc-root'); return r && r.innerText.length > 300; }, null, { timeout: 30000 });
     await p.waitForTimeout(900);

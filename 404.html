@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DBRNW7DHZH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-DBRNW7DHZH', { allow_google_signals: false, allow_ad_personalization_signals: false });
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base href="/">
 <title>Haitian Seventh-day Adventist Church, Alvarado TX | Shekinah</title>
@@ -1073,7 +1081,7 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:22px 0 0;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.3;color:#13294B">18. Children</h2>
       <p style="margin:0;font-size:15.5px;line-height:1.75;color:#3D4554">The Website is intended for adults and families. We do not knowingly collect personal information from children under 13 without verifiable parental consent. If you believe a child has provided personal information, please contact us and we will delete it.</p>
       <h2 style="margin:22px 0 0;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.3;color:#13294B">19. Cookies and Analytics</h2>
-      <p style="margin:0;font-size:15.5px;line-height:1.75;color:#3D4554">The Website does not use advertising cookies. Certain features, such as language translation provided by Google Translate, may place cookies on your device, and the Website may use privacy respecting analytics tools to understand how the Website is used. You can control cookies through your browser settings.</p>
+      <p style="margin:0;font-size:15.5px;line-height:1.75;color:#3D4554">The Website does not use advertising cookies. The Website uses Google Analytics, a service provided by Google LLC, to understand how visitors use the Website, such as which pages are viewed and which forms are submitted. Google Analytics uses cookies and collects information such as pages visited, approximate location, device, and browser type. Google advertising features are turned off, and the content of your form submissions is never sent to Google Analytics. Language translation provided by Google Translate may also place a cookie on your device. You can control cookies through your browser settings, and you can opt out of Google Analytics with the Google Analytics Opt out Browser Add on at tools.google.com/dlpage/gaoptout.</p>
       <h2 style="margin:22px 0 0;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.3;color:#13294B">20. Newsletter and Email</h2>
       <p style="margin:0;font-size:15.5px;line-height:1.75;color:#3D4554">If you subscribe to our newsletter, you may unsubscribe at any time using the link in any newsletter email or by contacting us. Confirmation emails sent in response to forms you submit are service messages related to your request.</p>
       <h2 style="margin:22px 0 0;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.3;color:#13294B">21. Governing Law</h2>
@@ -1280,7 +1288,7 @@ image-slot::part(credit){display:none !important}
         <p style="margin:0;font-size:16px;line-height:1.65;color:#E6E9EF">Adventist Giving is the official, secure giving platform of the Seventh-day Adventist Church. Choose tithe, local church budget, or another offering, give once or set up recurring gifts, and get a receipt by email.</p>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start">
-        <a href="https://adventistgiving.org/donate/ANWB24" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#E2B85C;color:#13294B;border:none;border-radius:40px;padding:14px 22px;font-size:16px;font-weight:800;text-decoration:none">Give with Adventist Giving <span aria-hidden="true">&rarr;</span></a>
+        <a href="https://adventistgiving.org/donate/ANWB24" target="_blank" rel="noopener" onClick="{{ trackGiveAG }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#E2B85C;color:#13294B;border:none;border-radius:40px;padding:14px 22px;font-size:16px;font-weight:800;text-decoration:none">Give with Adventist Giving <span aria-hidden="true">&rarr;</span></a>
         <span style="font-size:14px;color:#C9D0DC">Opens adventistgiving.org in a new tab</span>
       </div>
     </article>
@@ -1291,7 +1299,7 @@ image-slot::part(credit){display:none !important}
         <img src="assets/give/cashapp-qr.png" alt="QR code for the Shekinah Cash App account $shekinahdfw" width="180" height="180" loading="lazy" style="display:block;width:180px;height:180px;border-radius:12px;border:1px solid #EDE5D3;background:#FFFFFF;padding:6px">
         <p style="margin:0;font-size:16px;line-height:1.65;color:#3D4554">Scan the code with your phone camera or Cash App, or send to <strong style="color:#13294B">$shekinahdfw</strong>.</p>
         <div style="display:flex;flex-wrap:wrap;gap:10px">
-          <a href="https://cash.app/$shekinahdfw" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#13294B;color:#FFFFFF;border:none;border-radius:40px;padding:13px 20px;font-size:15px;font-weight:700;text-decoration:none">Open Cash App</a>
+          <a href="https://cash.app/$shekinahdfw" target="_blank" rel="noopener" onClick="{{ trackGiveCash }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#13294B;color:#FFFFFF;border:none;border-radius:40px;padding:13px 20px;font-size:15px;font-weight:700;text-decoration:none">Open Cash App</a>
           <button onClick="{{ copyCash }}" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#FFFFFF;color:#13294B;border:1.5px solid #13294B;border-radius:40px;padding:12px 18px;font-size:15px;font-weight:700">{{ cashCopyLabel }}</button>
         </div>
       </article>
@@ -1694,6 +1702,7 @@ class Component extends DCLogic {
     try {
       const r = await fetch(VISIT_CONFIG.formEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
       if (!r.ok) { const j = await r.json().catch(() => ({})); throw new Error(j.error || 'send'); }
+      trackEvent(kind.startsWith('newsletter') ? 'newsletter_signup' : kind + '_form_submit');
       this.setState(kind === 'prayer' ? { prayerSent: true } : kind === 'contact' ? { contactSent: true } : kind === 'bible' ? { bibleSent: true } : kind === 'membership' ? { memberSent: true } : kind === 'pastoral' ? { pastoralSent: true } : { subDone: true });
     } catch (err) { alert((err && err.message && err.message !== 'send' && err.message !== 'Failed to fetch') ? err.message : 'Sorry, your message could not be sent. Please try again.'); }
     finally { this._sending = false; }
@@ -1778,7 +1787,7 @@ class Component extends DCLogic {
       churchNext: () => this.setState({ churchIdx: ((s.churchIdx || 0) + 1) % 27 }),
       churchPause: () => { this._churchPaused = true; },
       churchResume: () => { this._churchPaused = false; },
-      goAbout: this.nav('about'), goMinistries: this.nav('ministries'), goBlog: this.nav('blog', { cat: 'All' }), goGallery: this.nav('gallery'), goGive: this.nav('give'), goMembership: this.nav('membership'), goPrivacy: this.nav('privacy'), goPastoral: this.nav('pastoral'), isPastoral: s.page === 'pastoral', pastoralForm: !s.pastoralSent, pastoralSent: !!s.pastoralSent, sendPastoral: () => this.sendForm('pastoral'), memberForm: !s.memberSent, memberSent: !!s.memberSent, mIn: s.mDir !== 'out', mOut: s.mDir === 'out', pickIn: () => this.setState({ mDir: 'in' }), pickOut: () => this.setState({ mDir: 'out' }), mChurchLabel: s.mDir === 'out' ? 'Name of your new church' : 'Name of your current church', sendMember: () => this.sendForm('membership'), copyCash: () => this.copyText('$shekinahdfw', 'cashCopied'), copyZelle: () => this.copyText('info@shekinahsda.org', 'zelleCopied'), cashCopyLabel: s.cashCopied ? 'Copied!' : 'Copy $shekinahdfw', zelleCopyLabel: s.zelleCopied ? 'Copied!' : 'Copy Zelle email', isGallery: s.page === 'gallery',
+      goAbout: this.nav('about'), goMinistries: this.nav('ministries'), goBlog: this.nav('blog', { cat: 'All' }), goGallery: this.nav('gallery'), goGive: this.nav('give'), goMembership: this.nav('membership'), goPrivacy: this.nav('privacy'), goPastoral: this.nav('pastoral'), isPastoral: s.page === 'pastoral', pastoralForm: !s.pastoralSent, pastoralSent: !!s.pastoralSent, sendPastoral: () => this.sendForm('pastoral'), memberForm: !s.memberSent, memberSent: !!s.memberSent, mIn: s.mDir !== 'out', mOut: s.mDir === 'out', pickIn: () => this.setState({ mDir: 'in' }), pickOut: () => this.setState({ mDir: 'out' }), mChurchLabel: s.mDir === 'out' ? 'Name of your new church' : 'Name of your current church', sendMember: () => this.sendForm('membership'), copyCash: () => { trackEvent('give_cashapp_copy'); this.copyText('$shekinahdfw', 'cashCopied'); }, copyZelle: () => { trackEvent('give_zelle_copy'); this.copyText('info@shekinahsda.org', 'zelleCopied'); }, trackGiveAG: () => trackEvent('give_adventist_giving_click'), trackGiveCash: () => trackEvent('give_cashapp_click'), cashCopyLabel: s.cashCopied ? 'Copied!' : 'Copy $shekinahdfw', zelleCopyLabel: s.zelleCopied ? 'Copied!' : 'Copy Zelle email', isGallery: s.page === 'gallery',
       albums: ALBUMS.map(c => ({ label: c, active: s.album === c, inactive: s.album !== c, pick: () => this.setState({ album: c }) })),
       galleryItems: GALLERY.filter(g => s.album === 'All' || g.album === s.album).map(g => ({ ...g, ...UCRED(GAL_IMG[+g.slotId.split('-')[1] - 1]), small: !g.big, label: g.album + ' photo' })),
       galCols: (typeof window !== 'undefined' && window.innerWidth < 640) ? 1 : (typeof window !== 'undefined' && window.innerWidth < 1000) ? 2 : 4,
