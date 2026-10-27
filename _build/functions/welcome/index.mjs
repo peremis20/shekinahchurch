@@ -183,6 +183,20 @@ async function deliver(rows, kind, build) {
   return { checked: rows.length, sent, failed };
 }
 
+// Gallery running low: the gallery function queues 'gallery_alert' = pending|month|left; email Jimmy once.
+async function galleryAlert() {
+  const r = await sql`SELECT value FROM automation_status WHERE key = 'gallery_alert'`;
+  if (!r.length || !String(r[0].value).startsWith('pending|')) return;
+  const [, m, left] = String(r[0].value).split('|');
+  const text = 'Hello Jimmy,\n\nThe photo gallery on shekinahsda.org has only ' + left + ' new church photos left, which is less than 3 months of monthly rotation.\n\nPlease add more albums on the church Google Photos and share them with a link, then ask Claude to add the new albums to the website gallery.\n\nShekinah website';
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json', 'Idempotency-Key': 'gallery-low-' + m },
+    body: JSON.stringify({ from: FROM, to: ['jimmy@peremis.com'], reply_to: REPLY_TO, subject: 'Please add more albums on the church Google Photos', text }),
+  });
+  await sql`UPDATE automation_status SET value = ${(res.ok ? 'sent|' : 'failed|') + m + '|' + left + '|' + res.status}, updated_at = now() WHERE key = 'gallery_alert'`;
+}
+
 async function run() {
   if (!process.env.RESEND_API_KEY) { await status('waiting for RESEND_API_KEY'); return { sent: 0, waiting: true }; }
   if (!SECRET || !PUBLIC_URL) { await status('missing UNSUB_SECRET or PUBLIC_URL'); return { sent: 0 }; }
@@ -226,6 +240,7 @@ async function run() {
     const build = kind === 'membership' ? (r) => membershipEmail(r.name, r.transfer, r.church, r.location) : kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
     results[kind] = await deliver(due.filter((r) => r.mail === kind), kind, build);
   }
+  try { await galleryAlert(); } catch (e) { console.log('gallery alert error', e.message); }
   const fmt = (k, x) => `${k}: sent ${x.sent}, failed ${x.failed}`;
   await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit), fmt('membership', results.membership)].join('; '));
   return { welcome: a, ...results };
