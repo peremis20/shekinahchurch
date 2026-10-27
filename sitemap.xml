@@ -2,6 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://shekinahsda.org/</loc><priority>1.0</priority></url>
   <url><loc>https://shekinahsda.org/plan-your-visit/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/kreyol/planifye-vizit/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/about/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/ministries/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/blog/</loc><priority>0.8</priority></url>
@@ -11,8 +12,11 @@
   <url><loc>https://shekinahsda.org/beliefs/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/resources/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/give/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/pastoral-care/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/membership/</loc><priority>0.8</priority></url>
   <url><loc>https://shekinahsda.org/bible-study/</loc><priority>0.8</priority></url>
+  <url><loc>https://shekinahsda.org/blog/kijan-pou-m-priye/</loc><lastmod>2026-10-27</lastmod><priority>0.7</priority></url>
+  <url><loc>https://shekinahsda.org/blog/kisa-bib-la-di-sou-saba-a/</loc><lastmod>2026-10-27</lastmod><priority>0.7</priority></url>
   <url><loc>https://shekinahsda.org/blog/giving-thanks-when-life-is-hard/</loc><lastmod>2026-10-26</lastmod><priority>0.7</priority></url>
   <url><loc>https://shekinahsda.org/blog/pikliz-the-spicy-haitian-slaw/</loc><lastmod>2026-10-26</lastmod><priority>0.7</priority></url>
   <url><loc>https://shekinahsda.org/blog/sunlight-in-the-shorter-days-vitamin-d-and-mood/</loc><lastmod>2026-10-26</lastmod><priority>0.7</priority></url>
@@ -32,7 +36,4 @@
   <url><loc>https://shekinahsda.org/blog/water-first-small-habits-for-big-energy/</loc><lastmod>2026-08-17</lastmod><priority>0.7</priority></url>
   <url><loc>https://shekinahsda.org/blog/legim-without-meat-a-family-favorite/</loc><lastmod>2026-08-10</lastmod><priority>0.7</priority></url>
   <url><loc>https://shekinahsda.org/blog/stress-less-trusting-god-with-your-worries/</loc><lastmod>2026-08-03</lastmod><priority>0.7</priority></url>
-  <url><loc>https://shekinahsda.org/pastoral-care/</loc><priority>0.8</priority></url>
-  <url><loc>https://shekinahsda.org/blog/kijan-pou-m-priye/</loc><lastmod>2026-10-27</lastmod><priority>0.7</priority></url>
-  <url><loc>https://shekinahsda.org/blog/kisa-bib-la-di-sou-saba-a/</loc><lastmod>2026-10-27</lastmod><priority>0.7</priority></url>
 </urlset>
