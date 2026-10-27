@@ -50,6 +50,21 @@ export default {
         const n = await assign(month());
         return Response.json({ ok: true, picked: n });
       }
+      if (req.method === 'POST' && path === '/upload') {
+        const b = JSON.parse(await req.text());
+        const tok = await sql("SELECT value FROM automation_status WHERE key = 'gallery_token'");
+        if (!tok.length || !b.token || b.token !== tok[0].value) return new Response('no', { status: 403 });
+        const m = /^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/.exec(b.data || '');
+        if (!m || !/^[a-z0-9-]{1,60}$/.test(b.name || '')) return new Response('bad', { status: 400 });
+        await sql('INSERT INTO site_images (name, mime, b64, updated_at) VALUES ($1,$2,$3,now()) ON CONFLICT (name) DO UPDATE SET mime = EXCLUDED.mime, b64 = EXCLUDED.b64, updated_at = now()', [b.name, m[1], m[2]]);
+        return Response.json({ ok: true });
+      }
+      if (req.method === 'GET' && path.startsWith('/img/')) {
+        const name = path.slice(5).replace(/\.(jpe?g|png|webp)$/, '');
+        const r = await sql('SELECT mime, b64 FROM site_images WHERE name = $1', [name]);
+        if (!r.length) return new Response('Not found', { status: 404 });
+        return new Response(Buffer.from(r[0].b64, 'base64'), { headers: { 'Content-Type': r[0].mime, 'Cache-Control': 'public, max-age=86400', 'Access-Control-Allow-Origin': '*' } });
+      }
       if (req.method === 'POST' && path === '/ingest') {
         const b = JSON.parse(await req.text());
         const tok = await sql("SELECT value FROM automation_status WHERE key = 'gallery_token'");
