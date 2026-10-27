@@ -140,6 +140,23 @@ export function membershipEmail(name, transfer, church, location) {
   });
 }
 
+// Pastoral care: the form saves a private prayer row whose message starts with PASTORAL CARE REQUEST.
+// The email never repeats the topic or message; it only confirms how they asked to meet.
+const MEET = ['In person at church', 'By phone', 'By video call', 'No preference'];
+export function pastoralEmail(name, message) {
+  const m = /Meet: ([^.]+)\./.exec(String(message || ''));
+  const meet = m && MEET.includes(m[1].trim()) ? m[1].trim() : '';
+  return shortEmail({
+    subject: 'We received your pastoral care request', preheader: 'Thank you for reaching out. Our pastor will be in touch with you personally.',
+    kicker: 'MÈSI · THANK YOU', title: 'We received your request', name,
+    paras: ['Thank you for reaching out to us. Your request matters to us, and so do you. What you shared will be kept private.',
+      'Our pastor or a church leader will reach out to you personally as soon as possible. Until then, know that you are not alone, and we are praying for you.'],
+    boxLabel: 'HOW YOU WOULD LIKE TO MEET', boxLines: meet ? [meet] : [],
+    verse: '"The LORD is nigh unto them that are of a broken heart; and saveth such as be of a contrite spirit." Psalm 34:18, KJV',
+    reason: 'requested pastoral care',
+  });
+}
+
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 export function visitEmail(name, date, guests) {
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(date || ''));
@@ -216,10 +233,10 @@ async function run() {
   const since = process.env.FORMS_SINCE || '2026-10-26T20:55:00Z';
   const forms = await sql`
     SELECT s.id, s.kind, s.topic, s.name, s.email, s.details->>'language' AS language, s.details->>'format' AS format,
-           s.details->>'date' AS date, s.details->>'guests' AS guests, s.details->>'transfer' AS transfer, s.details->>'church' AS church, s.details->>'churchLocation' AS location,
-           CASE WHEN s.kind = 'contact' AND s.topic = 'Bible study request' THEN 'bible' WHEN s.kind = 'contact' AND s.topic = 'Membership transfer' THEN 'membership' WHEN s.kind = 'contact' THEN 'contact' ELSE 'visit' END AS mail
+           s.details->>'date' AS date, s.details->>'guests' AS guests, s.message AS message, s.details->>'transfer' AS transfer, s.details->>'church' AS church, s.details->>'churchLocation' AS location,
+           CASE WHEN s.kind = 'contact' AND s.topic = 'Bible study request' THEN 'bible' WHEN s.kind = 'contact' AND s.topic = 'Membership transfer' THEN 'membership' WHEN s.kind = 'contact' THEN 'contact' WHEN s.kind = 'prayer' THEN 'pastoral' ELSE 'visit' END AS mail
     FROM submissions s
-    WHERE s.kind IN ('contact', 'visit')
+    WHERE (s.kind IN ('contact', 'visit') OR (s.kind = 'prayer' AND s.message LIKE 'PASTORAL CARE REQUEST%' AND s.created_at > '2026-10-27T02:00:00Z'::timestamptz))
       AND s.created_at > ${since}::timestamptz AND s.created_at > now() - interval '7 days'
       AND s.email ~* '^[^[:space:]@]+@[^[:space:]@]+\\.[^[:space:]@]+$'
       AND s.email !~* '@(example|test)\\.'
@@ -236,13 +253,13 @@ async function run() {
     if (!recent.length) due.push(r);
   }
   const results = {};
-  for (const kind of ['bible', 'contact', 'visit', 'membership']) {
-    const build = kind === 'membership' ? (r) => membershipEmail(r.name, r.transfer, r.church, r.location) : kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
+  for (const kind of ['bible', 'contact', 'visit', 'membership', 'pastoral']) {
+    const build = kind === 'pastoral' ? (r) => pastoralEmail(r.name, r.message) : kind === 'membership' ? (r) => membershipEmail(r.name, r.transfer, r.church, r.location) : kind === 'bible' ? (r) => bibleEmail(r.name, r.language, r.format) : kind === 'contact' ? (r) => contactEmail(r.name, r.topic) : (r) => visitEmail(r.name, r.date, r.guests);
     results[kind] = await deliver(due.filter((r) => r.mail === kind), kind, build);
   }
   try { await galleryAlert(); } catch (e) { console.log('gallery alert error', e.message); }
   const fmt = (k, x) => `${k}: sent ${x.sent}, failed ${x.failed}`;
-  await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit), fmt('membership', results.membership)].join('; '));
+  await status([fmt('welcome', a), fmt('bible study', results.bible), fmt('contact', results.contact), fmt('visit', results.visit), fmt('membership', results.membership), fmt('pastoral', results.pastoral)].join('; '));
   return { welcome: a, ...results };
 }
 
