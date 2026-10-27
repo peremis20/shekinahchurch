@@ -274,7 +274,7 @@ a:hover{color:#B8892F}
 button{font-family:inherit;cursor:pointer}
 input,textarea,select{font-family:inherit;font-size:15px}
 image-slot::part(credit){display:none !important}
-@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr !important;gap:30px 20px !important;padding:44px 20px 28px !important}.foot-grid>.foot-wide{grid-column:1 / -1}.foot-times{display:grid !important;grid-template-columns:1fr 1fr;gap:12px 20px !important}.foot-times>span:first-child{grid-column:1 / -1}}
+@media (max-width:760px){.foot-grid{grid-template-columns:1fr 1fr !important;gap:30px 20px !important;padding:44px 20px 28px !important}.foot-grid>.foot-wide{grid-column:1 / -1}.foot-times{gap:0 !important}.foot-times>span:first-child{margin-bottom:6px !important}.foot-times>div{flex-direction:row !important;justify-content:space-between;align-items:baseline;gap:12px !important;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.14)}.foot-times>div>span:last-child{text-align:right}.foot-connect{padding:22px;border-radius:14px;background:rgba(255,255,255,0.06)}}
 @media (max-width:760px){.join-shade{background:linear-gradient(180deg, rgba(19,41,75,0.9) 0%, rgba(19,41,75,0.82) 70%, rgba(19,41,75,0.6) 100%) !important}}
 </style>
 </helmet>
@@ -1576,7 +1576,7 @@ image-slot::part(credit){display:none !important}
     <div class="foot-wide foot-times" style="display:flex;flex-direction:column;gap:14px"><span style="font-weight:800;font-size:19px;color:#FFFFFF;margin-bottom:2px">{{ t.serviceTimes }}</span>
       <div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:15px;color:#FFFFFF">{{ t.fSabbath }}</span><span style="font-size:15px;color:#C9D0DC">Saturday 10:00 AM</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:15px;color:#FFFFFF">{{ t.fDivine }}</span><span style="font-size:15px;color:#C9D0DC">Saturday 11:00 AM</span></div><div style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:15px;color:#FFFFFF">{{ t.fPrayer }}</span><span style="font-size:15px;color:#C9D0DC">Wednesday 7:30 PM</span></div>
     </div>
-    <div class="foot-wide" style="display:flex;flex-direction:column;gap:16px"><span style="font-weight:800;font-size:19px;color:#FFFFFF">{{ t.stayConnected }}</span>
+    <div class="foot-wide foot-connect" style="display:flex;flex-direction:column;gap:16px"><span style="font-weight:800;font-size:19px;color:#FFFFFF">{{ t.stayConnected }}</span>
       <span style="font-size:15px;line-height:1.6;color:#C9D0DC">{{ t.subText }}</span>
       <sc-if value="{{ subForm }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-wrap:wrap;gap:8px"><input id="nl-email" placeholder="Your email address" style="flex:1;min-width:160px;padding:13px 14px;border:none;border-radius:8px;background:#FFFFFF;color:#1B2433"><button onClick="{{ subscribe }}" style="border:none;border-radius:8px;background:#E2B85C;color:#13294B;padding:13px 20px;font-size:15px;font-weight:800" style-hover="background:#EBC774">{{ t.subscribe }}</button></div>
