@@ -186,10 +186,26 @@ async function sendEmail(row, m, tag) {
   return { ok: r.ok, detail: (r.ok ? body : `${r.status} ${body}`).slice(0, 500) };
 }
 
+// Spam guard: never auto reply to link spam, sales pitches, or disposable inboxes.
+const SPAM_WORDS = /\b(seo|backlinks?|guest post|link building|first page of google|rank(ing)? your (site|website)|web ?design services|crypto|bitcoin|casino|betting|viagra|cialis|forex|payday loan|lead generation|increase your (traffic|sales)|marketing agency|virtual assistant services)\b/i;
+const THROWAWAY = /@(mailinator|guerrillamail|10minutemail|tempmail|temp-mail|yopmail|trashmail|sharklasers|getnada|dispostable|maildrop)\./i;
+function looksLikeSpam(row) {
+  const text = [row.name, row.topic, row.message].filter(Boolean).join(' ');
+  if ((text.match(/https?:\/\/|www\./gi) || []).length >= 2) return true;
+  if (/https?:\/\/|www\./i.test(row.name || '')) return true;
+  if (THROWAWAY.test(row.email || '')) return true;
+  return SPAM_WORDS.test(text);
+}
+
 async function deliver(rows, kind, build) {
   let sent = 0, failed = 0;
   for (const row of rows) {
     if (!EMAIL_RE.test(row.email)) continue;
+    if (looksLikeSpam(row)) {
+      await sql`INSERT INTO welcome_log (submission_id, email, status, detail, sent_at, attempts, kind) VALUES (${row.id}, ${row.email}, 'skipped', 'spam filter', now(), 3, ${kind}) ON CONFLICT (submission_id) DO NOTHING`;
+      console.log(`${kind} ${row.id}: skipped by spam filter`);
+      continue;
+    }
     let res;
     try { res = await sendEmail(row, build(row), kind); } catch (e) { res = { ok: false, detail: String(e && e.message || e).slice(0, 500) }; }
     await sql`INSERT INTO welcome_log (submission_id, email, status, detail, sent_at, attempts, kind) VALUES (${row.id}, ${row.email}, ${res.ok ? 'sent' : 'failed'}, ${res.detail}, now(), 1, ${kind})
