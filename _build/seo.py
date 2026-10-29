@@ -217,6 +217,7 @@ FACTS = """Shekinah Haitian Seventh-day Adventist Church is a Haitian Seventh-da
 - The church family shares a meal after the Sabbath service
 - Live worship: https://www.youtube.com/@SHEKINAHHaitianSDA
 - Email: info@shekinahsda.org
+- Phone: (888) 219-3842
 - Beliefs: the 28 Fundamental Beliefs of the Seventh-day Adventist Church (https://www.adventist.org/beliefs/)"""
 
 
