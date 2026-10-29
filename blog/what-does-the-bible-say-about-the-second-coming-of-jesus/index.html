@@ -42,10 +42,13 @@
 <style>html:not(.site-edit) [data-edit-ctl]{display:none !important}
 #ssr [hidden]{display:none !important}
 .m-only{display:none}
+
+@media (max-width:760px){.mm:not(.open).mm4>:not(.mm-btn):nth-child(n+5),.mm:not(.open).mm6>:not(.mm-btn):nth-child(n+7),.mm:not(.open).mm10>:not(.mm-btn):nth-child(n+11),.mm:not(.open).mm12>:not(.mm-btn):nth-child(n+13){display:none !important}.mm>.mm-btn{grid-column:1 / -1}.mm:not(.open)+.mm-btn,.mm:not(.open)>.mm-btn{display:block !important}.res-grid article p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.res-grid article{padding:16px !important;gap:6px !important}.m-grid2{grid-template-columns:1fr 1fr !important;gap:12px !important}.m-grid2>*>div:first-child{height:170px !important}.m-grid2 h3{font-size:16px !important}.m-grid2 p{font-size:13px !important}.mf>*>:first-child{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}.mf>*>:first-child::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:#F4EDDE;color:#13294B;display:flex;align-items:center;justify-content:center;font:800 18px/1 sans-serif}.mf>.open>:first-child::after{content:"\2212"}.mf>*:not(.open)>:not(:first-child){display:none !important}.mf>*{padding:18px 20px !important}.mf{gap:12px !important}.foot-grid>.foot-wide:first-child>p,.foot-connect>span:nth-child(2){display:none}.foot-grid>div:not(.foot-wide){gap:9px !important}.foot-grid{gap:24px 20px !important;padding:32px 20px 22px !important}}
 @media (max-width:760px){.m-only{display:block}.m-hide{display:none !important}.m-two>*:nth-child(n+3){display:none !important}}
 #site-edit-bar{position:fixed;right:16px;bottom:16px;z-index:100000;display:flex;align-items:center;gap:10px;background:#13294B;color:#fff;font:600 14px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 10px 10px 16px;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
 #site-edit-bar button{border:none;border-radius:40px;background:#E2B85C;color:#13294B;font:700 14px/1 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 16px;cursor:pointer}
 #site-edit-bar .x{background:transparent;color:#fff;padding:10px 8px}</style>
+<script>document.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;var b=t.closest('.mm-btn');if(b){var g=b.previousElementSibling&&b.previousElementSibling.classList.contains('mm')?b.previousElementSibling:b.parentElement;g.classList.add('open');return;}if(!window.matchMedia('(max-width:760px)').matches)return;var h=t.closest('.mf > * > :first-child');if(h)h.parentElement.classList.toggle('open');});</script>
 <script>(function(){
   var on=/[?&]edit(=|&|$)/.test(location.search);
   if(!on) return;
@@ -173,21 +176,21 @@
     
   </div>
   </header><main data-dc-tpl="58" style="flex: 1 1 0%;">
-  <article data-dc-tpl="888" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
-    <a data-dc-tpl="889" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
-    <span data-dc-tpl="890" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
-    <h1 data-dc-tpl="891" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What Does the Bible Say About the Second Coming of Jesus?</span></h1>
-    <div data-dc-tpl="892" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="893" rel="author"><span class="sc-interp">Thomas Whitfield</span></span> · <time data-dc-tpl="894" datetime="2026-10-26"><span class="sc-interp">Oct 26, 2026</span></time> · <span class="sc-interp">18 min read</span></div>
-    <p data-dc-tpl="896" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">A warm, Scripture centered look at how Jesus will return, what His coming means for those who love Him, why no one can set a date, and how to be ready with hope instead of fear.</span></p>
-    <div data-dc-tpl="897" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="898" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
-              <div data-dc-tpl="900" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
-                <button data-dc-tpl="901" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="902" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="903" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="904" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="905" d="M21 16l-5-5-9 8"></path></svg></button>
-                <button data-dc-tpl="906" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="907" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="908" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
+  <article data-dc-tpl="889" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
+    <a data-dc-tpl="890" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
+    <span data-dc-tpl="891" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
+    <h1 data-dc-tpl="892" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What Does the Bible Say About the Second Coming of Jesus?</span></h1>
+    <div data-dc-tpl="893" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="894" rel="author"><span class="sc-interp">Thomas Whitfield</span></span> · <time data-dc-tpl="895" datetime="2026-10-26"><span class="sc-interp">Oct 26, 2026</span></time> · <span class="sc-interp">18 min read</span></div>
+    <p data-dc-tpl="897" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">A warm, Scripture centered look at how Jesus will return, what His coming means for those who love Him, why no one can set a date, and how to be ready with hope instead of fear.</span></p>
+    <div data-dc-tpl="898" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="899" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
+              <div data-dc-tpl="901" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
+                <button data-dc-tpl="902" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="903" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="904" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="905" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="906" d="M21 16l-5-5-9 8"></path></svg></button>
+                <button data-dc-tpl="907" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="908" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="909" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
               </div>
               
             </div></div>
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is late, the house is quiet, and you are scrolling through the news one more time before bed. Wars, storms, prices that keep climbing, and somewhere in the feed a video with a dramatic title promising to reveal exactly when the world will end. You close the app, but the question stays with you in the dark. Is Jesus really coming back, and if He is, what will it actually be like?</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is late, the house is quiet, and you are scrolling through the news one more time before bed. Wars, storms, prices that keep climbing, and somewhere in the feed a video with a dramatic title promising to reveal exactly when the world will end. You close the app, but the question stays with you in the dark. Is Jesus really coming back, and if He is, what will it actually be like?</span></p>
       
       
       
@@ -202,7 +205,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Maybe the question comes from closer to home. A friend at work talks about the rapture and believers suddenly disappearing, and you are not sure what you think. Or perhaps you grew up in a Haitian church where older believers spoke of the return of Jesus with deep longing, and you want to understand what the Bible itself says rather than what people repeat. Whatever brought you here, your question is a good one, and Jesus took it seriously enough to answer at length.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Maybe the question comes from closer to home. A friend at work talks about the rapture and believers suddenly disappearing, and you are not sure what you think. Or perhaps you grew up in a Haitian church where older believers spoke of the return of Jesus with deep longing, and you want to understand what the Bible itself says rather than what people repeat. Whatever brought you here, your question is a good one, and Jesus took it seriously enough to answer at length.</span></p>
       
       
       
@@ -217,7 +220,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will open the Scriptures together and look at how Jesus will come, what will happen to His people, what the signs mean, why no one can set a date, and why Seventh-day Adventists do not teach a secret rapture. We will try to be fair to fellow Christians who see some of these questions differently. Most of all, we hope you finish reading with more hope than fear, because the coming of Jesus is meant to be good news.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will open the Scriptures together and look at how Jesus will come, what will happen to His people, what the signs mean, why no one can set a date, and why Seventh-day Adventists do not teach a secret rapture. We will try to be fair to fellow Christians who see some of these questions differently. Most of all, we hope you finish reading with more hope than fear, because the coming of Jesus is meant to be good news.</span></p>
       
       
       
@@ -233,7 +236,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
       
       
       
@@ -254,7 +257,7 @@
       
       
       
-      <div data-dc-tpl="952" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="954" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="955" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">1</span></span><span data-dc-tpl="956" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">One visible, worldwide return</span></span></div><div data-dc-tpl="958" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="959" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">0</span></span><span data-dc-tpl="960" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Dates revealed for His coming</span></span></div><div data-dc-tpl="962" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="963" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">25</span></span><span data-dc-tpl="964" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Fundamental Belief on His return</span></span></div></div>
+      <div data-dc-tpl="953" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="955" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="956" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">1</span></span><span data-dc-tpl="957" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">One visible, worldwide return</span></span></div><div data-dc-tpl="959" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="960" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">0</span></span><span data-dc-tpl="961" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Dates revealed for His coming</span></span></div><div data-dc-tpl="963" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="964" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">25</span></span><span data-dc-tpl="965" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Fundamental Belief on His return</span></span></div></div>
       
       
       
@@ -262,7 +265,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Bible teaches that Jesus Christ will return to this earth in person, visibly, gloriously, and for everyone to see. When He comes, the righteous dead will be raised to life, the righteous who are living will be changed, and together they will meet the Lord and go to be with Him. Scripture gives signs that His coming is near, but it never gives a date, and Jesus Himself said that no one knows the day or the hour. The right response is not panic or calculation but readiness, built on a living relationship with Him.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Bible teaches that Jesus Christ will return to this earth in person, visibly, gloriously, and for everyone to see. When He comes, the righteous dead will be raised to life, the righteous who are living will be changed, and together they will meet the Lord and go to be with Him. Scripture gives signs that His coming is near, but it never gives a date, and Jesus Himself said that no one knows the day or the hour. The right response is not panic or calculation but readiness, built on a living relationship with Him.</span></p>
       
       
       
@@ -277,7 +280,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This is also what Seventh-day Adventists believe. Fundamental Belief 25, The Second Coming of Christ, opens with these words: "The second coming of Christ is the blessed hope of the church, the grand climax of the gospel." It says the Saviour's coming "will be literal, personal, visible, and worldwide," and that because the time "has not been revealed," we are "exhorted to be ready at all times." The rest of this article shows where those convictions come from in the Bible.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This is also what Seventh-day Adventists believe. Fundamental Belief 25, The Second Coming of Christ, opens with these words: "The second coming of Christ is the blessed hope of the church, the grand climax of the gospel." It says the Saviour's coming "will be literal, personal, visible, and worldwide," and that because the time "has not been revealed," we are "exhorted to be ready at all times." The rest of this article shows where those convictions come from in the Bible.</span></p>
       
       
       
@@ -293,7 +296,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Jesus promised to come back</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Jesus promised to come back</span></h2>
       
       
       
@@ -307,7 +310,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Second Coming is not an idea the church invented to make people behave. It begins with a promise Jesus made on the night before He died, when His disciples were confused and afraid. He did not give them a timetable. He gave them Himself.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Second Coming is not an idea the church invented to make people behave. It begins with a promise Jesus made on the night before He died, when His disciples were confused and afraid. He did not give them a timetable. He gave them Himself.</span></p>
       
       
       
@@ -325,7 +328,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Let not your heart be troubled: ye believe in God, believe also in me. In my Father's house are many mansions: if it were not so, I would have told you. I go to prepare a place for you. And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also." John 14:1 to 3, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Let not your heart be troubled: ye believe in God, believe also in me. In my Father's house are many mansions: if it were not so, I would have told you. I go to prepare a place for you. And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also." John 14:1 to 3, KJV</span></blockquote>
       
       
       
@@ -337,7 +340,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Notice that the promise begins with troubled hearts and ends with being together. His return is the fulfillment of a relationship, the moment when the Friend who went away comes back to bring His people home. Paul called it "that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ" (Titus 2:13). Hebrews adds that Christ, "once offered to bear the sins of many," will "appear the second time without sin unto salvation" to those who look for Him (Hebrews 9:28). He came the first time to deal with sin at the cross, and He comes the second time to finish what the cross began.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Notice that the promise begins with troubled hearts and ends with being together. His return is the fulfillment of a relationship, the moment when the Friend who went away comes back to bring His people home. Paul called it "that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ" (Titus 2:13). Hebrews adds that Christ, "once offered to bear the sins of many," will "appear the second time without sin unto salvation" to those who look for Him (Hebrews 9:28). He came the first time to deal with sin at the cross, and He comes the second time to finish what the cross began.</span></p>
       
       
       
@@ -353,7 +356,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What will the Second Coming be like?</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What will the Second Coming be like?</span></h2>
       
       
       
@@ -367,7 +370,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many people carry a picture of the return of Jesus shaped more by movies and rumors than by Scripture. The Bible is actually quite specific. When we read the main passages side by side, four words rise to the surface, the same four words the Adventist statement of belief uses.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many people carry a picture of the return of Jesus shaped more by movies and rumors than by Scripture. The Bible is actually quite specific. When we read the main passages side by side, four words rise to the surface, the same four words the Adventist statement of belief uses.</span></p>
       
       
       
@@ -388,7 +391,7 @@
       
       
       
-      <aside data-dc-tpl="931" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="932" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">What Scripture says about His return</span></span><p data-dc-tpl="934" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="935" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Literal: the same Jesus, really coming (Acts 1:11)</span></p><p data-dc-tpl="937" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="938" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Personal: the Lord Himself descends (1 Thessalonians 4:16)</span></p><p data-dc-tpl="940" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="941" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Visible: every eye shall see Him (Revelation 1:7)</span></p><p data-dc-tpl="943" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="944" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Worldwide: like lightning from east to west (Matthew 24:27)</span></p></aside>
+      <aside data-dc-tpl="932" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="933" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">What Scripture says about His return</span></span><p data-dc-tpl="935" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="936" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Literal: the same Jesus, really coming (Acts 1:11)</span></p><p data-dc-tpl="938" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="939" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Personal: the Lord Himself descends (1 Thessalonians 4:16)</span></p><p data-dc-tpl="941" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="942" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Visible: every eye shall see Him (Revelation 1:7)</span></p><p data-dc-tpl="944" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="945" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Worldwide: like lightning from east to west (Matthew 24:27)</span></p></aside>
       
       
       
@@ -399,7 +402,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">The same Jesus, coming in the same way</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">The same Jesus, coming in the same way</span></h3>
       
       
       
@@ -412,7 +415,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">After His resurrection, Jesus was seen by His disciples for forty days, and then He was taken up into heaven while they watched (Acts 1:3, 9). As they stood staring at the sky, two angels spoke to them. "Ye men of Galilee, why stand ye gazing up into heaven? this same Jesus, which is taken up from you into heaven, shall so come in like manner as ye have seen him go into heaven" (Acts 1:11). The angels did not promise a feeling or a spiritual influence. They promised "this same Jesus," the one who had eaten with them and shown them His scars, coming really and bodily in the clouds.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">After His resurrection, Jesus was seen by His disciples for forty days, and then He was taken up into heaven while they watched (Acts 1:3, 9). As they stood staring at the sky, two angels spoke to them. "Ye men of Galilee, why stand ye gazing up into heaven? this same Jesus, which is taken up from you into heaven, shall so come in like manner as ye have seen him go into heaven" (Acts 1:11). The angels did not promise a feeling or a spiritual influence. They promised "this same Jesus," the one who had eaten with them and shown them His scars, coming really and bodily in the clouds.</span></p>
       
       
       
@@ -429,7 +432,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Seen by every eye</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Seen by every eye</span></h3>
       
       
       
@@ -442,7 +445,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Some people wonder whether Jesus might return quietly, in a hidden place, known only to a few. Jesus warned against exactly that idea. "Wherefore if they shall say unto you, Behold, he is in the desert; go not forth: behold, he is in the secret chambers; believe it not" (Matthew 24:26). Then He explained why.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Some people wonder whether Jesus might return quietly, in a hidden place, known only to a few. Jesus warned against exactly that idea. "Wherefore if they shall say unto you, Behold, he is in the desert; go not forth: behold, he is in the secret chambers; believe it not" (Matthew 24:26). Then He explained why.</span></p>
       
       
       
@@ -460,7 +463,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"For as the lightning cometh out of the east, and shineth even unto the west; so shall also the coming of the Son of man be." Matthew 24:27, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"For as the lightning cometh out of the east, and shineth even unto the west; so shall also the coming of the Son of man be." Matthew 24:27, KJV</span></blockquote>
       
       
       
@@ -472,7 +475,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lightning does not need an announcement, because everyone sees it at once. John says the same thing: "Behold, he cometh with clouds; and every eye shall see him, and they also which pierced him" (Revelation 1:7). Jesus added that people "shall see the Son of man coming in the clouds of heaven with power and great glory," as He sends His angels "with a great sound of a trumpet" to gather His people (Matthew 24:30 to 31). A trumpet, angels, and glory filling the sky are not the language of a silent event, and nobody will need a video to explain that it has happened.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lightning does not need an announcement, because everyone sees it at once. John says the same thing: "Behold, he cometh with clouds; and every eye shall see him, and they also which pierced him" (Revelation 1:7). Jesus added that people "shall see the Son of man coming in the clouds of heaven with power and great glory," as He sends His angels "with a great sound of a trumpet" to gather His people (Matthew 24:30 to 31). A trumpet, angels, and glory filling the sky are not the language of a silent event, and nobody will need a video to explain that it has happened.</span></p>
       
       
       
@@ -492,7 +495,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1759513332708-6e0aa2364095?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Sunrise breaking over a layer of clouds on the horizon at dawn" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1759513332708-6e0aa2364095?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Sunrise breaking over a layer of clouds on the horizon at dawn" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -503,7 +506,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What happens to God's people when Jesus returns</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What happens to God's people when Jesus returns</span></h2>
       
       
       
@@ -517,7 +520,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For many readers, the most personal question is this one: what about the people I love who have already died in faith? The believers in Thessalonica were asking the same thing. Some of their friends had died, and they feared those friends would miss the return of the Lord.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For many readers, the most personal question is this one: what about the people I love who have already died in faith? The believers in Thessalonica were asking the same thing. Some of their friends had died, and they feared those friends would miss the return of the Lord.</span></p>
       
       
       
@@ -535,7 +538,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord." 1 Thessalonians 4:16 to 17, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"For the Lord himself shall descend from heaven with a shout, with the voice of the archangel, and with the trump of God: and the dead in Christ shall rise first: Then we which are alive and remain shall be caught up together with them in the clouds, to meet the Lord in the air: and so shall we ever be with the Lord." 1 Thessalonians 4:16 to 17, KJV</span></blockquote>
       
       
       
@@ -547,7 +550,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul's answer is beautiful in its simplicity. The dead in Christ are not forgotten; they "rise first," and then the living believers are "caught up together with them." The reunion happens at the coming of Jesus, and from that moment God's people are never separated from Him or from one another again. Paul ends with a pastoral instruction: "Wherefore comfort one another with these words" (1 Thessalonians 4:18).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul's answer is beautiful in its simplicity. The dead in Christ are not forgotten; they "rise first," and then the living believers are "caught up together with them." The reunion happens at the coming of Jesus, and from that moment God's people are never separated from Him or from one another again. Paul ends with a pastoral instruction: "Wherefore comfort one another with these words" (1 Thessalonians 4:18).</span></p>
       
       
       
@@ -562,7 +565,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">He describes the same moment in another letter. "We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed" (1 Corinthians 15:51 to 52). This is why the Second Coming is so closely tied to what the Bible teaches about death. Fundamental Belief 26, Death and Resurrection, teaches that the dead rest unconscious until Christ returns, and that the resurrected righteous and the living righteous will then be glorified and caught up to meet their Lord.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">He describes the same moment in another letter. "We shall not all sleep, but we shall all be changed, In a moment, in the twinkling of an eye, at the last trump: for the trumpet shall sound, and the dead shall be raised incorruptible, and we shall be changed" (1 Corinthians 15:51 to 52). This is why the Second Coming is so closely tied to what the Bible teaches about death. Fundamental Belief 26, Death and Resurrection, teaches that the dead rest unconscious until Christ returns, and that the resurrected righteous and the living righteous will then be glorified and caught up to meet their Lord.</span></p>
       
       
       
@@ -589,10 +592,10 @@
       
       
       
-      <a data-dc-tpl="1042" href="/blog/what-happens-when-you-die-bible/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1043" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1044" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">What Happens When You Die? What the Bible Really Teaches</span></span></a>
+      <a data-dc-tpl="1043" href="/blog/what-happens-when-you-die-bible/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1044" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1045" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">What Happens When You Die? What the Bible Really Teaches</span></span></a>
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Read alongside the Adventist statements of belief, the Bible's picture of that day can be summarized in a simple sequence. The timeline below reflects how Adventists understand the order of events from 1 Thessalonians 4, 1 Corinthians 15, and Revelation 20. Some details are interpretation, but each step rests on a passage you can read for yourself.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Read alongside the Adventist statements of belief, the Bible's picture of that day can be summarized in a simple sequence. The timeline below reflects how Adventists understand the order of events from 1 Thessalonians 4, 1 Corinthians 15, and Revelation 20. Some details are interpretation, but each step rests on a passage you can read for yourself.</span></p>
       
       
       
@@ -617,7 +620,7 @@
       
       
       
-      <div data-dc-tpl="1018" style="margin-top: 0px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1019" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">First</span></div><div data-dc-tpl="1020" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1021" style="position: absolute; top: 0px; height: 18px; width: 3px; background: transparent;"></span><span data-dc-tpl="1022" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1024" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1025" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">Jesus appears in the clouds</span></span><span data-dc-tpl="1026" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Visible to every eye, with angels and a trumpet (Matthew 24:30 to 31)</span></span></div></div>
+      <div data-dc-tpl="1019" style="margin-top: 0px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1020" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">First</span></div><div data-dc-tpl="1021" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1022" style="position: absolute; top: 0px; height: 18px; width: 3px; background: transparent;"></span><span data-dc-tpl="1023" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1024" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1025" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1026" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">Jesus appears in the clouds</span></span><span data-dc-tpl="1027" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Visible to every eye, with angels and a trumpet (Matthew 24:30 to 31)</span></span></div></div>
       
       
       
@@ -632,7 +635,7 @@
       
       
       
-      <div data-dc-tpl="1018" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1019" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">Then</span></div><div data-dc-tpl="1020" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1021" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1022" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1024" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1025" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The dead in Christ are raised</span></span><span data-dc-tpl="1026" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Raised incorruptible, never to die again (1 Corinthians 15:52)</span></span></div></div>
+      <div data-dc-tpl="1019" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1020" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">Then</span></div><div data-dc-tpl="1021" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1022" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1024" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1025" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1026" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The dead in Christ are raised</span></span><span data-dc-tpl="1027" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Raised incorruptible, never to die again (1 Corinthians 15:52)</span></span></div></div>
       
       
       
@@ -647,7 +650,7 @@
       
       
       
-      <div data-dc-tpl="1018" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1019" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">Together</span></div><div data-dc-tpl="1020" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1021" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1022" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1024" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1025" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The living righteous are changed</span></span><span data-dc-tpl="1026" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Caught up with the resurrected to meet the Lord (1 Thessalonians 4:17)</span></span></div></div>
+      <div data-dc-tpl="1019" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1020" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">Together</span></div><div data-dc-tpl="1021" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1022" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1024" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1025" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1026" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The living righteous are changed</span></span><span data-dc-tpl="1027" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">Caught up with the resurrected to meet the Lord (1 Thessalonians 4:17)</span></span></div></div>
       
       
       
@@ -662,7 +665,7 @@
       
       
       
-      <div data-dc-tpl="1018" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1019" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">At His coming</span></div><div data-dc-tpl="1020" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1021" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1022" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1024" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1025" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The unrighteous die</span></span><span data-dc-tpl="1026" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">As Fundamental Belief 25 states</span></span></div></div>
+      <div data-dc-tpl="1019" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1020" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">At His coming</span></div><div data-dc-tpl="1021" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1022" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1024" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1025" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1026" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The unrighteous die</span></span><span data-dc-tpl="1027" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">As Fundamental Belief 25 states</span></span></div></div>
       
       
       
@@ -677,12 +680,12 @@
       
       
       
-      <div data-dc-tpl="1018" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1019" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">For 1,000 years</span></div><div data-dc-tpl="1020" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1021" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1022" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: transparent;"></span><span data-dc-tpl="1023" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1024" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1025" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The redeemed are with Christ in heaven</span></span><span data-dc-tpl="1026" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">The millennium of Revelation 20 (Fundamental Belief 27)</span></span></div></div>
+      <div data-dc-tpl="1019" style="margin-top: -20px; display: grid; grid-template-columns: 92px 24px 1fr; column-gap: 10px;"><div data-dc-tpl="1020" style="padding: 14px 0px; text-align: right; font-size: 13px; font-weight: 800; letter-spacing: 0.6px; color: rgb(138, 100, 32); text-transform: uppercase; line-height: 1.35;"><span class="sc-interp">For 1,000 years</span></div><div data-dc-tpl="1021" style="position: relative; display: flex; justify-content: center;"><span data-dc-tpl="1022" style="position: absolute; top: 0px; height: 18px; width: 3px; background: rgb(226, 184, 92);"></span><span data-dc-tpl="1023" style="position: absolute; top: 18px; bottom: 0px; width: 3px; background: transparent;"></span><span data-dc-tpl="1024" style="position: relative; margin-top: 14px; width: 14px; height: 14px; border-radius: 50%; background: rgb(19, 41, 75); border: 3px solid rgb(226, 184, 92); box-sizing: border-box;"></span></div><div data-dc-tpl="1025" style="padding: 10px 0px 18px; display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1026" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; color: rgb(19, 41, 75); font-weight: 700; line-height: 1.35;"><span class="sc-interp">The redeemed are with Christ in heaven</span></span><span data-dc-tpl="1027" style="font-size: 16px; line-height: 1.6; color: rgb(44, 52, 67);"><span class="sc-interp">The millennium of Revelation 20 (Fundamental Belief 27)</span></span></div></div>
       
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That last step points beyond the Second Coming itself. Fundamental Belief 27, The Millennium and the End of Sin, describes a thousand year reign of Christ with His saints in heaven, after which God makes a final end of sin and cleanses the earth. The coming of Jesus is not the end of the story, but it is the turning point that makes the rest of the story possible.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That last step points beyond the Second Coming itself. Fundamental Belief 27, The Millennium and the End of Sin, describes a thousand year reign of Christ with His saints in heaven, after which God makes a final end of sin and cleanses the earth. The coming of Jesus is not the end of the story, but it is the turning point that makes the rest of the story possible.</span></p>
       
       
       
@@ -698,7 +701,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The signs Jesus gave, and how to read them</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The signs Jesus gave, and how to read them</span></h2>
       
       
       
@@ -712,7 +715,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">On the Mount of Olives, the disciples asked Jesus, "Tell us, when shall these things be? and what shall be the sign of thy coming, and of the end of the world?" (Matthew 24:3). Before He mentioned a single sign, He said, "Take heed that no man deceive you" (Matthew 24:4). That opening tells us what the signs are for. They are meant to protect us from deception, not to feed our curiosity.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">On the Mount of Olives, the disciples asked Jesus, "Tell us, when shall these things be? and what shall be the sign of thy coming, and of the end of the world?" (Matthew 24:3). Before He mentioned a single sign, He said, "Take heed that no man deceive you" (Matthew 24:4). That opening tells us what the signs are for. They are meant to protect us from deception, not to feed our curiosity.</span></p>
       
       
       
@@ -727,7 +730,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus warned that many would come claiming to be Christ, that false prophets would rise, and that there would be wars, famines, pestilences, and earthquakes. Then He added, "see that ye be not troubled: for all these things must come to pass, but the end is not yet" (Matthew 24:6). He spoke of persecution and of hearts growing cold, "because iniquity shall abound, the love of many shall wax cold" (Matthew 24:12). But He also placed a sign full of hope in the middle of the darkness: "And this gospel of the kingdom shall be preached in all the world for a witness unto all nations; and then shall the end come" (Matthew 24:14).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus warned that many would come claiming to be Christ, that false prophets would rise, and that there would be wars, famines, pestilences, and earthquakes. Then He added, "see that ye be not troubled: for all these things must come to pass, but the end is not yet" (Matthew 24:6). He spoke of persecution and of hearts growing cold, "because iniquity shall abound, the love of many shall wax cold" (Matthew 24:12). But He also placed a sign full of hope in the middle of the darkness: "And this gospel of the kingdom shall be preached in all the world for a witness unto all nations; and then shall the end come" (Matthew 24:14).</span></p>
       
       
       
@@ -742,7 +745,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Honesty requires us to admit that wars, earthquakes, and famines have happened in every century, and that sincere people in many generations believed they were living at the very end. Jesus gave the signs so we would recognize the season and stay awake, not so we could build charts. "So likewise ye, when ye shall see all these things, know that it is near, even at the doors" (Matthew 24:33). The Adventist statement of belief puts it carefully, saying that the almost complete fulfillment of most lines of prophecy, together with the present condition of the world, indicates that Christ's coming is near. That is a statement of urgency, not a prediction of a date.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Honesty requires us to admit that wars, earthquakes, and famines have happened in every century, and that sincere people in many generations believed they were living at the very end. Jesus gave the signs so we would recognize the season and stay awake, not so we could build charts. "So likewise ye, when ye shall see all these things, know that it is near, even at the doors" (Matthew 24:33). The Adventist statement of belief puts it carefully, saying that the almost complete fulfillment of most lines of prophecy, together with the present condition of the world, indicates that Christ's coming is near. That is a statement of urgency, not a prediction of a date.</span></p>
       
       
       
@@ -758,7 +761,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Why no one can set a date</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Why no one can set a date</span></h2>
       
       
       
@@ -772,7 +775,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Right after describing the signs, Jesus said something that should end every attempt to calculate His return. "But of that day and hour knoweth no man, no, not the angels of heaven, but my Father only" (Matthew 24:36). Mark records Him adding, "Take ye heed, watch and pray: for ye know not when the time is" (Mark 13:33). If the angels of heaven do not know the day, no preacher, video, or prophecy chart knows it either.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Right after describing the signs, Jesus said something that should end every attempt to calculate His return. "But of that day and hour knoweth no man, no, not the angels of heaven, but my Father only" (Matthew 24:36). Mark records Him adding, "Take ye heed, watch and pray: for ye know not when the time is" (Mark 13:33). If the angels of heaven do not know the day, no preacher, video, or prophecy chart knows it either.</span></p>
       
       
       
@@ -787,7 +790,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists have a particular reason to take this seriously, because it is part of our own history. By the early 1840s, a former army officer named William Miller and many who followed him had become convinced that Christ would return around 1843 or 1844. When the final expected date, October 22, 1844, passed, the experience became known as the Great Disappointment. Some of those believers went back to their Bibles, concluded that they had misunderstood the event the prophecy described, and later formed the Seventh-day Adventist Church in 1863.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists have a particular reason to take this seriously, because it is part of our own history. By the early 1840s, a former army officer named William Miller and many who followed him had become convinced that Christ would return around 1843 or 1844. When the final expected date, October 22, 1844, passed, the experience became known as the Great Disappointment. Some of those believers went back to their Bibles, concluded that they had misunderstood the event the prophecy described, and later formed the Seventh-day Adventist Church in 1863.</span></p>
       
       
       
@@ -802,7 +805,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That painful chapter taught a lasting lesson. The Adventist Church today does not set dates for the return of Jesus, and its statement of belief says plainly that the time has not been revealed. If anyone tells you they have worked out the year or the day, you can lovingly set that claim aside, because Jesus already told us they cannot know it.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That painful chapter taught a lasting lesson. The Adventist Church today does not set dates for the return of Jesus, and its statement of belief says plainly that the time has not been revealed. If anyone tells you they have worked out the year or the day, you can lovingly set that claim aside, because Jesus already told us they cannot know it.</span></p>
       
       
       
@@ -818,7 +821,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Will Jesus return secretly? The rapture and the Second Coming</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Will Jesus return secretly? The rapture and the Second Coming</span></h2>
       
       
       
@@ -832,7 +835,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This is one of the most common questions people ask, and it deserves a careful, kind answer. Many sincere Christians believe in a pretribulation rapture. In that view, Jesus first comes for His people in a way the rest of the world does not see, taking believers out of the world, those left behind go through a period of tribulation often described as seven years, and then Jesus returns visibly. This view is usually traced to the 1800s and the dispensational system of interpretation associated with John Nelson Darby, and it spread widely in the twentieth century, helped by the popular Scofield Reference Bible.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This is one of the most common questions people ask, and it deserves a careful, kind answer. Many sincere Christians believe in a pretribulation rapture. In that view, Jesus first comes for His people in a way the rest of the world does not see, taking believers out of the world, those left behind go through a period of tribulation often described as seven years, and then Jesus returns visibly. This view is usually traced to the 1800s and the dispensational system of interpretation associated with John Nelson Darby, and it spread widely in the twentieth century, helped by the popular Scofield Reference Bible.</span></p>
       
       
       
@@ -847,7 +850,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists share the same longing for Jesus that motivates our brothers and sisters who hold that view. We agree that believers will be "caught up" to meet the Lord, because 1 Thessalonians 4:17 says so plainly. The question is whether that moment is secret and separate from the visible Second Coming. Based on the passages below, Adventists understand the Bible to describe one return of Christ, in which His visible appearing and the gathering of His people happen together.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists share the same longing for Jesus that motivates our brothers and sisters who hold that view. We agree that believers will be "caught up" to meet the Lord, because 1 Thessalonians 4:17 says so plainly. The question is whether that moment is secret and separate from the visible Second Coming. Based on the passages below, Adventists understand the Bible to describe one return of Christ, in which His visible appearing and the gathering of His people happen together.</span></p>
       
       
       
@@ -873,7 +876,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1030" style="display: contents;"><span data-dc-tpl="1031" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Question</span></span><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Secret rapture view</span></span><span data-dc-tpl="1034" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Adventist understanding</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1031" style="display: contents;"><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Question</span></span><span data-dc-tpl="1033" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Secret rapture view</span></span><span data-dc-tpl="1035" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Adventist understanding</span></span></div></div>
       
       
     
@@ -888,7 +891,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">How many returns?</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A coming the world does not see, then a visible one</span></span><span data-dc-tpl="1040" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">One personal, visible return (Acts 1:11)</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">How many returns?</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A coming the world does not see, then a visible one</span></span><span data-dc-tpl="1041" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">One personal, visible return (Acts 1:11)</span></span></div></div>
       
       
     
@@ -903,7 +906,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Will the world see it?</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Not the first stage</span></span><span data-dc-tpl="1040" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Every eye shall see Him (Revelation 1:7)</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Will the world see it?</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Not the first stage</span></span><span data-dc-tpl="1041" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Every eye shall see Him (Revelation 1:7)</span></span></div></div>
       
       
     
@@ -918,7 +921,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">As a thief in the night</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A silent, hidden event</span></span><span data-dc-tpl="1040" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Unexpected, but not invisible</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">As a thief in the night</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A silent, hidden event</span></span><span data-dc-tpl="1041" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Unexpected, but not invisible</span></span></div></div>
       
       
     
@@ -933,7 +936,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">One taken, the other left</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Believers vanish, others carry on</span></span><span data-dc-tpl="1040" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A final separation at His visible coming</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">One taken, the other left</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Believers vanish, others carry on</span></span><span data-dc-tpl="1041" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">A final separation at His visible coming</span></span></div></div>
       
       
     
@@ -948,13 +951,13 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Tribulation</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">The church is removed before it</span></span><span data-dc-tpl="1040" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">God keeps His people through it</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 0.9fr 1.3fr 1.3fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Tribulation</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">The church is removed before it</span></span><span data-dc-tpl="1041" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">God keeps His people through it</span></span></div></div>
       
       
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">A loud gathering</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">A loud gathering</span></h3>
       
       
       
@@ -967,7 +970,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The passage most often used to describe the rapture is the very one that includes a shout, the voice of the archangel, and the trumpet of God (1 Thessalonians 4:16). In it, the resurrection and the catching up of the living happen at "the coming of the Lord" (1 Thessalonians 4:15). Jesus used the same image of a trumpet and angels gathering the elect in Matthew 24:31, where He is clearly describing His visible coming. Adventists read these as descriptions of the same event.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The passage most often used to describe the rapture is the very one that includes a shout, the voice of the archangel, and the trumpet of God (1 Thessalonians 4:16). In it, the resurrection and the catching up of the living happen at "the coming of the Lord" (1 Thessalonians 4:15). Jesus used the same image of a trumpet and angels gathering the elect in Matthew 24:31, where He is clearly describing His visible coming. Adventists read these as descriptions of the same event.</span></p>
       
       
       
@@ -984,7 +987,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">As a thief in the night</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">As a thief in the night</span></h3>
       
       
       
@@ -997,7 +1000,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul writes, "For yourselves know perfectly that the day of the Lord so cometh as a thief in the night" (1 Thessalonians 5:2). But two verses later he adds, "But ye, brethren, are not in darkness, that that day should overtake you as a thief" (1 Thessalonians 5:4). The image speaks of timing, not visibility. Peter uses the same picture and says that on that day "the heavens shall pass away with a great noise" (2 Peter 3:10).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul writes, "For yourselves know perfectly that the day of the Lord so cometh as a thief in the night" (1 Thessalonians 5:2). But two verses later he adds, "But ye, brethren, are not in darkness, that that day should overtake you as a thief" (1 Thessalonians 5:4). The image speaks of timing, not visibility. Peter uses the same picture and says that on that day "the heavens shall pass away with a great noise" (2 Peter 3:10).</span></p>
       
       
       
@@ -1014,7 +1017,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">One taken, and the other left</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">One taken, and the other left</span></h3>
       
       
       
@@ -1027,7 +1030,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus said, "Then shall two be in the field; the one shall be taken, and the other left" (Matthew 24:40). But He had just compared His coming to the days of Noah, when people "knew not until the flood came, and took them all away; so shall also the coming of the Son of man be" (Matthew 24:39). In that comparison, the people the flood took away were swept away in judgment, while Noah's family was kept safe through it. Adventists understand Jesus to be describing a final separation at His visible return, and we hold that view with conviction and humility, knowing other Christians read the verse differently.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus said, "Then shall two be in the field; the one shall be taken, and the other left" (Matthew 24:40). But He had just compared His coming to the days of Noah, when people "knew not until the flood came, and took them all away; so shall also the coming of the Son of man be" (Matthew 24:39). In that comparison, the people the flood took away were swept away in judgment, while Noah's family was kept safe through it. Adventists understand Jesus to be describing a final separation at His visible return, and we hold that view with conviction and humility, knowing other Christians read the verse differently.</span></p>
       
       
       
@@ -1044,7 +1047,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What about Revelation 3:10?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What about Revelation 3:10?</span></h3>
       
       
       
@@ -1057,7 +1060,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many who hold a pretribulation view point to Jesus' words to the church in Philadelphia: "I also will keep thee from the hour of temptation, which shall come upon all the world" (Revelation 3:10). It is a precious promise. Adventists understand it as protection through trial rather than removal before it, in the way God kept Daniel's friends in the fire and Daniel in the lions' den. Jesus also said the days of great tribulation would be shortened "for the elect's sake" (Matthew 24:22), which suggests God's people are still on the earth, kept by His hand, when those days come.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many who hold a pretribulation view point to Jesus' words to the church in Philadelphia: "I also will keep thee from the hour of temptation, which shall come upon all the world" (Revelation 3:10). It is a precious promise. Adventists understand it as protection through trial rather than removal before it, in the way God kept Daniel's friends in the fire and Daniel in the lions' den. Jesus also said the days of great tribulation would be shortened "for the elect's sake" (Matthew 24:22), which suggests God's people are still on the earth, kept by His hand, when those days come.</span></p>
       
       
       
@@ -1072,7 +1075,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">None of this needs to divide friends. Whatever our view of the order of events, every Christian who loves Jesus can pray with John, "Even so, come, Lord Jesus" (Revelation 22:20). If you hold a different view, we are glad you are reading, and we would gladly open the Bible together with you.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">None of this needs to divide friends. Whatever our view of the order of events, every Christian who loves Jesus can pray with John, "Even so, come, Lord Jesus" (Revelation 22:20). If you hold a different view, we are glad you are reading, and we would gladly open the Bible together with you.</span></p>
       
       
       
@@ -1088,7 +1091,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Honest questions people ask</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Honest questions people ask</span></h2>
       
       
       
@@ -1104,7 +1107,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">"It has been almost two thousand years. Is He really coming?"</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">"It has been almost two thousand years. Is He really coming?"</span></h3>
       
       
       
@@ -1117,7 +1120,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Peter heard this objection in his own lifetime, from people who mocked the promise because life seemed to go on as it always had. "The Lord is not slack concerning his promise, as some men count slackness," he wrote, explaining that God is patient, "not willing that any should perish, but that all should come to repentance" (2 Peter 3:9). What looks like delay from our side is mercy from God's side. Every day that passes is another day for someone to come home.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Peter heard this objection in his own lifetime, from people who mocked the promise because life seemed to go on as it always had. "The Lord is not slack concerning his promise, as some men count slackness," he wrote, explaining that God is patient, "not willing that any should perish, but that all should come to repentance" (2 Peter 3:9). What looks like delay from our side is mercy from God's side. Every day that passes is another day for someone to come home.</span></p>
       
       
       
@@ -1134,7 +1137,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">"Talking about the end of the world makes me afraid."</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">"Talking about the end of the world makes me afraid."</span></h3>
       
       
       
@@ -1147,7 +1150,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If the Second Coming has always been presented to you as a threat, that fear is understandable. But after describing the troubles of the last days, Jesus said, "And when these things begin to come to pass, then look up, and lift up your heads; for your redemption draweth nigh" (Luke 21:28). For those who know Him, His return is not the arrival of an enemy but of a Rescuer. The same Lord who said "Let not your heart be troubled" is the one who is coming.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If the Second Coming has always been presented to you as a threat, that fear is understandable. But after describing the troubles of the last days, Jesus said, "And when these things begin to come to pass, then look up, and lift up your heads; for your redemption draweth nigh" (Luke 21:28). For those who know Him, His return is not the arrival of an enemy but of a Rescuer. The same Lord who said "Let not your heart be troubled" is the one who is coming.</span></p>
       
       
       
@@ -1163,7 +1166,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How to be ready for the return of Jesus</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How to be ready for the return of Jesus</span></h2>
       
       
       
@@ -1177,7 +1180,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus ended His teaching on the last days with a call to readiness, not a timeline. "Therefore be ye also ready: for in such an hour as ye think not the Son of man cometh" (Matthew 24:44). In the next chapter He told the parables of the ten virgins, the talents, and the sheep and the goats, all of which describe readiness as faithfulness, love, and service in ordinary life. He closed the first parable with these words: "Watch therefore, for ye know neither the day nor the hour wherein the Son of man cometh" (Matthew 25:13).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus ended His teaching on the last days with a call to readiness, not a timeline. "Therefore be ye also ready: for in such an hour as ye think not the Son of man cometh" (Matthew 24:44). In the next chapter He told the parables of the ten virgins, the talents, and the sheep and the goats, all of which describe readiness as faithfulness, love, and service in ordinary life. He closed the first parable with these words: "Watch therefore, for ye know neither the day nor the hour wherein the Son of man cometh" (Matthew 25:13).</span></p>
       
       
       
@@ -1201,13 +1204,13 @@
       
       
       
-      <div data-dc-tpl="991" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="993" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="994" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="995" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Come to Jesus now</span></span><span data-dc-tpl="996" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Readiness begins with trusting Him as your Saviour today</span></span></div><div data-dc-tpl="998" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="999" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1000" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Stay in the Word</span></span><span data-dc-tpl="1001" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Daily Bible reading keeps you anchored against deception</span></span></div><div data-dc-tpl="1003" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1004" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1005" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Watch and pray</span></span><span data-dc-tpl="1006" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Keep your heart awake and close to God (Luke 21:36)</span></span></div><div data-dc-tpl="1008" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1009" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1010" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Live with hope</span></span><span data-dc-tpl="1011" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Let the promise shape how you live (1 John 3:3)</span></span></div><div data-dc-tpl="1013" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1014" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1015" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Share the good news</span></span><span data-dc-tpl="1016" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">The gospel going to the world is part of His plan</span></span></div></div>
+      <div data-dc-tpl="992" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="994" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="995" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="996" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Come to Jesus now</span></span><span data-dc-tpl="997" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Readiness begins with trusting Him as your Saviour today</span></span></div><div data-dc-tpl="999" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1000" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1001" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Stay in the Word</span></span><span data-dc-tpl="1002" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Daily Bible reading keeps you anchored against deception</span></span></div><div data-dc-tpl="1004" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1005" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1006" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Watch and pray</span></span><span data-dc-tpl="1007" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Keep your heart awake and close to God (Luke 21:36)</span></span></div><div data-dc-tpl="1009" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1010" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1011" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Live with hope</span></span><span data-dc-tpl="1012" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Let the promise shape how you live (1 John 3:3)</span></span></div><div data-dc-tpl="1014" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1015" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1016" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Share the good news</span></span><span data-dc-tpl="1017" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">The gospel going to the world is part of His plan</span></span></div></div>
       
       
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Being ready is not about building a bunker or memorizing signs. It is about knowing the One who is coming. Jesus warned that our hearts can become "overcharged with surfeiting, and drunkenness, and cares of this life" so that the day comes upon us "unawares" (Luke 21:34). Ordinary cares are on that list, because bills and worries can crowd out our walk with God as surely as open sin.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Being ready is not about building a bunker or memorizing signs. It is about knowing the One who is coming. Jesus warned that our hearts can become "overcharged with surfeiting, and drunkenness, and cares of this life" so that the day comes upon us "unawares" (Luke 21:34). Ordinary cares are on that list, because bills and worries can crowd out our walk with God as surely as open sin.</span></p>
       
       
       
@@ -1222,7 +1225,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">John gives us a gentler picture. He writes that "when he shall appear, we shall be like him; for we shall see him as he is," and that "every man that hath this hope in him purifieth himself, even as he is pure" (1 John 3:2 to 3). The hope of His coming does not make us anxious. It makes us want to become more like the One we are waiting for, in how we treat our families, our neighbors, and ourselves.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">John gives us a gentler picture. He writes that "when he shall appear, we shall be like him; for we shall see him as he is," and that "every man that hath this hope in him purifieth himself, even as he is pure" (1 John 3:2 to 3). The hope of His coming does not make us anxious. It makes us want to become more like the One we are waiting for, in how we treat our families, our neighbors, and ourselves.</span></p>
       
       
       
@@ -1242,7 +1245,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1650065045891-e3a7c96a4ad7?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="An open Bible glowing in the light of stained glass windows in a church" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1650065045891-e3a7c96a4ad7?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="An open Bible glowing in the light of stained glass windows in a church" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -1252,7 +1255,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Readiness also grows best in community. At Shekinah, our church family gathers every Sabbath for Sabbath School at 10:00 AM and the Divine Service at 11:00 AM, worshiping in Kreyòl and English, and we meet on Zoom every Tuesday and Wednesday evening at 7:30 PM for prayer meeting. None of these things make anyone ready by themselves, but they are places where the Word is opened and where we remind one another of the promise. If you live in Alvarado or nearby, you are welcome to join us.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Readiness also grows best in community. At Shekinah, our church family gathers every Sabbath for Sabbath School at 10:00 AM and the Divine Service at 11:00 AM, worshiping in Kreyòl and English, and we meet on Zoom every Tuesday and Wednesday evening at 7:30 PM for prayer meeting. None of these things make anyone ready by themselves, but they are places where the Word is opened and where we remind one another of the promise. If you live in Alvarado or nearby, you are welcome to join us.</span></p>
       
       
       
@@ -1268,7 +1271,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The hope at the end of the story</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The hope at the end of the story</span></h2>
       
       
       
@@ -1282,7 +1285,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For many Haitian families, distance and loss are a familiar part of life. Some of us have loved ones buried far away, relatives we have not seen in years, and grief that never fully leaves. The Second Coming speaks directly to that ache, because on that day the dead in Christ will rise and God's people will be "caught up together" in a reunion that never ends. "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away" (Revelation 21:4).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For many Haitian families, distance and loss are a familiar part of life. Some of us have loved ones buried far away, relatives we have not seen in years, and grief that never fully leaves. The Second Coming speaks directly to that ache, because on that day the dead in Christ will rise and God's people will be "caught up together" in a reunion that never ends. "And God shall wipe away all tears from their eyes; and there shall be no more death, neither sorrow, nor crying, neither shall there be any more pain: for the former things are passed away" (Revelation 21:4).</span></p>
       
       
       
@@ -1298,7 +1301,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">More questions people ask</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">More questions people ask</span></h2>
       
       
       
@@ -1314,7 +1317,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Will I see my loved ones who died in faith when Jesus returns?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Will I see my loved ones who died in faith when Jesus returns?</span></h3>
       
       
       
@@ -1327,7 +1330,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, the Bible promises that loved ones who died in faith will be raised first when Jesus returns, and living believers will be caught up together with them to meet the Lord. Paul wrote this in 1 Thessalonians 4:16 to 17 to comfort believers in Thessalonica who feared their friends would miss the return of the Lord. From that moment, God's people are never separated from Him or from one another again. That is why Paul ended the passage by saying, "Wherefore comfort one another with these words" (1 Thessalonians 4:18).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, the Bible promises that loved ones who died in faith will be raised first when Jesus returns, and living believers will be caught up together with them to meet the Lord. Paul wrote this in 1 Thessalonians 4:16 to 17 to comfort believers in Thessalonica who feared their friends would miss the return of the Lord. From that moment, God's people are never separated from Him or from one another again. That is why Paul ended the passage by saying, "Wherefore comfort one another with these words" (1 Thessalonians 4:18).</span></p>
       
       
       
@@ -1344,7 +1347,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Did Seventh-day Adventists ever set a date for the Second Coming?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Did Seventh-day Adventists ever set a date for the Second Coming?</span></h3>
       
       
       
@@ -1357,7 +1360,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, the movement that later became the Seventh-day Adventist Church once expected Jesus to return on a specific date, October 22, 1844, and the passing of that date became known as the Great Disappointment. By the early 1840s, William Miller and many who followed him had become convinced that Christ would return around 1843 or 1844. Some of those believers went back to their Bibles, concluded they had misunderstood the event the prophecy described, and later formed the Seventh-day Adventist Church in 1863. Today the Adventist Church does not set dates, and Fundamental Belief 25 says plainly that the time of His coming has not been revealed.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, the movement that later became the Seventh-day Adventist Church once expected Jesus to return on a specific date, October 22, 1844, and the passing of that date became known as the Great Disappointment. By the early 1840s, William Miller and many who followed him had become convinced that Christ would return around 1843 or 1844. Some of those believers went back to their Bibles, concluded they had misunderstood the event the prophecy described, and later formed the Seventh-day Adventist Church in 1863. Today the Adventist Church does not set dates, and Fundamental Belief 25 says plainly that the time of His coming has not been revealed.</span></p>
       
       
       
@@ -1374,7 +1377,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What happens after the Second Coming of Jesus?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What happens after the Second Coming of Jesus?</span></h3>
       
       
       
@@ -1387,7 +1390,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">After the Second Coming of Jesus, Seventh-day Adventists understand from Revelation 20 that the redeemed will be with Christ in heaven for a thousand years, the period called the millennium. Fundamental Belief 27, The Millennium and the End of Sin, describes this thousand year reign of Christ with His saints in heaven, after which God makes a final end of sin and cleanses the earth. Revelation 21:4 then promises that God will wipe away all tears and that there will be no more death, sorrow, crying, or pain. The coming of Jesus is not the end of the story, but the turning point that makes the rest of the story possible.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">After the Second Coming of Jesus, Seventh-day Adventists understand from Revelation 20 that the redeemed will be with Christ in heaven for a thousand years, the period called the millennium. Fundamental Belief 27, The Millennium and the End of Sin, describes this thousand year reign of Christ with His saints in heaven, after which God makes a final end of sin and cleanses the earth. Revelation 21:4 then promises that God will wipe away all tears and that there will be no more death, sorrow, crying, or pain. The coming of Jesus is not the end of the story, but the turning point that makes the rest of the story possible.</span></p>
       
       
       
@@ -1404,7 +1407,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What is the blessed hope in the Bible?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What is the blessed hope in the Bible?</span></h3>
       
       
       
@@ -1417,7 +1420,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The blessed hope is the Bible's name for the return of Jesus Christ, taken from Titus 2:13, where Paul calls it "that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ." Fundamental Belief 25 uses the same language, calling the Second Coming "the blessed hope of the church, the grand climax of the gospel." It is called a hope because it fulfills the promise Jesus made in John 14:1 to 3 to come again and receive His people to Himself. For those who know Him, His return is not the arrival of an enemy but of a Rescuer.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The blessed hope is the Bible's name for the return of Jesus Christ, taken from Titus 2:13, where Paul calls it "that blessed hope, and the glorious appearing of the great God and our Saviour Jesus Christ." Fundamental Belief 25 uses the same language, calling the Second Coming "the blessed hope of the church, the grand climax of the gospel." It is called a hope because it fulfills the promise Jesus made in John 14:1 to 3 to come again and receive His people to Himself. For those who know Him, His return is not the arrival of an enemy but of a Rescuer.</span></p>
       
       
       
@@ -1433,7 +1436,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
       
       
       
@@ -1447,7 +1450,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a few quiet minutes with these questions, alone or with your family. When you think about the return of Jesus, do you feel mostly hope, fear, or uncertainty, and where does that feeling come from? Which promise in this article spoke to you most, and why? If Jesus came this week, what is one thing you would want to make right with God or with someone you love?</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a few quiet minutes with these questions, alone or with your family. When you think about the return of Jesus, do you feel mostly hope, fear, or uncertainty, and where does that feeling come from? Which promise in this article spoke to you most, and why? If Jesus came this week, what is one thing you would want to make right with God or with someone you love?</span></p>
       
       
       
@@ -1463,7 +1466,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
       
       
       
@@ -1477,7 +1480,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If this subject has unsettled you, remember who is coming. It is the same Jesus who welcomed children, touched lepers, wept at the grave of a friend, and prayed for the people who crucified Him. He is not coming to catch you out; He is coming to bring you home. You do not have to understand every prophecy to be ready. You need to know Him, trust Him, and walk with Him one day at a time, resting in His promise: "I will come again, and receive you unto myself" (John 14:3).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If this subject has unsettled you, remember who is coming. It is the same Jesus who welcomed children, touched lepers, wept at the grave of a friend, and prayed for the people who crucified Him. He is not coming to catch you out; He is coming to bring you home. You do not have to understand every prophecy to be ready. You need to know Him, trust Him, and walk with Him one day at a time, resting in His promise: "I will come again, and receive you unto myself" (John 14:3).</span></p>
       
       
       
@@ -1493,7 +1496,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
       
       
       
@@ -1507,7 +1510,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord Jesus, thank You for the promise that You will come again. When the news is frightening and my heart is uncertain, help me lift up my head and remember that my redemption is drawing near. Keep me from being deceived and from being careless, and draw me close to You each day, so that when I see You I will know You as my Friend and Saviour. Bring my family and the people I love into that same hope. Even so, come, Lord Jesus, Amen.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord Jesus, thank You for the promise that You will come again. When the news is frightening and my heart is uncertain, help me lift up my head and remember that my redemption is drawing near. Keep me from being deceived and from being careless, and draw me close to You each day, so that when I see You I will know You as my Friend and Saviour. Bring my family and the people I love into that same hope. Even so, come, Lord Jesus, Amen.</span></p>
       
       
       
@@ -1523,7 +1526,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
       
       
       
@@ -1537,7 +1540,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The return of Jesus touches almost every part of the Bible, from the resurrection to the new earth, and it is best explored with an open Bible and someone to walk alongside you. If you would like to study what Scripture teaches about the Second Coming, request a free Bible study below. Someone from Shekinah would be glad to study with you one on one, at your own pace, in English or Kreyòl, with no pressure at all.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The return of Jesus touches almost every part of the Bible, from the resurrection to the new earth, and it is best explored with an open Bible and someone to walk alongside you. If you would like to study what Scripture teaches about the Second Coming, request a free Bible study below. Someone from Shekinah would be glad to study with you one on one, at your own pace, in English or Kreyòl, with no pressure at all.</span></p>
       
       
       
@@ -1565,7 +1568,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1048" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://adventist.org/beliefs/official/second-coming" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">The Second Coming of Christ, Fundamental Belief 25</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1049" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://adventist.org/beliefs/official/second-coming" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">The Second Coming of Christ, Fundamental Belief 25</span></a></p></div>
     
       
       
@@ -1580,7 +1583,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://adventist.org/beliefs/official/death-and-resurrection" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Death and Resurrection, Fundamental Belief 26</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://adventist.org/beliefs/official/death-and-resurrection" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Death and Resurrection, Fundamental Belief 26</span></a></p></div>
     
       
       
@@ -1595,7 +1598,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://adventist.org/beliefs/official/millennium-and-the-end-of-sin" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">The Millennium and the End of Sin, Fundamental Belief 27</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://adventist.org/beliefs/official/millennium-and-the-end-of-sin" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">The Millennium and the End of Sin, Fundamental Belief 27</span></a></p></div>
     
       
       
@@ -1610,7 +1613,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://adventist.org/beliefs/bible/end-times/all-about-the-second-coming-of-jesus-christ" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">What Will Happen When Jesus Returns? Adventist.org</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://adventist.org/beliefs/bible/end-times/all-about-the-second-coming-of-jesus-christ" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">What Will Happen When Jesus Returns? Adventist.org</span></a></p></div>
     
       
       
@@ -1625,7 +1628,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.askanadventistfriend.com/adventist-beliefs/do-adventists-believe-in-the-secret-rapture/page/2" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Do Adventists Believe in the Secret Rapture? Ask an Adventist Friend</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.askanadventistfriend.com/adventist-beliefs/do-adventists-believe-in-the-secret-rapture/page/2" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Do Adventists Believe in the Secret Rapture? Ask an Adventist Friend</span></a></p></div>
     
       
       
@@ -1640,7 +1643,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.britannica.com/summary/Adventism" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Adventism summary, Encyclopaedia Britannica</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.britannica.com/summary/Adventism" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Adventism summary, Encyclopaedia Britannica</span></a></p></div>
     
       
       
@@ -1655,7 +1658,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.britannica.com/biography/John-Nelson-Darby" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">John Nelson Darby, Encyclopaedia Britannica</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.britannica.com/biography/John-Nelson-Darby" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">John Nelson Darby, Encyclopaedia Britannica</span></a></p></div>
     
       
       
@@ -1670,87 +1673,87 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.bibleserver.com/KJV/Matthew24" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Matthew 24, King James Version</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.bibleserver.com/KJV/Matthew24" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Matthew 24, King James Version</span></a></p></div>
     
-    <blockquote data-dc-tpl="1052" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also." John 14:3, KJV</span></blockquote>
-    <nav data-dc-tpl="1053" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
-      <a data-dc-tpl="1054" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1055" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1056" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
-      <a data-dc-tpl="1057" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1058" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1059" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
-      <a data-dc-tpl="1060" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1061" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1062" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
-      <a data-dc-tpl="1063" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1064" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1065" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
+    <blockquote data-dc-tpl="1053" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"And if I go and prepare a place for you, I will come again, and receive you unto myself; that where I am, there ye may be also." John 14:3, KJV</span></blockquote>
+    <nav data-dc-tpl="1054" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+      <a data-dc-tpl="1055" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1056" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1057" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
+      <a data-dc-tpl="1058" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1059" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1060" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
+      <a data-dc-tpl="1061" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1062" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1063" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
+      <a data-dc-tpl="1064" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1065" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1066" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
     </nav>
   </article>
-  <section data-dc-tpl="1066" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1067" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
-    <h2 data-dc-tpl="1068" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
-    <div data-dc-tpl="1069" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+  <section data-dc-tpl="1067" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1068" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
+    <h2 data-dc-tpl="1069" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
+    <div data-dc-tpl="1070" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       
-        <a data-dc-tpl="1071" href="/blog/kisa-bib-la-di-sou-saba-a/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Kisa Bib la di sou Saba a? Jou Saba nan Bib la</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 27, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/kisa-bib-la-di-sou-saba-a/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Kisa Bib la di sou Saba a? Jou Saba nan Bib la</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 27, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/does-hell-burn-forever-what-the-bible-says/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Does Hell Burn Forever? What the Bible Really Says About Hell</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/does-hell-burn-forever-what-the-bible-says/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Does Hell Burn Forever? What the Bible Really Says About Hell</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/what-happens-when-you-die-bible/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">What Happens When You Die? What the Bible Really Teaches</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 25, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/what-happens-when-you-die-bible/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Bible Answers</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">What Happens When You Die? What the Bible Really Teaches</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 25, 2026</span></span>
         </a>
       
     </div>
   </div></section></main>
-  <section data-dc-tpl="1715" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1716" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
-    <div data-dc-tpl="1717" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1718" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1719" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1720" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
-    <div data-dc-tpl="1722" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1723" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1724" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1725" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1726" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1727" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
+  <section data-dc-tpl="1719" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1720" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
+    <div data-dc-tpl="1721" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1722" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1723" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1724" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
+    <div data-dc-tpl="1726" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1727" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1728" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1729" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1730" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1731" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
     
-  </div></section><footer data-dc-tpl="1730" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
-    <div data-dc-tpl="1731" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
-    <div data-dc-tpl="1732" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
-      <div data-dc-tpl="1733" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1734" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1735" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1736" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1737" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
-      <p data-dc-tpl="1738" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
-      <div data-dc-tpl="1739" style="display: flex; gap: 12px;">
-        <a data-dc-tpl="1740" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1741" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1742" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
-        <a data-dc-tpl="1743" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1744" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1745" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1746" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
+  </div></section><footer data-dc-tpl="1734" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
+    <div data-dc-tpl="1735" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
+    <div data-dc-tpl="1736" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
+      <div data-dc-tpl="1737" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1738" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1739" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1740" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1741" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
+      <p data-dc-tpl="1742" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
+      <div data-dc-tpl="1743" style="display: flex; gap: 12px;">
+        <a data-dc-tpl="1744" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1745" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1746" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
+        <a data-dc-tpl="1747" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1748" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1749" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1750" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
       </div>
     </div>
-    <div data-dc-tpl="1747" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1748" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
-      <a data-dc-tpl="1749" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
-      <a data-dc-tpl="1750" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
-      <a data-dc-tpl="1751" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
-      <a data-dc-tpl="1752" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
-      <a data-dc-tpl="1753" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
-      <a data-dc-tpl="1754" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
-      <a data-dc-tpl="1755" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
+    <div data-dc-tpl="1751" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1752" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
+      <a data-dc-tpl="1753" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
+      <a data-dc-tpl="1754" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
+      <a data-dc-tpl="1755" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
+      <a data-dc-tpl="1756" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
+      <a data-dc-tpl="1757" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
+      <a data-dc-tpl="1758" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
+      <a data-dc-tpl="1759" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
     </div>
-    <div data-dc-tpl="1756" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1757" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
-      <a data-dc-tpl="1758" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
-      <a data-dc-tpl="1759" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
-      <a data-dc-tpl="1760" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
-      <a data-dc-tpl="1761" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
-      <a data-dc-tpl="1762" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
-      <a data-dc-tpl="1763" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
-      <span data-dc-tpl="1764" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
-      <a data-dc-tpl="1765" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
-      <a data-dc-tpl="1766" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
+    <div data-dc-tpl="1760" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1761" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
+      <a data-dc-tpl="1762" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
+      <a data-dc-tpl="1763" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
+      <a data-dc-tpl="1764" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
+      <a data-dc-tpl="1765" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
+      <a data-dc-tpl="1766" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
+      <a data-dc-tpl="1767" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
+      <span data-dc-tpl="1768" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
+      <a data-dc-tpl="1769" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
+      <a data-dc-tpl="1770" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
     </div>
-    <div data-dc-tpl="1767" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1768" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
-      <div data-dc-tpl="1769" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1770" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1771" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1772" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1773" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1774" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1775" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1776" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1777" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
+    <div data-dc-tpl="1771" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1772" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
+      <div data-dc-tpl="1773" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1774" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1775" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1776" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1777" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1778" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1779" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1780" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1781" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
     </div>
-    <div data-dc-tpl="1778" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1779" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
-      <span data-dc-tpl="1780" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
+    <div data-dc-tpl="1782" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1783" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
+      <span data-dc-tpl="1784" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
       
-        <div data-dc-tpl="1782" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1783" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1784" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1785" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1786" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
+        <div data-dc-tpl="1786" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1787" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1788" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1789" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1790" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
       
       
     </div>
   </div>
-  <div data-dc-tpl="1789" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1790" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1791" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1792" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1793" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
-  <div data-dc-tpl="1794" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1795" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1796" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
+  <div data-dc-tpl="1793" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1794" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1795" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1796" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1797" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
+  <div data-dc-tpl="1798" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1799" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1800" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
 <template id="dc-src"><x-dc>
 <helmet>
 
@@ -2149,7 +2152,7 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Our Team</h2>
       <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6270;max-width:560px">The caring servant leaders who pray for, teach, and walk alongside our church family every day.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+    <div class="m-grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
       <div style="background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column">
         <div style="height:300px;position:relative"><image-slot id="team-marc" shape="rect" placeholder="Marc Vilmeus photo"></image-slot></div>
         <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-family:'Libre Baskerville',serif;font-size:20px;color:#13294B">Marc Vilmeus</h3><span style="font-size:15px;color:#5B6270">Senior Pastor</span></div>
@@ -2214,12 +2217,12 @@ image-slot::part(credit){display:none !important}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <div style="background:#13294B;border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:12px;color:#FFFFFF"><h3 style="margin:0;font-size:20px;color:#E2B85C">{{ v.addrT }}</h3><address style="font-style:normal;font-size:18px;line-height:1.6">205 E Carver St<br>Alvarado, Texas 76009<br><a href="tel:+18882193842" style="color:#FFFFFF;font-weight:700">(888) 219-3842</a></address><a href="{{ mapsUrl }}" target="_blank" rel="noopener" onClick="{{ trackDirections }}" style="align-self:flex-start;display:flex;align-items:center;gap:10px;background:#E2B85C;color:#13294B;border-radius:40px;padding:14px 26px;font-size:16px;font-weight:800;min-height:50px;text-decoration:none" style-hover="background:#EBC774">{{ v.ctaDir }}</a></div>
       <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.langT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.langD }}</p></div>
-      <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
+      <div class="m-hide" style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
     </div>
   </div></section>
 
   <section aria-labelledby="visit-expect" style="background:#FFFFFF"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
               <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ expCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ expCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -2246,7 +2249,7 @@ image-slot::part(credit){display:none !important}
 
   <section aria-labelledby="visit-kids" style="background:#F4EDDE"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
     <div style="display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;font-weight:800;letter-spacing:1.5px;color:#8A6420">{{ v.kidsEyebrow }}</span><h2 id="visit-kids" style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.4vw,40px);color:#13294B">{{ v.kidsTitle }}</h2><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.kidsD }}</p></div>
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
 <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ vKidsCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ vKidsCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -2488,7 +2491,7 @@ image-slot::part(credit){display:none !important}
         </div>
       </article>
     </sc-if>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
+    <div class="mm mm6" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
       <sc-for list="{{ restPosts }}" as="p" hint-placeholder-count="3">
         <a href="{{ p.href }}" onClick="{{ p.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:14px" style-hover="opacity:0.92">
           <div style="height:200px;position:relative;border-radius:10px;overflow:hidden"><div onClick="{{ stop }}" style="position:absolute;inset:0"><image-slot id="{{ p.slotId }}" shape="rect" free-pan="" placeholder="Article image"></image-slot>
@@ -2511,6 +2514,7 @@ image-slot::part(credit){display:none !important}
         </a>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more articles</button>
     </sc-if>
   </section>
 </sc-if>
@@ -2588,10 +2592,11 @@ image-slot::part(credit){display:none !important}
   <section style="background:#FBEDEA;border-bottom:1px solid #F1D3CC"><div style="max-width:1140px;margin:0 auto;padding:36px 24px;display:flex;flex-direction:column;gap:16px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:24px;color:#7A1F12">In a crisis? Get help right now</h2>
     <p style="margin:0;font-size:16px;line-height:1.6;color:#4A2A24">If you or someone near you is in danger, call 911. These free lines are open to anyone, and most answer any time of day or night.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+    <div class="mm mm4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
       <sc-for list="{{ resCrisis }}" as="c" hint-placeholder-count="6">
         <div style="display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:12px;background:#FFFFFF;border:1px solid #F1D3CC;color:#2C3443"><span style="font-weight:800;font-size:16px;color:#7A1F12">{{ c.name }}</span><span style="font-weight:800;font-size:18px;color:#13294B">{{ c.contact }}</span><span style="font-size:14px;line-height:1.45;color:#5B6270">{{ c.what }}</span><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px"><sc-if value="{{ c.hasCall }}" hint-placeholder-val="{{ true }}"><a href="{{ c.callHref }}" style="border-radius:40px;background:#7A1F12;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Call</a></sc-if><sc-if value="{{ c.hasText }}" hint-placeholder-val="{{ false }}"><a href="{{ c.textHref }}" style="border-radius:40px;background:#13294B;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Text</a></sc-if><sc-if value="{{ c.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ c.url }}" target="_blank" rel="noopener" style="border-radius:40px;border:1px solid #D9CFB8;color:#13294B;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Website</a></sc-if></div></div>
       </sc-for>
+      <button type="button" class="mm-btn" style="display:none;margin:6px auto 0;border:1px solid #7A1F12;background:#FFFFFF;color:#7A1F12;border-radius:40px;padding:11px 24px;font-size:15px;font-weight:800">More help lines</button>
     </div>
   </div></section>
   <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:48px 24px 24px;display:flex;flex-direction:column;gap:18px">
@@ -2605,7 +2610,7 @@ image-slot::part(credit){display:none !important}
     </div>
     <span style="font-size:14px;color:#5B6270">{{ resCountText }}</span>
   </div></section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+  <section style="background:#FAF6EE"><div class="mm mm6 res-grid" style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
     <sc-for list="{{ resItems }}" as="r" hint-placeholder-count="6">
       <sc-if value="{{ r.showCat }}" hint-placeholder-val="{{ false }}"><h3 style="grid-column:1 / -1;margin:16px 0 0;font-family:'Libre Baskerville',serif;font-size:21px;color:#8A6420">{{ r.category }}</h3></sc-if>
       <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px">
@@ -2621,7 +2626,7 @@ image-slot::part(credit){display:none !important}
       </article>
     </sc-for>
     <sc-if value="{{ resEmpty }}" hint-placeholder-val="{{ false }}"><p style="grid-column:1 / -1;margin:0;font-size:16px;color:#5B6270">No local listing matches that search yet. Try another word, use the state search below, or call 211 to talk with someone who can point you to help.</p></sc-if>
-  </div></section>
+  <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show all resources</button></div></section>
   <section style="background:#F4EDDE"><div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:flex;flex-direction:column;gap:18px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:28px;color:#13294B">Find help in any state</h2>
     <p style="margin:0;max-width:760px;font-size:16px;line-height:1.65;color:#2C3443">Live outside Texas, or helping family somewhere else? Enter a ZIP code and choose a state, then open any of these free national directories to see help near that address.</p>
@@ -2648,7 +2653,7 @@ image-slot::part(credit){display:none !important}
       <p style="margin:0;max-width:680px;font-size:18px;line-height:1.7;color:#E6E9EF">At Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas, everything we teach comes from the Bible. Here are some of the core beliefs that shape our worship, our families, and our life together.</p>
     </div>
   </section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+  <section style="background:#FAF6EE"><div class="mf" style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">The Holy Scriptures</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">The Bible is the inspired Word of God. It is our guide for faith and everyday life, and the standard for everything we believe.</p><span style="font-size:14px;font-weight:700;color:#8A6420">2 Timothy 3:16, 17</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">One God</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">There is one God: Father, Son, and Holy Spirit, a unity of three eternal Persons who love us and work together for our salvation.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Matthew 28:19</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">Saved by Grace</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">Salvation is a free gift. We are saved by God's grace through faith in Jesus Christ, who lived, died, and rose again for us.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Ephesians 2:8, 9</span></article>
@@ -3010,11 +3015,12 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Moments at Shekinah</h2>
       <p style="margin:0;font-size:15px;color:#5B6270">Tap any photo to see it full size.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
+    <div class="mm mm12" style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
       <sc-for list="{{ galPhotos }}" as="p" hint-placeholder-count="12">
         <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="grid-column:span {{ p.span }};grid-row:span {{ p.span }};position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;background:#EDE5D3;aspect-ratio:{{ p.ratio }};cursor:zoom-in;display:block"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease" style-hover="transform:scale(1.03)"></button>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more photos</button>
   </div></section>
   <sc-if value="{{ galOpen }}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-modal="true" aria-label="Photo viewer" onClick="{{ galClose }}" style="position:fixed;inset:0;z-index:200;background:rgba(8,14,26,0.94);display:flex;align-items:center;justify-content:center;padding:56px 16px">

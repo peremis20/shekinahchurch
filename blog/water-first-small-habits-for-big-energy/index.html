@@ -42,10 +42,13 @@
 <style>html:not(.site-edit) [data-edit-ctl]{display:none !important}
 #ssr [hidden]{display:none !important}
 .m-only{display:none}
+
+@media (max-width:760px){.mm:not(.open).mm4>:not(.mm-btn):nth-child(n+5),.mm:not(.open).mm6>:not(.mm-btn):nth-child(n+7),.mm:not(.open).mm10>:not(.mm-btn):nth-child(n+11),.mm:not(.open).mm12>:not(.mm-btn):nth-child(n+13){display:none !important}.mm>.mm-btn{grid-column:1 / -1}.mm:not(.open)+.mm-btn,.mm:not(.open)>.mm-btn{display:block !important}.res-grid article p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.res-grid article{padding:16px !important;gap:6px !important}.m-grid2{grid-template-columns:1fr 1fr !important;gap:12px !important}.m-grid2>*>div:first-child{height:170px !important}.m-grid2 h3{font-size:16px !important}.m-grid2 p{font-size:13px !important}.mf>*>:first-child{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}.mf>*>:first-child::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:#F4EDDE;color:#13294B;display:flex;align-items:center;justify-content:center;font:800 18px/1 sans-serif}.mf>.open>:first-child::after{content:"\2212"}.mf>*:not(.open)>:not(:first-child){display:none !important}.mf>*{padding:18px 20px !important}.mf{gap:12px !important}.foot-grid>.foot-wide:first-child>p,.foot-connect>span:nth-child(2){display:none}.foot-grid>div:not(.foot-wide){gap:9px !important}.foot-grid{gap:24px 20px !important;padding:32px 20px 22px !important}}
 @media (max-width:760px){.m-only{display:block}.m-hide{display:none !important}.m-two>*:nth-child(n+3){display:none !important}}
 #site-edit-bar{position:fixed;right:16px;bottom:16px;z-index:100000;display:flex;align-items:center;gap:10px;background:#13294B;color:#fff;font:600 14px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 10px 10px 16px;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
 #site-edit-bar button{border:none;border-radius:40px;background:#E2B85C;color:#13294B;font:700 14px/1 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 16px;cursor:pointer}
 #site-edit-bar .x{background:transparent;color:#fff;padding:10px 8px}</style>
+<script>document.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;var b=t.closest('.mm-btn');if(b){var g=b.previousElementSibling&&b.previousElementSibling.classList.contains('mm')?b.previousElementSibling:b.parentElement;g.classList.add('open');return;}if(!window.matchMedia('(max-width:760px)').matches)return;var h=t.closest('.mf > * > :first-child');if(h)h.parentElement.classList.toggle('open');});</script>
 <script>(function(){
   var on=/[?&]edit(=|&|$)/.test(location.search);
   if(!on) return;
@@ -173,21 +176,21 @@
     
   </div>
   </header><main data-dc-tpl="58" style="flex: 1 1 0%;">
-  <article data-dc-tpl="888" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
-    <a data-dc-tpl="889" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
-    <span data-dc-tpl="890" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
-    <h1 data-dc-tpl="891" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Water First: Small Habits for Big Energy</span></h1>
-    <div data-dc-tpl="892" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="893" rel="author"><span class="sc-interp">Michael Reed</span></span> · <time data-dc-tpl="894" datetime="2026-08-17"><span class="sc-interp">Aug 17, 2026</span></time> · <span class="sc-interp">12 min read</span></div>
-    <p data-dc-tpl="896" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">Simple water habits support the body God made, and every glass can remind us of the living water Jesus offers to all who are thirsty.</span></p>
-    <div data-dc-tpl="897" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="898" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
-              <div data-dc-tpl="900" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
-                <button data-dc-tpl="901" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="902" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="903" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="904" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="905" d="M21 16l-5-5-9 8"></path></svg></button>
-                <button data-dc-tpl="906" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="907" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="908" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
+  <article data-dc-tpl="889" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
+    <a data-dc-tpl="890" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
+    <span data-dc-tpl="891" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
+    <h1 data-dc-tpl="892" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Water First: Small Habits for Big Energy</span></h1>
+    <div data-dc-tpl="893" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="894" rel="author"><span class="sc-interp">Michael Reed</span></span> · <time data-dc-tpl="895" datetime="2026-08-17"><span class="sc-interp">Aug 17, 2026</span></time> · <span class="sc-interp">12 min read</span></div>
+    <p data-dc-tpl="897" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">Simple water habits support the body God made, and every glass can remind us of the living water Jesus offers to all who are thirsty.</span></p>
+    <div data-dc-tpl="898" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="899" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
+              <div data-dc-tpl="901" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
+                <button data-dc-tpl="902" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="903" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="904" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="905" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="906" d="M21 16l-5-5-9 8"></path></svg></button>
+                <button data-dc-tpl="907" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="908" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="909" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
               </div>
               
             </div></div>
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is three in the afternoon, and the familiar slump arrives right on schedule. Your eyes feel heavy, your focus drifts, and you start thinking about a sugary soda or a snack from the vending machine. Then you realize you have not had anything to drink since breakfast. It is a small thing, easy to overlook in a busy day, and yet it is one of the simplest habits we can change.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is three in the afternoon, and the familiar slump arrives right on schedule. Your eyes feel heavy, your focus drifts, and you start thinking about a sugary soda or a snack from the vending machine. Then you realize you have not had anything to drink since breakfast. It is a small thing, easy to overlook in a busy day, and yet it is one of the simplest habits we can change.</span></p>
       
       
       
@@ -202,7 +205,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is so ordinary that we rarely think about it as a gift. It comes out of the tap whenever we need it. Yet Scripture treats water as something precious, a sign of God's provision in the wilderness and a picture of the eternal life that Jesus offers to everyone who is thirsty.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is so ordinary that we rarely think about it as a gift. It comes out of the tap whenever we need it. Yet Scripture treats water as something precious, a sign of God's provision in the wilderness and a picture of the eternal life that Jesus offers to everyone who is thirsty.</span></p>
       
       
       
@@ -217,7 +220,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will look at what trusted health sources say about how much water adults need, the common signs that you may need more fluid, and some practical habits for drinking water through the day. We will also look at what the Bible means when it speaks of living water. This is general health education rather than medical advice, so if you have a health condition that affects fluids, such as heart or kidney disease, follow your doctor's guidance.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will look at what trusted health sources say about how much water adults need, the common signs that you may need more fluid, and some practical habits for drinking water through the day. We will also look at what the Bible means when it speaks of living water. This is general health education rather than medical advice, so if you have a health condition that affects fluids, such as heart or kidney disease, follow your doctor's guidance.</span></p>
       
       
       
@@ -233,7 +236,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
       
       
       
@@ -254,7 +257,7 @@
       
       
       
-      <div data-dc-tpl="952" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="954" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="955" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">3.7 liters</span></span><span data-dc-tpl="956" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Average daily total water for adequately hydrated men (National Academies)</span></span></div><div data-dc-tpl="958" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="959" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">2.7 liters</span></span><span data-dc-tpl="960" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Average daily total water for adequately hydrated women</span></span></div><div data-dc-tpl="962" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="963" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">20%</span></span><span data-dc-tpl="964" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Share of total water that typically comes from food</span></span></div></div>
+      <div data-dc-tpl="953" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="955" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="956" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">3.7 liters</span></span><span data-dc-tpl="957" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Average daily total water for adequately hydrated men (National Academies)</span></span></div><div data-dc-tpl="959" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="960" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">2.7 liters</span></span><span data-dc-tpl="961" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Average daily total water for adequately hydrated women</span></span></div><div data-dc-tpl="963" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="964" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">20%</span></span><span data-dc-tpl="965" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Share of total water that typically comes from food</span></span></div></div>
       
       
       
@@ -262,7 +265,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">There is no single number that fits everyone. In its 2004 report on water and electrolytes, the National Academies found that women who appear adequately hydrated take in an average of about 2.7 liters, or 91 ounces, of total water a day, and men about 3.7 liters, or 125 ounces. That total includes water from all drinks and from food, not only plain water.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">There is no single number that fits everyone. In its 2004 report on water and electrolytes, the National Academies found that women who appear adequately hydrated take in an average of about 2.7 liters, or 91 ounces, of total water a day, and men about 3.7 liters, or 125 ounces. That total includes water from all drinks and from food, not only plain water.</span></p>
       
       
       
@@ -277,7 +280,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The same report gives encouraging news. It says the vast majority of healthy people adequately meet their daily hydration needs by letting thirst be their guide. So the goal is not to force down a certain number of glasses, but to build simple habits that make water easy and natural, while paying attention to times when your body needs more.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The same report gives encouraging news. It says the vast majority of healthy people adequately meet their daily hydration needs by letting thirst be their guide. So the goal is not to force down a certain number of glasses, but to build simple habits that make water easy and natural, while paying attention to times when your body needs more.</span></p>
       
       
       
@@ -293,7 +296,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How much water should I drink a day?</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How much water should I drink a day?</span></h2>
       
       
       
@@ -307,7 +310,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many people have heard the rule of eight glasses a day. Mayo Clinic calls it easy to remember and a good goal, while noting that some people need less fluid and others need more. Mayo also points to studies suggesting that the average healthy adult gets enough water with about 11.5 to 15.5 cups of total fluid a day, roughly 2.7 to 3.7 liters, which matches the National Academies figures.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many people have heard the rule of eight glasses a day. Mayo Clinic calls it easy to remember and a good goal, while noting that some people need less fluid and others need more. Mayo also points to studies suggesting that the average healthy adult gets enough water with about 11.5 to 15.5 cups of total fluid a day, roughly 2.7 to 3.7 liters, which matches the National Academies figures.</span></p>
       
       
       
@@ -322,7 +325,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It helps to remember that these numbers describe total water. The National Academies report says that about 80 percent of total water comes from drinks of all kinds, and about 20 percent comes from food. Fruits, vegetables, soups, and cooked grains all contribute. A plant based diet rich in produce naturally adds water to your day.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It helps to remember that these numbers describe total water. The National Academies report says that about 80 percent of total water comes from drinks of all kinds, and about 20 percent comes from food. Fruits, vegetables, soups, and cooked grains all contribute. A plant based diet rich in produce naturally adds water to your day.</span></p>
       
       
       
@@ -348,7 +351,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1030" style="display: contents;"><span data-dc-tpl="1031" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">What affects your water needs</span></span><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Why it matters (Mayo Clinic)</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1031" style="display: contents;"><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">What affects your water needs</span></span><span data-dc-tpl="1033" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Why it matters (Mayo Clinic)</span></span></div></div>
       
       
     
@@ -363,7 +366,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Exercise</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Sweating means you need extra fluid to cover the loss</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Exercise</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Sweating means you need extra fluid to cover the loss</span></span></div></div>
       
       
     
@@ -378,7 +381,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Hot or humid weather</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">You sweat more and need more water</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Hot or humid weather</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">You sweat more and need more water</span></span></div></div>
       
       
     
@@ -393,7 +396,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Illness</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Fever, vomiting, or diarrhea cause fluid loss</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Illness</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Fever, vomiting, or diarrhea cause fluid loss</span></span></div></div>
       
       
     
@@ -408,7 +411,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Pregnancy and breastfeeding</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">The body needs extra fluid in these seasons</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Pregnancy and breastfeeding</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">The body needs extra fluid in these seasons</span></span></div></div>
       
       
     
@@ -423,11 +426,11 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Health conditions</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Some conditions, such as bladder infections or kidney stones, raise fluid needs</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Health conditions</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">Some conditions, such as bladder infections or kidney stones, raise fluid needs</span></span></div></div>
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For those of us in North Texas, the heat is a real factor for much of the year. Working outdoors, mowing the yard, or watching a game in the sun all increase the water your body loses. On those days, keep water within reach.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For those of us in North Texas, the heat is a real factor for much of the year. Working outdoors, mowing the yard, or watching a game in the sun all increase the water your body loses. On those days, keep water within reach.</span></p>
       
       
       
@@ -443,7 +446,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How do I know if I am drinking enough?</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How do I know if I am drinking enough?</span></h2>
       
       
       
@@ -457,7 +460,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic offers two simple signs that you are probably getting enough fluid. You rarely feel thirsty, and your urine is colorless or light yellow. Those two checks are often more useful than counting cups, because they reflect what your own body needs on that particular day.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic offers two simple signs that you are probably getting enough fluid. You rarely feel thirsty, and your urine is colorless or light yellow. Those two checks are often more useful than counting cups, because they reflect what your own body needs on that particular day.</span></p>
       
       
       
@@ -474,7 +477,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Signs of dehydration in adults</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Signs of dehydration in adults</span></h3>
       
       
       
@@ -487,7 +490,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">When the body does not have enough fluid, it begins to send signals. Mayo Clinic lists common signs of dehydration in adults, including strong thirst, urinating less often than usual, dark colored urine, fatigue, dizziness, and confusion. The CDC adds that dehydration can lead to unclear thinking, mood changes, overheating, constipation, and kidney stones.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">When the body does not have enough fluid, it begins to send signals. Mayo Clinic lists common signs of dehydration in adults, including strong thirst, urinating less often than usual, dark colored urine, fatigue, dizziness, and confusion. The CDC adds that dehydration can lead to unclear thinking, mood changes, overheating, constipation, and kidney stones.</span></p>
       
       
       
@@ -508,7 +511,7 @@
       
       
       
-      <aside data-dc-tpl="931" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="932" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">Common signs of dehydration (Mayo Clinic)</span></span><p data-dc-tpl="934" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="935" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Strong thirst</span></p><p data-dc-tpl="937" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="938" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Urinating less than usual</span></p><p data-dc-tpl="940" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="941" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Dark colored urine</span></p><p data-dc-tpl="943" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="944" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Fatigue</span></p><p data-dc-tpl="946" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="947" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">5</span><span class="sc-interp">Dizziness</span></p><p data-dc-tpl="949" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="950" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">6</span><span class="sc-interp">Confusion</span></p></aside>
+      <aside data-dc-tpl="932" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="933" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">Common signs of dehydration (Mayo Clinic)</span></span><p data-dc-tpl="935" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="936" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Strong thirst</span></p><p data-dc-tpl="938" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="939" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Urinating less than usual</span></p><p data-dc-tpl="941" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="942" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Dark colored urine</span></p><p data-dc-tpl="944" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="945" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Fatigue</span></p><p data-dc-tpl="947" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="948" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">5</span><span class="sc-interp">Dizziness</span></p><p data-dc-tpl="950" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="951" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">6</span><span class="sc-interp">Confusion</span></p></aside>
       
       
       
@@ -519,7 +522,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">A special word about older adults</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">A special word about older adults</span></h3>
       
       
       
@@ -532,7 +535,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic notes that thirst is not always a reliable signal, especially for older adults, who may not feel thirsty until they are already dehydrated. As we age, the body's fluid reserve becomes smaller, and conditions such as diabetes, certain medicines, or difficulty getting water independently can raise the risk. If you care for an aging parent or grandparent, offering water regularly throughout the day is a simple act of love.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic notes that thirst is not always a reliable signal, especially for older adults, who may not feel thirsty until they are already dehydrated. As we age, the body's fluid reserve becomes smaller, and conditions such as diabetes, certain medicines, or difficulty getting water independently can raise the risk. If you care for an aging parent or grandparent, offering water regularly throughout the day is a simple act of love.</span></p>
       
       
       
@@ -549,7 +552,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">When to call a doctor</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">When to call a doctor</span></h3>
       
       
       
@@ -562,7 +565,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic advises contacting a health care professional if you or a loved one has had diarrhea for 24 hours or longer or cannot keep fluids down. The same applies to someone who seems confused or unusually sleepy, has bloody or black stool, or has a fever of 102 degrees or higher. These are signs that the body needs more help than a glass of water can give.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Mayo Clinic advises contacting a health care professional if you or a loved one has had diarrhea for 24 hours or longer or cannot keep fluids down. The same applies to someone who seems confused or unusually sleepy, has bloody or black stool, or has a fever of 102 degrees or higher. These are signs that the body needs more help than a glass of water can give.</span></p>
       
       
       
@@ -577,7 +580,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is also possible, though rare, to drink too much. Mayo Clinic explains that drinking far too much water can lower sodium in the blood to a dangerous level, a condition called hyponatremia, which can be life threatening. This is uncommon in healthy adults but can happen to some athletes when they prepare for a long or intense workout. More is not always better, and listening to your body matters here too.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">It is also possible, though rare, to drink too much. Mayo Clinic explains that drinking far too much water can lower sodium in the blood to a dangerous level, a condition called hyponatremia, which can be life threatening. This is uncommon in healthy adults but can happen to some athletes when they prepare for a long or intense workout. More is not always better, and listening to your body matters here too.</span></p>
       
       
       
@@ -597,7 +600,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="A clear glass of water resting on a gray surface" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="A clear glass of water resting on a gray surface" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -608,7 +611,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What water does for your body</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What water does for your body</span></h2>
       
       
       
@@ -622,7 +625,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is involved in nearly everything your body does. Mayo Clinic explains that cells, tissues, and organs need water to work as they should. Water helps the body manage its temperature through sweating, maintain fluid balance in and around cells, make body fluids such as tears and urine, support digestion, and remove waste.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is involved in nearly everything your body does. Mayo Clinic explains that cells, tissues, and organs need water to work as they should. Water helps the body manage its temperature through sweating, maintain fluid balance in and around cells, make body fluids such as tears and urine, support digestion, and remove waste.</span></p>
       
       
       
@@ -637,7 +640,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The CDC adds another practical benefit. Because plain water has no calories, choosing it instead of sugary drinks can help reduce the calories you take in. The CDC notes that regular sodas, fruit drinks, sports drinks, energy drinks, and sweetened teas contain calories but little nutritional value. Swapping even one sugary drink a day for water is a meaningful step.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The CDC adds another practical benefit. Because plain water has no calories, choosing it instead of sugary drinks can help reduce the calories you take in. The CDC notes that regular sodas, fruit drinks, sports drinks, energy drinks, and sweetened teas contain calories but little nutritional value. Swapping even one sugary drink a day for water is a meaningful step.</span></p>
       
       
       
@@ -654,7 +657,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is drinking water first thing in the morning really better?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is drinking water first thing in the morning really better?</span></h3>
       
       
       
@@ -667,7 +670,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You may have seen claims that drinking water on an empty stomach in the morning detoxifies the body or burns fat. We could not find credible health sources that support those dramatic promises, so we do not repeat them here. What is true is simpler and still valuable. You go many hours overnight without drinking, and a glass of water when you wake up is an easy, natural way to start the day well. Placing that first glass next to your morning devotions can turn a health habit into a spiritual one.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You may have seen claims that drinking water on an empty stomach in the morning detoxifies the body or burns fat. We could not find credible health sources that support those dramatic promises, so we do not repeat them here. What is true is simpler and still valuable. You go many hours overnight without drinking, and a glass of water when you wake up is an easy, natural way to start the day well. Placing that first glass next to your morning devotions can turn a health habit into a spiritual one.</span></p>
       
       
       
@@ -683,7 +686,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Small habits for drinking more water</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Small habits for drinking more water</span></h2>
       
       
       
@@ -697,7 +700,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Good habits work best when they are simple. The CDC offers several practical ideas that fit almost any lifestyle. Each of them is easy to try this week.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Good habits work best when they are simple. The CDC offers several practical ideas that fit almost any lifestyle. Each of them is easy to try this week.</span></p>
       
       
       
@@ -721,13 +724,13 @@
       
       
       
-      <div data-dc-tpl="991" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="993" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="994" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="995" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Morning glass</span></span><span data-dc-tpl="996" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Drink water when you wake, before anything else</span></span></div><div data-dc-tpl="998" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="999" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1000" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Carry a bottle</span></span><span data-dc-tpl="1001" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Keep a reusable bottle with you all day</span></span></div><div data-dc-tpl="1003" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1004" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1005" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Water with meals</span></span><span data-dc-tpl="1006" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Serve water at the table for the whole family</span></span></div><div data-dc-tpl="1008" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1009" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1010" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Swap one drink</span></span><span data-dc-tpl="1011" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Replace one sugary drink with water</span></span></div><div data-dc-tpl="1013" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1014" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1015" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Add flavor naturally</span></span><span data-dc-tpl="1016" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">Try a slice of lemon or lime</span></span></div></div>
+      <div data-dc-tpl="992" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="994" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="995" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="996" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Morning glass</span></span><span data-dc-tpl="997" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Drink water when you wake, before anything else</span></span></div><div data-dc-tpl="999" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1000" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1001" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Carry a bottle</span></span><span data-dc-tpl="1002" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Keep a reusable bottle with you all day</span></span></div><div data-dc-tpl="1004" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1005" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1006" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Water with meals</span></span><span data-dc-tpl="1007" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Serve water at the table for the whole family</span></span></div><div data-dc-tpl="1009" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1010" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1011" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Swap one drink</span></span><span data-dc-tpl="1012" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Replace one sugary drink with water</span></span></div><div data-dc-tpl="1014" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1015" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1016" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Add flavor naturally</span></span><span data-dc-tpl="1017" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">Try a slice of lemon or lime</span></span></div></div>
       
       
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The CDC suggests carrying a reusable water bottle, freezing some water in freezer safe bottles so you have cold water all day, choosing water over sugary drinks, ordering water when you eat out, and serving water during meals. It also recommends adding a wedge of lemon or lime for a little flavor. For many Haitian families, a squeeze of fresh lime is already a familiar taste, and it can make a pitcher of cold water feel like a treat on a hot afternoon.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The CDC suggests carrying a reusable water bottle, freezing some water in freezer safe bottles so you have cold water all day, choosing water over sugary drinks, ordering water when you eat out, and serving water during meals. It also recommends adding a wedge of lemon or lime for a little flavor. For many Haitian families, a squeeze of fresh lime is already a familiar taste, and it can make a pitcher of cold water feel like a treat on a hot afternoon.</span></p>
       
       
       
@@ -743,7 +746,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Water in the Adventist health message</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Water in the Adventist health message</span></h2>
       
       
       
@@ -757,7 +760,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists believe that caring for the body is part of faithful living. Paul wrote, "Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God" (1 Corinthians 10:31). The church's Fundamental Belief 22, Christian Behavior, encourages believers to care for their health through practices such as exercise, rest, and a healthful diet, as part of living in harmony with biblical principles.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Seventh-day Adventists believe that caring for the body is part of faithful living. Paul wrote, "Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God" (1 Corinthians 10:31). The church's Fundamental Belief 22, Christian Behavior, encourages believers to care for their health through practices such as exercise, rest, and a healthful diet, as part of living in harmony with biblical principles.</span></p>
       
       
       
@@ -772,7 +775,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many Adventist churches teach eight natural remedies for health: good nutrition, exercise, water, sunlight, temperance, fresh air, rest, and trust in God. Water has its own place on that list, a reminder that some of God's best gifts for our health are simple and freely available. The apostle John expressed this kind of whole person care when he wrote, "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth" (3 John 1:2).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Many Adventist churches teach eight natural remedies for health: good nutrition, exercise, water, sunlight, temperance, fresh air, rest, and trust in God. Water has its own place on that list, a reminder that some of God's best gifts for our health are simple and freely available. The apostle John expressed this kind of whole person care when he wrote, "Beloved, I wish above all things that thou mayest prosper and be in health, even as thy soul prospereth" (3 John 1:2).</span></p>
       
       
       
@@ -799,11 +802,11 @@
       
       
       
-      <a data-dc-tpl="1042" href="/blog/the-gift-of-rest-why-sleep-is-part-of-our-worship/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1043" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1044" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">The Gift of Rest: Why Sleep Is Part of Our Worship</span></span></a>
+      <a data-dc-tpl="1043" href="/blog/the-gift-of-rest-why-sleep-is-part-of-our-worship/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1044" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1045" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">The Gift of Rest: Why Sleep Is Part of Our Worship</span></span></a>
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Living water: what the Bible means</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Living water: what the Bible means</span></h2>
       
       
       
@@ -817,7 +820,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water appears throughout Scripture, from the rivers of Eden to the river of life in the new earth. It often stands for life and God's provision. The psalmist used thirst to describe the deepest longing of the human heart.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water appears throughout Scripture, from the rivers of Eden to the river of life in the new earth. It often stands for life and God's provision. The psalmist used thirst to describe the deepest longing of the human heart.</span></p>
       
       
       
@@ -835,7 +838,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"As the hart panteth after the water brooks, so panteth my soul after thee, O God. My soul thirsteth for God, for the living God: when shall I come and appear before God?" Psalm 42:1 to 2, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"As the hart panteth after the water brooks, so panteth my soul after thee, O God. My soul thirsteth for God, for the living God: when shall I come and appear before God?" Psalm 42:1 to 2, KJV</span></blockquote>
       
       
       
@@ -847,7 +850,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Just as a deer in a dry land searches for a stream, the soul searches for God. Our bodies remind us every day that we are not self sufficient. We need water from outside ourselves to live. In the same way, our souls need the life that only God can give.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Just as a deer in a dry land searches for a stream, the soul searches for God. Our bodies remind us every day that we are not self sufficient. We need water from outside ourselves to live. In the same way, our souls need the life that only God can give.</span></p>
       
       
       
@@ -864,7 +867,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Jesus at the well</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Jesus at the well</span></h3>
       
       
       
@@ -877,7 +880,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In John 4, Jesus sat by a well in Samaria about the sixth hour, tired from His journey, and asked a woman for a drink. Their conversation moved quickly from the water in the well to the water He came to give. Jesus told her, "Whosoever drinketh of this water shall thirst again" (John 4:13), and then He offered something far greater.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In John 4, Jesus sat by a well in Samaria about the sixth hour, tired from His journey, and asked a woman for a drink. Their conversation moved quickly from the water in the well to the water He came to give. Jesus told her, "Whosoever drinketh of this water shall thirst again" (John 4:13), and then He offered something far greater.</span></p>
       
       
       
@@ -895,7 +898,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life." John 4:14, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life." John 4:14, KJV</span></blockquote>
       
       
       
@@ -907,7 +910,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus was not dismissing physical water. He was using it to point to a deeper need. He offered her a gift that would meet her thirst from the inside out.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Jesus was not dismissing physical water. He was using it to point to a deeper need. He offered her a gift that would meet her thirst from the inside out.</span></p>
       
       
       
@@ -924,7 +927,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">An invitation to anyone who is thirsty</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">An invitation to anyone who is thirsty</span></h3>
       
       
       
@@ -937,7 +940,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Later, at the Feast of Tabernacles in Jerusalem, Jesus made the invitation public. John records that on "the last day, that great day of the feast, Jesus stood and cried, saying, If any man thirst, let him come unto me, and drink. He that believeth on me, as the scripture hath said, out of his belly shall flow rivers of living water" (John 7:37 to 38). In the next verse John explains that Jesus was speaking of the Spirit, whom believers would receive (John 7:39).</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Later, at the Feast of Tabernacles in Jerusalem, Jesus made the invitation public. John records that on "the last day, that great day of the feast, Jesus stood and cried, saying, If any man thirst, let him come unto me, and drink. He that believeth on me, as the scripture hath said, out of his belly shall flow rivers of living water" (John 7:37 to 38). In the next verse John explains that Jesus was speaking of the Spirit, whom believers would receive (John 7:39).</span></p>
       
       
       
@@ -952,7 +955,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That invitation echoes a much older one from the prophet Isaiah, who wrote, "Ho, every one that thirsteth, come ye to the waters, and he that hath no money; come ye, buy, and eat; yea, come, buy wine and milk without money and without price" (Isaiah 55:1). God's grace has never been for sale. It is offered freely to anyone who will come.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That invitation echoes a much older one from the prophet Isaiah, who wrote, "Ho, every one that thirsteth, come ye to the waters, and he that hath no money; come ye, buy, and eat; yea, come, buy wine and milk without money and without price" (Isaiah 55:1). God's grace has never been for sale. It is offered freely to anyone who will come.</span></p>
       
       
       
@@ -967,7 +970,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Bible closes with the same welcome. "And the Spirit and the bride say, Come. And let him that heareth say, Come. And let him that is athirst come. And whosoever will, let him take the water of life freely" (Revelation 22:17). From beginning to end, Scripture uses water to show us a generous God who satisfies the thirsty.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The Bible closes with the same welcome. "And the Spirit and the bride say, Come. And let him that heareth say, Come. And let him that is athirst come. And whosoever will, let him take the water of life freely" (Revelation 22:17). From beginning to end, Scripture uses water to show us a generous God who satisfies the thirsty.</span></p>
       
       
       
@@ -987,7 +990,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1688799401080-a4e6fe51a861?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Clear water flowing over rocks in a stream" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1688799401080-a4e6fe51a861?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Clear water flowing over rocks in a stream" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -998,7 +1001,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Making water a daily reminder of grace</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Making water a daily reminder of grace</span></h2>
       
       
       
@@ -1012,7 +1015,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Here is a simple idea that brings the body and the spirit together. Each morning, as you pour your first glass of water, let it remind you of the living water Jesus offers. You might pray a short sentence such as, "Lord, as this water refreshes my body, let Your Spirit refresh my soul today." Over time, a small physical habit can become a daily doorway into prayer.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Here is a simple idea that brings the body and the spirit together. Each morning, as you pour your first glass of water, let it remind you of the living water Jesus offers. You might pray a short sentence such as, "Lord, as this water refreshes my body, let Your Spirit refresh my soul today." Over time, a small physical habit can become a daily doorway into prayer.</span></p>
       
       
       
@@ -1027,7 +1030,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Families can do this together too. Before a meal, as glasses are filled, a parent might read one of the verses from this article. Children will remember Jesus at the well far longer than a lecture about hydration, and parents who reach for water themselves teach by example.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Families can do this together too. Before a meal, as glasses are filled, a parent might read one of the verses from this article. Children will remember Jesus at the well far longer than a lecture about hydration, and parents who reach for water themselves teach by example.</span></p>
       
       
       
@@ -1043,7 +1046,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Questions people ask</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Questions people ask</span></h2>
       
       
       
@@ -1059,7 +1062,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Do food and other drinks count toward daily water intake?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Do food and other drinks count toward daily water intake?</span></h3>
       
       
       
@@ -1072,7 +1075,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, food and other drinks count toward your daily water intake, because the recommended amounts describe total water from all sources. The National Academies report found that about 80 percent of total water comes from drinks of all kinds and about 20 percent comes from food. Fruits, vegetables, soups, and cooked grains all contribute. A plant based diet rich in produce naturally adds water to your day.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, food and other drinks count toward your daily water intake, because the recommended amounts describe total water from all sources. The National Academies report found that about 80 percent of total water comes from drinks of all kinds and about 20 percent comes from food. Fruits, vegetables, soups, and cooked grains all contribute. A plant based diet rich in produce naturally adds water to your day.</span></p>
       
       
       
@@ -1089,7 +1092,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is thirst a good guide for how much water to drink?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is thirst a good guide for how much water to drink?</span></h3>
       
       
       
@@ -1102,7 +1105,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For most healthy people, thirst is a good guide, since the National Academies report says the vast majority meet their daily hydration needs by letting thirst be their guide. Mayo Clinic adds that if you rarely feel thirsty and your urine is colorless or light yellow, you are probably getting enough fluid. Thirst is not always reliable for older adults, who may not feel thirsty until they are already dehydrated. If you care for an aging parent or grandparent, offering water regularly through the day is a simple act of love.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">For most healthy people, thirst is a good guide, since the National Academies report says the vast majority meet their daily hydration needs by letting thirst be their guide. Mayo Clinic adds that if you rarely feel thirsty and your urine is colorless or light yellow, you are probably getting enough fluid. Thirst is not always reliable for older adults, who may not feel thirsty until they are already dehydrated. If you care for an aging parent or grandparent, offering water regularly through the day is a simple act of love.</span></p>
       
       
       
@@ -1119,7 +1122,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Can you drink too much water?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Can you drink too much water?</span></h3>
       
       
       
@@ -1132,7 +1135,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, it is possible to drink too much water, though it is rare in healthy adults. Mayo Clinic explains that drinking far too much water can lower sodium in the blood to a dangerous level, a condition called hyponatremia, which can be life threatening. It can happen to some athletes when they prepare for a long or intense workout. More is not always better, so listen to your body and follow your doctor's guidance if you have a condition that affects fluids.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Yes, it is possible to drink too much water, though it is rare in healthy adults. Mayo Clinic explains that drinking far too much water can lower sodium in the blood to a dangerous level, a condition called hyponatremia, which can be life threatening. It can happen to some athletes when they prepare for a long or intense workout. More is not always better, so listen to your body and follow your doctor's guidance if you have a condition that affects fluids.</span></p>
       
       
       
@@ -1149,7 +1152,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Why is water better than sugary drinks?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Why is water better than sugary drinks?</span></h3>
       
       
       
@@ -1162,7 +1165,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is better than sugary drinks because plain water has no calories, so choosing it can help reduce the calories you take in. The CDC notes that regular sodas, fruit drinks, sports drinks, energy drinks, and sweetened teas contain calories but little nutritional value. Swapping even one sugary drink a day for water is a meaningful step. For a little flavor, the CDC suggests adding a wedge of lemon or lime, a taste many Haitian families already love.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Water is better than sugary drinks because plain water has no calories, so choosing it can help reduce the calories you take in. The CDC notes that regular sodas, fruit drinks, sports drinks, energy drinks, and sweetened teas contain calories but little nutritional value. Swapping even one sugary drink a day for water is a meaningful step. For a little flavor, the CDC suggests adding a wedge of lemon or lime, a taste many Haitian families already love.</span></p>
       
       
       
@@ -1178,7 +1181,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
       
       
       
@@ -1192,7 +1195,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a moment to think about these questions, perhaps with a glass of water in hand. What tends to crowd water out of your day, and what one small change could make it easier to choose? In what areas of your life have you been trying to satisfy a deeper thirst with things that leave you thirsty again? How might Jesus' words at the well invite you to come to Him today, just as you are?</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a moment to think about these questions, perhaps with a glass of water in hand. What tends to crowd water out of your day, and what one small change could make it easier to choose? In what areas of your life have you been trying to satisfy a deeper thirst with things that leave you thirsty again? How might Jesus' words at the well invite you to come to Him today, just as you are?</span></p>
       
       
       
@@ -1208,7 +1211,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
       
       
       
@@ -1222,7 +1225,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You do not have to overhaul your whole life to take better care of your body. Start with one glass of water in the morning or one sugary drink replaced at lunch. Small, steady habits add up, and God is patient with us as we grow.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You do not have to overhaul your whole life to take better care of your body. Start with one glass of water in the morning or one sugary drink replaced at lunch. Small, steady habits add up, and God is patient with us as we grow.</span></p>
       
       
       
@@ -1237,7 +1240,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The same is true of your spiritual life. Jesus did not ask the woman at the well to fix everything before He offered her living water. He simply invited her to receive. Whatever you are carrying today, that invitation is open to you as well, and His supply never runs dry.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The same is true of your spiritual life. Jesus did not ask the woman at the well to fix everything before He offered her living water. He simply invited her to receive. Whatever you are carrying today, that invitation is open to you as well, and His supply never runs dry.</span></p>
       
       
       
@@ -1253,7 +1256,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
       
       
       
@@ -1267,7 +1270,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord Jesus, thank You for the simple gift of clean water and for the body You have given me. Help me care for it with wisdom and gratitude. Most of all, thank You for the living water of Your Spirit. When my soul feels dry and weary, draw me to You again, and let Your life spring up in me today and forever. Amen.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord Jesus, thank You for the simple gift of clean water and for the body You have given me. Help me care for it with wisdom and gratitude. Most of all, thank You for the living water of Your Spirit. When my soul feels dry and weary, draw me to You again, and let Your life spring up in me today and forever. Amen.</span></p>
       
       
       
@@ -1283,7 +1286,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
       
       
       
@@ -1297,7 +1300,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If the story of Jesus at the well stirred something in you, we would love to help you explore it further. You can request a free Bible study below and read through the Gospel of John one on one, at your own pace, with someone from Shekinah who would be glad to walk with you. You are also welcome to join us any Sabbath at 205 E Carver St in Alvarado, Texas.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If the story of Jesus at the well stirred something in you, we would love to help you explore it further. You can request a free Bible study below and read through the Gospel of John one on one, at your own pace, with someone from Shekinah who would be glad to walk with you. You are also welcome to join us any Sabbath at 205 E Carver St in Alvarado, Texas.</span></p>
       
       
       
@@ -1325,7 +1328,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1048" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.nationalacademies.org/news/report-sets-dietary-intake-levels-for-water-salt-and-potassium-to-maintain-health-and-reduce-chronic-disease-risk" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Report Sets Dietary Intake Levels for Water, Salt, and Potassium, National Academies</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1049" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.nationalacademies.org/news/report-sets-dietary-intake-levels-for-water-salt-and-potassium-to-maintain-health-and-reduce-chronic-disease-risk" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Report Sets Dietary Intake Levels for Water, Salt, and Potassium, National Academies</span></a></p></div>
     
       
       
@@ -1340,7 +1343,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Water: How much should you drink every day? Mayo Clinic</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/water/art-20044256" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Water: How much should you drink every day? Mayo Clinic</span></a></p></div>
     
       
       
@@ -1355,7 +1358,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.mayoclinic.org/diseases-conditions/dehydration/symptoms-causes/syc-20354086" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Dehydration: Symptoms and causes, Mayo Clinic</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.mayoclinic.org/diseases-conditions/dehydration/symptoms-causes/syc-20354086" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Dehydration: Symptoms and causes, Mayo Clinic</span></a></p></div>
     
       
       
@@ -1370,7 +1373,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.cdc.gov/healthy-weight-growth/water-healthy-drinks/index.html" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">About Water and Healthier Drinks, Centers for Disease Control and Prevention</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.cdc.gov/healthy-weight-growth/water-healthy-drinks/index.html" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">About Water and Healthier Drinks, Centers for Disease Control and Prevention</span></a></p></div>
     
       
       
@@ -1385,87 +1388,87 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.adventist.org/beliefs/official/christian-behavior/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Fundamental Belief 22: Christian Behavior, Seventh-day Adventist Church</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.adventist.org/beliefs/official/christian-behavior/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Fundamental Belief 22: Christian Behavior, Seventh-day Adventist Church</span></a></p></div>
     
-    <blockquote data-dc-tpl="1052" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life." John 4:14, KJV</span></blockquote>
-    <nav data-dc-tpl="1053" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
-      <a data-dc-tpl="1054" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1055" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1056" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
-      <a data-dc-tpl="1057" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1058" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1059" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
-      <a data-dc-tpl="1060" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1061" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1062" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
-      <a data-dc-tpl="1063" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1064" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1065" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
+    <blockquote data-dc-tpl="1053" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"But whosoever drinketh of the water that I shall give him shall never thirst; but the water that I shall give him shall be in him a well of water springing up into everlasting life." John 4:14, KJV</span></blockquote>
+    <nav data-dc-tpl="1054" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+      <a data-dc-tpl="1055" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1056" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1057" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
+      <a data-dc-tpl="1058" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1059" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1060" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
+      <a data-dc-tpl="1061" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1062" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1063" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
+      <a data-dc-tpl="1064" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1065" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1066" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
     </nav>
   </article>
-  <section data-dc-tpl="1066" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1067" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
-    <h2 data-dc-tpl="1068" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
-    <div data-dc-tpl="1069" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+  <section data-dc-tpl="1067" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1068" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
+    <h2 data-dc-tpl="1069" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
+    <div data-dc-tpl="1070" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       
-        <a data-dc-tpl="1071" href="/blog/sunlight-in-the-shorter-days-vitamin-d-and-mood/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Sunlight in the Shorter Days: Vitamin D, Mood, and God's Gift of Light</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/sunlight-in-the-shorter-days-vitamin-d-and-mood/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Sunlight in the Shorter Days: Vitamin D, Mood, and God's Gift of Light</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/the-gift-of-rest-why-sleep-is-part-of-our-worship/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">The Gift of Rest: Why Sleep Is Part of Our Worship</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 28, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/the-gift-of-rest-why-sleep-is-part-of-our-worship/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">The Gift of Rest: Why Sleep Is Part of Our Worship</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 28, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/walk-with-me-starting-a-sabbath-afternoon-walking-group/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Walk With Me: Starting a Sabbath Afternoon Walking Group</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 7, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/walk-with-me-starting-a-sabbath-afternoon-walking-group/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Health</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Walk With Me: Starting a Sabbath Afternoon Walking Group</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 7, 2026</span></span>
         </a>
       
     </div>
   </div></section></main>
-  <section data-dc-tpl="1715" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1716" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
-    <div data-dc-tpl="1717" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1718" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1719" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1720" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
-    <div data-dc-tpl="1722" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1723" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1724" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1725" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1726" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1727" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
+  <section data-dc-tpl="1719" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1720" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
+    <div data-dc-tpl="1721" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1722" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1723" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1724" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
+    <div data-dc-tpl="1726" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1727" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1728" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1729" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1730" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1731" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
     
-  </div></section><footer data-dc-tpl="1730" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
-    <div data-dc-tpl="1731" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
-    <div data-dc-tpl="1732" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
-      <div data-dc-tpl="1733" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1734" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1735" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1736" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1737" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
-      <p data-dc-tpl="1738" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
-      <div data-dc-tpl="1739" style="display: flex; gap: 12px;">
-        <a data-dc-tpl="1740" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1741" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1742" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
-        <a data-dc-tpl="1743" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1744" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1745" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1746" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
+  </div></section><footer data-dc-tpl="1734" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
+    <div data-dc-tpl="1735" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
+    <div data-dc-tpl="1736" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
+      <div data-dc-tpl="1737" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1738" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1739" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1740" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1741" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
+      <p data-dc-tpl="1742" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
+      <div data-dc-tpl="1743" style="display: flex; gap: 12px;">
+        <a data-dc-tpl="1744" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1745" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1746" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
+        <a data-dc-tpl="1747" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1748" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1749" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1750" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
       </div>
     </div>
-    <div data-dc-tpl="1747" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1748" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
-      <a data-dc-tpl="1749" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
-      <a data-dc-tpl="1750" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
-      <a data-dc-tpl="1751" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
-      <a data-dc-tpl="1752" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
-      <a data-dc-tpl="1753" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
-      <a data-dc-tpl="1754" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
-      <a data-dc-tpl="1755" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
+    <div data-dc-tpl="1751" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1752" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
+      <a data-dc-tpl="1753" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
+      <a data-dc-tpl="1754" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
+      <a data-dc-tpl="1755" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
+      <a data-dc-tpl="1756" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
+      <a data-dc-tpl="1757" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
+      <a data-dc-tpl="1758" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
+      <a data-dc-tpl="1759" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
     </div>
-    <div data-dc-tpl="1756" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1757" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
-      <a data-dc-tpl="1758" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
-      <a data-dc-tpl="1759" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
-      <a data-dc-tpl="1760" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
-      <a data-dc-tpl="1761" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
-      <a data-dc-tpl="1762" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
-      <a data-dc-tpl="1763" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
-      <span data-dc-tpl="1764" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
-      <a data-dc-tpl="1765" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
-      <a data-dc-tpl="1766" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
+    <div data-dc-tpl="1760" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1761" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
+      <a data-dc-tpl="1762" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
+      <a data-dc-tpl="1763" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
+      <a data-dc-tpl="1764" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
+      <a data-dc-tpl="1765" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
+      <a data-dc-tpl="1766" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
+      <a data-dc-tpl="1767" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
+      <span data-dc-tpl="1768" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
+      <a data-dc-tpl="1769" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
+      <a data-dc-tpl="1770" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
     </div>
-    <div data-dc-tpl="1767" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1768" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
-      <div data-dc-tpl="1769" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1770" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1771" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1772" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1773" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1774" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1775" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1776" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1777" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
+    <div data-dc-tpl="1771" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1772" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
+      <div data-dc-tpl="1773" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1774" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1775" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1776" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1777" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1778" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1779" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1780" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1781" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
     </div>
-    <div data-dc-tpl="1778" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1779" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
-      <span data-dc-tpl="1780" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
+    <div data-dc-tpl="1782" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1783" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
+      <span data-dc-tpl="1784" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
       
-        <div data-dc-tpl="1782" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1783" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1784" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1785" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1786" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
+        <div data-dc-tpl="1786" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1787" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1788" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1789" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1790" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
       
       
     </div>
   </div>
-  <div data-dc-tpl="1789" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1790" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1791" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1792" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1793" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
-  <div data-dc-tpl="1794" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1795" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1796" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
+  <div data-dc-tpl="1793" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1794" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1795" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1796" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1797" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
+  <div data-dc-tpl="1798" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1799" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1800" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
 <template id="dc-src"><x-dc>
 <helmet>
 
@@ -1864,7 +1867,7 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Our Team</h2>
       <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6270;max-width:560px">The caring servant leaders who pray for, teach, and walk alongside our church family every day.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+    <div class="m-grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
       <div style="background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column">
         <div style="height:300px;position:relative"><image-slot id="team-marc" shape="rect" placeholder="Marc Vilmeus photo"></image-slot></div>
         <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-family:'Libre Baskerville',serif;font-size:20px;color:#13294B">Marc Vilmeus</h3><span style="font-size:15px;color:#5B6270">Senior Pastor</span></div>
@@ -1929,12 +1932,12 @@ image-slot::part(credit){display:none !important}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <div style="background:#13294B;border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:12px;color:#FFFFFF"><h3 style="margin:0;font-size:20px;color:#E2B85C">{{ v.addrT }}</h3><address style="font-style:normal;font-size:18px;line-height:1.6">205 E Carver St<br>Alvarado, Texas 76009<br><a href="tel:+18882193842" style="color:#FFFFFF;font-weight:700">(888) 219-3842</a></address><a href="{{ mapsUrl }}" target="_blank" rel="noopener" onClick="{{ trackDirections }}" style="align-self:flex-start;display:flex;align-items:center;gap:10px;background:#E2B85C;color:#13294B;border-radius:40px;padding:14px 26px;font-size:16px;font-weight:800;min-height:50px;text-decoration:none" style-hover="background:#EBC774">{{ v.ctaDir }}</a></div>
       <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.langT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.langD }}</p></div>
-      <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
+      <div class="m-hide" style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
     </div>
   </div></section>
 
   <section aria-labelledby="visit-expect" style="background:#FFFFFF"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
               <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ expCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ expCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -1961,7 +1964,7 @@ image-slot::part(credit){display:none !important}
 
   <section aria-labelledby="visit-kids" style="background:#F4EDDE"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
     <div style="display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;font-weight:800;letter-spacing:1.5px;color:#8A6420">{{ v.kidsEyebrow }}</span><h2 id="visit-kids" style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.4vw,40px);color:#13294B">{{ v.kidsTitle }}</h2><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.kidsD }}</p></div>
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
 <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ vKidsCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ vKidsCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -2203,7 +2206,7 @@ image-slot::part(credit){display:none !important}
         </div>
       </article>
     </sc-if>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
+    <div class="mm mm6" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
       <sc-for list="{{ restPosts }}" as="p" hint-placeholder-count="3">
         <a href="{{ p.href }}" onClick="{{ p.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:14px" style-hover="opacity:0.92">
           <div style="height:200px;position:relative;border-radius:10px;overflow:hidden"><div onClick="{{ stop }}" style="position:absolute;inset:0"><image-slot id="{{ p.slotId }}" shape="rect" free-pan="" placeholder="Article image"></image-slot>
@@ -2226,6 +2229,7 @@ image-slot::part(credit){display:none !important}
         </a>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more articles</button>
     </sc-if>
   </section>
 </sc-if>
@@ -2303,10 +2307,11 @@ image-slot::part(credit){display:none !important}
   <section style="background:#FBEDEA;border-bottom:1px solid #F1D3CC"><div style="max-width:1140px;margin:0 auto;padding:36px 24px;display:flex;flex-direction:column;gap:16px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:24px;color:#7A1F12">In a crisis? Get help right now</h2>
     <p style="margin:0;font-size:16px;line-height:1.6;color:#4A2A24">If you or someone near you is in danger, call 911. These free lines are open to anyone, and most answer any time of day or night.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+    <div class="mm mm4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
       <sc-for list="{{ resCrisis }}" as="c" hint-placeholder-count="6">
         <div style="display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:12px;background:#FFFFFF;border:1px solid #F1D3CC;color:#2C3443"><span style="font-weight:800;font-size:16px;color:#7A1F12">{{ c.name }}</span><span style="font-weight:800;font-size:18px;color:#13294B">{{ c.contact }}</span><span style="font-size:14px;line-height:1.45;color:#5B6270">{{ c.what }}</span><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px"><sc-if value="{{ c.hasCall }}" hint-placeholder-val="{{ true }}"><a href="{{ c.callHref }}" style="border-radius:40px;background:#7A1F12;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Call</a></sc-if><sc-if value="{{ c.hasText }}" hint-placeholder-val="{{ false }}"><a href="{{ c.textHref }}" style="border-radius:40px;background:#13294B;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Text</a></sc-if><sc-if value="{{ c.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ c.url }}" target="_blank" rel="noopener" style="border-radius:40px;border:1px solid #D9CFB8;color:#13294B;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Website</a></sc-if></div></div>
       </sc-for>
+      <button type="button" class="mm-btn" style="display:none;margin:6px auto 0;border:1px solid #7A1F12;background:#FFFFFF;color:#7A1F12;border-radius:40px;padding:11px 24px;font-size:15px;font-weight:800">More help lines</button>
     </div>
   </div></section>
   <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:48px 24px 24px;display:flex;flex-direction:column;gap:18px">
@@ -2320,7 +2325,7 @@ image-slot::part(credit){display:none !important}
     </div>
     <span style="font-size:14px;color:#5B6270">{{ resCountText }}</span>
   </div></section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+  <section style="background:#FAF6EE"><div class="mm mm6 res-grid" style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
     <sc-for list="{{ resItems }}" as="r" hint-placeholder-count="6">
       <sc-if value="{{ r.showCat }}" hint-placeholder-val="{{ false }}"><h3 style="grid-column:1 / -1;margin:16px 0 0;font-family:'Libre Baskerville',serif;font-size:21px;color:#8A6420">{{ r.category }}</h3></sc-if>
       <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px">
@@ -2336,7 +2341,7 @@ image-slot::part(credit){display:none !important}
       </article>
     </sc-for>
     <sc-if value="{{ resEmpty }}" hint-placeholder-val="{{ false }}"><p style="grid-column:1 / -1;margin:0;font-size:16px;color:#5B6270">No local listing matches that search yet. Try another word, use the state search below, or call 211 to talk with someone who can point you to help.</p></sc-if>
-  </div></section>
+  <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show all resources</button></div></section>
   <section style="background:#F4EDDE"><div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:flex;flex-direction:column;gap:18px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:28px;color:#13294B">Find help in any state</h2>
     <p style="margin:0;max-width:760px;font-size:16px;line-height:1.65;color:#2C3443">Live outside Texas, or helping family somewhere else? Enter a ZIP code and choose a state, then open any of these free national directories to see help near that address.</p>
@@ -2363,7 +2368,7 @@ image-slot::part(credit){display:none !important}
       <p style="margin:0;max-width:680px;font-size:18px;line-height:1.7;color:#E6E9EF">At Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas, everything we teach comes from the Bible. Here are some of the core beliefs that shape our worship, our families, and our life together.</p>
     </div>
   </section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+  <section style="background:#FAF6EE"><div class="mf" style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">The Holy Scriptures</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">The Bible is the inspired Word of God. It is our guide for faith and everyday life, and the standard for everything we believe.</p><span style="font-size:14px;font-weight:700;color:#8A6420">2 Timothy 3:16, 17</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">One God</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">There is one God: Father, Son, and Holy Spirit, a unity of three eternal Persons who love us and work together for our salvation.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Matthew 28:19</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">Saved by Grace</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">Salvation is a free gift. We are saved by God's grace through faith in Jesus Christ, who lived, died, and rose again for us.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Ephesians 2:8, 9</span></article>
@@ -2725,11 +2730,12 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Moments at Shekinah</h2>
       <p style="margin:0;font-size:15px;color:#5B6270">Tap any photo to see it full size.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
+    <div class="mm mm12" style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
       <sc-for list="{{ galPhotos }}" as="p" hint-placeholder-count="12">
         <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="grid-column:span {{ p.span }};grid-row:span {{ p.span }};position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;background:#EDE5D3;aspect-ratio:{{ p.ratio }};cursor:zoom-in;display:block"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease" style-hover="transform:scale(1.03)"></button>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more photos</button>
   </div></section>
   <sc-if value="{{ galOpen }}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-modal="true" aria-label="Photo viewer" onClick="{{ galClose }}" style="position:fixed;inset:0;z-index:200;background:rgba(8,14,26,0.94);display:flex;align-items:center;justify-content:center;padding:56px 16px">

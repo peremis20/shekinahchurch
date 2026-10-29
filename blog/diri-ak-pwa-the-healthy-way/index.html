@@ -43,10 +43,13 @@
 <style>html:not(.site-edit) [data-edit-ctl]{display:none !important}
 #ssr [hidden]{display:none !important}
 .m-only{display:none}
+
+@media (max-width:760px){.mm:not(.open).mm4>:not(.mm-btn):nth-child(n+5),.mm:not(.open).mm6>:not(.mm-btn):nth-child(n+7),.mm:not(.open).mm10>:not(.mm-btn):nth-child(n+11),.mm:not(.open).mm12>:not(.mm-btn):nth-child(n+13){display:none !important}.mm>.mm-btn{grid-column:1 / -1}.mm:not(.open)+.mm-btn,.mm:not(.open)>.mm-btn{display:block !important}.res-grid article p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.res-grid article{padding:16px !important;gap:6px !important}.m-grid2{grid-template-columns:1fr 1fr !important;gap:12px !important}.m-grid2>*>div:first-child{height:170px !important}.m-grid2 h3{font-size:16px !important}.m-grid2 p{font-size:13px !important}.mf>*>:first-child{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}.mf>*>:first-child::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:#F4EDDE;color:#13294B;display:flex;align-items:center;justify-content:center;font:800 18px/1 sans-serif}.mf>.open>:first-child::after{content:"\2212"}.mf>*:not(.open)>:not(:first-child){display:none !important}.mf>*{padding:18px 20px !important}.mf{gap:12px !important}.foot-grid>.foot-wide:first-child>p,.foot-connect>span:nth-child(2){display:none}.foot-grid>div:not(.foot-wide){gap:9px !important}.foot-grid{gap:24px 20px !important;padding:32px 20px 22px !important}}
 @media (max-width:760px){.m-only{display:block}.m-hide{display:none !important}.m-two>*:nth-child(n+3){display:none !important}}
 #site-edit-bar{position:fixed;right:16px;bottom:16px;z-index:100000;display:flex;align-items:center;gap:10px;background:#13294B;color:#fff;font:600 14px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 10px 10px 16px;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
 #site-edit-bar button{border:none;border-radius:40px;background:#E2B85C;color:#13294B;font:700 14px/1 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 16px;cursor:pointer}
 #site-edit-bar .x{background:transparent;color:#fff;padding:10px 8px}</style>
+<script>document.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;var b=t.closest('.mm-btn');if(b){var g=b.previousElementSibling&&b.previousElementSibling.classList.contains('mm')?b.previousElementSibling:b.parentElement;g.classList.add('open');return;}if(!window.matchMedia('(max-width:760px)').matches)return;var h=t.closest('.mf > * > :first-child');if(h)h.parentElement.classList.toggle('open');});</script>
 <script>(function(){
   var on=/[?&]edit(=|&|$)/.test(location.search);
   if(!on) return;
@@ -174,21 +177,21 @@
     
   </div>
   </header><main data-dc-tpl="58" style="flex: 1 1 0%;">
-  <article data-dc-tpl="888" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
-    <a data-dc-tpl="889" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
-    <span data-dc-tpl="890" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
-    <h1 data-dc-tpl="891" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Diri ak Pwa the Healthy Way</span></h1>
-    <div data-dc-tpl="892" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="893" rel="author"><span class="sc-interp">Rose Charles</span></span> · <time data-dc-tpl="894" datetime="2026-08-31"><span class="sc-interp">Aug 31, 2026</span></time> · <span class="sc-interp">11 min read</span></div>
-    <p data-dc-tpl="896" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">A full recipe for Haitian rice and beans made with brown rice, dry beans, and homemade epis, with simple nutrition and Scripture for everyday meals.</span></p>
-    <div data-dc-tpl="897" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="898" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
-              <div data-dc-tpl="900" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
-                <button data-dc-tpl="901" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="902" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="903" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="904" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="905" d="M21 16l-5-5-9 8"></path></svg></button>
-                <button data-dc-tpl="906" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="907" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="908" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
+  <article data-dc-tpl="889" style="max-width: 760px; margin: 0px auto; padding: 48px 24px 40px; display: flex; flex-direction: column; gap: 20px;">
+    <a data-dc-tpl="890" href="/blog/" class="scp0" style="font-weight: 700; color: rgb(19, 41, 75); cursor: pointer; font-size: 15px;">← Back to Blog</a>
+    <span data-dc-tpl="891" style="font-size: 13px; font-weight: 700; letter-spacing: 1.2px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
+    <h1 data-dc-tpl="892" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(30px, 4vw, 44px); line-height: 1.2; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Diri ak Pwa the Healthy Way</span></h1>
+    <div data-dc-tpl="893" style="font-size: 15px; color: rgb(91, 98, 112);">By <span data-dc-tpl="894" rel="author"><span class="sc-interp">Rose Charles</span></span> · <time data-dc-tpl="895" datetime="2026-08-31"><span class="sc-interp">Aug 31, 2026</span></time> · <span class="sc-interp">11 min read</span></div>
+    <p data-dc-tpl="897" style="margin: 0px; font-size: 19px; line-height: 1.65; color: rgb(61, 69, 84); font-style: italic;"><span class="sc-interp">A full recipe for Haitian rice and beans made with brown rice, dry beans, and homemade epis, with simple nutrition and Scripture for everyday meals.</span></p>
+    <div data-dc-tpl="898" style="height: 400px; position: relative; border-radius: 12px; overflow: hidden; margin: 8px 0px;"><div data-dc-tpl="899" style="position: absolute; inset: 0px;"><div class="ssr-slot" aria-hidden="true"></div>
+              <div data-dc-tpl="901" style="position: absolute; top: 10px; left: 10px; z-index: 3; display: flex; gap: 6px;">
+                <button data-dc-tpl="902" hidden title="Change photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="903" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect data-dc-tpl="904" x="3" y="5" width="18" height="14" rx="2"></rect><circle data-dc-tpl="905" cx="9" cy="10" r="1.6"></circle><path data-dc-tpl="906" d="M21 16l-5-5-9 8"></path></svg></button>
+                <button data-dc-tpl="907" hidden title="Move photo" style="width: 34px; height: 34px; border-radius: 50%; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; background: rgba(255, 255, 255, 0.92); display: flex; align-items: center; justify-content: center; box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 8px;"><svg data-dc-tpl="908" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path data-dc-tpl="909" d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
               </div>
               
             </div></div>
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">There is a certain sound every Haitian kitchen knows: the soft hiss of epis hitting hot oil, followed by the smell of garlic, thyme, and clove filling the whole house. Someone lifts the lid on a pot of beans, pours that deep red cooking liquid over the rice, and everyone knows dinner will be good. For many families, diri ak pwa is not just a side dish. It is the taste of home, of Sunday dinners, of grandmothers who never measured anything.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">There is a certain sound every Haitian kitchen knows: the soft hiss of epis hitting hot oil, followed by the smell of garlic, thyme, and clove filling the whole house. Someone lifts the lid on a pot of beans, pours that deep red cooking liquid over the rice, and everyone knows dinner will be good. For many families, diri ak pwa is not just a side dish. It is the taste of home, of Sunday dinners, of grandmothers who never measured anything.</span></p>
       
       
       
@@ -203,7 +206,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Now imagine that your doctor has suggested more fiber and fewer refined carbohydrates, or that you simply want your family to eat a little better. Your first worry might be that you will have to give up the rice and beans you love. The truth is the opposite. With brown rice, beans cooked from dry, and a homemade epis, diri ak pwa can become one of the most nourishing meals on your table while still tasting the way it should.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Now imagine that your doctor has suggested more fiber and fewer refined carbohydrates, or that you simply want your family to eat a little better. Your first worry might be that you will have to give up the rice and beans you love. The truth is the opposite. With brown rice, beans cooked from dry, and a homemade epis, diri ak pwa can become one of the most nourishing meals on your table while still tasting the way it should.</span></p>
       
       
       
@@ -218,7 +221,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will walk through a full recipe for healthy Haitian rice and beans, show you how to make a simple plant based epis, and explain why beans and whole grains are so good for you. Along the way we will look at what the Bible says about everyday meals.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In this article we will walk through a full recipe for healthy Haitian rice and beans, show you how to make a simple plant based epis, and explain why beans and whole grains are so good for you. Along the way we will look at what the Bible says about everyday meals.</span></p>
       
       
       
@@ -234,7 +237,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">The short answer</span></h2>
       
       
       
@@ -248,7 +251,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Healthy diri ak pwa uses three simple upgrades: brown rice instead of white, beans cooked from dry so you control the salt, and fresh epis instead of salty bouillon cubes. The method is the same one Haitian cooks have always used. You cook the beans, save their flavorful liquid, fry the beans briefly with epis, then cook the rice right in that liquid until every grain is tinted and tender.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Healthy diri ak pwa uses three simple upgrades: brown rice instead of white, beans cooked from dry so you control the salt, and fresh epis instead of salty bouillon cubes. The method is the same one Haitian cooks have always used. You cook the beans, save their flavorful liquid, fry the beans briefly with epis, then cook the rice right in that liquid until every grain is tinted and tender.</span></p>
       
       
       
@@ -270,7 +273,7 @@
       
       
       
-      <div data-dc-tpl="952" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="954" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="955" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">6</span></span><span data-dc-tpl="956" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Servings from one pot</span></span></div><div data-dc-tpl="958" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="959" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">1 cup</span></span><span data-dc-tpl="960" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Dry beans, about 2 1/2 cups cooked</span></span></div><div data-dc-tpl="962" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="963" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">30 min</span></span><span data-dc-tpl="964" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Minimum boil for kidney beans</span></span></div></div>
+      <div data-dc-tpl="953" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px;"><div data-dc-tpl="955" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="956" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">6</span></span><span data-dc-tpl="957" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Servings from one pot</span></span></div><div data-dc-tpl="959" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="960" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">1 cup</span></span><span data-dc-tpl="961" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Dry beans, about 2 1/2 cups cooked</span></span></div><div data-dc-tpl="963" style="background: rgb(244, 237, 222); border-radius: 12px; padding: 20px 18px; display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="964" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 30px; line-height: 1.1; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">30 min</span></span><span data-dc-tpl="965" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Minimum boil for kidney beans</span></span></div></div>
       
       
       
@@ -278,7 +281,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The dish many Haitians call diri kole ak pwa, or rice cooked together with beans, is a beloved everyday dish across Haiti and its diaspora. The classic version is usually made with red kidney beans, though many cooks use pinto or other beans too. Our version keeps the classic flavors of thyme, clove, garlic, and a whole scotch bonnet pepper, and simply makes the grain a whole grain.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The dish many Haitians call diri kole ak pwa, or rice cooked together with beans, is a beloved everyday dish across Haiti and its diaspora. The classic version is usually made with red kidney beans, though many cooks use pinto or other beans too. Our version keeps the classic flavors of thyme, clove, garlic, and a whole scotch bonnet pepper, and simply makes the grain a whole grain.</span></p>
       
       
       
@@ -294,7 +297,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Why beans and brown rice are good for you</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Why beans and brown rice are good for you</span></h2>
       
       
       
@@ -310,7 +313,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What makes brown rice different</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What makes brown rice different</span></h3>
       
       
       
@@ -323,7 +326,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Every grain of rice starts as a whole kernel with three parts. The Mayo Clinic describes them simply: the bran is the hard outer coating that holds most of the fiber, the germ contains vitamins and healthy fats, and the endosperm is the starchy center. Brown rice keeps all three parts. White rice has the bran and germ removed, and with them most of the fiber.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Every grain of rice starts as a whole kernel with three parts. The Mayo Clinic describes them simply: the bran is the hard outer coating that holds most of the fiber, the germ contains vitamins and healthy fats, and the endosperm is the starchy center. Brown rice keeps all three parts. White rice has the bran and germ removed, and with them most of the fiber.</span></p>
       
       
       
@@ -338,7 +341,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Harvard's Nutrition Source reports that refining grains strips away much of their fiber, B vitamins, and vitamin E. It also points to research linking higher white rice intake with a greater risk of type 2 diabetes, and two or more servings of brown rice a week with a lower risk. Studies like these show associations, not guarantees, but they give good reason to choose whole grains more often. The Mayo Clinic adds that whole grains may help lower insulin levels and the risk of diabetes and heart disease.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Harvard's Nutrition Source reports that refining grains strips away much of their fiber, B vitamins, and vitamin E. It also points to research linking higher white rice intake with a greater risk of type 2 diabetes, and two or more servings of brown rice a week with a lower risk. Studies like these show associations, not guarantees, but they give good reason to choose whole grains more often. The Mayo Clinic adds that whole grains may help lower insulin levels and the risk of diabetes and heart disease.</span></p>
       
       
       
@@ -355,7 +358,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What beans bring to the table</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What beans bring to the table</span></h3>
       
       
       
@@ -368,7 +371,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Beans are one of the most humble and powerful foods in the world. Harvard describes legumes as a source of protein, fiber, folate, and iron, and notes that whole legumes are low in saturated fat and sodium. The Mayo Clinic adds that legumes contain no cholesterol and provide potassium and magnesium, and that they can stand in for meat. The USDA's MyPlate counts beans in both the protein group and the vegetable group, which says a lot about how useful they are.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Beans are one of the most humble and powerful foods in the world. Harvard describes legumes as a source of protein, fiber, folate, and iron, and notes that whole legumes are low in saturated fat and sodium. The Mayo Clinic adds that legumes contain no cholesterol and provide potassium and magnesium, and that they can stand in for meat. The USDA's MyPlate counts beans in both the protein group and the vegetable group, which says a lot about how useful they are.</span></p>
       
       
       
@@ -383,7 +386,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Together, beans and brown rice make a filling plate full of fiber and plant protein. Add a slice of avocado and a fresh salad, and you have a complete Haitian meal that fits the plant based eating many Adventists enjoy.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Together, beans and brown rice make a filling plate full of fiber and plant protein. Add a slice of avocado and a fresh salad, and you have a complete Haitian meal that fits the plant based eating many Adventists enjoy.</span></p>
       
       
       
@@ -410,11 +413,11 @@
       
       
       
-      <a data-dc-tpl="1042" href="/blog/eating-for-life-simple-plant-based-meals-from-our-kitchen/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1043" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1044" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">Eating for Life: Simple Plant Based Meals from Our Kitchen</span></span></a>
+      <a data-dc-tpl="1043" href="/blog/eating-for-life-simple-plant-based-meals-from-our-kitchen/" class="scpd" style="margin: 8px 0px; display: flex; flex-direction: column; gap: 4px; padding: 18px 22px; border-radius: 12px; background: rgb(244, 237, 222); border-left: 5px solid rgb(226, 184, 92); color: rgb(19, 41, 75); text-decoration: none;"><span data-dc-tpl="1044" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">KEEP READING</span><span data-dc-tpl="1045" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; font-weight: 700; line-height: 1.4;"><span class="sc-interp">Eating for Life: Simple Plant Based Meals from Our Kitchen</span></span></a>
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What the Bible says about everyday meals</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">What the Bible says about everyday meals</span></h2>
       
       
       
@@ -430,7 +433,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Eating to the glory of God</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Eating to the glory of God</span></h3>
       
       
       
@@ -443,7 +446,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul wrote to the believers in Corinth about food, conscience, and how Christians should live together. He closed the discussion with a sentence that turns every ordinary meal into something sacred.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Paul wrote to the believers in Corinth about food, conscience, and how Christians should live together. He closed the discussion with a sentence that turns every ordinary meal into something sacred.</span></p>
       
       
       
@@ -461,7 +464,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God." 1 Corinthians 10:31, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God." 1 Corinthians 10:31, KJV</span></blockquote>
       
       
       
@@ -473,7 +476,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In context, Paul was talking about food offered to idols and about caring for the conscience of others. But the principle is clear and broad. Nothing is too ordinary to be offered to God, not even a pot of rice and beans on a Tuesday night.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">In context, Paul was talking about food offered to idols and about caring for the conscience of others. But the principle is clear and broad. Nothing is too ordinary to be offered to God, not even a pot of rice and beans on a Tuesday night.</span></p>
       
       
       
@@ -490,7 +493,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Daniel's simple plate</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Daniel's simple plate</span></h3>
       
       
       
@@ -503,7 +506,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">When Daniel and his friends were taken captive to Babylon, they were offered rich food from the king's table. Daniel asked for something simpler.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">When Daniel and his friends were taken captive to Babylon, they were offered rich food from the king's table. Daniel asked for something simpler.</span></p>
       
       
       
@@ -521,7 +524,7 @@
       
       
       
-      <blockquote data-dc-tpl="923" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Prove thy servants, I beseech thee, ten days; and let them give us pulse to eat, and water to drink." Daniel 1:12, KJV</span></blockquote>
+      <blockquote data-dc-tpl="924" style="margin: 4px 0px; padding: 6px 0px 6px 20px; border-left: 4px solid rgb(226, 184, 92); font-family: &quot;Libre Baskerville&quot;, serif; font-size: 19px; line-height: 1.6; color: rgb(19, 41, 75);"><span class="sc-interp">"Prove thy servants, I beseech thee, ten days; and let them give us pulse to eat, and water to drink." Daniel 1:12, KJV</span></blockquote>
       
       
       
@@ -533,7 +536,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The word "pulse" in the King James Version refers to food grown from seeds, which many Bible students understand to include vegetables, grains, and legumes. At the end of the trial, the Bible says, "at the end of ten days their countenances appeared fairer and fatter in flesh than all the children which did eat the portion of the king's meat" (Daniel 1:15). Scripture's main point is Daniel's faithfulness to God, not a diet plan, and we should be careful not to turn the story into a promise about weight or looks. Still, it is a beautiful picture of how simple foods, chosen with a faithful heart, were blessed by God.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The word "pulse" in the King James Version refers to food grown from seeds, which many Bible students understand to include vegetables, grains, and legumes. At the end of the trial, the Bible says, "at the end of ten days their countenances appeared fairer and fatter in flesh than all the children which did eat the portion of the king's meat" (Daniel 1:15). Scripture's main point is Daniel's faithfulness to God, not a diet plan, and we should be careful not to turn the story into a promise about weight or looks. Still, it is a beautiful picture of how simple foods, chosen with a faithful heart, were blessed by God.</span></p>
       
       
       
@@ -549,7 +552,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How to make a simple plant based epis</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">How to make a simple plant based epis</span></h2>
       
       
       
@@ -563,7 +566,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Epis is the flavor base of Haitian cooking, a blend of herbs, peppers, garlic, and onion that seasons everything from rice and beans to soups and stews. Many families keep a jar in the refrigerator at all times. Traditionally it is pounded by hand with a mortar and pestle, though most cooks today use a blender or food processor. This version makes about 1 1/2 cups.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Epis is the flavor base of Haitian cooking, a blend of herbs, peppers, garlic, and onion that seasons everything from rice and beans to soups and stews. Many families keep a jar in the refrigerator at all times. Traditionally it is pounded by hand with a mortar and pestle, though most cooks today use a blender or food processor. This version makes about 1 1/2 cups.</span></p>
       
       
       
@@ -589,7 +592,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1030" style="display: contents;"><span data-dc-tpl="1031" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Epis ingredient</span></span><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Amount</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1031" style="display: contents;"><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Epis ingredient</span></span><span data-dc-tpl="1033" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Amount</span></span></div></div>
       
       
     
@@ -604,7 +607,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh parsley, stems and leaves</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 packed cup</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh parsley, stems and leaves</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 packed cup</span></span></div></div>
       
       
     
@@ -619,7 +622,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Scallions, roughly chopped</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Scallions, roughly chopped</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4</span></span></div></div>
       
       
     
@@ -634,7 +637,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Green bell pepper, seeded and chopped</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 medium</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Green bell pepper, seeded and chopped</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 medium</span></span></div></div>
       
       
     
@@ -649,7 +652,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Small onion, chopped</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Small onion, chopped</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1</span></span></div></div>
       
       
     
@@ -664,7 +667,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Garlic</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">8 cloves</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Garlic</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">8 cloves</span></span></div></div>
       
       
     
@@ -679,7 +682,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh thyme leaves</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 tablespoon</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh thyme leaves</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 tablespoon</span></span></div></div>
       
       
     
@@ -694,7 +697,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole cloves</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole cloves</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2</span></span></div></div>
       
       
     
@@ -709,7 +712,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh lime juice</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh lime juice</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons</span></span></div></div>
       
       
     
@@ -724,7 +727,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Olive oil</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/3 cup</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Olive oil</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/3 cup</span></span></div></div>
       
       
     
@@ -739,11 +742,11 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Scotch bonnet pepper, seeded</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/4, optional</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Scotch bonnet pepper, seeded</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/4, optional</span></span></div></div>
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Place everything in a blender or food processor and blend until you have a thick, bright green paste, scraping down the sides as needed. Add a tablespoon of water if it is too thick to move. Spoon it into a clean glass jar and refrigerate. Because homemade mixtures of fresh garlic and herbs in oil can carry a risk of botulism, Oregon State University Extension advises using them within 4 days, so freeze the rest in an ice cube tray and you will always have a few cubes ready for the next pot of beans.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Place everything in a blender or food processor and blend until you have a thick, bright green paste, scraping down the sides as needed. Add a tablespoon of water if it is too thick to move. Spoon it into a clean glass jar and refrigerate. Because homemade mixtures of fresh garlic and herbs in oil can carry a risk of botulism, Oregon State University Extension advises using them within 4 days, so freeze the rest in an ice cube tray and you will always have a few cubes ready for the next pot of beans.</span></p>
       
       
       
@@ -763,7 +766,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1737098252082-8d79dc6b77c0?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Bunch of fresh parsley resting on a wooden table" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1737098252082-8d79dc6b77c0?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Bunch of fresh parsley resting on a wooden table" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -774,7 +777,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Diri ak pwa the healthy way: the recipe</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Diri ak pwa the healthy way: the recipe</span></h2>
       
       
       
@@ -788,7 +791,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This recipe serves 6. Plan to soak the beans overnight. Active time is about 30 minutes, cooking the beans takes about 1 hour to 1 1/2 hours, and the rice takes about 45 minutes plus a short rest.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">This recipe serves 6. Plan to soak the beans overnight. Active time is about 30 minutes, cooking the beans takes about 1 hour to 1 1/2 hours, and the rice takes about 45 minutes plus a short rest.</span></p>
       
       
       
@@ -814,7 +817,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1030" style="display: contents;"><span data-dc-tpl="1031" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Ingredient</span></span><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Amount</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: 0px; display: grid; grid-template-columns: 1fr 1.4fr; border: 1px solid rgb(234, 223, 198); border-radius: 12px 12px 0px 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1031" style="display: contents;"><span data-dc-tpl="1032" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); font-size: 14px; font-weight: 800;"><span class="sc-interp">Ingredient</span></span><span data-dc-tpl="1033" role="columnheader" style="padding: 12px 14px; background: rgb(19, 41, 75); color: rgb(226, 184, 92); font-size: 14px; font-weight: 800;"><span class="sc-interp">Amount</span></span></div></div>
       
       
     
@@ -829,7 +832,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Dry red kidney beans</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 cup</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Dry red kidney beans</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 cup</span></span></div></div>
       
       
     
@@ -844,7 +847,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Water for cooking the beans</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">7 cups</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Water for cooking the beans</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">7 cups</span></span></div></div>
       
       
     
@@ -859,7 +862,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole cloves</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4, divided</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole cloves</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4, divided</span></span></div></div>
       
       
     
@@ -874,7 +877,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Long grain brown rice, rinsed</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 cups</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Long grain brown rice, rinsed</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 cups</span></span></div></div>
       
       
     
@@ -889,7 +892,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Olive oil</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Olive oil</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons</span></span></div></div>
       
       
     
@@ -904,7 +907,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Haitian epis</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/3 cup</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Haitian epis</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1/3 cup</span></span></div></div>
       
       
     
@@ -919,7 +922,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Garlic, minced</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">3 cloves</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Garlic, minced</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">3 cloves</span></span></div></div>
       
       
     
@@ -934,7 +937,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Small onion, finely chopped</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Small onion, finely chopped</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1</span></span></div></div>
       
       
     
@@ -949,7 +952,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh thyme</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4 sprigs</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh thyme</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">4 sprigs</span></span></div></div>
       
       
     
@@ -964,7 +967,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole scotch bonnet pepper</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1, left whole</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Whole scotch bonnet pepper</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1, left whole</span></span></div></div>
       
       
     
@@ -979,7 +982,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Salt</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 1/2 teaspoons, or to taste</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px; overflow: hidden; background: rgb(255, 255, 255);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Salt</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">1 1/2 teaspoons, or to taste</span></span></div></div>
       
       
     
@@ -994,7 +997,7 @@
       
       
       
-      <div data-dc-tpl="1028" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1036" style="display: contents;"><span data-dc-tpl="1037" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh parsley, chopped</span></span><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons, for serving</span></span></div></div>
+      <div data-dc-tpl="1029" role="row" style="margin-top: -20px; display: grid; grid-template-columns: 1fr 1.4fr; border-width: 0px 1px 1px; border-style: solid; border-color: rgb(234, 223, 198); border-image: none; border-radius: 0px 0px 12px 12px; overflow: hidden; background: rgb(251, 248, 241);"><div data-dc-tpl="1037" style="display: contents;"><span data-dc-tpl="1038" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fresh parsley, chopped</span></span><span data-dc-tpl="1039" role="cell" style="padding: 12px 14px; font-size: 15px; line-height: 1.5; color: rgb(44, 52, 67);"><span class="sc-interp">2 tablespoons, for serving</span></span></div></div>
       
       
     
@@ -1007,7 +1010,7 @@
       
       
       
-      <div data-dc-tpl="991" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="993" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="994" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="995" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Soak</span></span><span data-dc-tpl="996" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Soak the beans overnight, then rinse</span></span></div><div data-dc-tpl="998" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="999" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1000" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Boil</span></span><span data-dc-tpl="1001" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Cook beans until tender, saving the liquid</span></span></div><div data-dc-tpl="1003" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1004" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1005" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fry</span></span><span data-dc-tpl="1006" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Sauté epis, onion, garlic, and beans</span></span></div><div data-dc-tpl="1008" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1009" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1010" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Simmer</span></span><span data-dc-tpl="1011" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Add rice, bean liquid, and herbs, then cover</span></span></div><div data-dc-tpl="1013" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1014" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1015" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Rest</span></span><span data-dc-tpl="1016" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">Let it steam 10 minutes, then fluff</span></span></div></div>
+      <div data-dc-tpl="992" style="margin: 8px 0px; display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px;"><div data-dc-tpl="994" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="995" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 1</span><span data-dc-tpl="996" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Soak</span></span><span data-dc-tpl="997" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Soak the beans overnight, then rinse</span></span></div><div data-dc-tpl="999" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1000" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 2</span><span data-dc-tpl="1001" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Boil</span></span><span data-dc-tpl="1002" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Cook beans until tender, saving the liquid</span></span></div><div data-dc-tpl="1004" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1005" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 3</span><span data-dc-tpl="1006" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Fry</span></span><span data-dc-tpl="1007" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Sauté epis, onion, garlic, and beans</span></span></div><div data-dc-tpl="1009" style="padding: 16px 14px; border-radius: 12px; background: rgb(244, 237, 222); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1010" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(138, 100, 32);">STEP 4</span><span data-dc-tpl="1011" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Simmer</span></span><span data-dc-tpl="1012" style="font-size: 14px; line-height: 1.45; color: rgb(91, 98, 112);"><span class="sc-interp">Add rice, bean liquid, and herbs, then cover</span></span></div><div data-dc-tpl="1014" style="padding: 16px 14px; border-radius: 12px; background: rgb(226, 184, 92); border-top: 4px solid rgb(19, 41, 75); display: flex; flex-direction: column; gap: 6px;"><span data-dc-tpl="1015" style="font-size: 12px; font-weight: 800; letter-spacing: 1px; color: rgb(19, 41, 75);">STEP 5</span><span data-dc-tpl="1016" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 17px; color: rgb(19, 41, 75); font-weight: 700;"><span class="sc-interp">Rest</span></span><span data-dc-tpl="1017" style="font-size: 14px; line-height: 1.45; color: rgb(19, 41, 75);"><span class="sc-interp">Let it steam 10 minutes, then fluff</span></span></div></div>
       
       
       
@@ -1015,7 +1018,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 1: Soak and cook the beans</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 1: Soak and cook the beans</span></h3>
       
       
       
@@ -1028,7 +1031,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Sort the beans, removing any shriveled ones or small stones, and rinse them well. Cover them with plenty of water and soak overnight in the refrigerator. The next day, drain and rinse the beans, then put them in a pot with 7 cups of fresh water and 2 of the cloves. Bring them to a full boil and keep them at a boil for at least 30 minutes, then lower the heat and simmer, partly covered, until the beans mash easily between your fingers. This usually takes 1 hour to 1 1/2 hours in total.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Sort the beans, removing any shriveled ones or small stones, and rinse them well. Cover them with plenty of water and soak overnight in the refrigerator. The next day, drain and rinse the beans, then put them in a pot with 7 cups of fresh water and 2 of the cloves. Bring them to a full boil and keep them at a boil for at least 30 minutes, then lower the heat and simmer, partly covered, until the beans mash easily between your fingers. This usually takes 1 hour to 1 1/2 hours in total.</span></p>
       
       
       
@@ -1043,7 +1046,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That boiling step matters. Raw or undercooked kidney beans contain a natural toxin, and Kansas State University food safety specialists advise boiling them in fresh water for at least 30 minutes and avoiding the slow cooker, which may not get hot enough. Wait to add salt until the rice step, because the Mayo Clinic notes that salt and acidic ingredients added early can toughen beans and slow their cooking.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">That boiling step matters. Raw or undercooked kidney beans contain a natural toxin, and Kansas State University food safety specialists advise boiling them in fresh water for at least 30 minutes and avoiding the slow cooker, which may not get hot enough. Wait to add salt until the rice step, because the Mayo Clinic notes that salt and acidic ingredients added early can toughen beans and slow their cooking.</span></p>
       
       
       
@@ -1060,7 +1063,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 2: Save the liquid and fry the beans</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 2: Save the liquid and fry the beans</span></h3>
       
       
       
@@ -1073,7 +1076,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Strain the beans over a large bowl and save every drop of the cooking liquid, because it gives diri ak pwa its color and flavor. Measure the liquid and add water if needed to make 4 1/2 cups. In a heavy pot with a tight lid, warm the olive oil over medium heat and add the epis, onion, and garlic. Cook for 2 to 3 minutes until fragrant, then add the drained beans and stir for another 2 to 3 minutes so they soak up the seasoning.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Strain the beans over a large bowl and save every drop of the cooking liquid, because it gives diri ak pwa its color and flavor. Measure the liquid and add water if needed to make 4 1/2 cups. In a heavy pot with a tight lid, warm the olive oil over medium heat and add the epis, onion, and garlic. Cook for 2 to 3 minutes until fragrant, then add the drained beans and stir for another 2 to 3 minutes so they soak up the seasoning.</span></p>
       
       
       
@@ -1090,7 +1093,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 3: Cook the rice</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 3: Cook the rice</span></h3>
       
       
       
@@ -1103,7 +1106,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Add the rinsed brown rice and stir for a minute so every grain is coated. Pour in the 4 1/2 cups of bean liquid, then add the thyme, the remaining 2 cloves, the whole scotch bonnet, and the salt. Bring it to a boil and let it bubble uncovered for a few minutes, until the liquid drops just below the surface of the rice. Lower the heat as far as it will go, cover tightly, and cook for about 45 minutes without lifting the lid.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Add the rinsed brown rice and stir for a minute so every grain is coated. Pour in the 4 1/2 cups of bean liquid, then add the thyme, the remaining 2 cloves, the whole scotch bonnet, and the salt. Bring it to a boil and let it bubble uncovered for a few minutes, until the liquid drops just below the surface of the rice. Lower the heat as far as it will go, cover tightly, and cook for about 45 minutes without lifting the lid.</span></p>
       
       
       
@@ -1120,7 +1123,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 4: Rest and serve</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Step 4: Rest and serve</span></h3>
       
       
       
@@ -1133,7 +1136,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Turn off the heat and let the pot rest, still covered, for 10 minutes so the rice finishes steaming. Remove the thyme stems, the cloves, and the scotch bonnet, and gently fluff the rice with a fork. Sprinkle with parsley and serve with sliced avocado, a green salad, steamed vegetables, or a spoonful of legim.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Turn off the heat and let the pot rest, still covered, for 10 minutes so the rice finishes steaming. Remove the thyme stems, the cloves, and the scotch bonnet, and gently fluff the rice with a fork. Sprinkle with parsley and serve with sliced avocado, a green salad, steamed vegetables, or a spoonful of legim.</span></p>
       
       
       
@@ -1153,7 +1156,7 @@
       
       
       
-      <figure data-dc-tpl="928" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="929" src="https://images.unsplash.com/photo-1763368397625-32c8f75fed44?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Pile of dried red kidney beans" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
+      <figure data-dc-tpl="929" style="margin: 12px 0px; display: flex; flex-direction: column; gap: 8px;"><img data-dc-tpl="930" src="https://images.unsplash.com/photo-1763368397625-32c8f75fed44?auto=format&amp;fit=crop&amp;w=1600&amp;q=70" alt="Pile of dried red kidney beans" loading="lazy" style="width: 100%; height: auto; max-height: 460px; object-fit: cover; border-radius: 12px; display: block;"></figure>
       
       
       
@@ -1164,7 +1167,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Tips, substitutions, and storage</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Tips, substitutions, and storage</span></h2>
       
       
       
@@ -1178,7 +1181,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Brown rice can vary from brand to brand, so check it at 40 minutes. If the rice is still firm and the pot is dry, sprinkle in a quarter cup of hot water, cover, and cook a little longer. If you prefer the crispy layer at the bottom of the pot that many Haitians call graten, leave the pot on low for an extra few minutes, watching closely so it does not burn.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Brown rice can vary from brand to brand, so check it at 40 minutes. If the rice is still firm and the pot is dry, sprinkle in a quarter cup of hot water, cover, and cook a little longer. If you prefer the crispy layer at the bottom of the pot that many Haitians call graten, leave the pot on low for an extra few minutes, watching closely so it does not burn.</span></p>
       
       
       
@@ -1193,7 +1196,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Pinto beans, black beans, or small red beans all work well in this recipe. If you are short on time, you can use two 15 ounce cans of beans, rinsed, and replace the bean liquid with low sodium vegetable broth, though the color will be lighter. Never use bouillon cubes without checking the label, since many contain animal products and a great deal of sodium.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Pinto beans, black beans, or small red beans all work well in this recipe. If you are short on time, you can use two 15 ounce cans of beans, rinsed, and replace the bean liquid with low sodium vegetable broth, though the color will be lighter. Never use bouillon cubes without checking the label, since many contain animal products and a great deal of sodium.</span></p>
       
       
       
@@ -1214,7 +1217,7 @@
       
       
       
-      <aside data-dc-tpl="931" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="932" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">Keep it healthy and safe</span></span><p data-dc-tpl="934" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="935" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Boil kidney beans hard for at least 30 minutes</span></p><p data-dc-tpl="937" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="938" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Add salt with the rice, not the beans</span></p><p data-dc-tpl="940" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="941" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Cool leftovers quickly and refrigerate</span></p><p data-dc-tpl="943" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="944" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Reheat leftovers to 165°F</span></p></aside>
+      <aside data-dc-tpl="932" style="margin: 8px 0px; padding: 24px 26px; background: rgb(19, 41, 75); border-radius: 14px; color: rgb(255, 255, 255); display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="933" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(226, 184, 92); text-transform: uppercase;"><span class="sc-interp">Keep it healthy and safe</span></span><p data-dc-tpl="935" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="936" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">1</span><span class="sc-interp">Boil kidney beans hard for at least 30 minutes</span></p><p data-dc-tpl="938" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="939" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">2</span><span class="sc-interp">Add salt with the rice, not the beans</span></p><p data-dc-tpl="941" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="942" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">3</span><span class="sc-interp">Cool leftovers quickly and refrigerate</span></p><p data-dc-tpl="944" style="margin: 0px; padding-left: 30px; position: relative; font-size: 16px; line-height: 1.6;"><span data-dc-tpl="945" aria-hidden="true" style="position: absolute; left: 0px; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgb(226, 184, 92); color: rgb(19, 41, 75); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center;">4</span><span class="sc-interp">Reheat leftovers to 165°F</span></p></aside>
       
       
       
@@ -1223,7 +1226,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Diri ak pwa keeps well in the refrigerator in a covered container for 3 to 4 days, and cooked beans freeze beautifully for later meals. Reheat leftovers until steaming hot, to 165°F as FoodSafety.gov recommends, adding a splash of water to loosen the rice. Making a big pot on Friday is a lovely way to prepare for the Sabbath, so your family can rest and still enjoy a warm, home cooked meal.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Diri ak pwa keeps well in the refrigerator in a covered container for 3 to 4 days, and cooked beans freeze beautifully for later meals. Reheat leftovers until steaming hot, to 165°F as FoodSafety.gov recommends, adding a splash of water to loosen the rice. Making a big pot on Friday is a lovely way to prepare for the Sabbath, so your family can rest and still enjoy a warm, home cooked meal.</span></p>
       
       
       
@@ -1239,7 +1242,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Questions people ask</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Questions people ask</span></h2>
       
       
       
@@ -1255,7 +1258,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is Haitian rice and beans healthy?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Is Haitian rice and beans healthy?</span></h3>
       
       
       
@@ -1268,7 +1271,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Haitian rice and beans can be a very healthy meal when you use brown rice, beans cooked from dry, and fresh epis instead of salty bouillon cubes. Brown rice keeps the bran and germ, where most of the fiber lives, and Harvard's Nutrition Source links brown rice with a lower risk of type 2 diabetes. Beans add protein, fiber, folate, and iron while staying low in saturated fat and sodium. Together they make a filling plate of fiber and plant protein that fits the plant based eating many Seventh-day Adventists enjoy.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Haitian rice and beans can be a very healthy meal when you use brown rice, beans cooked from dry, and fresh epis instead of salty bouillon cubes. Brown rice keeps the bran and germ, where most of the fiber lives, and Harvard's Nutrition Source links brown rice with a lower risk of type 2 diabetes. Beans add protein, fiber, folate, and iron while staying low in saturated fat and sodium. Together they make a filling plate of fiber and plant protein that fits the plant based eating many Seventh-day Adventists enjoy.</span></p>
       
       
       
@@ -1285,7 +1288,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What beans are used in diri ak pwa?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">What beans are used in diri ak pwa?</span></h3>
       
       
       
@@ -1298,7 +1301,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The classic diri ak pwa is usually made with red kidney beans, though many Haitian cooks use pinto or other beans too. Black beans and small red beans also work well in this recipe. If you use dry kidney beans, boil them in fresh water for at least 30 minutes, as Kansas State University food safety specialists advise, because raw or undercooked kidney beans contain a natural toxin. Save the cooking liquid, since it gives the rice its color and flavor.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">The classic diri ak pwa is usually made with red kidney beans, though many Haitian cooks use pinto or other beans too. Black beans and small red beans also work well in this recipe. If you use dry kidney beans, boil them in fresh water for at least 30 minutes, as Kansas State University food safety specialists advise, because raw or undercooked kidney beans contain a natural toxin. Save the cooking liquid, since it gives the rice its color and flavor.</span></p>
       
       
       
@@ -1315,7 +1318,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Can I use canned beans for diri ak pwa?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">Can I use canned beans for diri ak pwa?</span></h3>
       
       
       
@@ -1328,7 +1331,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You can use canned beans for diri ak pwa when you are short on time, using two 15 ounce cans of beans, rinsed. Replace the bean cooking liquid with low sodium vegetable broth. The color of the rice will be lighter than the classic version made with beans cooked from dry. Check the label on any bouillon cubes before using them, since many contain animal products and a great deal of sodium.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">You can use canned beans for diri ak pwa when you are short on time, using two 15 ounce cans of beans, rinsed. Replace the bean cooking liquid with low sodium vegetable broth. The color of the rice will be lighter than the classic version made with beans cooked from dry. Check the label on any bouillon cubes before using them, since many contain animal products and a great deal of sodium.</span></p>
       
       
       
@@ -1345,7 +1348,7 @@
     
       
       
-      <h3 data-dc-tpl="921" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">How long does diri ak pwa last in the fridge?</span></h3>
+      <h3 data-dc-tpl="922" style="margin: 10px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.35; color: rgb(19, 41, 75);"><span class="sc-interp">How long does diri ak pwa last in the fridge?</span></h3>
       
       
       
@@ -1358,7 +1361,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Diri ak pwa keeps well in a covered container in the refrigerator for 3 to 4 days. Cool leftovers quickly and refrigerate them, and cooked beans also freeze beautifully for later meals. When you reheat it, heat it until steaming hot, to 165°F as FoodSafety.gov recommends, adding a splash of water to loosen the rice. Making a big pot on Friday is a lovely way to prepare for the Sabbath.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Diri ak pwa keeps well in a covered container in the refrigerator for 3 to 4 days. Cool leftovers quickly and refrigerate them, and cooked beans also freeze beautifully for later meals. When you reheat it, heat it until steaming hot, to 165°F as FoodSafety.gov recommends, adding a splash of water to loosen the rice. Making a big pot on Friday is a lovely way to prepare for the Sabbath.</span></p>
       
       
       
@@ -1374,7 +1377,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Reflection questions</span></h2>
       
       
       
@@ -1388,7 +1391,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a moment to think about these questions, on your own or with your family. Which everyday meal in your home could become a small act of worship if you offered it to God with gratitude? What might Daniel's quiet courage teach you about making faithful choices when everyone around you is doing something different? And who could you invite to share a plate of rice and beans this week?</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Take a moment to think about these questions, on your own or with your family. Which everyday meal in your home could become a small act of worship if you offered it to God with gratitude? What might Daniel's quiet courage teach you about making faithful choices when everyone around you is doing something different? And who could you invite to share a plate of rice and beans this week?</span></p>
       
       
       
@@ -1404,7 +1407,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A word of encouragement</span></h2>
       
       
       
@@ -1418,7 +1421,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Healthy changes do not have to happen all at once. Maybe this week you try brown rice for the first time, and next month you make your own epis. Every small step taken with a willing heart honors the God who made you and loves you. The same Lord who blessed Daniel's simple meal is near to you at your own table, so cook with joy, eat with thanks, and trust Him with the rest.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Healthy changes do not have to happen all at once. Maybe this week you try brown rice for the first time, and next month you make your own epis. Every small step taken with a willing heart honors the God who made you and loves you. The same Lord who blessed Daniel's simple meal is near to you at your own table, so cook with joy, eat with thanks, and trust Him with the rest.</span></p>
       
       
       
@@ -1434,7 +1437,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">A prayer</span></h2>
       
       
       
@@ -1448,7 +1451,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord, thank You for daily bread and for the simple foods that grow from the earth. Thank You for the hands that taught us to cook and the families we gather with. Help us to eat, drink, and do everything for Your glory. Give us faithful hearts like Daniel's, and make every meal a reminder of Your goodness and care. In Jesus' name, Amen.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">Lord, thank You for daily bread and for the simple foods that grow from the earth. Thank You for the hands that taught us to cook and the families we gather with. Help us to eat, drink, and do everything for Your glory. Give us faithful hearts like Daniel's, and make every meal a reminder of Your goodness and care. In Jesus' name, Amen.</span></p>
       
       
       
@@ -1464,7 +1467,7 @@
       
     
       
-      <h2 data-dc-tpl="919" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
+      <h2 data-dc-tpl="920" style="margin: 20px 0px 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(23px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75); text-wrap: pretty;"><span class="sc-interp">Your next step</span></h2>
       
       
       
@@ -1478,7 +1481,7 @@
       
       
     
-      <p data-dc-tpl="917" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If you would like to learn more about the God who cares for every part of your life, we would be honored to study the Bible with you. Request a free Bible study and explore Scripture one on one, at your own pace. And if you live near Alvarado, come join us on a Saturday morning, when our church family worships in Kreyòl and English and shares a meal together after the Sabbath service.</span></p>
+      <p data-dc-tpl="918" style="margin: 0px; font-size: 18px; line-height: 1.8; color: rgb(44, 52, 67);"><span class="sc-interp">If you would like to learn more about the God who cares for every part of your life, we would be honored to study the Bible with you. Request a free Bible study and explore Scripture one on one, at your own pace. And if you live near Alvarado, come join us on a Saturday morning, when our church family worships in Kreyòl and English and shares a meal together after the Sabbath service.</span></p>
       
       
       
@@ -1506,7 +1509,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1048" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://nutritionsource.hsph.harvard.edu/what-should-you-eat/whole-grains/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Whole Grains, Harvard T.H. Chan School of Public Health</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: 0px; display: flex; flex-direction: column; gap: 8px;"><h2 data-dc-tpl="1049" style="margin: 16px 0px 4px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 22px; color: rgb(19, 41, 75);">Sources and further reading</h2><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://nutritionsource.hsph.harvard.edu/what-should-you-eat/whole-grains/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Whole Grains, Harvard T.H. Chan School of Public Health</span></a></p></div>
     
       
       
@@ -1521,7 +1524,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/whole-grains/art-20047826" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Whole grains: Hearty options for a healthy diet, Mayo Clinic</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/whole-grains/art-20047826" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Whole grains: Hearty options for a healthy diet, Mayo Clinic</span></a></p></div>
     
       
       
@@ -1536,7 +1539,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://nutritionsource.hsph.harvard.edu/legumes-pulses/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Legumes and Pulses, Harvard T.H. Chan School of Public Health</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://nutritionsource.hsph.harvard.edu/legumes-pulses/" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Legumes and Pulses, Harvard T.H. Chan School of Public Health</span></a></p></div>
     
       
       
@@ -1551,7 +1554,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/legumes/art-20044278" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Legumes: Protein rich foods, Mayo Clinic</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.mayoclinic.org/healthy-lifestyle/nutrition-and-healthy-eating/in-depth/legumes/art-20044278" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Legumes: Protein rich foods, Mayo Clinic</span></a></p></div>
     
       
       
@@ -1566,7 +1569,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.myplate.gov/eat-healthy/protein-foods" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Protein Foods, USDA MyPlate</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.myplate.gov/eat-healthy/protein-foods" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Protein Foods, USDA MyPlate</span></a></p></div>
     
       
       
@@ -1581,7 +1584,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.k-state.edu/news/you-asked-it/articles/2017/10/cooking-dry-beans-safely.html" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Cooking Dry Beans Safely, Kansas State University</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.k-state.edu/news/you-asked-it/articles/2017/10/cooking-dry-beans-safely.html" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Cooking Dry Beans Safely, Kansas State University</span></a></p></div>
     
       
       
@@ -1596,7 +1599,7 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Safe Minimum Internal Temperatures, FoodSafety.gov</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Safe Minimum Internal Temperatures, FoodSafety.gov</span></a></p></div>
     
       
       
@@ -1611,87 +1614,87 @@
       
       
       
-      <div data-dc-tpl="1046" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1049" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1050" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1051" href="https://extension.oregonstate.edu/node/154041" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Herbs and Vegetables in Oil, Oregon State University Extension</span></a></p></div>
+      <div data-dc-tpl="1047" style="margin-top: -12px; display: flex; flex-direction: column; gap: 8px;"><p data-dc-tpl="1050" style="margin: 0px; padding-left: 18px; position: relative; font-size: 15px; line-height: 1.55; color: rgb(44, 52, 67);"><span data-dc-tpl="1051" aria-hidden="true" style="position: absolute; left: 2px; color: rgb(184, 137, 47); font-weight: 700;">•</span><a data-dc-tpl="1052" href="https://extension.oregonstate.edu/node/154041" target="_blank" rel="noopener" style="color: rgb(19, 41, 75); text-decoration: underline;"><span class="sc-interp">Herbs and Vegetables in Oil, Oregon State University Extension</span></a></p></div>
     
-    <blockquote data-dc-tpl="1052" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God." 1 Corinthians 10:31, KJV</span></blockquote>
-    <nav data-dc-tpl="1053" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
-      <a data-dc-tpl="1054" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1055" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1056" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
-      <a data-dc-tpl="1057" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1058" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1059" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
-      <a data-dc-tpl="1060" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1061" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1062" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
-      <a data-dc-tpl="1063" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1064" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1065" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
+    <blockquote data-dc-tpl="1053" style="margin: 12px 0px; padding: 24px 28px; background: rgb(244, 237, 222); border-radius: 10px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 20px; line-height: 1.55; color: rgb(19, 41, 75);"><span class="sc-interp">"Whether therefore ye eat, or drink, or whatsoever ye do, do all to the glory of God." 1 Corinthians 10:31, KJV</span></blockquote>
+    <nav data-dc-tpl="1054" aria-label="Next steps" style="margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px;">
+      <a data-dc-tpl="1055" href="/bible-study/" class="scp6" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(19, 41, 75); color: rgb(255, 255, 255);"><span data-dc-tpl="1056" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(226, 184, 92);">GO DEEPER</span><span data-dc-tpl="1057" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Request a free Bible study</span></a>
+      <a data-dc-tpl="1058" href="/plan-your-visit/" class="scp4" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(226, 184, 92); color: rgb(19, 41, 75);"><span data-dc-tpl="1059" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(19, 41, 75);">VISIT US</span><span data-dc-tpl="1060" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Plan your first Sabbath at Shekinah</span></a>
+      <a data-dc-tpl="1061" href="/beliefs/" class="scpd" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(244, 237, 222); color: rgb(19, 41, 75);"><span data-dc-tpl="1062" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">OUR FAITH</span><span data-dc-tpl="1063" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">What Seventh-day Adventists believe</span></a>
+      <a data-dc-tpl="1064" href="/prayer-request/" class="scpb" style="display: flex; flex-direction: column; gap: 6px; padding: 20px; border-radius: 12px; background: rgb(255, 255, 255); border: 1px solid rgb(227, 218, 198); color: rgb(19, 41, 75);"><span data-dc-tpl="1065" style="font-size: 12px; font-weight: 800; letter-spacing: 1.2px; color: rgb(138, 100, 32);">NEED PRAYER?</span><span data-dc-tpl="1066" style="font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.35;">Send us a prayer request</span></a>
     </nav>
   </article>
-  <section data-dc-tpl="1066" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1067" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
-    <h2 data-dc-tpl="1068" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
-    <div data-dc-tpl="1069" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+  <section data-dc-tpl="1067" style="background: rgb(244, 237, 222);"><div data-dc-tpl="1068" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 72px; display: flex; flex-direction: column; gap: 28px;">
+    <h2 data-dc-tpl="1069" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 26px; color: rgb(19, 41, 75);">Keep Reading</h2>
+    <div data-dc-tpl="1070" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
       
-        <a data-dc-tpl="1071" href="/blog/pikliz-the-spicy-haitian-slaw/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Pikliz: The Spicy Haitian Slaw That Brightens Every Sabbath Plate</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/pikliz-the-spicy-haitian-slaw/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Pikliz: The Spicy Haitian Slaw That Brightens Every Sabbath Plate</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 26, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/eating-for-life-simple-plant-based-meals-from-our-kitchen/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Eating for Life: Simple Plant Based Meals from Our Kitchen</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 5, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/eating-for-life-simple-plant-based-meals-from-our-kitchen/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Eating for Life: Simple Plant Based Meals from Our Kitchen</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Oct 5, 2026</span></span>
         </a>
       
-        <a data-dc-tpl="1071" href="/blog/soup-joumou-plant-based-a-freedom-tradition-for-the-whole-table/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
-          <span data-dc-tpl="1072" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
-          <h3 data-dc-tpl="1073" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Soup Joumou, Plant Based: A Freedom Tradition for the Whole Table</span></h3>
-          <span data-dc-tpl="1074" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 21, 2026</span></span>
+        <a data-dc-tpl="1072" href="/blog/soup-joumou-plant-based-a-freedom-tradition-for-the-whole-table/" class="scpe" style="cursor: pointer; background: rgb(255, 255, 255); border-radius: 10px; padding: 24px; display: flex; flex-direction: column; gap: 10px;">
+          <span data-dc-tpl="1073" style="font-size: 12px; font-weight: 700; letter-spacing: 1px; color: rgb(138, 100, 32); text-transform: uppercase;"><span class="sc-interp">Recipes</span></span>
+          <h3 data-dc-tpl="1074" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: 18px; line-height: 1.4; color: rgb(19, 41, 75);"><span class="sc-interp">Soup Joumou, Plant Based: A Freedom Tradition for the Whole Table</span></h3>
+          <span data-dc-tpl="1075" style="font-size: 14px; color: rgb(91, 98, 112);"><span class="sc-interp">Sep 21, 2026</span></span>
         </a>
       
     </div>
   </div></section></main>
-  <section data-dc-tpl="1715" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1716" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
-    <div data-dc-tpl="1717" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1718" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1719" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1720" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
-    <div data-dc-tpl="1722" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1723" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1724" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1725" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1726" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1727" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
+  <section data-dc-tpl="1719" style="background: rgb(244, 237, 222); border-top: 1px solid rgb(234, 223, 198);"><div data-dc-tpl="1720" style="max-width: 1000px; margin: 0px auto; padding: 48px 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: center;">
+    <div data-dc-tpl="1721" style="display: flex; flex-direction: column; gap: 8px;"><span data-dc-tpl="1722" style="font-size: 12px; font-weight: 800; letter-spacing: 1.4px; color: rgb(138, 100, 32);">FREE NEWSLETTER</span><h2 data-dc-tpl="1723" style="margin: 0px; font-family: &quot;Libre Baskerville&quot;, serif; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; color: rgb(19, 41, 75);">Get new Bible answers and encouragement in your inbox</h2><p data-dc-tpl="1724" style="margin: 0px; font-size: 16px; line-height: 1.6; color: rgb(61, 69, 84);">New articles, devotionals, healthy recipes, and church news from Shekinah. No spam, and you can unsubscribe anytime.</p></div>
+    <div data-dc-tpl="1726" style="display: flex; flex-wrap: wrap; gap: 10px;"><label data-dc-tpl="1727" for="nl-email-2" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px);">Email address</label><input data-dc-tpl="1728" id="nl-email-2" type="email" autocomplete="email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 200px; padding: 14px 16px; border: 1px solid rgb(217, 207, 184); border-radius: 10px; background: rgb(255, 255, 255); color: rgb(27, 36, 51); font-size: 16px;"><div data-dc-tpl="1729" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1730" id="hp-nl2" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1731" class="scp6" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 10px; background: rgb(19, 41, 75); color: rgb(255, 255, 255); padding: 14px 22px; font-size: 16px; font-weight: 800;">Subscribe</button></div>
     
-  </div></section><footer data-dc-tpl="1730" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
-    <div data-dc-tpl="1731" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
-    <div data-dc-tpl="1732" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
-      <div data-dc-tpl="1733" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1734" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1735" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1736" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1737" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
-      <p data-dc-tpl="1738" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
-      <div data-dc-tpl="1739" style="display: flex; gap: 12px;">
-        <a data-dc-tpl="1740" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1741" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1742" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
-        <a data-dc-tpl="1743" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1744" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1745" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1746" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
+  </div></section><footer data-dc-tpl="1734" style="background: rgb(19, 41, 75); color: rgb(255, 255, 255);">
+    <div data-dc-tpl="1735" class="foot-grid" style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 36px;">
+    <div data-dc-tpl="1736" class="foot-wide" style="display: flex; flex-direction: column; gap: 18px;">
+      <div data-dc-tpl="1737" style="display: flex; align-items: center; gap: 14px;"><img data-dc-tpl="1738" src="assets/logo-mark-light.png" alt="" style="height: 64px; width: auto; display: block;"><div data-dc-tpl="1739" style="display: flex; flex-direction: column; gap: 4px;"><span data-dc-tpl="1740" style="font-weight: 800; font-size: 18px; letter-spacing: 0.5px; color: rgb(226, 184, 92);">SHEKINAH</span><span data-dc-tpl="1741" style="font-size: 11px; letter-spacing: 0.8px; color: rgb(255, 255, 255);">HAITIAN SEVENTH-DAY ADVENTIST CHURCH</span></div></div>
+      <p data-dc-tpl="1742" style="margin: 0px; font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">A warm Haitian Adventist church in Alvarado, Texas. Worship with us, grow with us, and serve with us in the love of Christ.</span></p>
+      <div data-dc-tpl="1743" style="display: flex; gap: 12px;">
+        <a data-dc-tpl="1744" href="https://www.facebook.com/shekinahsda/" target="_blank" rel="noopener" aria-label="Facebook" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1745" width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path data-dc-tpl="1746" d="M14 8V6.5c0-.8.2-1.5 1.5-1.5H17V2h-2.5C11.6 2 11 4 11 6v2H8.5v3H11v11h3V11h2.6l.4-3z"></path></svg></a>
+        <a data-dc-tpl="1747" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener" aria-label="YouTube" style="width: 44px; height: 44px; border-radius: 50%; background: rgb(255, 255, 255); display: flex; align-items: center; justify-content: center;"><svg data-dc-tpl="1748" width="22" height="22" viewBox="0 0 24 24"><rect data-dc-tpl="1749" x="2" y="5" width="20" height="14" rx="4" fill="#FF0000"></rect><path data-dc-tpl="1750" d="M10 9l5 3-5 3z" fill="#FFFFFF"></path></svg></a>
       </div>
     </div>
-    <div data-dc-tpl="1747" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1748" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
-      <a data-dc-tpl="1749" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
-      <a data-dc-tpl="1750" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
-      <a data-dc-tpl="1751" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
-      <a data-dc-tpl="1752" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
-      <a data-dc-tpl="1753" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
-      <a data-dc-tpl="1754" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
-      <a data-dc-tpl="1755" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
+    <div data-dc-tpl="1751" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1752" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Our Church</span>
+      <a data-dc-tpl="1753" href="/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Home</a>
+      <a data-dc-tpl="1754" href="/about/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">About</a>
+      <a data-dc-tpl="1755" href="/ministries/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Ministries</a>
+      <a data-dc-tpl="1756" href="/gallery/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Gallery</a>
+      <a data-dc-tpl="1757" href="/beliefs/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">What We Believe</a>
+      <a data-dc-tpl="1758" href="/membership/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Membership</a>
+      <a data-dc-tpl="1759" href="/resources/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Resources</a>
     </div>
-    <div data-dc-tpl="1756" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1757" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
-      <a data-dc-tpl="1758" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
-      <a data-dc-tpl="1759" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
-      <a data-dc-tpl="1760" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
-      <a data-dc-tpl="1761" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
-      <a data-dc-tpl="1762" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
-      <a data-dc-tpl="1763" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
-      <span data-dc-tpl="1764" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
-      <a data-dc-tpl="1765" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
-      <a data-dc-tpl="1766" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
+    <div data-dc-tpl="1760" style="display: flex; flex-direction: column; gap: 12px;"><span data-dc-tpl="1761" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 4px;">Get Involved</span>
+      <a data-dc-tpl="1762" href="/plan-your-visit/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Plan Your Visit</a>
+      <a data-dc-tpl="1763" href="/kreyol/planifye-vizit/" lang="ht" translate="no" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Vizite nou (Kreyòl)</a>
+      <a data-dc-tpl="1764" href="/bible-study/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Free Bible Study</a>
+      <a data-dc-tpl="1765" href="/blog/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Blog</a>
+      <a data-dc-tpl="1766" href="/prayer-request/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Prayer Request</a>
+      <a data-dc-tpl="1767" href="/pastoral-care/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Pastoral Care</a>
+      <span data-dc-tpl="1768" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Give</span>
+      <a data-dc-tpl="1769" href="/contact/" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Contact</a>
+      <a data-dc-tpl="1770" href="https://g.page/r/CYPa-1085y0fEBM/review" target="_blank" rel="noopener" class="scpg" style="font-size: 15px; color: rgb(201, 208, 220); cursor: pointer;">Leave Us a Google Review</a>
     </div>
-    <div data-dc-tpl="1767" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1768" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
-      <div data-dc-tpl="1769" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1770" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1771" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1772" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1773" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1774" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1775" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1776" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1777" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
+    <div data-dc-tpl="1771" class="foot-wide foot-times" style="display: flex; flex-direction: column; gap: 14px;"><span data-dc-tpl="1772" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255); margin-bottom: 2px;"><span class="sc-interp">Service Times</span></span>
+      <div data-dc-tpl="1773" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1774" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Sabbath School</span></span><span data-dc-tpl="1775" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 10:00 AM</span></div><div data-dc-tpl="1776" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1777" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Divine Service</span></span><span data-dc-tpl="1778" style="font-size: 15px; color: rgb(201, 208, 220);">Saturday 11:00 AM</span></div><div data-dc-tpl="1779" style="display: flex; flex-direction: column; gap: 2px;"><span data-dc-tpl="1780" style="font-weight: 700; font-size: 15px; color: rgb(255, 255, 255);"><span class="sc-interp">Prayer Meeting</span></span><span data-dc-tpl="1781" style="font-size: 15px; color: rgb(201, 208, 220);">Tue &amp; Wed 7:30 PM, Zoom</span></div>
     </div>
-    <div data-dc-tpl="1778" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1779" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
-      <span data-dc-tpl="1780" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
+    <div data-dc-tpl="1782" class="foot-wide foot-connect" style="display: flex; flex-direction: column; gap: 16px;"><span data-dc-tpl="1783" style="font-weight: 800; font-size: 19px; color: rgb(255, 255, 255);"><span class="sc-interp">Stay Connected</span></span>
+      <span data-dc-tpl="1784" style="font-size: 15px; line-height: 1.6; color: rgb(201, 208, 220);"><span class="sc-interp">Get uplifting messages, upcoming events, and church news delivered right to your inbox.</span></span>
       
-        <div data-dc-tpl="1782" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1783" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1784" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1785" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1786" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
+        <div data-dc-tpl="1786" style="display: flex; flex-wrap: wrap; gap: 8px;"><input data-dc-tpl="1787" id="nl-email" placeholder="Your email address" style="flex: 1 1 0%; min-width: 160px; padding: 13px 14px; border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(255, 255, 255); color: rgb(27, 36, 51);"><div data-dc-tpl="1788" aria-hidden="true" style="position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden;"><input data-dc-tpl="1789" id="hp-nl1" type="text" placeholder="Leave empty" tabindex="-1" autocomplete="off"></div><button data-dc-tpl="1790" class="scp4" style="border-width: medium; border-style: none; border-color: currentcolor; border-image: none; border-radius: 8px; background: rgb(226, 184, 92); color: rgb(19, 41, 75); padding: 13px 20px; font-size: 15px; font-weight: 800;"><span class="sc-interp">Subscribe</span></button></div>
       
       
     </div>
   </div>
-  <div data-dc-tpl="1789" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1790" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1791" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1792" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1793" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
-  <div data-dc-tpl="1794" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1795" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1796" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
+  <div data-dc-tpl="1793" style="max-width: 1240px; margin: 0px auto; padding: 22px 24px; border-top: 1px solid rgba(255, 255, 255, 0.14); display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 6px 22px; text-align: center;"><svg data-dc-tpl="1794" width="18" height="18" viewBox="0 0 24 24" fill="#E2B85C"><path data-dc-tpl="1795" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"></path></svg><span data-dc-tpl="1796" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255);">205 E Carver St, Alvarado, Texas 76009</span><a data-dc-tpl="1797" href="tel:+18882193842" class="scpg" style="font-size: 17px; font-weight: 700; color: rgb(255, 255, 255); text-decoration: none;">(888) 219-3842</a></div>
+  <div data-dc-tpl="1798" style="max-width: 1240px; margin: 0px auto; padding: 0px 24px 28px; font-size: 14px; color: rgb(201, 208, 220); text-align: center;">© 2026 Shekinah Haitian Seventh-day Adventist Church. All rights reserved. · <a data-dc-tpl="1799" href="/privacy/" style="color: rgb(201, 208, 220); text-decoration: underline; cursor: pointer;">Privacy and Terms</a> · Stock photography courtesy of <a data-dc-tpl="1800" href="https://unsplash.com" target="_blank" rel="noopener" style="color: rgb(201, 208, 220); text-decoration: underline;">Unsplash</a></div></footer></div></div></div>
 <template id="dc-src"><x-dc>
 <helmet>
 
@@ -2090,7 +2093,7 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Our Team</h2>
       <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6270;max-width:560px">The caring servant leaders who pray for, teach, and walk alongside our church family every day.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+    <div class="m-grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
       <div style="background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column">
         <div style="height:300px;position:relative"><image-slot id="team-marc" shape="rect" placeholder="Marc Vilmeus photo"></image-slot></div>
         <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-family:'Libre Baskerville',serif;font-size:20px;color:#13294B">Marc Vilmeus</h3><span style="font-size:15px;color:#5B6270">Senior Pastor</span></div>
@@ -2155,12 +2158,12 @@ image-slot::part(credit){display:none !important}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <div style="background:#13294B;border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:12px;color:#FFFFFF"><h3 style="margin:0;font-size:20px;color:#E2B85C">{{ v.addrT }}</h3><address style="font-style:normal;font-size:18px;line-height:1.6">205 E Carver St<br>Alvarado, Texas 76009<br><a href="tel:+18882193842" style="color:#FFFFFF;font-weight:700">(888) 219-3842</a></address><a href="{{ mapsUrl }}" target="_blank" rel="noopener" onClick="{{ trackDirections }}" style="align-self:flex-start;display:flex;align-items:center;gap:10px;background:#E2B85C;color:#13294B;border-radius:40px;padding:14px 26px;font-size:16px;font-weight:800;min-height:50px;text-decoration:none" style-hover="background:#EBC774">{{ v.ctaDir }}</a></div>
       <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.langT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.langD }}</p></div>
-      <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
+      <div class="m-hide" style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
     </div>
   </div></section>
 
   <section aria-labelledby="visit-expect" style="background:#FFFFFF"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
               <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ expCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ expCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -2187,7 +2190,7 @@ image-slot::part(credit){display:none !important}
 
   <section aria-labelledby="visit-kids" style="background:#F4EDDE"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
     <div style="display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;font-weight:800;letter-spacing:1.5px;color:#8A6420">{{ v.kidsEyebrow }}</span><h2 id="visit-kids" style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.4vw,40px);color:#13294B">{{ v.kidsTitle }}</h2><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.kidsD }}</p></div>
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
 <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ vKidsCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ vKidsCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -2429,7 +2432,7 @@ image-slot::part(credit){display:none !important}
         </div>
       </article>
     </sc-if>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
+    <div class="mm mm6" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
       <sc-for list="{{ restPosts }}" as="p" hint-placeholder-count="3">
         <a href="{{ p.href }}" onClick="{{ p.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:14px" style-hover="opacity:0.92">
           <div style="height:200px;position:relative;border-radius:10px;overflow:hidden"><div onClick="{{ stop }}" style="position:absolute;inset:0"><image-slot id="{{ p.slotId }}" shape="rect" free-pan="" placeholder="Article image"></image-slot>
@@ -2452,6 +2455,7 @@ image-slot::part(credit){display:none !important}
         </a>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more articles</button>
     </sc-if>
   </section>
 </sc-if>
@@ -2529,10 +2533,11 @@ image-slot::part(credit){display:none !important}
   <section style="background:#FBEDEA;border-bottom:1px solid #F1D3CC"><div style="max-width:1140px;margin:0 auto;padding:36px 24px;display:flex;flex-direction:column;gap:16px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:24px;color:#7A1F12">In a crisis? Get help right now</h2>
     <p style="margin:0;font-size:16px;line-height:1.6;color:#4A2A24">If you or someone near you is in danger, call 911. These free lines are open to anyone, and most answer any time of day or night.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+    <div class="mm mm4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
       <sc-for list="{{ resCrisis }}" as="c" hint-placeholder-count="6">
         <div style="display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:12px;background:#FFFFFF;border:1px solid #F1D3CC;color:#2C3443"><span style="font-weight:800;font-size:16px;color:#7A1F12">{{ c.name }}</span><span style="font-weight:800;font-size:18px;color:#13294B">{{ c.contact }}</span><span style="font-size:14px;line-height:1.45;color:#5B6270">{{ c.what }}</span><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px"><sc-if value="{{ c.hasCall }}" hint-placeholder-val="{{ true }}"><a href="{{ c.callHref }}" style="border-radius:40px;background:#7A1F12;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Call</a></sc-if><sc-if value="{{ c.hasText }}" hint-placeholder-val="{{ false }}"><a href="{{ c.textHref }}" style="border-radius:40px;background:#13294B;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Text</a></sc-if><sc-if value="{{ c.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ c.url }}" target="_blank" rel="noopener" style="border-radius:40px;border:1px solid #D9CFB8;color:#13294B;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Website</a></sc-if></div></div>
       </sc-for>
+      <button type="button" class="mm-btn" style="display:none;margin:6px auto 0;border:1px solid #7A1F12;background:#FFFFFF;color:#7A1F12;border-radius:40px;padding:11px 24px;font-size:15px;font-weight:800">More help lines</button>
     </div>
   </div></section>
   <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:48px 24px 24px;display:flex;flex-direction:column;gap:18px">
@@ -2546,7 +2551,7 @@ image-slot::part(credit){display:none !important}
     </div>
     <span style="font-size:14px;color:#5B6270">{{ resCountText }}</span>
   </div></section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+  <section style="background:#FAF6EE"><div class="mm mm6 res-grid" style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
     <sc-for list="{{ resItems }}" as="r" hint-placeholder-count="6">
       <sc-if value="{{ r.showCat }}" hint-placeholder-val="{{ false }}"><h3 style="grid-column:1 / -1;margin:16px 0 0;font-family:'Libre Baskerville',serif;font-size:21px;color:#8A6420">{{ r.category }}</h3></sc-if>
       <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px">
@@ -2562,7 +2567,7 @@ image-slot::part(credit){display:none !important}
       </article>
     </sc-for>
     <sc-if value="{{ resEmpty }}" hint-placeholder-val="{{ false }}"><p style="grid-column:1 / -1;margin:0;font-size:16px;color:#5B6270">No local listing matches that search yet. Try another word, use the state search below, or call 211 to talk with someone who can point you to help.</p></sc-if>
-  </div></section>
+  <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show all resources</button></div></section>
   <section style="background:#F4EDDE"><div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:flex;flex-direction:column;gap:18px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:28px;color:#13294B">Find help in any state</h2>
     <p style="margin:0;max-width:760px;font-size:16px;line-height:1.65;color:#2C3443">Live outside Texas, or helping family somewhere else? Enter a ZIP code and choose a state, then open any of these free national directories to see help near that address.</p>
@@ -2589,7 +2594,7 @@ image-slot::part(credit){display:none !important}
       <p style="margin:0;max-width:680px;font-size:18px;line-height:1.7;color:#E6E9EF">At Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas, everything we teach comes from the Bible. Here are some of the core beliefs that shape our worship, our families, and our life together.</p>
     </div>
   </section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+  <section style="background:#FAF6EE"><div class="mf" style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">The Holy Scriptures</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">The Bible is the inspired Word of God. It is our guide for faith and everyday life, and the standard for everything we believe.</p><span style="font-size:14px;font-weight:700;color:#8A6420">2 Timothy 3:16, 17</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">One God</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">There is one God: Father, Son, and Holy Spirit, a unity of three eternal Persons who love us and work together for our salvation.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Matthew 28:19</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">Saved by Grace</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">Salvation is a free gift. We are saved by God's grace through faith in Jesus Christ, who lived, died, and rose again for us.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Ephesians 2:8, 9</span></article>
@@ -2951,11 +2956,12 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Moments at Shekinah</h2>
       <p style="margin:0;font-size:15px;color:#5B6270">Tap any photo to see it full size.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
+    <div class="mm mm12" style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
       <sc-for list="{{ galPhotos }}" as="p" hint-placeholder-count="12">
         <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="grid-column:span {{ p.span }};grid-row:span {{ p.span }};position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;background:#EDE5D3;aspect-ratio:{{ p.ratio }};cursor:zoom-in;display:block"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease" style-hover="transform:scale(1.03)"></button>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more photos</button>
   </div></section>
   <sc-if value="{{ galOpen }}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-modal="true" aria-label="Photo viewer" onClick="{{ galClose }}" style="position:fixed;inset:0;z-index:200;background:rgba(8,14,26,0.94);display:flex;align-items:center;justify-content:center;padding:56px 16px">

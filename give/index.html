@@ -29,10 +29,13 @@
 <style>html:not(.site-edit) [data-edit-ctl]{display:none !important}
 #ssr [hidden]{display:none !important}
 .m-only{display:none}
+
+@media (max-width:760px){.mm:not(.open).mm4>:not(.mm-btn):nth-child(n+5),.mm:not(.open).mm6>:not(.mm-btn):nth-child(n+7),.mm:not(.open).mm10>:not(.mm-btn):nth-child(n+11),.mm:not(.open).mm12>:not(.mm-btn):nth-child(n+13){display:none !important}.mm>.mm-btn{grid-column:1 / -1}.mm:not(.open)+.mm-btn,.mm:not(.open)>.mm-btn{display:block !important}.res-grid article p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.res-grid article{padding:16px !important;gap:6px !important}.m-grid2{grid-template-columns:1fr 1fr !important;gap:12px !important}.m-grid2>*>div:first-child{height:170px !important}.m-grid2 h3{font-size:16px !important}.m-grid2 p{font-size:13px !important}.mf>*>:first-child{cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px}.mf>*>:first-child::after{content:"+";flex:none;width:28px;height:28px;border-radius:50%;background:#F4EDDE;color:#13294B;display:flex;align-items:center;justify-content:center;font:800 18px/1 sans-serif}.mf>.open>:first-child::after{content:"\2212"}.mf>*:not(.open)>:not(:first-child){display:none !important}.mf>*{padding:18px 20px !important}.mf{gap:12px !important}.foot-grid>.foot-wide:first-child>p,.foot-connect>span:nth-child(2){display:none}.foot-grid>div:not(.foot-wide){gap:9px !important}.foot-grid{gap:24px 20px !important;padding:32px 20px 22px !important}}
 @media (max-width:760px){.m-only{display:block}.m-hide{display:none !important}.m-two>*:nth-child(n+3){display:none !important}}
 #site-edit-bar{position:fixed;right:16px;bottom:16px;z-index:100000;display:flex;align-items:center;gap:10px;background:#13294B;color:#fff;font:600 14px/1.3 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 10px 10px 16px;border-radius:40px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
 #site-edit-bar button{border:none;border-radius:40px;background:#E2B85C;color:#13294B;font:700 14px/1 -apple-system,BlinkMacSystemFont,sans-serif;padding:10px 16px;cursor:pointer}
 #site-edit-bar .x{background:transparent;color:#fff;padding:10px 8px}</style>
+<script>document.addEventListener('click',function(e){var t=e.target;if(!t.closest)return;var b=t.closest('.mm-btn');if(b){var g=b.previousElementSibling&&b.previousElementSibling.classList.contains('mm')?b.previousElementSibling:b.parentElement;g.classList.add('open');return;}if(!window.matchMedia('(max-width:760px)').matches)return;var h=t.closest('.mf > * > :first-child');if(h)h.parentElement.classList.toggle('open');});</script>
 <script>(function(){
   var on=/[?&]edit(=|&|$)/.test(location.search);
   if(!on) return;
@@ -669,7 +672,7 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Our Team</h2>
       <p style="margin:0;font-size:17px;line-height:1.6;color:#5B6270;max-width:560px">The caring servant leaders who pray for, teach, and walk alongside our church family every day.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+    <div class="m-grid2" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
       <div style="background:#FFFFFF;border-radius:10px;overflow:hidden;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column">
         <div style="height:300px;position:relative"><image-slot id="team-marc" shape="rect" placeholder="Marc Vilmeus photo"></image-slot></div>
         <div style="padding:22px 24px 26px;display:flex;flex-direction:column;gap:6px"><h3 style="margin:0;font-family:'Libre Baskerville',serif;font-size:20px;color:#13294B">Marc Vilmeus</h3><span style="font-size:15px;color:#5B6270">Senior Pastor</span></div>
@@ -734,12 +737,12 @@ image-slot::part(credit){display:none !important}
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px">
       <div style="background:#13294B;border-radius:14px;padding:30px;display:flex;flex-direction:column;gap:12px;color:#FFFFFF"><h3 style="margin:0;font-size:20px;color:#E2B85C">{{ v.addrT }}</h3><address style="font-style:normal;font-size:18px;line-height:1.6">205 E Carver St<br>Alvarado, Texas 76009<br><a href="tel:+18882193842" style="color:#FFFFFF;font-weight:700">(888) 219-3842</a></address><a href="{{ mapsUrl }}" target="_blank" rel="noopener" onClick="{{ trackDirections }}" style="align-self:flex-start;display:flex;align-items:center;gap:10px;background:#E2B85C;color:#13294B;border-radius:40px;padding:14px 26px;font-size:16px;font-weight:800;min-height:50px;text-decoration:none" style-hover="background:#EBC774">{{ v.ctaDir }}</a></div>
       <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.langT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.langD }}</p></div>
-      <div style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
+      <div class="m-hide" style="background:#FFFFFF;border-radius:14px;padding:30px;box-shadow:0 2px 14px rgba(19,41,75,0.08);display:flex;flex-direction:column;gap:12px"><h3 style="margin:0;font-size:20px;color:#13294B">{{ v.areaT }}</h3><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.areaD }}</p></div>
     </div>
   </div></section>
 
   <section aria-labelledby="visit-expect" style="background:#FFFFFF"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,480px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-expect-photo" src="assets/church/church-27.jpg" shape="rect" free-pan="" placeholder="The Shekinah congregation standing together during Sabbath worship"></image-slot></div>
               <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ expCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ expCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -766,7 +769,7 @@ image-slot::part(credit){display:none !important}
 
   <section aria-labelledby="visit-kids" style="background:#F4EDDE"><div style="max-width:1240px;margin:0 auto;padding:72px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:48px;align-items:center">
     <div style="display:flex;flex-direction:column;gap:16px"><span style="font-size:14px;font-weight:800;letter-spacing:1.5px;color:#8A6420">{{ v.kidsEyebrow }}</span><h2 id="visit-kids" style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.4vw,40px);color:#13294B">{{ v.kidsTitle }}</h2><p style="margin:0;font-size:17px;line-height:1.7;color:#3D4554">{{ v.kidsD }}</p></div>
-    <div style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
+    <div class="m-hide" style="position:relative;width:100%;height:clamp(280px,40vw,460px);border-radius:16px;overflow:hidden"><div style="position:absolute;inset:0"><image-slot id="visit-kids-photo" src="assets/church/church-23.jpg" shape="rect" free-pan="" placeholder="Smiling children from the Shekinah Adventurer Club in their uniforms"></image-slot></div>
 <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
                 <button data-edit-ctl onClick="{{ vKidsCtl.pick }}" title="Change photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.6"></circle><path d="M21 16l-5-5-9 8"></path></svg></button>
                 <button data-edit-ctl onClick="{{ vKidsCtl.move }}" title="Move photo" style="width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.2)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M3 12h18M12 3l-3 3M12 3l3 3M12 21l-3-3M12 21l3-3M3 12l3-3M3 12l3 3M21 12l-3-3M21 12l-3 3"></path></svg></button>
@@ -1008,7 +1011,7 @@ image-slot::part(credit){display:none !important}
         </div>
       </article>
     </sc-if>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
+    <div class="mm mm6" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:32px 24px">
       <sc-for list="{{ restPosts }}" as="p" hint-placeholder-count="3">
         <a href="{{ p.href }}" onClick="{{ p.open }}" style="cursor:pointer;display:flex;flex-direction:column;gap:14px" style-hover="opacity:0.92">
           <div style="height:200px;position:relative;border-radius:10px;overflow:hidden"><div onClick="{{ stop }}" style="position:absolute;inset:0"><image-slot id="{{ p.slotId }}" shape="rect" free-pan="" placeholder="Article image"></image-slot>
@@ -1031,6 +1034,7 @@ image-slot::part(credit){display:none !important}
         </a>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more articles</button>
     </sc-if>
   </section>
 </sc-if>
@@ -1108,10 +1112,11 @@ image-slot::part(credit){display:none !important}
   <section style="background:#FBEDEA;border-bottom:1px solid #F1D3CC"><div style="max-width:1140px;margin:0 auto;padding:36px 24px;display:flex;flex-direction:column;gap:16px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:24px;color:#7A1F12">In a crisis? Get help right now</h2>
     <p style="margin:0;font-size:16px;line-height:1.6;color:#4A2A24">If you or someone near you is in danger, call 911. These free lines are open to anyone, and most answer any time of day or night.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
+    <div class="mm mm4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
       <sc-for list="{{ resCrisis }}" as="c" hint-placeholder-count="6">
         <div style="display:flex;flex-direction:column;gap:6px;padding:16px 18px;border-radius:12px;background:#FFFFFF;border:1px solid #F1D3CC;color:#2C3443"><span style="font-weight:800;font-size:16px;color:#7A1F12">{{ c.name }}</span><span style="font-weight:800;font-size:18px;color:#13294B">{{ c.contact }}</span><span style="font-size:14px;line-height:1.45;color:#5B6270">{{ c.what }}</span><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px"><sc-if value="{{ c.hasCall }}" hint-placeholder-val="{{ true }}"><a href="{{ c.callHref }}" style="border-radius:40px;background:#7A1F12;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Call</a></sc-if><sc-if value="{{ c.hasText }}" hint-placeholder-val="{{ false }}"><a href="{{ c.textHref }}" style="border-radius:40px;background:#13294B;color:#FFFFFF;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Text</a></sc-if><sc-if value="{{ c.hasUrl }}" hint-placeholder-val="{{ true }}"><a href="{{ c.url }}" target="_blank" rel="noopener" style="border-radius:40px;border:1px solid #D9CFB8;color:#13294B;padding:7px 14px;font-size:14px;font-weight:700;text-decoration:none">Website</a></sc-if></div></div>
       </sc-for>
+      <button type="button" class="mm-btn" style="display:none;margin:6px auto 0;border:1px solid #7A1F12;background:#FFFFFF;color:#7A1F12;border-radius:40px;padding:11px 24px;font-size:15px;font-weight:800">More help lines</button>
     </div>
   </div></section>
   <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:48px 24px 24px;display:flex;flex-direction:column;gap:18px">
@@ -1125,7 +1130,7 @@ image-slot::part(credit){display:none !important}
     </div>
     <span style="font-size:14px;color:#5B6270">{{ resCountText }}</span>
   </div></section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+  <section style="background:#FAF6EE"><div class="mm mm6 res-grid" style="max-width:1140px;margin:0 auto;padding:0 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
     <sc-for list="{{ resItems }}" as="r" hint-placeholder-count="6">
       <sc-if value="{{ r.showCat }}" hint-placeholder-val="{{ false }}"><h3 style="grid-column:1 / -1;margin:16px 0 0;font-family:'Libre Baskerville',serif;font-size:21px;color:#8A6420">{{ r.category }}</h3></sc-if>
       <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:8px">
@@ -1141,7 +1146,7 @@ image-slot::part(credit){display:none !important}
       </article>
     </sc-for>
     <sc-if value="{{ resEmpty }}" hint-placeholder-val="{{ false }}"><p style="grid-column:1 / -1;margin:0;font-size:16px;color:#5B6270">No local listing matches that search yet. Try another word, use the state search below, or call 211 to talk with someone who can point you to help.</p></sc-if>
-  </div></section>
+  <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show all resources</button></div></section>
   <section style="background:#F4EDDE"><div style="max-width:1140px;margin:0 auto;padding:56px 24px;display:flex;flex-direction:column;gap:18px">
     <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:28px;color:#13294B">Find help in any state</h2>
     <p style="margin:0;max-width:760px;font-size:16px;line-height:1.65;color:#2C3443">Live outside Texas, or helping family somewhere else? Enter a ZIP code and choose a state, then open any of these free national directories to see help near that address.</p>
@@ -1168,7 +1173,7 @@ image-slot::part(credit){display:none !important}
       <p style="margin:0;max-width:680px;font-size:18px;line-height:1.7;color:#E6E9EF">At Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas, everything we teach comes from the Bible. Here are some of the core beliefs that shape our worship, our families, and our life together.</p>
     </div>
   </section>
-  <section style="background:#FAF6EE"><div style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+  <section style="background:#FAF6EE"><div class="mf" style="max-width:1140px;margin:0 auto;padding:64px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">The Holy Scriptures</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">The Bible is the inspired Word of God. It is our guide for faith and everyday life, and the standard for everything we believe.</p><span style="font-size:14px;font-weight:700;color:#8A6420">2 Timothy 3:16, 17</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">One God</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">There is one God: Father, Son, and Holy Spirit, a unity of three eternal Persons who love us and work together for our salvation.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Matthew 28:19</span></article>
     <article style="background:#FFFFFF;border:1px solid #EDE5D3;border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:21px;color:#13294B">Saved by Grace</h2><p style="margin:0;font-size:16px;line-height:1.7;color:#3D4554">Salvation is a free gift. We are saved by God's grace through faith in Jesus Christ, who lived, died, and rose again for us.</p><span style="font-size:14px;font-weight:700;color:#8A6420">Ephesians 2:8, 9</span></article>
@@ -1530,11 +1535,12 @@ image-slot::part(credit){display:none !important}
       <h2 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(28px,3.2vw,36px);color:#13294B">Moments at Shekinah</h2>
       <p style="margin:0;font-size:15px;color:#5B6270">Tap any photo to see it full size.</p>
     </div>
-    <div style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
+    <div class="mm mm12" style="display:grid;grid-template-columns:repeat({{ galCols }},1fr);gap:12px">
       <sc-for list="{{ galPhotos }}" as="p" hint-placeholder-count="12">
         <button onClick="{{ p.open }}" aria-label="{{ p.alt }}" style="grid-column:span {{ p.span }};grid-row:span {{ p.span }};position:relative;padding:0;border:none;border-radius:12px;overflow:hidden;background:#EDE5D3;aspect-ratio:{{ p.ratio }};cursor:zoom-in;display:block"><img src="{{ p.src }}" alt="{{ p.alt }}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .35s ease" style-hover="transform:scale(1.03)"></button>
       </sc-for>
     </div>
+    <button type="button" class="mm-btn" style="display:none;margin:18px auto 0;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:12px 26px;font-size:15px;font-weight:800">Show more photos</button>
   </div></section>
   <sc-if value="{{ galOpen }}" hint-placeholder-val="{{ false }}">
     <div role="dialog" aria-modal="true" aria-label="Photo viewer" onClick="{{ galClose }}" style="position:fixed;inset:0;z-index:200;background:rgba(8,14,26,0.94);display:flex;align-items:center;justify-content:center;padding:56px 16px">
