@@ -4,7 +4,9 @@
 Usage: python3 _build/add_posts.py <folder>
 The folder holds one <slug>.md (article body in the house format, see ARTICLE_SPEC.md)
 and one <slug>.json per article with keys: cat, title, slug, author, date, seoTitle,
-metaDesc, excerpt, verse, featured {id,name,username,alt}, images [{id,name,username,alt}, ...].
+metaDesc, excerpt, verse, keywords [primary, secondary...], factcheck [two passes], featured {id,name,username,alt},
+images [{id,name,username,alt}, ...], and "replace": true only when updating an existing slug.
+Every article must pass _build/guardrails.py (duplicates, double fact check, keywords, AEO, SEO).
 New posts get the next free id (p16, p17 ...) and go to the top of the blog, newest first.
 An article whose slug already exists replaces that post in place (same id, same URL).
 Updates content-defaults.json, the POSTS list, photo credits and featured photos in every
@@ -14,6 +16,7 @@ The nightly rebuild later replaces the new pages with fully pre-rendered HTML.
 import json, re, sys, os, glob, subprocess, html as H
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import seo as SEO  # noqa: E402
+import guardrails as GR  # noqa: E402
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -84,6 +87,11 @@ def main(folder):
         md = jf[:-5] + '.md'
         b = body(md)
         check(meta, b, md)
+        g_err, g_warn = GR.run(meta, b, posts)
+        for w in g_warn:
+            print('warning (%s): %s' % (os.path.basename(md), w))
+        if g_err:
+            raise SystemExit('%s failed the publishing guardrails:\n  ' % md + '\n  '.join(g_err))
         sl = meta['slug']
         p = {'id': None, 'slug': sl, 'cat': meta['cat'], 'title': meta['title'], 'date': meta['date'],
              'author': meta['author'], 'read': read_time(b), 'seoTitle': meta['seoTitle'],
@@ -102,6 +110,9 @@ def main(folder):
             credits[im['id']] = [im['name'], im['username']]
         feat[p['id']] = meta['featured']['id']
     posts[:0] = added
+    for p in added + replaced:
+        if p.get('keywords'):
+            GR.save_owner(p['keywords'][0], p['slug'])
     d['posts'] = posts
     json.dump(d, open('content-defaults.json', 'w', encoding='utf-8'), ensure_ascii=False)
     posts_js = ''.join('  ' + json.dumps(p, ensure_ascii=False) + ',\n' for p in posts)

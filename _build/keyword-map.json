@@ -1,0 +1,502 @@
+{
+ "_note": "Owned = primary keyword already targeted by an article (guardrails block duplicates). Planned = researched queue for the weekly writer; pick high priority first, one per category. Search volumes are NOT verified here; confirm with Search Console or Keyword Planner when available.",
+ "owned": {
+  "kijan pou m priye": "kijan-pou-m-priye",
+  "kisa bib la di sou saba a": "kisa-bib-la-di-sou-saba-a",
+  "bible verses about gratitude": "giving-thanks-when-life-is-hard",
+  "pikliz recipe": "pikliz-the-spicy-haitian-slaw",
+  "vitamin d in winter": "sunlight-in-the-shorter-days-vitamin-d-and-mood",
+  "second coming of jesus": "what-does-the-bible-say-about-the-second-coming-of-jesus",
+  "does hell burn forever": "does-hell-burn-forever-what-the-bible-says",
+  "what happens when you die according to the bible": "what-happens-when-you-die-bible",
+  "why do seventh day adventists worship on saturday": "why-do-seventh-day-adventists-worship-on-saturday",
+  "sabbath rest and trusting god": "resting-in-his-presence-what-the-sabbath-teaches-us-about-trust",
+  "family worship ideas": "five-ways-to-build-faith-at-the-dinner-table",
+  "simple plant based meals": "eating-for-life-simple-plant-based-meals-from-our-kitchen",
+  "sleep and faith": "the-gift-of-rest-why-sleep-is-part-of-our-worship",
+  "soup joumou recipe": "soup-joumou-plant-based-a-freedom-tradition-for-the-whole-table",
+  "when god seems silent": "when-prayer-feels-quiet",
+  "walking for health": "walk-with-me-starting-a-sabbath-afternoon-walking-group",
+  "diri ak pwa recipe": "diri-ak-pwa-the-healthy-way",
+  "lessons from abrahams faith": "faith-for-the-journey-lessons-from-abraham",
+  "how much water should i drink a day": "water-first-small-habits-for-big-energy",
+  "haitian legim recipe": "legim-without-meat-a-family-favorite",
+  "how to manage stress": "stress-less-trusting-god-with-your-worries"
+ },
+ "planned": [
+  {
+   "keyword": "who are seventh day adventists",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Plain, friendly introduction for someone visiting for the first time",
+   "priority": "high",
+   "secondary": [
+    "what do seventh day adventists believe",
+    "adventist church beliefs",
+    "are adventists christian"
+   ]
+  },
+  {
+   "keyword": "what do seventh day adventists eat",
+   "cat": "Health",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "The Adventist health message explained with a real day of plant based Haitian meals",
+   "priority": "high",
+   "secondary": [
+    "adventist diet",
+    "loma linda blue zone",
+    "is it ok for adventists to eat meat"
+   ]
+  },
+  {
+   "keyword": "adventist diet blue zones loma linda",
+   "cat": "Health",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "What the Loma Linda Blue Zone research found, sourced, and simple habits to borrow",
+   "priority": "high",
+   "secondary": [
+    "blue zones diet",
+    "plant based longevity",
+    "adventist health study"
+   ]
+  },
+  {
+   "keyword": "is saturday the sabbath",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Short, Scripture first answer with history of the change; links to the Saturday article",
+   "priority": "high",
+   "secondary": [
+    "which day is the sabbath",
+    "sabbath saturday or sunday",
+    "seventh day sabbath bible"
+   ]
+  },
+  {
+   "keyword": "ten commandments still valid today",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Law and grace together; Christ centered, not legalistic",
+   "priority": "high",
+   "secondary": [
+    "are we under the law",
+    "jesus and the ten commandments",
+    "law and grace bible"
+   ]
+  },
+  {
+   "keyword": "saved by grace through faith meaning",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Ephesians 2:8 to 9 explained for beginners",
+   "priority": "high",
+   "secondary": [
+    "what does it mean to be saved",
+    "salvation by grace",
+    "faith and works bible"
+   ]
+  },
+  {
+   "keyword": "bible verses for anxiety",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "KJV verses grouped by situation with a short prayer for each",
+   "priority": "high",
+   "secondary": [
+    "bible verses about worry",
+    "scripture for anxiety",
+    "prayer for anxiety"
+   ]
+  },
+  {
+   "keyword": "prayer for strength",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Short original prayers for hard days, work, sickness and family",
+   "priority": "high",
+   "secondary": [
+    "prayer for strength and healing",
+    "short prayer for strength",
+    "prayer for hard times"
+   ]
+  },
+  {
+   "keyword": "vegan haitian recipes",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Hub article linking every plant based Haitian recipe on the site",
+   "priority": "high",
+   "secondary": [
+    "plant based haitian food",
+    "haitian vegetarian dishes",
+    "vegan caribbean recipes"
+   ]
+  },
+  {
+   "keyword": "diri djon djon recipe",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Black mushroom rice, fully plant based, with where to buy djon djon",
+   "priority": "high",
+   "secondary": [
+    "haitian black rice",
+    "djon djon mushroom",
+    "haitian mushroom rice"
+   ]
+  },
+  {
+   "keyword": "akra recipe haitian",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Malanga fritters, naturally plant based, oven and pan options",
+   "priority": "medium",
+   "secondary": [
+    "haitian malanga fritters",
+    "accra haitian",
+    "haitian appetizers"
+   ]
+  },
+  {
+   "keyword": "banann peze recipe",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Twice fried plantains with an air fryer option and pikliz pairing",
+   "priority": "medium",
+   "secondary": [
+    "haitian fried plantains",
+    "tostones haitian",
+    "air fryer plantains"
+   ]
+  },
+  {
+   "keyword": "sos pwa nwa recipe",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Haitian black bean sauce, plant based, freezer friendly",
+   "priority": "medium",
+   "secondary": [
+    "haitian bean sauce",
+    "black bean puree haitian",
+    "sos pwa"
+   ]
+  },
+  {
+   "keyword": "vegan griot jackfruit",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Jackfruit griot with epis, a plant based take on a classic",
+   "priority": "medium",
+   "secondary": [
+    "jackfruit griot",
+    "vegan haitian griot",
+    "haitian epis recipe"
+   ]
+  },
+  {
+   "keyword": "haitian epis recipe",
+   "cat": "Recipes",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "The flavor base of Haitian cooking, how to make and store it",
+   "priority": "high",
+   "secondary": [
+    "epis seasoning",
+    "haitian green seasoning",
+    "how to make epis"
+   ]
+  },
+  {
+   "keyword": "what is the millennium in the bible",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Revelation 20 explained simply with a timeline block",
+   "priority": "medium",
+   "secondary": [
+    "1000 years revelation 20",
+    "millennium meaning",
+    "what happens after jesus returns"
+   ]
+  },
+  {
+   "keyword": "three angels messages",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Revelation 14 explained with hope, not fear",
+   "priority": "medium",
+   "secondary": [
+    "revelation 14 explained",
+    "everlasting gospel",
+    "adventist mission"
+   ]
+  },
+  {
+   "keyword": "baptism by immersion bible",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Why immersion, who can be baptized, how to prepare at Shekinah",
+   "priority": "medium",
+   "secondary": [
+    "how to get baptized",
+    "why be baptized",
+    "adult baptism"
+   ]
+  },
+  {
+   "keyword": "what does the bible say about tithing",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Malachi 3 and the New Testament, with the giving page as next step",
+   "priority": "medium",
+   "secondary": [
+    "is tithing biblical",
+    "tithe meaning",
+    "how much is a tithe"
+   ]
+  },
+  {
+   "keyword": "is it a sin to eat pork",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Leviticus 11, Acts 10 in context, health and faithfulness",
+   "priority": "medium",
+   "secondary": [
+    "clean and unclean foods",
+    "why adventists dont eat pork",
+    "bible food laws"
+   ]
+  },
+  {
+   "keyword": "how to forgive someone biblically",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Steps from Scripture for real hurt, with honest limits",
+   "priority": "medium",
+   "secondary": [
+    "bible verses about forgiveness",
+    "how to forgive",
+    "forgiveness in the bible"
+   ]
+  },
+  {
+   "keyword": "bible verses for grief and loss",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Comfort with the hope of the resurrection; link to the death article",
+   "priority": "medium",
+   "secondary": [
+    "bible verses for comfort",
+    "scripture for grief",
+    "verses about losing a loved one"
+   ]
+  },
+  {
+   "keyword": "morning prayer",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Short morning prayers for workers, parents and students",
+   "priority": "medium",
+   "secondary": [
+    "short morning prayer",
+    "prayer to start the day",
+    "morning devotion"
+   ]
+  },
+  {
+   "keyword": "prayer for healing",
+   "cat": "Devotional",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Prayers for body and heart, James 5, with a prayer request next step",
+   "priority": "medium",
+   "secondary": [
+    "healing scriptures",
+    "prayer for the sick",
+    "bible verses about healing"
+   ]
+  },
+  {
+   "keyword": "eight laws of health",
+   "cat": "Health",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "The eight natural remedies with sources for each, one habit per law",
+   "priority": "high",
+   "secondary": [
+    "newstart health",
+    "natural remedies bible",
+    "adventist health principles"
+   ]
+  },
+  {
+   "keyword": "benefits of a weekly day of rest",
+   "cat": "Health",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "What research says about rest and the Sabbath rhythm",
+   "priority": "medium",
+   "secondary": [
+    "sabbath rest benefits",
+    "rest and mental health",
+    "why rest is important"
+   ]
+  },
+  {
+   "keyword": "plant based protein sources",
+   "cat": "Health",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Beans, rice and Haitian staples that cover protein needs, sourced",
+   "priority": "medium",
+   "secondary": [
+    "vegetarian protein",
+    "beans and rice protein",
+    "plant protein list"
+   ]
+  },
+  {
+   "keyword": "priyè pou maten",
+   "cat": "Devotional",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Priyè maten kout an kreyòl pou fanmi",
+   "priority": "medium",
+   "secondary": [
+    "priyè maten",
+    "priyè pou kòmanse jounen an",
+    "priyè an kreyòl"
+   ]
+  },
+  {
+   "keyword": "vèsè biblik sou lafwa",
+   "cat": "Devotional",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Vèsè sou lafwa ak eksplikasyon senp an kreyòl",
+   "priority": "medium",
+   "secondary": [
+    "vèsè sou lafwa",
+    "pawòl Bondye sou lafwa",
+    "vèsè biblik an kreyòl"
+   ]
+  },
+  {
+   "keyword": "kisa advantis yo kwè",
+   "cat": "Bible Answers",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Entwodiksyon senp sou kwayans Advantis Setyèm Jou an kreyòl",
+   "priority": "high",
+   "secondary": [
+    "legliz advantis",
+    "advantis setyèm jou",
+    "kwayans advantis"
+   ]
+  },
+  {
+   "keyword": "priyè pou gerizon",
+   "cat": "Devotional",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Priyè pou gerizon kò ak kè, ak demann lapriyè",
+   "priority": "medium",
+   "secondary": [
+    "priyè pou moun malad",
+    "vèsè sou gerizon",
+    "lapriyè gerizon"
+   ]
+  },
+  {
+   "keyword": "lanmò dapre bib la",
+   "cat": "Bible Answers",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Sa Bib la di sou lanmò ak rezirèksyon an kreyòl",
+   "priority": "medium",
+   "secondary": [
+    "kisa ki rive lè yon moun mouri",
+    "rezirèksyon",
+    "esperans apre lanmò"
+   ]
+  }
+ ],
+ "pages": [
+  {
+   "page": "/",
+   "keywords": [
+    "seventh day adventist church alvarado tx",
+    "haitian church alvarado",
+    "church in alvarado texas"
+   ]
+  },
+  {
+   "page": "/plan-your-visit/",
+   "keywords": [
+    "saturday church near me",
+    "sabbath worship alvarado",
+    "what to expect at an adventist church"
+   ]
+  },
+  {
+   "page": "/kreyol/planifye-vizit/",
+   "keywords": [
+    "legliz advantis ayisyen texas",
+    "legliz ayisyen fort worth",
+    "legliz kreyòl dallas"
+   ]
+  },
+  {
+   "page": "/beliefs/",
+   "keywords": [
+    "what do seventh day adventists believe",
+    "adventist beliefs",
+    "28 fundamental beliefs"
+   ]
+  },
+  {
+   "page": "/bible-study/",
+   "keywords": [
+    "free bible study near me",
+    "bible study alvarado tx",
+    "online bible study kreyòl"
+   ]
+  },
+  {
+   "page": "/contact/",
+   "keywords": [
+    "zoom prayer meeting",
+    "online prayer meeting tuesday",
+    "haitian prayer meeting zoom"
+   ]
+  },
+  {
+   "page": "/resources/",
+   "keywords": [
+    "free help johnson county tx",
+    "food pantry alvarado tx",
+    "community resources burleson"
+   ]
+  }
+ ]
+}
