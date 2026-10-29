@@ -1,4 +1,4 @@
-// Shekinah gallery: serves 30 church photos per month, never repeating, from shared church albums.
+// Shekinah gallery: serves 30 church photos every other month, never repeating, from shared church albums.
 const ORIGINS = ['https://shekinahsda.org', 'https://www.shekinahsda.org'];
 const PER_MONTH = 30;
 
@@ -14,7 +14,14 @@ async function sql(query, params = []) {
   if (!r.ok) throw new Error('db: ' + (j.message || r.status));
   return j.rows || [];
 }
-const month = () => new Date(Date.now() - 6 * 3600e3).toISOString().slice(0, 7); // Texas time, roughly
+// Photos change every other month: Oct to Nov, Dec to Jan, Feb to Mar, and so on.
+// The key is the first month of each two month period, so the current set (2026-10) stays through November.
+const month = () => {
+  const d = new Date(Date.now() - 6 * 3600e3); // Texas time, roughly
+  let y = d.getUTCFullYear(), m = d.getUTCMonth() + 1;
+  if (m % 2 === 1) { m -= 1; if (m === 0) { m = 12; y -= 1; } }
+  return y + '-' + String(m).padStart(2, '0');
+};
 function cors(req) {
   const o = req.headers.get('origin') || '';
   return { 'Access-Control-Allow-Origin': ORIGINS.includes(o) ? o : ORIGINS[0], 'Vary': 'Origin' };
@@ -34,7 +41,7 @@ async function assign(m) {
     "UPDATE gallery_photos SET used_month = $1 WHERE id IN (SELECT id FROM (SELECT id, row_number() OVER (PARTITION BY album ORDER BY random()) AS rk FROM gallery_photos WHERE used_month IS NULL) t ORDER BY rk, random() LIMIT $2)",
     [m, need]);
   await sql("INSERT INTO automation_status (key, value, updated_at) VALUES ('gallery_last_rotation', $1, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()", [m + ' picked ' + need]);
-  // Running low (under 3 months left): queue one reminder email per month for the welcome mailer to send.
+  // Running low (under 3 rotations left): queue one reminder email per rotation for the welcome mailer to send.
   const left = Number((await sql('SELECT count(*)::int AS n FROM gallery_photos WHERE used_month IS NULL'))[0].n);
   if (left < PER_MONTH * 3) {
     await sql("INSERT INTO automation_status (key, value, updated_at) VALUES ('gallery_alert', $1, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now() WHERE automation_status.value NOT LIKE '%' || $2 || '%'", ['pending|' + m + '|' + left, m]);
