@@ -21,27 +21,10 @@
   "lessons from abrahams faith": "faith-for-the-journey-lessons-from-abraham",
   "how much water should i drink a day": "water-first-small-habits-for-big-energy",
   "haitian legim recipe": "legim-without-meat-a-family-favorite",
-  "how to manage stress": "stress-less-trusting-god-with-your-worries"
+  "how to manage stress": "stress-less-trusting-god-with-your-worries",
+  "did constantine change the bible": "did-constantine-change-the-bible"
  },
  "planned": [
-  {
-   "keyword": "did constantine change the bible",
-   "title": "Did Constantine Really Change the Bible? The Truth About the Council of Nicaea (325 AD)",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "What Nicaea actually decided (Arian controversy, Easter date), what it did not do (it did not set the canon or rewrite Scripture), and how Constantine's 321 AD Sunday law relates to the day of rest. Link to the Saturday history article once it exists.",
-   "priority": "top",
-   "neutral": true,
-   "requested_by": "Jimmy, Oct 31 2026",
-   "secondary": [
-    "council of nicaea 325",
-    "what happened at the council of nicaea",
-    "constantine and the bible",
-    "who decided the books of the bible",
-    "nicene creed history"
-   ]
-  },
   {
    "keyword": "why is the book of enoch not in the bible",
    "title": "Why Is the Book of Enoch Missing from the Bible? Dead Sea Scrolls & Canon History",

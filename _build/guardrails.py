@@ -120,7 +120,7 @@ def run(meta, body, posts):
     if meta.get('neutral'):
         if len({f.get('by', '') for f in passes}) < 3 or not any(str(f.get('type', '')).lower() == 'doctrine' for f in passes):
             errs.append('neutral article needs a third pass with "type": "doctrine" (checked against adventist.org Fundamental Beliefs and the Biblical Research Institute, noting where other denominations differ)')
-        text = ' '.join([meta.get('title', ''), meta.get('seoTitle', ''), meta.get('metaDesc', ''), meta.get('excerpt', '')] + [x for x in body if not x.startswith('[[source]]')])
+        text = ' '.join([meta.get('title', ''), meta.get('seoTitle', ''), meta.get('metaDesc', ''), meta.get('excerpt', '')] + [(x.rsplit('|', 1)[0] if x.startswith('[[link]]') else x) for x in body if not x.startswith('[[source]]')])
         hits = sorted(set(m.group(0) for m in re.finditer(r'(?i)\b(seventh[- ]day adventists?|adventists?|adventism|\bSDA\b)', text)))
         if hits:
             errs.append('neutral article must not name the denomination; found: ' + ', '.join(hits))
