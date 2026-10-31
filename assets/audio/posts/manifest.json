@@ -1,1 +1,58 @@
-{}
+{
+ "giving-thanks-when-life-is-hard": {
+  "src": "assets/audio/posts/giving-thanks-when-life-is-hard.mp3",
+  "chars": 14466,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "pikliz-the-spicy-haitian-slaw": {
+  "src": "assets/audio/posts/pikliz-the-spicy-haitian-slaw.mp3",
+  "chars": 14746,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "sunlight-in-the-shorter-days-vitamin-d-and-mood": {
+  "src": "assets/audio/posts/sunlight-in-the-shorter-days-vitamin-d-and-mood.mp3",
+  "chars": 16897,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "what-does-the-bible-say-about-the-second-coming-of-jesus": {
+  "src": "assets/audio/posts/what-does-the-bible-say-about-the-second-coming-of-jesus.mp3",
+  "chars": 23470,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "does-hell-burn-forever-what-the-bible-says": {
+  "src": "assets/audio/posts/does-hell-burn-forever-what-the-bible-says.mp3",
+  "chars": 21083,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "what-happens-when-you-die-bible": {
+  "src": "assets/audio/posts/what-happens-when-you-die-bible.mp3",
+  "chars": 17595,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "why-do-seventh-day-adventists-worship-on-saturday": {
+  "src": "assets/audio/posts/why-do-seventh-day-adventists-worship-on-saturday.mp3",
+  "chars": 21540,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ },
+ "resting-in-his-presence-what-the-sabbath-teaches-us-about-trust": {
+  "src": "assets/audio/posts/resting-in-his-presence-what-the-sabbath-teaches-us-about-trust.mp3",
+  "chars": 14080,
+  "engine": "kokoro",
+  "voice": "af_heart",
+  "made": "2026-10-31"
+ }
+}
