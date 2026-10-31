@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""Make natural article narration with ElevenLabs.
+"""Make natural article narration.
 
+Default engine: Kokoro (free, open source, Apache 2.0, runs on the GitHub runner, no key or limits).
+Optional engine: ElevenLabs (set TTS_ENGINE=elevenlabs and the ELEVENLABS_API_KEY secret).
 Runs in GitHub Actions (.github/workflows/article-audio.yml), never in the browser.
 For every English blog post without narration it writes assets/audio/posts/<slug>.mp3
 and lists it in assets/audio/posts/manifest.json, which the site reads to show a player.
 
 Environment:
-  ELEVENLABS_API_KEY   required (GitHub repository secret)
+  TTS_ENGINE           kokoro (default) or elevenlabs
+  KOKORO_VOICE         Kokoro voice (default af_heart; others: af_bella, am_michael, am_fenrir, bf_emma, bm_george)
+  MAX_ARTICLES         Kokoro: articles per run (default 8)
+  ELEVENLABS_API_KEY   ElevenLabs only (GitHub repository secret)
   ELEVENLABS_VOICE     optional voice name or voice id (default "Brian")
   ELEVENLABS_MODEL     optional (default eleven_multilingual_v2)
   MAX_CHARS            optional character budget per run (default 120000) to protect the plan quota
@@ -18,6 +23,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'assets', 'audio', 'posts')
 MANIFEST = os.path.join(OUT, 'manifest.json')
 KEY = os.environ.get('ELEVENLABS_API_KEY', '').strip()
+ENGINE = os.environ.get('TTS_ENGINE', 'kokoro').strip().lower() or 'kokoro'
 API = 'https://api.elevenlabs.io/v1'
 
 
@@ -103,10 +109,39 @@ def chunks(text, size=3800):
     return out
 
 
+_kp = None
+
+
+def kokoro_mp3(text, path):
+    """Narrate with Kokoro and save a mono MP3."""
+    global _kp
+    import numpy as np, soundfile as sf, subprocess, tempfile
+    from kokoro import KPipeline
+    if _kp is None:
+        _kp = KPipeline(lang_code='a')
+    voice = os.environ.get('KOKORO_VOICE', 'af_heart').strip() or 'af_heart'
+    pause = np.zeros(int(24000 * 0.45), dtype=np.float32)
+    pieces = []
+    for para in text.split('\n\n'):
+        para = para.strip()
+        if not para:
+            continue
+        for _, _, audio in _kp(para, voice=voice, speed=0.98):
+            if audio is not None:
+                pieces.append(np.asarray(audio, dtype=np.float32).reshape(-1))
+        pieces.append(pause)
+    wav = tempfile.mktemp(suffix='.wav')
+    sf.write(wav, np.concatenate(pieces), 24000)
+    subprocess.run(['ffmpeg', '-y', '-loglevel', 'error', '-i', wav, '-ac', '1', '-codec:a', 'libmp3lame', '-b:a', '64k', path], check=True)
+    os.remove(wav)
+    return os.path.getsize(path)
+
+
 def main():
-    if not KEY:
+    if ENGINE == 'elevenlabs' and not KEY:
         print('ELEVENLABS_API_KEY is not set; nothing to do.')
         return
+    max_articles = int(os.environ.get('MAX_ARTICLES', '8'))
     os.makedirs(OUT, exist_ok=True)
     try:
         manifest = json.load(open(MANIFEST, encoding='utf-8'))
@@ -127,6 +162,16 @@ def main():
         if slug in manifest and not only:
             continue
         text = script(p)
+        if ENGINE != 'elevenlabs':
+            if len(made) >= max_articles:
+                print('reached %d articles for this run; the rest go next run' % max_articles)
+                break
+            size = kokoro_mp3(text, os.path.join(OUT, slug + '.mp3'))
+            manifest[slug] = {'src': 'assets/audio/posts/%s.mp3' % slug, 'chars': len(text), 'engine': 'kokoro', 'voice': os.environ.get('KOKORO_VOICE', 'af_heart') or 'af_heart', 'made': time.strftime('%Y-%m-%d')}
+            made.append(slug)
+            json.dump(manifest, open(MANIFEST, 'w', encoding='utf-8'), indent=1, ensure_ascii=False)
+            print('narrated %s (%d chars, %d KB)' % (slug, len(text), size // 1024))
+            continue
         if len(text) > budget:
             print('budget left (%d) is too small for %s (%d chars); stopping for this run' % (budget, slug, len(text)))
             break
@@ -141,7 +186,7 @@ def main():
                 body['next_text'] = parts[i + 1][:500]
             audio += api('/text-to-speech/%s?output_format=mp3_44100_128' % vid, body, accept='audio/mpeg')
         open(os.path.join(OUT, slug + '.mp3'), 'wb').write(audio)
-        manifest[slug] = {'src': 'assets/audio/posts/%s.mp3' % slug, 'chars': len(text), 'voice': os.environ.get('ELEVENLABS_VOICE', 'Brian'), 'made': time.strftime('%Y-%m-%d')}
+        manifest[slug] = {'src': 'assets/audio/posts/%s.mp3' % slug, 'chars': len(text), 'engine': 'elevenlabs', 'voice': os.environ.get('ELEVENLABS_VOICE', 'Brian'), 'made': time.strftime('%Y-%m-%d')}
         budget -= len(text)
         made.append(slug)
         print('narrated %s (%d chars, %d KB)' % (slug, len(text), len(audio) // 1024))
