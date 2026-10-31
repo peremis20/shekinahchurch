@@ -115,6 +115,16 @@ def run(meta, body, posts):
     if len(passes) < 2 or len({f.get('by', '') for f in passes}) < 2:
         errs.append('needs two independent fact checks in "factcheck" (each {by, date, result: "pass", notes}), by two different checkers')
 
+    # 2b. Neutral doctrine articles (meta "neutral": true): teach what Seventh-day Adventists believe
+    # without naming the denomination, and require a third, doctrine only check.
+    if meta.get('neutral'):
+        if len({f.get('by', '') for f in passes}) < 3 or not any(str(f.get('type', '')).lower() == 'doctrine' for f in passes):
+            errs.append('neutral article needs a third pass with "type": "doctrine" (checked against adventist.org Fundamental Beliefs and the Biblical Research Institute, noting where other denominations differ)')
+        text = ' '.join([meta.get('title', ''), meta.get('seoTitle', ''), meta.get('metaDesc', ''), meta.get('excerpt', '')] + [x for x in body if not x.startswith('[[source]]')])
+        hits = sorted(set(m.group(0) for m in re.finditer(r'(?i)\b(seventh[- ]day adventists?|adventists?|adventism|\bSDA\b)', text)))
+        if hits:
+            errs.append('neutral article must not name the denomination; found: ' + ', '.join(hits))
+
     # 3. Keywords
     if not primary:
         errs.append('keywords missing: first entry is the primary keyword')

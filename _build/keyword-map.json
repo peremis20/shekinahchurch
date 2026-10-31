@@ -25,6 +25,96 @@
  },
  "planned": [
   {
+   "keyword": "did constantine change the bible",
+   "title": "Did Constantine Really Change the Bible? The Truth About the Council of Nicaea (325 AD)",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "What Nicaea actually decided (Arian controversy, Easter date), what it did not do (it did not set the canon or rewrite Scripture), and how Constantine's 321 AD Sunday law relates to the day of rest. Link to the Saturday history article once it exists.",
+   "priority": "top",
+   "neutral": true,
+   "requested_by": "Jimmy, Oct 31 2026",
+   "secondary": [
+    "council of nicaea 325",
+    "what happened at the council of nicaea",
+    "constantine and the bible",
+    "who decided the books of the bible",
+    "nicene creed history"
+   ]
+  },
+  {
+   "keyword": "why is the book of enoch not in the bible",
+   "title": "Why Is the Book of Enoch Missing from the Bible? Dead Sea Scrolls & Canon History",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "What 1 Enoch is, the Qumran fragments, Jude 14 to 15 in context, why the Hebrew canon and the church did not receive it (Ethiopian Orthodox exception, stated respectfully), and why Scripture alone is the rule of faith.",
+   "priority": "top",
+   "neutral": true,
+   "requested_by": "Jimmy, Oct 31 2026",
+   "secondary": [
+    "book of enoch",
+    "dead sea scrolls enoch",
+    "jude quotes enoch",
+    "biblical canon history",
+    "apocrypha vs bible"
+   ]
+  },
+  {
+   "keyword": "history of the sabbath change from saturday to sunday",
+   "title": "Saturday vs. Sunday: How History Shifted the Biblical Day of Rest",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "History angle only: creation Sabbath, Jesus and the apostles, early church sources, Constantine's 321 law, Council of Laodicea, Catholic and Protestant statements. Must not repeat the existing Saturday article; link to it.",
+   "priority": "top",
+   "neutral": true,
+   "requested_by": "Jimmy, Oct 31 2026",
+   "secondary": [
+    "saturday vs sunday worship",
+    "who changed the sabbath to sunday",
+    "constantine sunday law 321",
+    "sabbath in the early church",
+    "is saturday the sabbath"
+   ]
+  },
+  {
+   "keyword": "what happens one second after death",
+   "title": "What Happens One Second After Death? Sleep, Soul, and Resurrection",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "The moment of death: Genesis 2:7 living soul, Ecclesiastes 9:5, death as sleep (John 11), 1 Thessalonians 4 resurrection, conditional immortality; respectfully contrast the immediate heaven or hell view. Fresh angle from the existing death article; link to it and to the hell article.",
+   "priority": "top",
+   "neutral": true,
+   "requested_by": "Jimmy, Oct 31 2026",
+   "secondary": [
+    "soul sleep bible",
+    "what happens to the soul after death",
+    "is the soul immortal",
+    "death is like sleep bible",
+    "resurrection of the dead"
+   ]
+  },
+  {
+   "keyword": "daniel 2 prophecy explained",
+   "title": "Ancient Empires and Prophecy: The Daniel 2 Timeline Decoded",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "angle": "Babylon, Medo Persia, Greece, Rome, the divided kingdoms and the stone kingdom; historicist reading with dated history and a [[time]] timeline; hope centered on Christ's return.",
+   "priority": "top",
+   "neutral": true,
+   "requested_by": "Jimmy, Oct 31 2026",
+   "secondary": [
+    "nebuchadnezzar statue dream",
+    "daniel 2 meaning",
+    "four kingdoms of daniel",
+    "stone cut without hands",
+    "bible prophecy history"
+   ]
+  },
+  {
    "keyword": "who are seventh day adventists",
    "cat": "Bible Answers",
    "lang": "en",
