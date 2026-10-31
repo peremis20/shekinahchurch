@@ -884,8 +884,7 @@ image-slot::part(credit){display:none !important}
     <span style="font-size:13px;font-weight:700;letter-spacing:1.2px;color:#8A6420;text-transform:uppercase">{{ post.cat }}</span>
     <h1 style="margin:0;font-family:'Libre Baskerville',serif;font-size:clamp(30px,4vw,44px);line-height:1.2;color:#13294B;text-wrap:pretty">{{ post.title }}</h1>
     <div style="font-size:15px;color:#5B6270">By <span rel="author">{{ post.author }}</span> · <time datetime="{{ post.iso }}">{{ post.date }}</time> · {{ post.read }}</div>
-    <sc-if value="{{ canListen }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ listenPost }}" style="align-self:flex-start;display:inline-flex;align-items:center;gap:8px;border:1px solid #13294B;background:#FFFFFF;color:#13294B;border-radius:40px;padding:9px 16px;font-size:14px;font-weight:800"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#13294B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M19 5a10 10 0 0 1 0 14"></path></svg>{{ listenLabel }}</button></sc-if>
-    <sc-if value="{{ postHasAudio }}" hint-placeholder-val="{{ false }}"><audio controls preload="none" src="{{ postAudio }}" style="width:100%"></audio></sc-if>
+    <sc-if value="{{ postHasAudio }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:6px;padding:14px 16px;border-radius:12px;background:#F4EDDE"><span style="font-size:13px;font-weight:800;letter-spacing:1px;color:#8A6420">LISTEN TO THIS ARTICLE</span><audio controls preload="none" src="{{ postAudio }}" onPlay="{{ trackListen }}" style="width:100%"></audio></div></sc-if>
     <sc-if value="{{ post.excerpt }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font-size:19px;line-height:1.65;color:#3D4554;font-style:italic">{{ post.excerpt }}</p></sc-if>
     <div style="height:400px;position:relative;border-radius:12px;overflow:hidden;margin:8px 0"><div onClick="{{ stop }}" style="position:absolute;inset:0"><image-slot id="{{ post.slotId }}" shape="rect" free-pan="" placeholder="Article image"></image-slot>
               <div style="position:absolute;top:10px;left:10px;z-index:3;display:flex;gap:6px">
@@ -1677,6 +1676,7 @@ function routeFromLocation() {
 class Component extends DCLogic {
   state = { lang: 'en', album: 'All', page: 'home', postId: null, cat: 'All', menuOpen: false, narrow: false, fund: 'Tithe', amount: 50, gave: false, visitSent: false };
   componentDidMount() {
+    fetch('/assets/audio/posts/manifest.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).then(m => { if (m && typeof m === 'object') this.setState({ audioMap: m }); }).catch(() => {});
     fetch(VISIT_CONFIG.formEndpoint.replace(/\/submit$/, '/content')).then(r => r.ok ? r.json() : {}).then(c => {
       const ok = a => Array.isArray(a) && a.length;
       if (ok(c.posts)) POSTS = c.posts.map(p => ({ ...p, body: Array.isArray(p.body) ? p.body : String(p.body || '').split(/\n\s*\n/) }));
@@ -1721,7 +1721,7 @@ class Component extends DCLogic {
     window.addEventListener('pointermove', move); window.addEventListener('pointerup', up);
   }
   nav(page, extra) { return e => { if (e && e.preventDefault) { if (e.metaKey || e.ctrlKey || e.shiftKey || e.button === 1) return; e.preventDefault(); } this.go(page, extra); }; }
-  go(page, extra) { try { if (this.state.speaking && window.speechSynthesis) window.speechSynthesis.cancel(); } catch (e) {} this.setState({ page, menuOpen: false, speaking: false, ...(extra || {}) }, () => this.syncVisitHead()); window.scrollTo(0, 0); try { const want = page === 'post' ? postPath(POSTS.find(p => p.id === ((extra && extra.postId) || this.state.postId))) : (ROUTE_PATHS[page] || '/'); if (location.pathname !== want || location.hash) history.pushState(null, '', want); } catch (e) {} }
+  go(page, extra) { this.setState({ page, menuOpen: false, ...(extra || {}) }, () => this.syncVisitHead()); window.scrollTo(0, 0); try { const want = page === 'post' ? postPath(POSTS.find(p => p.id === ((extra && extra.postId) || this.state.postId))) : (ROUTE_PATHS[page] || '/'); if (location.pathname !== want || location.hash) history.pushState(null, '', want); } catch (e) {} }
   syncVisitHead() { const on = this.state.page === 'visit'; const pg = this.state.page; const SP = window.__SEO_PAGES || {}; let S = (on && this.state.vLang === 'kr' && SP.visitkr) ? SP.visitkr : (SP[pg] || (on ? window.__SEO_VISIT : window.__SEO_HOME)); if (pg === 'post') { const P = POSTS.find(x => x.id === this.state.postId); if (P) S = { title: P.title + ' | Shekinah Haitian SDA Church', desc: P.excerpt || (S && S.desc) || '', url: 'https://shekinahsda.org' + postPath(P), ogTitle: P.title }; } if (S) { document.title = S.title; const set = (sel, attr, v) => { const el = document.querySelector(sel); if (el) el.setAttribute(attr, v); }; set('meta[name="description"]', 'content', S.desc); set('link[rel="canonical"]', 'href', S.url); set('meta[property="og:url"]', 'content', S.url); set('meta[property="og:title"]', 'content', S.ogTitle); set('meta[property="og:description"]', 'content', S.desc); } document.documentElement.lang = on && this.state.vLang === 'kr' ? 'ht' : 'en'; }
   componentDidUpdate(pp, ps) { if (ps.page !== this.state.page || ps.postId !== this.state.postId || ps.vLang !== this.state.vLang) this.syncVisitHead(); }
   goPrayerSection() { this.go('contact'); setTimeout(() => { const el = document.getElementById('prayer'); if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' }); }, 120); }
@@ -1789,7 +1789,7 @@ class Component extends DCLogic {
   bsVals(s) {
     const fmt = s.bsFmt || 'all', lang = s.bsLang || 'all';
     const isHt = isKreyol;
-    const own = POSTS.filter(p => p.cat === 'Bible Answers' || isHt(p)).map(p => ({ title: p.title, by: 'Shekinah study series', desc: p.excerpt || '', formats: isHt(p) ? ['read'] : ['read', 'listen'], langs: [isHt(p) ? 'ht' : 'en'], topic: 'Shekinah series', href: postPath(p), open: this.nav('post', { postId: p.id }), internal: true }));
+    const own = POSTS.filter(p => p.cat === 'Bible Answers' || isHt(p)).map(p => ({ title: p.title, by: 'Shekinah study series', desc: p.excerpt || '', formats: (s.audioMap || {})[p.slug] ? ['read', 'listen'] : ['read'], langs: [isHt(p) ? 'ht' : 'en'], topic: 'Shekinah series', href: postPath(p), open: this.nav('post', { postId: p.id }), internal: true }));
     const rec = BS_AUDIO.map(a => ({ title: a.title, by: [a.speaker, a.date].filter(Boolean).join(' · ') || 'Shekinah recording', desc: a.desc || a.verses || '', formats: ['listen'], langs: [a.lang || 'ht'], topic: 'Shekinah recordings', audio: a.src }));
     const all = [...rec, ...own, ...BS_LIBRARY];
     const items = all.filter(x => (fmt === 'all' || x.formats.includes(fmt)) && (lang === 'all' || x.langs.includes(lang))).map(x => ({ ...x, isInternal: !!x.internal, isExternal: !x.internal && !x.audio, hasAudio: !!x.audio,
@@ -1801,20 +1801,6 @@ class Component extends DCLogic {
       bsItems: items, bsEmpty: items.length === 0, bsCount: items.length + (items.length === 1 ? ' study' : ' studies'),
       bsNeedHt: lang === 'ht' || lang === 'fr'
     };
-  }
-  listenText(p) {
-    return [p.title, ...(p.body || [])].filter(x => !/^(\[\[|!\[)/.test(x)).map(x => x.replace(/^#+\s*/, '').replace(/^>\s*/, '').replace(/\*\*|__|\*|_/g, '')).join('. \n');
-  }
-  toggleListen(p) {
-    try {
-      const sy = window.speechSynthesis; if (!sy) return;
-      if (this.state.speaking) { sy.cancel(); this.setState({ speaking: false }); return; }
-      const parts = this.listenText(p).match(/[^.!?\n]+[.!?\n]*/g) || [];
-      const chunks = []; let cur = ''; parts.forEach(t => { if ((cur + t).length > 220) { if (cur) chunks.push(cur); cur = t; } else cur += t; }); if (cur) chunks.push(cur);
-      const voice = (sy.getVoices() || []).find(v => /^en(-|_)US/i.test(v.lang)) || (sy.getVoices() || []).find(v => /^en/i.test(v.lang));
-      sy.cancel(); this.setState({ speaking: true }); trackEvent('article_listen');
-      chunks.forEach((c, i) => { const u = new SpeechSynthesisUtterance(c); u.lang = 'en-US'; if (voice) u.voice = voice; u.rate = 0.95; if (i === chunks.length - 1) u.onend = () => this.setState({ speaking: false }); sy.speak(u); });
-    } catch (e) { this.setState({ speaking: false }); }
   }
   resVals(s) {
     const R = RESOURCES || {}, local = Array.isArray(R.local) ? R.local : [], q = String(s.rq || '').toLowerCase().trim(), cat = s.rcat || 'All';
@@ -1844,7 +1830,7 @@ class Component extends DCLogic {
     return {
       ...this.resVals(s),
       ...this.bsVals(s),
-      canListen: typeof window !== 'undefined' && 'speechSynthesis' in window && !isKreyol(post), listenLabel: s.speaking ? 'Stop listening' : 'Listen to this article', listenPost: () => this.toggleListen(post), postHasAudio: !!post.audio, postAudio: post.audio || '',
+      postHasAudio: !!(post.audio || (s.audioMap || {})[post.slug]), trackListen: () => trackEvent('article_listen'), postAudio: post.audio || ((s.audioMap || {})[post.slug] ? '/' + s.audioMap[post.slug].src : ''),
       heroShade: (typeof window !== 'undefined' && window.innerWidth < 760) ? 'linear-gradient(180deg, rgba(10,20,38,0.80) 0%, rgba(10,20,38,0.86) 45%, rgba(10,20,38,0.94) 100%)' : 'linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)',
       heroTextShadow: (typeof window !== 'undefined' && window.innerWidth < 760) ? '0 2px 16px rgba(0,0,0,0.75)' : '0 2px 12px rgba(0,0,0,0.45)',
       t: T.en,

@@ -1,0 +1,57 @@
+name: Article audio
+
+# Makes natural narration for new English blog articles with ElevenLabs.
+# Needs the repository secret ELEVENLABS_API_KEY (Settings > Secrets and variables > Actions).
+on:
+  push:
+    branches: [main]
+    paths: ['content-defaults.json']
+  schedule:
+    - cron: '41 9 * * *'   # daily safety net, about 4:41 AM Central
+  workflow_dispatch:
+    inputs:
+      only_slug:
+        description: 'Re-make the audio for one article slug (optional)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: article-audio
+  cancel-in-progress: false
+
+jobs:
+  narrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make missing narration
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE: ${{ vars.ELEVENLABS_VOICE }}
+          MAX_CHARS: ${{ vars.ELEVENLABS_MAX_CHARS }}
+          ONLY_SLUG: ${{ github.event.inputs.only_slug }}
+        run: |
+          [ -n "$ELEVENLABS_VOICE" ] || unset ELEVENLABS_VOICE
+          [ -n "$MAX_CHARS" ] || unset MAX_CHARS
+          python3 _build/tts.py
+
+      - name: Commit audio
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "shekinah-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio/posts
+          if git diff --cached --quiet; then
+            echo "No new audio."
+          else
+            git commit -m "Article audio: add narration"
+            git pull --rebase -q origin main
+            git push
+            gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
+          fi
