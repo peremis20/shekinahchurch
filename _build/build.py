@@ -95,7 +95,7 @@ src = open(SRC, encoding='utf-8').read()
 POSTS = json.load(open(os.path.join(OUT, 'content-defaults.json'), encoding='utf-8'))['posts']
 # Live content saved from the admin (posts, sermons, ministries) wins over the defaults.
 try:
-    LIVE = json.loads(urllib.request.urlopen(CONTENT_URL, timeout=20).read().decode('utf-8'))
+    LIVE = json.load(open(os.environ['LIVE_FILE'], encoding='utf-8')) if os.environ.get('LIVE_FILE') else json.loads(urllib.request.urlopen(CONTENT_URL, timeout=20).read().decode('utf-8'))
     if not isinstance(LIVE, dict):
         LIVE = {}
 except Exception as e:
