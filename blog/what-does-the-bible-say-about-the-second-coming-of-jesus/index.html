@@ -3258,7 +3258,9 @@ const BS_LIBRARY = [
   { title: 'KidZone', by: 'Voice of Prophecy', desc: 'Bible guides for children with stories, puzzles and activities.', formats: ['read'], langs: ['en'], topic: 'Kids', url: 'https://www.voiceofprophecy.com/study/kidzone' },
   { title: 'Sabbath worship and sermons', by: 'Shekinah on YouTube', desc: 'Watch our Sabbath services and Bible messages in Kreyòl, French and English.', formats: ['watch'], langs: ['ht', 'fr', 'en'], topic: 'Sermons', url: 'https://www.youtube.com/@SHEKINAHHaitianSDA/streams' }
 ];
-// Shekinah's own recorded Bible studies. Add one entry per recording: { title, speaker, date, lang: 'ht'|'fr'|'en', src: 'assets/audio/file.mp3', verses, desc }
+// Jimmy's podcast episodes matched to articles: 'article-slug': 'audio file URL (MP3) from the podcast host or assets/audio/'.
+const POST_AUDIO = {};
+// Shekinah's own recorded Bible studies and podcast episodes. Add one entry per recording: { title, speaker, date, lang: 'ht'|'fr'|'en', src: 'assets/audio/file.mp3', verses, desc }
 const BS_AUDIO = [];
 const isKreyol = p => /[òè]/.test(p.title || '') || /\b(Kisa|Kijan|Bib la|Bondye|pou m)\b/.test(p.title || '');
 const BS_LANG = { en: 'English', ht: 'Kreyòl', fr: 'Français' };
@@ -3318,7 +3320,6 @@ function routeFromLocation() {
 class Component extends DCLogic {
   state = { lang: 'en', album: 'All', page: 'home', postId: null, cat: 'All', menuOpen: false, narrow: false, fund: 'Tithe', amount: 50, gave: false, visitSent: false };
   componentDidMount() {
-    fetch('/assets/audio/posts/manifest.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).then(m => { if (m && typeof m === 'object') this.setState({ audioMap: m }); }).catch(() => {});
     fetch(VISIT_CONFIG.formEndpoint.replace(/\/submit$/, '/content')).then(r => r.ok ? r.json() : {}).then(c => {
       const ok = a => Array.isArray(a) && a.length;
       if (ok(c.posts)) POSTS = c.posts.map(p => ({ ...p, body: Array.isArray(p.body) ? p.body : String(p.body || '').split(/\n\s*\n/) }));
@@ -3431,7 +3432,7 @@ class Component extends DCLogic {
   bsVals(s) {
     const fmt = s.bsFmt || 'all', lang = s.bsLang || 'all';
     const isHt = isKreyol;
-    const own = POSTS.filter(p => p.cat === 'Bible Answers' || isHt(p)).map(p => ({ title: p.title, by: 'Shekinah study series', desc: p.excerpt || '', formats: (s.audioMap || {})[p.slug] ? ['read', 'listen'] : ['read'], langs: [isHt(p) ? 'ht' : 'en'], topic: 'Shekinah series', href: postPath(p), open: this.nav('post', { postId: p.id }), internal: true }));
+    const own = POSTS.filter(p => p.cat === 'Bible Answers' || isHt(p)).map(p => ({ title: p.title, by: 'Shekinah study series', desc: p.excerpt || '', formats: POST_AUDIO[p.slug] ? ['read', 'listen'] : ['read'], langs: [isHt(p) ? 'ht' : 'en'], topic: 'Shekinah series', href: postPath(p), open: this.nav('post', { postId: p.id }), internal: true }));
     const rec = BS_AUDIO.map(a => ({ title: a.title, by: [a.speaker, a.date].filter(Boolean).join(' · ') || 'Shekinah recording', desc: a.desc || a.verses || '', formats: ['listen'], langs: [a.lang || 'ht'], topic: 'Shekinah recordings', audio: a.src }));
     const all = [...rec, ...own, ...BS_LIBRARY];
     const items = all.filter(x => (fmt === 'all' || x.formats.includes(fmt)) && (lang === 'all' || x.langs.includes(lang))).map(x => ({ ...x, isInternal: !!x.internal, isExternal: !x.internal && !x.audio, hasAudio: !!x.audio,
@@ -3472,7 +3473,7 @@ class Component extends DCLogic {
     return {
       ...this.resVals(s),
       ...this.bsVals(s),
-      postHasAudio: !!(post.audio || (s.audioMap || {})[post.slug]), trackListen: () => trackEvent('article_listen'), postAudio: post.audio || ((s.audioMap || {})[post.slug] ? '/' + s.audioMap[post.slug].src : ''),
+      postHasAudio: !!(post.audio || POST_AUDIO[post.slug]), trackListen: () => trackEvent('article_listen'), postAudio: post.audio || POST_AUDIO[post.slug] || '',
       heroShade: (typeof window !== 'undefined' && window.innerWidth < 760) ? 'linear-gradient(180deg, rgba(10,20,38,0.80) 0%, rgba(10,20,38,0.86) 45%, rgba(10,20,38,0.94) 100%)' : 'linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)',
       heroTextShadow: (typeof window !== 'undefined' && window.innerWidth < 760) ? '0 2px 16px rgba(0,0,0,0.75)' : '0 2px 12px rgba(0,0,0,0.45)',
       t: T.en,

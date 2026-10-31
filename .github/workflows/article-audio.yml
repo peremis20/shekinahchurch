@@ -3,12 +3,8 @@ name: Article audio
 # Makes natural narration for English blog articles.
 # Default: Kokoro, a free open source voice that runs right here on GitHub (no key, no limits).
 # Optional: set the repository variable TTS_ENGINE=elevenlabs and the secret ELEVENLABS_API_KEY.
+# Paused Oct 31, 2026: Jimmy uses his own podcast audio for now. Run manually only.
 on:
-  push:
-    branches: [main]
-    paths: ['content-defaults.json', '_build/tts.py', '.github/workflows/article-audio.yml']
-  schedule:
-    - cron: '41 9 * * *'   # daily safety net, about 4:41 AM Central
   workflow_dispatch:
     inputs:
       only_slug:
