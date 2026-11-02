@@ -902,6 +902,7 @@ image-slot::part(credit){display:none !important}
               </sc-if>
             </div></div>
     <sc-for list="{{ post.blocks }}" as="b" hint-placeholder-count="4">
+      <sc-if value="{{ b.isSignup }}" hint-placeholder-val="{{ false }}"><aside aria-label="Newsletter signup" style="margin:14px 0;padding:22px;border-radius:14px;background:#13294B;color:#FFFFFF;display:flex;flex-direction:column;gap:12px"><span style="font-family:'Libre Baskerville',serif;font-size:20px;font-weight:700;line-height:1.35;color:#E2B85C">{{ b.sTitle }}</span><span style="font-size:15.5px;line-height:1.55;color:#E6E9EF">{{ b.sText }}</span><sc-if value="{{ b.sForm }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-wrap:wrap;gap:8px"><label for="nl-email-5" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label><input id="nl-email-5" type="email" autocomplete="email" placeholder="Your email address" style="flex:1;min-width:190px;padding:13px 16px;border:none;border-radius:10px;background:#FFFFFF;color:#1B2433;font-size:16px"><div aria-hidden="true" style="position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden"><input id="hp-nl5" type="text" tabIndex="-1" autoComplete="off" placeholder="Leave empty"></div><button onClick="{{ b.sub }}" style="border:none;border-radius:10px;background:#E2B85C;color:#13294B;padding:13px 22px;font-size:16px;font-weight:800" style-hover="background:#EBC774">{{ b.sBtn }}</button></div></sc-if><sc-if value="{{ b.sDone }}" hint-placeholder-val="{{ false }}"><span style="font-size:16px;font-weight:800;color:#E2B85C">{{ b.sThanks }}</span></sc-if></aside></sc-if>
       <sc-if value="{{ b.isP }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font-size:18px;line-height:1.8;color:#2C3443">{{ b.text }}</p></sc-if>
       <sc-if value="{{ b.isH2 }}" hint-placeholder-val="{{ false }}"><h2 style="margin:20px 0 0;font-family:'Libre Baskerville',serif;font-size:clamp(23px,2.6vw,28px);line-height:1.3;color:#13294B;text-wrap:pretty">{{ b.text }}</h2></sc-if>
       <sc-if value="{{ b.isH3 }}" hint-placeholder-val="{{ false }}"><h3 style="margin:10px 0 0;font-family:'Libre Baskerville',serif;font-size:20px;line-height:1.35;color:#13294B">{{ b.text }}</h3></sc-if>
@@ -1760,11 +1761,11 @@ class Component extends DCLogic {
       if (!body.message) { alert('Please write your message.'); return; }
       if (!body.email && !body.phone) { alert('Please add your email or phone so we can reply.'); return; }
     } else {
-      const nlId = { 'newsletter-inline': 'nl-email-2', 'newsletter-hero': 'nl-email-3', 'newsletter-mid': 'nl-email-4' }[kind] || 'nl-email';
+      const nlId = { 'newsletter-inline': 'nl-email-2', 'newsletter-hero': 'nl-email-3', 'newsletter-mid': 'nl-email-4', 'newsletter-article': 'nl-email-5' }[kind] || 'nl-email';
       body = { kind: 'newsletter', email: v(nlId) };
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.email)) { alert('Please enter a valid email address.'); return; }
     }
-    const hpId = { prayer: 'hp-pr', bible: 'hp-bs', pastoral: 'hp-pc', membership: 'hp-mb', contact: 'hp-ct', newsletter: 'hp-nl1', 'newsletter-inline': 'hp-nl2', 'newsletter-hero': 'hp-nl3', 'newsletter-mid': 'hp-nl4' }[kind];
+    const hpId = { prayer: 'hp-pr', bible: 'hp-bs', pastoral: 'hp-pc', membership: 'hp-mb', contact: 'hp-ct', newsletter: 'hp-nl1', 'newsletter-inline': 'hp-nl2', 'newsletter-hero': 'hp-nl3', 'newsletter-mid': 'hp-nl4', 'newsletter-article': 'hp-nl5' }[kind];
     const doneState = kind === 'prayer' ? { prayerSent: true } : kind === 'contact' ? { contactSent: true } : kind === 'bible' ? { bibleSent: true } : kind === 'membership' ? { memberSent: true } : kind === 'pastoral' ? { pastoralSent: true } : { subDone: true };
     if (looksLikeSpam(body, hpId && v(hpId))) { this.setState(doneState); return; }
     if (this._sending) return; this._sending = true;
@@ -1832,6 +1833,16 @@ class Component extends DCLogic {
     const dec = p => ({ ...p, iso: isoDate(p.date), blocks: postBlocks(p.body), ...UCRED(POST_IMG[p.id]), slotId: 'post-' + p.id, ctl: this.slotCtl('post-' + p.id), open: this.nav('post', { postId: p.id }), href: postPath(p) });
     const filtered = POSTS.filter(p => s.cat === 'All' || p.cat === s.cat).map(dec);
     const post = dec(POSTS.find(p => p.id === s.postId) || POSTS[0]);
+    { // In-article newsletter card: placed before the third main heading (or about 40% in), so readers see it mid article.
+      const bl = post.blocks, ht = isKreyol(post); let h2 = 0, at = -1;
+      for (let i = 0; i < bl.length; i++) { if (bl[i].isH2 && ++h2 === 3) { at = i; break; } }
+      if (at < 0) at = Math.max(3, Math.round(bl.length * 0.4));
+      const card = { ...bl[0], text: '', isP: false, isH2: false, isH3: false, isQuote: false, isItem: false, isImg: false, isCallout: false, isStats: false, isWeek: false, isSteps: false, isTime: false, isRow: false, isHead: false, isBody: false, isLink: false, isSource: false,
+        isSignup: true, sForm: !s.subDone, sDone: !!s.subDone, sTitle: ht ? 'Yon pawòl espwa chak semèn' : 'Enjoying this? Get a word of hope every week',
+        sText: ht ? 'Repons biblik, devosyon ak nouvèl legliz la, gratis nan imel ou.' : 'Free Bible answers, devotionals and church news in your inbox. Unsubscribe anytime.',
+        sBtn: ht ? 'Enskri gratis' : 'Subscribe free', sThanks: ht ? 'Mèsi! Ou enskri.' : "Thank you! You're subscribed.", sub: () => this.sendForm('newsletter-article') };
+      post.blocks = bl.length > 4 ? [...bl.slice(0, at), card, ...bl.slice(at)] : bl;
+    }
     return {
       ...this.resVals(s),
       ...this.bsVals(s),
@@ -1899,7 +1910,7 @@ class Component extends DCLogic {
       amounts: [25, 50, 100, 250].map(v => ({ value: v, active: s.amount === v, inactive: s.amount !== v, pick: () => this.setState({ amount: v }) })),
       amount: s.amount, fund: s.fund, giveForm: !s.gave, gaveDone: s.gave,
       give: () => this.setState({ gave: true }), resetGive: () => this.setState({ gave: false }),
-      subForm: !s.subDone, subDone: !!s.subDone, subscribe: () => this.sendForm('newsletter'), subscribeInline: () => this.sendForm('newsletter-inline'), subscribeHero: () => this.sendForm('newsletter-hero'), subscribeMid: () => this.sendForm('newsletter-mid'), showSignupBand: s.page === 'post' || s.page === 'blog',
+      subForm: !s.subDone, subDone: !!s.subDone, subscribe: () => this.sendForm('newsletter'), subscribeInline: () => this.sendForm('newsletter-inline'), subscribeHero: () => this.sendForm('newsletter-hero'), subscribeMid: () => this.sendForm('newsletter-mid'), showSignupBand: s.page === 'post' || s.page === 'blog' || s.page === 'bible',
       prayerForm: !s.prayerSent, prayerSent: !!s.prayerSent, sendPrayer: () => this.sendForm('prayer'),
       isContact: s.page === 'contact', isPrayerPage: s.page === 'prayer', contactForm: !s.contactSent, contactSent: !!s.contactSent, sendContact: () => this.sendForm('contact'),
       visitForm: !s.visitSent, visitSent: s.visitSent, sendVisit: () => this.setState({ visitSent: true }),
