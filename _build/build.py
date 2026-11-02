@@ -136,8 +136,42 @@ POST_IMG = json.loads(re.search(r'const POST_IMG = (\{.*?\});', src).group(1))
 SEO_PAGES_JS = json.dumps({k: seo(k) for k in PAGES}, ensure_ascii=False)
 
 
+# ---- Image slots: move dropped photos out of the 2 MB sidecar into real files and inline the
+# small index into every page, so each slot paints its final photo first (no default photo flicker).
+def prepare_slots():
+    import base64, hashlib
+    path = os.path.join(OUT, 'image-slots.state.json')
+    try:
+        data = json.load(open(path, encoding='utf-8'))
+    except Exception:
+        return {}
+    os.makedirs(os.path.join(OUT, 'assets', 'slots'), exist_ok=True)
+    changed = False
+    for k, v in list(data.items()):
+        if isinstance(v, str):
+            v = {'u': v, 's': 1, 'x': 0, 'y': 0}
+            data[k] = v
+            changed = True
+        u = v.get('u') or ''
+        m = re.match(r'data:image/(webp|png|jpeg|jpg|avif);base64,(.*)$', u, re.S)
+        if m:
+            raw = base64.b64decode(m.group(2))
+            ext = {'jpeg': 'jpg'}.get(m.group(1), m.group(1))
+            name = '%s-%s.%s' % (re.sub(r'[^A-Za-z0-9_-]', '-', k), hashlib.sha1(raw).hexdigest()[:8], ext)
+            open(os.path.join(OUT, 'assets', 'slots', name), 'wb').write(raw)
+            v['u'] = '/assets/slots/' + name
+            changed = True
+    if changed:
+        json.dump(data, open(path, 'w', encoding='utf-8'), separators=(',', ':'))
+    return data
+
+
+SLOTS = prepare_slots()
+SLOTS_JS = '<script>window.__IMAGE_SLOTS=%s;</script>' % json.dumps(SLOTS, separators=(',', ':')).replace('</', '<\\/')
+
+
 def head_block(s, extra_ld=None, noindex=False, key=None, post=None):
-    parts = ['<base href="/">',
+    parts = ['<base href="/">', SLOTS_JS] + (['<link rel="preload" as="image" href="%s" fetchpriority="high">' % SLOTS['hero-worship']['u']] if key == 'home' and (SLOTS.get('hero-worship') or {}).get('u', '').startswith('/assets/') else []) + [
              '<title>%s</title>' % H.escape(s['title']),
              '<meta name="description" content="%s">' % H.escape(s['desc'], quote=True)]
     if noindex:

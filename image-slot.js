@@ -168,6 +168,14 @@
   const tombstones = new Set();
   let loaded = false;
   let loadP = null;
+  // Build inlines the sidecar as window.__IMAGE_SLOTS (images live in
+  // assets/slots/), so slots render their final photo on first paint with
+  // no default-photo flash and no 2 MB fetch.
+  if (typeof window !== 'undefined' && window.__IMAGE_SLOTS && typeof window.__IMAGE_SLOTS === 'object') {
+    slots = Object.assign({}, window.__IMAGE_SLOTS);
+    loaded = true;
+    loadP = Promise.resolve();
+  }
 
   function load() {
     if (loadP) return loadP;
@@ -1118,7 +1126,7 @@
       // data:image/ URLs from it. The `src` attribute is author-controlled
       // (Claude wrote it into the HTML) so it passes through unchanged.
       let stored = this.id ? getSlot(this.id) : this._local;
-      if (stored && stored.u && !/^data:image\//i.test(stored.u)) stored = null;
+      if (stored && stored.u && !/^data:image\//i.test(stored.u) && !/^\/?assets\/slots\/[A-Za-z0-9_.-]+\.(webp|jpe?g|png|avif)$/.test(stored.u)) stored = null;
       const srcAttr = this.getAttribute('src') || '';
       this._userUrl = (stored && stored.u) || null;
       const url = this._userUrl || srcAttr;
