@@ -296,5 +296,5 @@ for rel, to in LEGACY.items():
                '<script>location.replace("%s")</script></head><body><p>This page has moved to '
                '<a href="%s">%s</a>.</p></body></html>\n' % (NAME, u, u, to, u, u))
 
-write('robots.txt', 'User-agent: *\nDisallow: /admin.html\nAllow: /\n\n# Search engines and AI assistants are welcome to read and cite our articles.\n# A plain text guide for AI tools is at %s/llms.txt\n\nSitemap: %s/sitemap.xml\n' % (SITE, SITE))
+write('robots.txt', 'User-agent: *\nDisallow: /admin/\nDisallow: /admin.html\nAllow: /\n\n# Search engines and AI assistants are welcome to read and cite our articles.\n# A plain text guide for AI tools is at %s/llms.txt\n\nSitemap: %s/sitemap.xml\n' % (SITE, SITE))
 print('built', len(routes), 'pages')
