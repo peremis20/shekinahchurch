@@ -3,7 +3,7 @@
 
 Reads _build/kreyol-studies.json and writes:
   kreyol/etid/index.html            hub listing every Kreyòl audio study
-  kreyol/etid/<slug>/index.html     one page per study (player, summary, points, verses, questions)
+  kreyol/<slug>/index.html     one page per study (player, summary, points, verses, questions)
 Also exposes sitemap_rows() so build.py keeps these URLs in sitemap.xml.
 
 Run from anywhere: python3 _build/kreyol_pages.py
@@ -23,8 +23,8 @@ def load():
 
 
 def sitemap_rows():
-    rows = [(SITE + '/kreyol/etid/', None)]
-    rows += [(SITE + '/kreyol/etid/%s/' % s['slug'], s['date']) for s in load()]
+    rows = [(SITE + '/kreyol/', None)]
+    rows += [(SITE + '/kreyol/%s/' % s['slug'], s['date']) for s in load()]
     return rows
 
 
@@ -71,7 +71,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">')
 
 HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-mark-light.png" alt="" width="36" height="36">Shekinah</a>'
-          '<nav><a href="/kreyol/etid/">Etid Biblik</a><a href="/bible-study/">Bible Study</a>'
+          '<nav><a href="/kreyol/">Etid Biblik</a><a href="/bible-study/">Bible Study</a>'
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 
 FOOTER = ('<footer><div class="bar"><span>Legliz Advantis Setyèm Jou Ayisyen Shekinah · 205 E Carver St, Alvarado, TX 76009 · '
@@ -99,7 +99,7 @@ def iso_minutes(length):
 
 
 def study_page(s, all_s):
-    url = SITE + '/kreyol/etid/%s/' % s['slug']
+    url = SITE + '/kreyol/%s/' % s['slug']
     mp3 = '/assets/audio/bible-study/%s.mp3' % s['slug']
     audio = {'@type': 'AudioObject', 'name': s['title'], 'description': s['desc'], 'contentUrl': SITE + mp3,
              'encodingFormat': 'audio/mpeg', 'inLanguage': 'ht', 'uploadDate': s['date']}
@@ -114,10 +114,10 @@ def study_page(s, all_s):
          'audio': audio},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Akèy', 'item': SITE + '/'},
-            {'@type': 'ListItem', 'position': 2, 'name': 'Etid Biblik an Kreyòl', 'item': SITE + '/kreyol/etid/'},
+            {'@type': 'ListItem', 'position': 2, 'name': 'Etid Biblik an Kreyòl', 'item': SITE + '/kreyol/'},
             {'@type': 'ListItem', 'position': 3, 'name': s['title'], 'item': url}]}]}
     p = [head(s['seo_title'], s['desc'], url, ld), HEADER, '<main>']
-    p.append('<div class="crumbs"><a href="/">Akèy</a> › <a href="/kreyol/etid/">Etid Biblik an Kreyòl</a></div>')
+    p.append('<div class="crumbs"><a href="/">Akèy</a> › <a href="/kreyol/">Etid Biblik an Kreyòl</a></div>')
     p.append('<span class="tag">Koute</span><span class="tag">Kreyòl</span>')
     p.append('<h1>%s</h1><div class="meta">Etid Biblik Shekinah · %s · %s</div>' % (e(s['title']), e(s['date_ht']), e(s['length'])))
     if s.get('crisis'):
@@ -139,17 +139,17 @@ def study_page(s, all_s):
 
 
 def card(s):
-    return ('<a class="card" href="/kreyol/etid/%s/"><h3>%s</h3><span>%s · %s</span><p>%s</p></a>'
+    return ('<a class="card" href="/kreyol/%s/"><h3>%s</h3><span>%s · %s</span><p>%s</p></a>'
             % (s['slug'], e(s['title']), e(s['date_ht']), e(s['length']), e(s['summary'][0][:170].rsplit(' ', 1)[0] + '…')))
 
 
 def hub(all_s):
-    url = SITE + '/kreyol/etid/'
+    url = SITE + '/kreyol/'
     title = 'Etid Biblik an Kreyòl: odyo gratis | Legliz Shekinah'
     desc = 'Etid biblik gratis an Kreyòl ayisyen pou koute: Saba a, lanmò ak rezirèksyon, dezyèm vini Jezi, lapriyè, padon, gerizon ak plis ankò.'
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': 'Etid Biblik an Kreyòl', 'description': desc,
           'inLanguage': 'ht', 'url': url,
-          'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/etid/%s/' % s['slug']} for s in all_s]}
+          'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/%s/' % s['slug']} for s in all_s]}
     p = [head(title, desc, url, ld), HEADER, '<main>']
     p.append('<h1>Etid Biblik an Kreyòl</h1>')
     p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
@@ -170,8 +170,13 @@ def write(rel, content):
 def build():
     all_s = sorted(load(), key=lambda s: s['date'], reverse=True)
     for s in all_s:
-        write('kreyol/etid/%s/index.html' % s['slug'], study_page(s, all_s))
-    write('kreyol/etid/index.html', hub(all_s))
+        write('kreyol/%s/index.html' % s['slug'], study_page(s, all_s))
+    write('kreyol/index.html', hub(all_s))
+    for slug in [''] + [x['slug'] + '/' for x in all_s]:
+        to = '/kreyol/' + slug
+        write('kreyol/etid/%sindex.html' % slug, '<!doctype html><html lang="ht"><head><meta charset="utf-8"><title>Etid Biblik Shekinah</title>'
+              '<link rel="canonical" href="%s%s"><meta http-equiv="refresh" content="0; url=%s"><script>location.replace("%s")</script>'
+              '</head><body><a href="%s">%s%s</a></body></html>\n' % (SITE, to, to, to, to, SITE, to))
     return len(all_s)
 
 
