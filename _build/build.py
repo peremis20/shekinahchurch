@@ -14,6 +14,7 @@ import json, os, re, subprocess, shutil, sys, urllib.request, html as H
 ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, ROOT)
 import seo as SEO  # noqa: E402
+import kreyol_pages as KREYOL  # noqa: E402  (Kreyòl audio study pages, /kreyol/etid/)
 # Local layout: src/index.html -> github-upload/.  In the GitHub repo: _build/index.src.html -> repo root.
 if os.path.exists(os.path.join(ROOT, 'index.src.html')):
     SRC = os.path.join(ROOT, 'index.src.html')
@@ -269,9 +270,10 @@ for key, path in routes:
     write(path.lstrip('/') + 'index.html', page)
 
 write('404.html', assemble(seo('home'), '', noindex=True))
+KREYOL.build()
 
 write('sitemap.xml', SEO.sitemap([(SITE + PAGES[k][0], '1.0' if k == 'home' else '0.8') for k in PAGES],
-                                 [(SITE + '/blog/%s/' % p['_slug'], p.get('date')) for p in POSTS]))
+                                 [(SITE + '/blog/%s/' % p['_slug'], p.get('date')) for p in POSTS] + KREYOL.sitemap_rows()))
 for p in POSTS:
     p['_url'] = SITE + '/blog/%s/' % p['_slug']
 write('llms.txt', SEO.llms_txt([(PAGES[k][3], SITE + PAGES[k][0], PAGES[k][2]) for k in PAGES], POSTS))
