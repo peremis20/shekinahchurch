@@ -122,7 +122,7 @@ def speak(models, lines, wav):
         part = next(p for p in r['candidates'][0]['content']['parts'] if 'inlineData' in p)['inlineData']
         pcm = base64.b64decode(part['data'])
         rate = int(re.search(r'rate=(\d+)', part.get('mimeType', '') + ' rate=24000').group(1))
-        subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(rate), '-ac', '1', '-i', '-', wav], input=pcm)
+        subprocess.run(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(rate), '-ac', '1', '-i', '-', wav], input=pcm, check=True)
         if 'combo' not in WORKING:
             WORKING['combo'] = (model, fmt); print('voice model used:', model, fmt)
         return
