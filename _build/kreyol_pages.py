@@ -63,6 +63,18 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .card h3{margin:0;font-family:'Libre Baskerville',serif;color:var(--navy);font-size:17px;line-height:1.35}
 .card span{font-size:13px;font-weight:700;color:var(--gold)}
 .card p{margin:0;font-size:15px}
+.card{position:relative}
+.card a.stretch{color:inherit;text-decoration:none}.card a.stretch:after{content:"";position:absolute;inset:0;border-radius:14px}
+.card a.stretch:focus-visible{outline:none}.card:has(a.stretch:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
+.card:hover{border-color:var(--gold)}
+.play{position:relative;z-index:2;display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:10px}
+.play button{flex:none;width:46px;height:46px;border-radius:50%;border:0;background:var(--navy);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(19,41,75,.25);transition:transform .15s}
+.play button:hover{transform:scale(1.06)}
+.play button svg{width:20px;height:20px;fill:currentColor}
+.play b{font-size:15px;color:var(--navy);line-height:1.2}
+.play small{display:block;font-size:13px;color:#5d6a80;font-weight:600}
+.play .prog{display:block;height:4px;border-radius:4px;background:var(--line);margin-top:6px;overflow:hidden;width:140px;padding:0}
+.play .prog i{display:block;height:100%;width:0;background:var(--gold)}
 footer{background:var(--navy);color:#cfd6e3;font-size:14px}
 footer .bar{padding:22px 20px}footer a{color:#fff}
 """
@@ -134,13 +146,35 @@ def study_page(s, all_s):
              '<a class="btn alt" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a></div>')
     others = [o for o in all_s if o['slug'] != s['slug']][:4]
     p.append('<h2>Lòt etid an Kreyòl</h2><div class="cards">%s</div>' % ''.join(card(o) for o in others))
-    p.append('</main>' + FOOTER + '</body></html>\n')
+    p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
     return ''.join(p)
 
 
+PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>'
+PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
+
+
 def card(s):
-    return ('<a class="card" href="/kreyol/%s/"><h3>%s</h3><span>%s · %s</span><p>%s</p></a>'
-            % (s['slug'], e(s['title']), e(s['date_ht']), e(s['length']), e(s['summary'][0][:170].rsplit(' ', 1)[0] + '…')))
+    mp3 = '/assets/audio/bible-study/%s.mp3' % s['slug']
+    return ('<div class="card"><a class="stretch" href="/kreyol/%s/"><h3>%s</h3></a><span>%s · %s</span><p>%s</p>'
+            '<div class="play"><button type="button" data-src="%s" data-slug="%s" aria-label="Koute: %s">%s</button>'
+            '<div><b>Koute etid la</b><small data-l="%s">Odyo · %s</small><span class="prog"><i></i></span></div></div></div>'
+            % (s['slug'], e(s['title']), e(s['date_ht']), e(s['length']), e(s['summary'][0][:170].rsplit(' ', 1)[0] + '…'),
+               mp3, s['slug'], e(s['title']), PLAY_ICON, e(s['length']), e(s['length'])))
+
+
+PLAY_JS = ('<script>(function(){var a=new Audio(),cur=null,P=%s,S=%s;a.preload="none";'
+           'function t(x){x=Math.floor(x||0);return Math.floor(x/60)+":"+("0"+x%%60).slice(-2);}'
+           'function ui(b,on){b.innerHTML=on?S:P;b.setAttribute("aria-pressed",on?"true":"false");var c=b.closest(".play");c.querySelector("b").textContent=on?"Ap jwe kounye a":"Koute etid la";}'
+           'document.addEventListener("click",function(e){var b=e.target.closest(".play button");if(!b)return;e.preventDefault();'
+           'if(cur===b){if(a.paused){a.play();ui(b,1);}else{a.pause();ui(b,0);}return;}'
+           'if(cur){ui(cur,0);}cur=b;a.src=b.getAttribute("data-src");a.play();ui(b,1);'
+           'if(window.gtag)gtag("event","audio_play",{study:b.getAttribute("data-slug"),place:"card"});});'
+           'a.addEventListener("timeupdate",function(){if(!cur)return;var c=cur.closest(".play");'
+           'c.querySelector(".prog i").style.width=(a.duration?100*a.currentTime/a.duration:0)+"%%";'
+           'c.querySelector("small").textContent=t(a.currentTime)+(a.duration?" / "+t(a.duration):"");});'
+           'a.addEventListener("ended",function(){if(cur){ui(cur,0);var c=cur.closest(".play");c.querySelector("small").textContent="Odyo · "+c.querySelector("small").getAttribute("data-l");}});'
+           '})();</script>') % (json.dumps(PLAY_ICON), json.dumps(PAUSE_ICON))
 
 
 def hub(all_s):
@@ -157,7 +191,7 @@ def hub(all_s):
     p.append('<div class="cards">%s</div>' % ''.join(card(s) for s in all_s))
     p.append('<div class="cta"><a class="btn" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a>'
              '<a class="btn alt" href="/prayer-request/">Voye yon demann priyè</a></div>')
-    p.append('</main>' + FOOTER + '</body></html>\n')
+    p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
     return ''.join(p)
 
 
