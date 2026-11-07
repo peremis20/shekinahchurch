@@ -22,8 +22,18 @@ def call(path, body=None, method=None, tries=4):
                                  headers={'Content-Type': 'application/json', 'x-goog-api-key': KEY})
     for i in range(tries):
         try:
-            with urllib.request.urlopen(req, timeout=300) as r:
+            with urllib.request.urlopen(req, timeout=600) as r:
                 return json.loads(r.read())
+        except (TimeoutError, OSError) as e:
+            if isinstance(e, urllib.error.HTTPError):
+                msg = e.read().decode()[:400]
+                if e.code in (429, 500, 503) and i < tries - 1:
+                    time.sleep(20 * (i + 1)); continue
+                raise SystemExit('Gemini API error %s on %s: %s' % (e.code, path.split('?')[0], msg))
+            elif i < tries - 1:
+                print('slow response, retrying (%s)' % type(e).__name__); time.sleep(10); continue
+            else:
+                raise SystemExit('Gemini API did not answer in time on %s' % path.split('?')[0])
         except urllib.error.HTTPError as e:
             msg = e.read().decode()[:400]
             if e.code in (429, 500, 503) and i < tries - 1:
@@ -41,9 +51,11 @@ def pick_models():
         return (float(v[0]) if v else 0, 'pro' in n if os.environ.get('TTS_PRO') else 'flash' in n)
     tts.sort(key=rank, reverse=True); text.sort(key=rank, reverse=True)
     t = os.environ.get('TTS_MODEL') or (tts[0] if tts else None)
-    x = os.environ.get('TEXT_MODEL') or (text[0] if text else None)
+    fast = [n for n in text if 'lite' not in n and ('preview' not in n and 'exp' not in n)]
+    x = os.environ.get('TEXT_MODEL') or (fast[0] if fast else (text[0] if text else None))
     if not t or not x:
         raise SystemExit('No usable models found. TTS: %s TEXT: %s' % (tts[:5], text[:5]))
+    print('text models available:', text[:6])
     print('text model:', x, '| tts model:', t, '| other tts:', tts[:6])
     return x, t
 
@@ -59,7 +71,7 @@ def dialogue(model, script, minutes):
         'Kòmanse ak "Byenveni nan Etid Biblik Shekinah!". Fini ak yon ti benediksyon kout. '
         'Longè: anviwon %d mo. Fòma: chak liy kòmanse ak "Jan:" oswa "Mari:", san lòt bagay.\n\nTÈKS:\n%s' % (words, script))
     r = call('/%s:generateContent' % model, {'contents': [{'parts': [{'text': prompt}]}],
-                                             'generationConfig': {'temperature': 0.7}})
+                                             'generationConfig': {'temperature': 0.7, 'maxOutputTokens': 12000}})
     text = ''.join(p.get('text', '') for p in r['candidates'][0]['content']['parts'])
     lines = [l.strip() for l in text.splitlines() if re.match(r'^(Jan|Mari)\s*:', l.strip())]
     if len(lines) < 4:
