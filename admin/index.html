@@ -707,9 +707,9 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
     else if(q==='addvisit')openAdd('visit');
     else if(q==='csv')csv('all');});
   $('recent').addEventListener('click',function(e){var d=e.target.closest('[data-open]');if(!d)return;var id=d.getAttribute('data-open'), it=byId(id);if(!it)return;
-    kind='all';tab=it.status==='archived'?'closed':tabMatch(it,'all')?'all':'closed';$('q').value='';$('asg').value='any';
-    var rows=filtered();var idx=rows.map(function(x){return String(x.id);}).indexOf(String(id));page=idx<0?1:Math.floor(idx/PER)+1;openId=id;
-    if(cur!=='dash'&&cur!=='messages')go('messages');else show();
+    if(cur!=='dash'&&cur!=='messages')go('messages');
+    kind='all';tab=tabMatch(it,'all')?'all':'closed';$('q').value='';$('asg').value='any';
+    var rows=filtered();var idx=rows.map(function(x){return String(x.id);}).indexOf(String(id));page=idx<0?1:Math.floor(idx/PER)+1;openId=id;show();
     var r=document.querySelector('.row[data-id="'+id+'"]');r&&r.scrollIntoView({behavior:'smooth',block:'center'});});
 
   // ---------- sign in ----------
