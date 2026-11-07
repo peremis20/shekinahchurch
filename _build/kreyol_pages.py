@@ -84,7 +84,7 @@ FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">')
 
 HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-mark-light.png" alt="" width="36" height="36">Shekinah</a>'
-          '<nav><a href="/kreyol/">Etid Biblik</a><a href="/bible-study/">Bible Study</a>'
+          '<nav><a href="/kreyol/">Etid Biblik</a>'
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 
 FOOTER = ('<footer><div class="bar"><span>Legliz Advantis Setyèm Jou Ayisyen Shekinah · 205 E Carver St, Alvarado, TX 76009 · '
