@@ -110,7 +110,10 @@ def main():
     minutes = float(sys.argv[sys.argv.index('--minutes') + 1]) if '--minutes' in sys.argv else 20
     script = open(src, encoding='utf-8').read()
     text_model, tts_model = pick_models()
-    lines = dialogue(text_model, script, minutes)
+    if '--dialogue' in sys.argv:  # script is already a Jan:/Mari: dialogue, skip the writing step
+        lines = [l.strip() for l in script.splitlines() if re.match(r'^(Jan|Mari)\s*:', l.strip())]
+    else:
+        lines = dialogue(text_model, script, minutes)
     open(os.path.splitext(out)[0] + '.dialogue.txt', 'w', encoding='utf-8').write('\n'.join(lines) + '\n')
     with tempfile.TemporaryDirectory() as tmp:
         parts = []
