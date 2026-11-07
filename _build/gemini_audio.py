@@ -28,7 +28,7 @@ def call(path, body=None, method=None, tries=4):
             if isinstance(e, urllib.error.HTTPError):
                 msg = e.read().decode()[:400]
                 if e.code in (429, 500, 503) and i < tries - 1:
-                    time.sleep(20 * (i + 1)); continue
+                    print('Gemini busy or limit reached (%s), waiting' % e.code); time.sleep(45 * (i + 1)); continue
                 raise SystemExit('Gemini API error %s on %s: %s' % (e.code, path.split('?')[0], msg))
             elif i < tries - 1:
                 print('slow response, retrying (%s)' % type(e).__name__); time.sleep(10); continue
@@ -119,7 +119,7 @@ def speak(models, lines, wav):
     for model, fmt in tries:
         body = dict(_bodies(lines))[fmt]
         try:
-            r = call('/%s:generateContent' % model, body, tries=2)
+            r = call('/%s:generateContent' % model, body, tries=6 if os.environ.get('TTS_MODEL') else 2)
         except SystemExit as e:
             last = str(e); print('voice try failed:', model, fmt, last[:160]); continue
         part = next(p for p in r['candidates'][0]['content']['parts'] if 'inlineData' in p)['inlineData']

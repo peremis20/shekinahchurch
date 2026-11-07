@@ -1,0 +1,52 @@
+name: Kreyol audio publish
+
+# Cloud pipeline for the Kreyol Bible study audios (Gemini voices, no computer needed).
+# A Claude task commits _build/audio-queue/<slug>/job.json + dialogue.txt (plus the study entry and article);
+# this workflow makes the MP3, publishes the Bible Study card and the /kreyol/<slug>/ page, and deploys.
+on:
+  push:
+    branches: [main]
+    paths: ['_build/audio-queue/**']
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: kreyol-audio
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - name: Make and publish queued audio
+        env:
+          K0: ${{ secrets.SHEKINAH }}
+          K1: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          for n in K0 K1; do v="${!n}"; if [ -n "$v" ]; then export GEMINI_API_KEY="$(echo -n "$v" | tr -d '[:space:]')"; break; fi; done
+          [ -n "$GEMINI_API_KEY" ] || { echo "Gemini key missing: add the SHEKINAH secret"; exit 1; }
+          python3 _build/tools/publish_queued_audio.py 2>&1 | tee _build/audio-queue/last-run.log
+          exit ${PIPESTATUS[0]}
+      - name: Commit
+        id: commit
+        if: always()
+        run: |
+          git config user.name "shekinah-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "changed=no" >> "$GITHUB_OUTPUT"; else
+            git commit -m "Publish queued Kreyol audio (Gemini voices)" && git pull --rebase && git push
+            echo "changed=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to GitHub Pages
+        if: steps.commit.outputs.changed == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
