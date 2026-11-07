@@ -54,6 +54,7 @@ h2{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:22px;margin
 .player p{margin:8px 0 0;font-size:14px;color:#5B6270}
 ul,ol{padding-left:22px}li{margin:6px 0}
 .verses{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}.verses li{margin:0;background:var(--cream);border:1px solid var(--line);border-radius:40px;padding:4px 12px;font-size:15px}
+.body h2{margin-top:34px}.body p{margin:0 0 14px}
 .crisis{background:#FFF4E5;border:1px solid #F0C98A;border-radius:12px;padding:14px 16px;margin:0 0 20px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:12px 22px}
@@ -110,6 +111,17 @@ def iso_minutes(length):
         return None
 
 
+ART_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'kreyol-articles')
+
+
+def load_article(slug):
+    f = os.path.join(ART_DIR, slug + '.json')
+    if not os.path.exists(f):
+        return None
+    d = json.load(open(f, encoding='utf-8'))
+    return d if d.get('sections') else None
+
+
 def study_page(s, all_s):
     url = SITE + '/kreyol/%s/' % s['slug']
     mp3 = '/assets/audio/bible-study/%s.mp3' % s['slug']
@@ -123,7 +135,7 @@ def study_page(s, all_s):
          'author': {'@type': 'Organization', 'name': 'Etid Biblik Shekinah'},
          'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE,
                        'logo': {'@type': 'ImageObject', 'url': SITE + '/assets/logo-mark.png'}},
-         'audio': audio},
+         'audio': audio, **({'wordCount': sum(len((sec['h'] + ' ' + ' '.join(sec['p'])).split()) for sec in load_article(s['slug'])['sections'])} if load_article(s['slug']) else {})},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Akèy', 'item': SITE + '/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'Etid Biblik an Kreyòl', 'item': SITE + '/kreyol/'},
@@ -139,6 +151,13 @@ def study_page(s, all_s):
              '<p>Etid odyo an Kreyòl ak de animatè. Koute l kounye a oswa pataje l ak fanmi ou.</p></div>' % (mp3, e(s['title'])))
     for para in s['summary']:
         p.append('<p>%s</p>' % e(para))
+    art = load_article(s['slug'])
+    if art:
+        p.append('<article class="body">')
+        for sec in art['sections']:
+            p.append('<h2>%s</h2>' % e(sec['h']))
+            p.extend('<p>%s</p>' % e(x) for x in sec['p'])
+        p.append('</article>')
     p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
     p.append('<h2>Vèsè biblik nan etid la</h2><ul class="verses">%s</ul>' % ''.join('<li>%s</li>' % e(v) for v in s['verses']))
     p.append('<h2>Kesyon pou reflechi ak fanmi ou</h2><ol>%s</ol>' % ''.join('<li>%s</li>' % e(q) for q in s['questions']))
