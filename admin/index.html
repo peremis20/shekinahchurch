@@ -7,247 +7,560 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Church Admin | Shekinah</title>
 <link rel="icon" href="assets/logo-mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#13294B;--gold:#E2B85C;--green:#0E4A36;--cream:#F4EDDE;--paper:#FBF8F2;--line:#E3DAC6;--ink:#1B2433;--muted:#5B6270;--red:#A23B2A}
+:root{
+  --side1:#173A7A;--side2:#0D2350;--active:#1F63D8;
+  --bg:#EEF2F8;--card:#FFFFFF;--line:#E2E8F1;--ink:#14213D;--muted:#5D6A80;--soft:#F6F8FC;
+  --blue1:#2C7BEA;--blue2:#1450B8;--green1:#33A456;--green2:#1D7438;--purple1:#9A52D6;--purple2:#6A2DA8;
+  --orange1:#F39A33;--orange2:#D9660F;--teal1:#19AFB2;--teal2:#0C7E85;
+  --gold:#8A6420;--goldbg:#FCEFC7;--red:#D33A4A;--okgreen:#1D7438;
+  --shadow:0 2px 6px rgba(20,33,61,.06),0 8px 24px rgba(20,33,61,.06);
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-button,input,select,textarea{font:inherit}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 Nunito,"Segoe UI",system-ui,-apple-system,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--active)}
 .hide{display:none!important}
-header{background:var(--navy);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
-header img{height:36px}
-header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
-.hbtn{background:transparent;border:1px solid rgba(255,255,255,.5);color:#fff;border-radius:30px;padding:8px 14px;cursor:pointer}
-.hbtn:hover{background:rgba(255,255,255,.1)}
-.wrap{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
-#login{max-width:380px;width:calc(100% - 32px);margin:12vh auto;background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;text-align:center}
-#login h2{font:700 22px Georgia,serif;color:var(--navy);margin:8px 0 4px}
-#login p{color:var(--muted);margin:0 0 18px}
-#login input{width:100%;padding:13px;border:1.5px solid var(--line);border-radius:10px;margin-bottom:12px}
-.pbtn{background:var(--green);color:#fff;border:none;border-radius:30px;padding:12px 20px;font-weight:700;cursor:pointer}
-.pbtn:hover{background:#0A3A2A}
-.err{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;text-align:left}
-.stat.on{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy) inset}
-.stat b{display:block;font-size:26px;color:var(--navy);line-height:1.1}
-.stat span{color:var(--muted);font-size:13px}
-.stat em{font-style:normal;color:#8A6420;font-weight:700;font-size:12px}
-.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-.bar input,.bar select{padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
-.bar input{flex:1;min-width:180px}
-.bar input[type=checkbox]{flex:none;min-width:0;width:18px;height:18px;padding:0}
-.sbtn{background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;color:var(--navy);font-weight:600}
-.sbtn:hover{border-color:var(--navy)}
-.list{display:flex;flex-direction:column;gap:12px}
-.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;border-left:5px solid var(--line)}
-.card.new{border-left-color:var(--gold)}
-.card.in_progress{border-left-color:#3B6DB3}
-.card.done{border-left-color:var(--green)}
-.card.archived{opacity:.6}
+svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* ---------- shell ---------- */
+#shell{display:flex;min-height:100vh}
+#side{width:290px;flex:none;background:linear-gradient(180deg,var(--side1),var(--side2) 70%);color:#fff;padding:18px 14px 24px;position:sticky;top:0;height:100vh;overflow-y:auto;z-index:40}
+.brand{display:flex;align-items:center;gap:12px;padding:4px 8px 22px}
+.brand img{width:62px;height:62px;object-fit:contain}
+.brand b{font-weight:800;font-size:18px;line-height:1.2}
+.nav{display:flex;flex-direction:column;gap:6px}
+.nav button{display:flex;align-items:center;gap:16px;width:100%;background:none;border:0;color:#fff;font-size:17px;font-weight:600;padding:12px 16px;border-radius:12px;text-align:left}
+.nav button:hover{background:rgba(255,255,255,.08)}
+.nav button.on{background:linear-gradient(180deg,#2A72E6,#1A57C4);box-shadow:0 4px 14px rgba(10,40,110,.45);font-weight:700}
+.nav button svg{width:24px;height:24px}
+.nav .badge{margin-left:auto;background:#E5323F;color:#fff;font-size:13px;font-weight:800;border-radius:20px;padding:1px 9px;min-width:28px;text-align:center}
+#main{flex:1;min-width:0;display:flex;flex-direction:column}
+#banner{position:relative;min-height:128px;padding:18px 28px 34px 36px;color:#fff;display:flex;align-items:flex-start;gap:16px;overflow:hidden;
+  background:linear-gradient(90deg,#2A5A9B 0%,#183F77 32%,#2D5596 52%,#6C6DAA 68%,#A981A8 80%,#E89A6A 100%)}
+#banner:after{content:"";position:absolute;right:0;top:0;bottom:0;width:min(760px,62%);background:url(assets/admin/banner.webp) right center/cover no-repeat;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 30%);mask-image:linear-gradient(90deg,transparent,#000 30%)}
+#banner > *{position:relative;z-index:1}
+#btitle{flex:1;min-width:0}
+#btitle h1{margin:0;font-size:40px;font-weight:900;line-height:1.1;letter-spacing:.2px;text-shadow:0 2px 10px rgba(0,0,0,.25)}
+#btitle p{margin:4px 0 0;font-size:18px;opacity:.95;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+.glass{background:rgba(10,25,55,.55);border:1px solid rgba(255,255,255,.35);border-radius:14px;color:#fff;backdrop-filter:blur(6px)}
+#bell{width:54px;height:54px;display:grid;place-items:center;position:relative}
+#bell .dot{position:absolute;top:10px;right:12px;width:10px;height:10px;border-radius:50%;background:#E5323F;border:2px solid #fff}
+#userchip{display:flex;align-items:center;gap:12px;padding:6px 14px 6px 6px;height:58px;position:relative}
+#userchip .av{width:46px;height:46px;border-radius:50%;background:#E8F0FF;color:var(--active);display:grid;place-items:center;font-weight:900;font-size:22px}
+#userchip b{display:block;font-size:17px;line-height:1.1}
+#userchip small{font-size:15px;opacity:.9}
+#umenu{position:absolute;right:0;top:64px;background:#fff;color:var(--ink);border-radius:12px;box-shadow:var(--shadow);min-width:220px;padding:6px;z-index:60}
+#umenu div{padding:8px 12px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);margin-bottom:4px;word-break:break-all}
+#umenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:8px;font-weight:600}
+#umenu button:hover{background:var(--soft)}
+#burger{display:none;width:46px;height:46px;place-items:center}
+#body{flex:1;background:var(--bg);margin-top:-18px;border-radius:20px 0 0 0;padding:18px 18px 40px;position:relative;z-index:2}
+
+/* ---------- stat cards ---------- */
+#stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;margin-bottom:22px}
+.stat{border:0;border-radius:16px;color:#fff;padding:18px 18px 16px;display:flex;gap:16px;align-items:flex-start;text-align:left;box-shadow:0 6px 16px rgba(20,33,61,.14);transition:transform .15s,box-shadow .15s;outline-offset:3px}
+.stat:hover{transform:translateY(-2px)}
+.stat.on{box-shadow:0 0 0 3px #fff,0 0 0 6px rgba(31,99,216,.55)}
+.stat svg{width:50px;height:50px;stroke-width:1.6;margin-top:6px}
+.stat b{display:block;font-size:38px;font-weight:900;line-height:1}
+.stat span{display:block;font-size:16px;font-weight:600;margin:4px 0 8px;line-height:1.2}
+.stat em{display:inline-block;font-style:normal;background:#FFF4DA;color:#3A2A08;font-weight:800;font-size:14px;border-radius:20px;padding:2px 13px}
+.stat em.zero{background:rgba(255,255,255,.25);color:#fff}
+.k-all{background:linear-gradient(160deg,var(--blue1),var(--blue2))}
+.k-prayer{background:linear-gradient(160deg,var(--green1),var(--green2))}
+.k-contact{background:linear-gradient(160deg,var(--purple1),var(--purple2))}
+.k-visit{background:linear-gradient(160deg,var(--orange1),var(--orange2))}
+.k-newsletter{background:linear-gradient(160deg,var(--teal1),var(--teal2))}
+
+/* ---------- layout ---------- */
+#grid{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:18px;align-items:start}
+#grid.full{grid-template-columns:minmax(0,1fr)}
+.panel{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
+#inbox{padding:16px 14px 14px}
+.tabsbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:2px 2px 16px}
+.tabs{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1.5px solid var(--line);padding-bottom:6px}
+.tabs button{background:none;border:0;padding:8px 14px;border-radius:10px;font-weight:600;font-size:16px;position:relative}
+.tabs button:not(:last-child):after{content:"";position:absolute;right:-1px;top:10px;bottom:10px;width:1px;background:var(--line)}
+.tabs button.on{background:linear-gradient(180deg,#2A72E6,#1A57C4);color:#fff;font-weight:700}
+.tabs button.on:after{display:none}
+.search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 14px;height:44px;background:#fff}
+.search input{border:0;outline:0;flex:1;min-width:0;background:none;font-size:15px}
+.search svg{color:var(--muted)}
+.subsel{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 2px 12px}
+.subsel select{border:1.5px solid #D3DBE8;border-radius:10px;padding:7px 10px;background:#fff;font-weight:600;font-size:14px}
+
+/* message rows */
+.rows{display:flex;flex-direction:column;gap:12px}
+.row{border:1.5px solid var(--line);border-radius:14px;background:#fff;transition:border-color .15s,box-shadow .15s}
+.row:hover{border-color:#C9D6EC}
+.row.sel{background:#F3F7FF;border-color:#9DBCF0}
+.rhead{display:grid;grid-template-columns:18px 50px minmax(170px,240px) minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 12px 14px 12px;cursor:pointer}
+.rdot{width:12px;height:12px;border-radius:50%;background:#1F63D8;margin-top:19px}
+.rdot.no{background:none}
+.av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:21px}
+.rname b{display:block;font-size:16px;font-weight:800;word-break:break-word}
+.rname small{display:block;color:var(--muted);font-size:14px;word-break:break-all}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:5px}
+.tag{font-size:12.5px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 11px;border-radius:20px;background:var(--goldbg);color:var(--gold)}
+.t-prayer{background:#DDF3E2;color:#1D7438}
+.t-contact{background:#FCEFC7;color:#8A6420}
+.t-visit{background:#DCE9FF;color:#1F5FCF}
+.t-newsletter{background:#D6F3F3;color:#0C7E85}
+.t-priv{background:#FDE0E3;color:#C0283A}
+.t-prog{background:#E6EDFB;color:#2B4F95}
+.t-done{background:#E3F3E7;color:#1D7438}
+.t-arch{background:#EEF0F3;color:#5D6A80}
+.mdate{display:none;color:var(--muted);font-size:12.5px}
+.rsubj b{display:block;font-weight:800;font-size:16px;margin-top:2px}
+.rsubj p{margin:5px 0 0;color:#3D4759;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rright{display:flex;flex-direction:column;align-items:flex-end;gap:6px;color:#3D4759;font-size:13.5px;white-space:nowrap}
+.kebab{background:none;border:0;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:#3D4759}
+.kebab:hover{background:var(--soft)}
+.kmenu{position:absolute;right:8px;top:54px;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(20,33,61,.18);border:1px solid var(--line);padding:6px;z-index:30;min-width:190px}
+.kmenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14px}
+.kmenu button:hover{background:var(--soft)}
+.kmenu button.del{color:var(--red)}
+.rwrap{position:relative}
+.rbody{padding:0 16px 16px 94px}
+.rbody .msg{white-space:pre-wrap;background:var(--soft);border-radius:10px;padding:12px 14px;margin:0;border:1px solid var(--line)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1.5px solid var(--line);margin-top:16px;padding:14px 8px 2px;font-weight:600;color:#3D4759}
+.pager .pg{display:flex;gap:8px}
+.pager button{width:36px;height:36px;border-radius:9px;border:1.5px solid #D3DBE8;background:#fff;font-weight:700}
+.pager button.on{background:linear-gradient(180deg,#2A72E6,#1A57C4);color:#fff;border-color:#1A57C4}
+.pager button.arrow{border:0;background:none}
+.pager button:disabled{opacity:.35;cursor:default}
+
+/* right column */
+#rail{display:flex;flex-direction:column;gap:16px}
+#addentry{display:flex;align-items:center;justify-content:center;gap:10px;height:52px;border:0;border-radius:14px;color:#fff;font-size:19px;font-weight:800;background:linear-gradient(180deg,#22813F,#145F2B);box-shadow:0 6px 14px rgba(20,95,43,.3)}
+#addentry svg{width:22px;height:22px;stroke-width:2.6}
+.rail h3{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:19px;font-weight:800}
+.rail{padding:16px 14px}
+.qa{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.qa button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:14px 2px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:13px;white-space:nowrap;font-weight:600;box-shadow:0 2px 6px rgba(20,33,61,.05)}
+.qa button:hover{border-color:#9DBCF0}
+.qa svg{width:30px;height:30px;color:var(--active)}
+.act-list{display:flex;flex-direction:column}
+.act-list div{display:flex;align-items:center;gap:12px;padding:9px 2px;border-top:1px solid var(--line);font-size:15px}
+.act-list div:first-child{border-top:0}
+.act-list span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.act-list time{color:#3D4759;font-size:14px;white-space:nowrap}
+.act-list svg{width:22px;height:22px}
+.info{display:grid;grid-template-columns:70px 1fr;gap:4px 12px;align-items:center}
+.info img{width:66px;height:66px;object-fit:contain;grid-row:span 2}
+.info h4{margin:0;font-size:20px;font-weight:800;line-height:1.25}
+.info ul{grid-column:1/-1;list-style:none;margin:14px 0 0;padding:0 0 0 14px;display:flex;flex-direction:column;gap:8px;font-size:17px}
+.info li{display:flex;gap:14px;align-items:flex-start}
+.info li svg{width:22px;height:22px;margin-top:2px}
+
+/* shared building blocks (other pages, forms) */
+.wrap{display:flex;flex-direction:column;gap:16px}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;box-shadow:0 2px 6px rgba(20,33,61,.04)}
+.card.done{border-left:5px solid var(--okgreen)}
 .top{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
-.tag{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:20px;background:var(--cream);color:#8A6420}
-.tag.priv{background:#F7E3DF;color:var(--red)}
-.who{font-weight:700;color:var(--navy);font-size:16px}
-.when{color:var(--muted);font-size:13px;margin-left:auto}
-.contact{margin-top:4px;font-size:14px}
-.contact a{color:var(--green);margin-right:14px}
-.msg{white-space:pre-wrap;margin:10px 0 0;background:var(--paper);border-radius:8px;padding:10px 12px}
-.meta{margin-top:8px;font-size:13px;color:var(--muted)}
+.who{font-weight:800;color:var(--ink);font-size:17px}
+.when{color:var(--muted);font-size:13.5px;margin-left:auto}
+.contact{margin-top:4px;font-size:14.5px}
+.contact a{color:var(--active);margin-right:14px;font-weight:600}
+.msg{white-space:pre-wrap;margin:10px 0 0;background:var(--soft);border-radius:10px;padding:10px 12px}
+.meta{margin-top:8px;font-size:14px;color:var(--muted)}
 .act{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
-.act select{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:#fff}
-.act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;resize:vertical;min-height:38px}
-.saved{color:var(--green);font-size:13px;font-weight:700}
-.ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:10px}
-.ef label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
-.ef input,.ef select,.ef textarea{padding:9px 11px;border:1.5px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);font-weight:400}
+.act select{padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;font-weight:600}
+.act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;resize:vertical;min-height:40px}
+.saved{color:var(--okgreen);font-size:13.5px;font-weight:700}
+.ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
+.ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
+.ef input,.ef select,.ef textarea{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;color:var(--ink);font-weight:400}
+.ef input:focus,.ef select:focus,.ef textarea:focus,.act textarea:focus,.bar input:focus{outline:2px solid #9DBCF0;border-color:#9DBCF0}
 .ef .wide{grid-column:1/-1}
 .ef .chk{flex-direction:row;align-items:center;gap:8px}
-.dbtn{background:#fff;border:1.5px solid #E7C3BC;color:var(--red);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600}
-.dbtn:hover{background:#FBEDEA}
-.lbtn{background:#fff;border:1.5px solid var(--line);color:var(--navy);border-radius:10px;padding:8px 12px;cursor:pointer;font-weight:600}
-.lbtn:hover{border-color:var(--navy)}
-.empty{text-align:center;color:var(--muted);padding:40px 10px;background:#fff;border:1px dashed var(--line);border-radius:12px}
-@media (max-width:600px){
-  header{gap:8px;padding:10px 12px}
-  header img{height:28px}
-  header h1{font-size:16px;flex:1 1 auto;min-width:0}
-  #who{flex-basis:100%;order:9;font-size:12px}
-  header .hbtn{padding:6px 11px;font-size:13px}
-  .wrap{padding:14px 12px 50px}
-  .stats{grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
-  .stat{padding:9px 10px;border-radius:10px}
-  .stat b{font-size:19px}
-  .stat span{font-size:11.5px;line-height:1.25;display:block}
-  .stat em{font-size:11px}
-  .bar select{flex:1 1 45%}
-  .card{padding:13px 14px}
-  .act textarea{min-width:100%}
+.pbtn{background:linear-gradient(180deg,#22813F,#145F2B);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800}
+.pbtn:hover{filter:brightness(1.08)}
+.pbtn:disabled{opacity:.6}
+.lbtn,.sbtn{background:#fff;border:1.5px solid #D3DBE8;color:var(--ink);border-radius:10px;padding:9px 14px;font-weight:700}
+.lbtn:hover,.sbtn:hover{border-color:var(--active);color:var(--active)}
+.lbtn:disabled{opacity:.4}
+.dbtn{background:#fff;border:1.5px solid #F1C4C9;color:var(--red);border-radius:10px;padding:9px 14px;font-weight:700}
+.dbtn:hover{background:#FDEEF0}
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.bar input,.bar select{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff}
+.bar input{flex:1;min-width:180px}
+.bar input[type=checkbox]{flex:none;min-width:0;width:18px;height:18px;padding:0}
+.empty{text-align:center;color:var(--muted);padding:40px 10px;background:#fff;border:1.5px dashed #D3DBE8;border-radius:14px}
+.err{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
+.sec-h{font-size:19px;font-weight:800;margin:6px 0 0}
+.page{padding:20px}
+.rtable{width:100%;border-collapse:collapse;font-size:15px}
+.rtable th,.rtable td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+.rtable th{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted)}
+.rtable td.n,.rtable th.n{text-align:right}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.kpi b{display:block;font-size:28px;font-weight:900}
+.kpi span{color:var(--muted);font-weight:600}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#14213D;color:#fff;padding:10px 18px;border-radius:30px;font-weight:700;z-index:90;box-shadow:var(--shadow)}
+
+/* login */
+#login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:linear-gradient(135deg,rgba(13,35,80,.92),rgba(23,58,122,.78)),url(assets/admin/banner.webp) center/cover}
+#login .box{width:100%;max-width:400px;background:#fff;border-radius:18px;padding:30px 28px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+#login h2{font-size:26px;font-weight:900;margin:10px 0 4px}
+#login p{color:var(--muted);margin:0 0 18px}
+#login input{width:100%;padding:13px 14px;border:1.5px solid #D3DBE8;border-radius:12px;margin-bottom:12px}
+#login .pbtn{width:100%;padding:13px;font-size:16px;border-radius:12px}
+#scrim{display:none}
+
+@media (max-width:1400px){#grid{grid-template-columns:minmax(0,1fr) 360px}.qa{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:1250px){#stats{grid-template-columns:repeat(3,minmax(0,1fr))}#grid{grid-template-columns:minmax(0,1fr)}#rail{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}#addentry{grid-column:1/-1}.qa{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:1000px){
+  #side{position:fixed;left:0;top:0;transform:translateX(-100%);transition:transform .2s;box-shadow:0 0 40px rgba(0,0,0,.35)}
+  body.menu #side{transform:none}
+  body.menu #scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:35}
+  #burger{display:grid}
+  #body{border-radius:20px 20px 0 0}
+  .rhead{grid-template-columns:12px 44px minmax(0,1fr) auto}
+  .rsubj{grid-column:3/5}
+  .rright{grid-row:1;grid-column:4}
+  .kebab{margin:0}
+  .rbody{padding:0 14px 14px}
+}
+@media (max-width:700px){
+  #banner{padding:12px 14px 30px;gap:10px;flex-wrap:wrap;min-height:0}
+  #banner:after{width:100%}
+  #btitle{order:2;flex-basis:100%}
+  #btitle h1{font-size:28px}
+  #btitle p{font-size:15px}
+  #bspacer{flex:1}
+  #userchip{height:48px;padding:4px 10px 4px 4px}#userchip .av{width:38px;height:38px;font-size:18px}#userchip b{font-size:15px}#userchip small{font-size:13px}
+  #bell{width:46px;height:46px}
+  #body{padding:14px 12px 40px}
+  #stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  #stats .stat:first-child{grid-column:1/-1}
+  .stat{padding:14px;gap:10px}.stat svg{width:34px;height:34px}.stat b{font-size:28px}.stat span{font-size:14.5px}
+  #rail{grid-template-columns:minmax(0,1fr)}
+  .qa{grid-template-columns:repeat(2,1fr)}
+  .rhead{gap:10px;padding:12px 10px}
+  .rdot{margin-top:16px}
+  .av{width:40px;height:40px;font-size:18px}
+  .rright time{display:none}.mdate{display:block}
+  .rname small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal}
+  .rhead{grid-template-columns:12px 40px minmax(0,1fr) 34px}
+  #banner:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,35,80,.15),rgba(13,35,80,.55));z-index:1}
+  #banner:after{opacity:.9}
+  .tabs button{font-size:14.5px;padding:7px 10px}
+  .search{min-width:100%}
+  .page{padding:14px}
 }
 </style>
 </head>
 <body>
-<header>
-  <img src="assets/logo-mark-light.png" alt="">
-  <h1>Shekinah Church Admin</h1>
-  <span id="who" style="font-size:13px;opacity:.8"></span>
-  <button class="hbtn hide nav" id="msgb">Messages</button>
-  <button class="hbtn hide nav" id="newsb">Email list</button>
-  <button class="hbtn hide nav" id="siteb">Website</button>
-  <button class="hbtn hide nav" id="memb">Members</button>
-  <button class="hbtn hide nav" id="teamb">Team</button>
-  <button class="hbtn hide" id="refresh">Refresh</button>
-  <button class="hbtn hide" id="logout">Sign out</button>
-</header>
-
 <div id="login">
-  <img src="assets/logo-mark.png" alt="" style="height:56px">
-  <h2>Admin sign in</h2>
-  <p id="lmsg">Enter your admin email and we will send you a sign in code.</p>
-  <form id="lf"><input id="em" type="email" placeholder="Your email" autocomplete="email" required><button class="pbtn" style="width:100%" id="lbtn">Send me a code</button></form>
-  <form id="cf" class="hide"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 digit code" required style="text-align:center;letter-spacing:6px;font-size:20px"><button class="pbtn" style="width:100%">Sign in</button><p style="margin:12px 0 0"><a href="#" id="back" style="color:var(--green)">Use a different email</a></p></form>
-  <div class="err" id="lerr"></div>
-</div>
-
-<div class="wrap hide" id="team">
-  <div class="card" style="border-left-color:var(--navy)">
-    <div class="top"><span class="who">Team and roles</span></div>
-    <p class="meta" style="margin-top:6px"><b>Admin:</b> everything, including this team page, the email list, the website editor and deleting. <b>Staff:</b> read and manage messages, reply, assign, add and edit entries, and edit the website. No deleting, email list or team. <b>Volunteer:</b> read messages, change status and add notes only. Private prayer requests are hidden from anyone who does not have the private box ticked.</p>
-    <div id="tlist" style="margin-top:10px"></div>
-    <form id="tadd" class="bar" style="margin:14px 0 0;align-items:center"><input id="temail" type="email" placeholder="New person's email" required><select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select><label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pbtn">Add person</button></form>
-    <div class="err" id="terr"></div>
+  <div class="box">
+    <img src="assets/logo-mark.png" alt="" style="height:72px">
+    <h2>Church Admin</h2>
+    <p id="lmsg">Enter your admin email and we will send you a sign in code.</p>
+    <form id="lf"><input id="em" type="email" placeholder="Your email" autocomplete="email" required><button class="pbtn" id="lbtn">Send me a code</button></form>
+    <form id="cf" class="hide"><input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="6 digit code" required style="text-align:center;letter-spacing:6px;font-size:20px"><button class="pbtn">Sign in</button><p style="margin:12px 0 0"><a href="#" id="back">Use a different email</a></p></form>
+    <div class="err" id="lerr"></div>
   </div>
 </div>
 
-<div class="wrap hide" id="news">
-  <div class="card" style="border-left-color:var(--navy)">
-    <div class="top"><span class="who">Send an email to the email list</span><span class="when" id="ncount"></span></div>
-    <p class="meta" style="margin-top:6px">Goes from info@shekinahsda.org to everyone who signed up on the website. Each person gets their own copy with a link to unsubscribe.</p>
-    <div class="ef">
-      <label class="wide">Subject<input id="nsub" maxlength="200" placeholder="For example: This Sabbath at Shekinah"></label>
-      <label class="wide">Message<textarea id="nbody" rows="9" placeholder="Write your message here."></textarea></label>
+<div id="shell" class="hide">
+  <aside id="side">
+    <div class="brand"><img src="assets/logo-mark-light.png" alt=""><b>Shekinah Haitian Seventh-day Adventist Church</b></div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+  <div id="scrim"></div>
+  <div id="main">
+    <header id="banner">
+      <button id="burger" class="glass" aria-label="Menu"></button>
+      <div id="btitle"><h1 id="bt">Church Dashboard</h1><p id="bs">Manage messages, prayer requests, visitors, and more.</p></div>
+      <span id="bspacer"></span>
+      <button id="bell" class="glass" aria-label="New messages"></button>
+      <button id="userchip" class="glass"><span class="av" id="uav">?</span><span style="text-align:left"><b id="uname"></b><small id="urole"></small></span><span id="ucaret"></span></button>
+      <div id="umenu" class="hide"><div id="uemail"></div><button id="refresh">Refresh</button><button id="logout">Sign out</button></div>
+    </header>
+    <div id="body">
+      <div id="stats"></div>
+
+      <div id="grid">
+        <section id="app">
+          <div class="panel" id="inbox">
+            <div class="tabsbar"><div class="tabs" id="tabs"></div><label class="search"><span id="sicon"></span><input id="q" type="search" placeholder="Search names, emails, or messages..."></label></div>
+            <select id="asg" class="hide"><option value="any">any</option></select>
+            <div id="addbox"></div>
+            <div class="rows" id="list"></div>
+            <div class="pager" id="pager"></div>
+          </div>
+        </section>
+
+        <section id="team" class="hide"><div class="panel page wrap">
+          <div><div class="sec-h">Team and roles</div>
+          <p class="meta" style="margin-top:6px"><b>Admin:</b> everything, including this team page, the email list, the website editor and deleting. <b>Staff:</b> read and manage messages, reply, assign, add and edit entries, and edit the website. No deleting, email list or team. <b>Volunteer:</b> read messages, change status and add notes only. Private prayer requests are hidden from anyone who does not have the private box ticked.</p></div>
+          <div id="tlist"></div>
+          <form id="tadd" class="bar"><input id="temail" type="email" placeholder="New person's email" required><select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select><label style="display:flex;gap:6px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pbtn">Add person</button></form>
+          <div class="err" id="terr"></div>
+        </div></section>
+
+        <section id="news" class="hide"><div class="wrap">
+          <div class="panel page">
+            <div class="top"><span class="who">Send an email to the email list</span><span class="when" id="ncount"></span></div>
+            <p class="meta" style="margin-top:6px">Goes from info@shekinahsda.org to everyone who signed up on the website. Each person gets their own copy with a link to unsubscribe.</p>
+            <div class="ef">
+              <label class="wide">Subject<input id="nsub" maxlength="200" placeholder="For example: This Sabbath at Shekinah"></label>
+              <label class="wide">Message<textarea id="nbody" rows="9" placeholder="Write your message here."></textarea></label>
+            </div>
+            <div class="act"><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
+          </div>
+          <div class="panel page"><div class="sec-h" style="margin-bottom:10px">Past emails</div><div class="wrap" id="nhist"></div></div>
+          <div class="panel page"><div class="sec-h" style="margin-bottom:6px">People on the list</div><div id="nlist"></div></div>
+        </div></section>
+
+        <section id="mem" class="hide"><div class="wrap">
+          <div class="panel page" id="mbday"></div>
+          <div class="panel page">
+            <div class="bar">
+              <input id="mq" type="search" placeholder="Search name, phone, email, family">
+              <select id="mst"><option value="">All statuses</option></select>
+              <button class="pbtn" id="madd">+ Add member</button>
+              <button class="sbtn" id="mcsv">Download CSV</button>
+            </div>
+            <p class="meta" id="mcount" style="margin:12px 0 12px"></p>
+            <div id="mform"></div>
+            <div class="wrap" id="mlist"></div>
+            <p class="meta" style="margin-top:16px">Member records are private. Only staff and admins can see them. Only admins can delete a record.</p>
+          </div>
+        </div></section>
+
+        <section id="site" class="hide">
+          <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
+          <div class="wrap" id="siteed"></div>
+        </section>
+
+        <section id="reports" class="hide"><div class="wrap" id="rep"></div></section>
+
+        <aside id="rail">
+          <button id="addentry"></button>
+          <div class="panel rail"><h3 id="qah"></h3><div class="qa" id="qa"></div></div>
+          <div class="panel rail"><h3 id="rah"></h3><div class="act-list" id="recent"></div></div>
+          <div class="panel rail">
+            <div class="info"><img src="assets/logo-mark.png" alt=""><h4>Church Information</h4><h4 style="font-size:21px">Shekinah Haitian SDA Church</h4>
+              <ul id="cinfo"></ul></div>
+          </div>
+        </aside>
+      </div>
     </div>
-    <div class="act"><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
   </div>
-  <h3 style="font:700 17px Georgia,serif;color:var(--navy);margin:22px 0 10px">Past emails</h3>
-  <div class="list" id="nhist"></div>
-  <h3 style="font:700 17px Georgia,serif;color:var(--navy);margin:22px 0 10px">People on the list</h3>
-  <div class="card" id="nlist"></div>
 </div>
-
-<div class="wrap hide" id="mem">
-  <div class="card" style="border-left-color:var(--gold)" id="mbday"></div>
-  <div class="bar" style="margin-top:14px">
-    <input id="mq" type="search" placeholder="Search name, phone, email, family">
-    <select id="mst"><option value="">All statuses</option></select>
-    <button class="pbtn" id="madd" style="border-radius:10px">+ Add member</button>
-    <button class="sbtn" id="mcsv">Download CSV</button>
-  </div>
-  <p class="meta" id="mcount" style="margin:0 0 10px"></p>
-  <div id="mform"></div>
-  <div class="list" id="mlist"></div>
-  <p class="meta" style="margin-top:16px">Member records are private. Only staff and admins can see them. Only admins can delete a record.</p>
-</div>
-
-<div class="wrap hide" id="site">
-  <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
-  <div id="siteed"></div>
-</div>
-
-<div class="wrap hide" id="app">
-  <div class="stats" id="stats"></div>
-  <div class="bar">
-    <input id="q" type="search" placeholder="Search names, emails, messages">
-    <select id="st">
-      <option value="open">Open (new and in progress)</option>
-      <option value="new">New only</option>
-      <option value="in_progress">In progress</option>
-      <option value="done">Done</option>
-      <option value="archived">Archived</option>
-      <option value="all">Everything</option>
-    </select>
-    <select id="asg">
-      <option value="any">Assigned to anyone</option>
-      <option value="me">Assigned to me</option>
-      <option value="none">Not assigned</option>
-    </select>
-    <button class="pbtn" id="addb" style="border-radius:10px">+ Add entry</button>
-    <button class="sbtn" id="csv">Download CSV</button>
-  </div>
-  <div id="addbox" style="margin-bottom:12px"></div>
-  <div class="list" id="list"></div>
-</div>
-
+<div id="toast" class="hide"></div>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-shekinah.compute.c-7.us-east-2.aws.neon.tech';
   var KEY='shk_admin_session';
-  var LABEL={prayer:'Prayer requests',contact:'Questions and contacts',visit:'Visit requests',newsletter:'Email sign ups'};
-  var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit',newsletter:'Email list'};
-  var items=[], kind='all', replies={}, admins=[], me='', myRole='volunteer', myPriv=false;
+  var LABEL={prayer:'Prayer Requests',contact:'Questions & Contacts',visit:'Visit Requests',newsletter:'Email Sign Ups'};
+  var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit Request',newsletter:'Email List'};
+  var SUBJ={prayer:'Prayer Request',contact:'General Inquiry',visit:'Plan a Visit',newsletter:'Email Sign Up'};
+  var items=[], kind='all', tab='all', page=1, PER=5, openId=null, menuId=null, replies={}, admins=[], me='', myRole='volunteer', myPriv=false, cur='dash';
   var RANK={volunteer:1,staff:2,admin:3}; function can(r){return (RANK[myRole]||1)>=RANK[r];}
   var ROLE_LABEL={admin:'Admin',staff:'Staff',volunteer:'Volunteer'};
-  var VIEWS=['app','team','news','site','mem'];
-  function view(v){$('login').classList.add('hide');VIEWS.forEach(function(x){$(x).classList.toggle('hide',x!==v);});
-    document.querySelectorAll('.nav').forEach(function(b){b.style.background=(b.id===({app:'msgb',team:'teamb',news:'newsb',site:'siteb',mem:'memb'})[v])?'rgba(255,255,255,.18)':'';});
-    ['refresh','logout','msgb'].forEach(function(x){$(x).classList.remove('hide');});
-    $('newsb').classList.toggle('hide',!can('admin'));$('siteb').classList.toggle('hide',!can('staff'));$('memb').classList.toggle('hide',!can('staff'));$('teamb').classList.toggle('hide',!can('admin'));
-    $('addb').classList.toggle('hide',!can('staff'));$('csv').classList.toggle('hide',!can('staff'));}
   var $=function(id){return document.getElementById(id);};
+
+  // ---------- icons ----------
+  var P={
+    home:'<path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+    mail:'<rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="m3.5 7 8.5 6.5L20.5 7"/>',
+    pray:'<path d="M9.5 3.5c.8 0 1.5.7 1.5 1.5v7.2L8 16l-4 3.5-1.5-1.8 3-3.2L7 8.5c.4-2 1.2-5 2.5-5z"/><path d="M14.5 3.5c-.8 0-1.5.7-1.5 1.5v7.2l3 3.8 4 3.5 1.5-1.8-3-3.2L17 8.5c-.4-2-1.2-5-2.5-5z"/><path d="M11 12.2 12 13l1-.8"/>',
+    contacts:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19.5c.6-3.5 3.3-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M15.5 4.8a3.3 3.3 0 0 1 0 6.4M18 14.3c2 .7 3.2 2.5 3.5 5.2"/>',
+    cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+    group:'<circle cx="12" cy="7.5" r="3"/><circle cx="5.5" cy="9.5" r="2.3"/><circle cx="18.5" cy="9.5" r="2.3"/><path d="M6.5 19.5c.4-3.3 2.7-5.3 5.5-5.3s5.1 2 5.5 5.3"/><path d="M2 18.5c.3-2.3 1.7-3.7 3.6-3.9M22 18.5c-.3-2.3-1.7-3.7-3.6-3.9"/>',
+    team:'<circle cx="12" cy="6" r="2.7"/><circle cx="5.5" cy="16" r="2.7"/><circle cx="18.5" cy="16" r="2.7"/><path d="M10.5 8.3 7 13.6M13.5 8.3l3.5 5.3M8.3 16h7.4"/>',
+    chart:'<path d="M4 20V10M9 20V4M14 20v-8M19 20V7M3 20.5h18"/>',
+    gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+    bell:'<path d="M18 16V11a6 6 0 1 0-12 0v5l-2 2.5h16z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    chat:'<path d="M12 4c5 0 9 3.4 9 7.6s-4 7.6-9 7.6c-1.2 0-2.4-.2-3.5-.6L4 20l1.3-3.7C3.8 15 3 13.4 3 11.6 3 7.4 7 4 12 4z"/><path d="M8 11.8h.01M12 11.8h.01M16 11.8h.01" stroke-width="2.6"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+    dots:'<path d="M12 5.5h.01M12 12h.01M12 18.5h.01" stroke-width="3"/>',
+    down:'<path d="M12 4v11M7 10.5l5 5 5-5M4.5 20h15"/>',
+    userplus:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19.5c.6-3.5 3.3-5.5 6.5-5.5 1.5 0 2.9.4 4 1.2"/><path d="M18 13v6M15 16h6"/>',
+    clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    pin:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+    caret:'<path d="m6 9 6 6 6-6"/>',
+    menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
+    next:'<path d="m9 6 6 6-6 6"/>',prev:'<path d="m15 6-6 6 6 6"/>',
+    plusc:'<circle cx="12" cy="12" r="9" fill="#2FA855" stroke="none"/><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2.2"/>',
+    gear2:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/>'
+  };
+  function I(n,cls){return '<svg class="i'+(cls?' '+cls:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(P[n]||'')+'</svg>';}
+  var KICON={all:'mail',prayer:'pray',contact:'chat',visit:'cal',newsletter:'group'};
+
+  // ---------- helpers ----------
   var mem='';
   function pw(){try{return localStorage.getItem(KEY)||mem;}catch(e){return mem;}}
   function setPw(v){mem=v||'';try{v?localStorage.setItem(KEY,v):localStorage.removeItem(KEY);}catch(e){}}
   function api(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(API+path,opt).then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-  function when(t){var d=new Date(String(t).replace(' ','T').replace(/\+00$/,'Z'));return isNaN(d)?t:d.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}
+  function pdate(t){return new Date(String(t).replace(' ','T').replace(/\+00$/,'Z'));}
+  function when(t){var d=pdate(t);return isNaN(d)?t:d.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});}
+  function whenShort(t){var d=pdate(t);return isNaN(d)?t:d.toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});}
+  var toastT;function toast(m){var t=$('toast');t.textContent=m;t.classList.remove('hide');clearTimeout(toastT);toastT=setTimeout(function(){t.classList.add('hide');},2400);}
+  var AVC=[['#DDF3E2','#1D7438'],['#DCE9FF','#1F5FCF'],['#EDE2FA','#6A2DA8'],['#FDE7D2','#C25E0C'],['#D6F3F3','#0C7E85'],['#FCEFC7','#8A6420'],['#FDE0E3','#C0283A']];
+  function avatar(s){var c=(String(s||'?').trim()[0]||'?').toUpperCase();var h=0;for(var k=0;k<String(s).length;k++)h=(h*31+String(s).charCodeAt(k))>>>0;var p=AVC[h%AVC.length];return '<span class="av" style="background:'+p[0]+';color:'+p[1]+'">'+esc(c)+'</span>';}
+  function firstName(email){var n=String(email||'').split('@')[0].split(/[._-]/)[0];return n?n[0].toUpperCase()+n.slice(1):'';}
+  function byId(id){return items.filter(function(x){return String(x.id)===String(id);})[0];}
 
+  // ---------- navigation ----------
+  var NAV=[
+    {k:'dash',label:'Dashboard',icon:'home',title:'Church Dashboard',sub:'Manage messages, prayer requests, visitors, and more.'},
+    {k:'messages',label:'Messages',icon:'mail',title:'Messages',sub:'Every message from the website in one place.',badge:true},
+    {k:'prayer',label:'Prayer Requests',icon:'pray',title:'Prayer Requests',sub:'Pray with and follow up on every request.'},
+    {k:'contact',label:'Questions & Contacts',icon:'contacts',title:'Questions & Contacts',sub:'Answer questions from visitors and friends.'},
+    {k:'visit',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.'},
+    {k:'newsletter',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.'},
+    {k:'mem',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'staff'},
+    {k:'team',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'admin'},
+    {k:'reports',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'staff'},
+    {k:'site',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'staff'}
+  ];
+  var SECTIONS_ALL=['app','team','news','mem','site','reports'];
+  function navItem(k){return NAV.filter(function(n){return n.k===k;})[0];}
+  function renderNav(){
+    var nNew=items.filter(function(i){return i.status==='new';}).length;
+    $('nav').innerHTML=NAV.filter(function(n){return !n.need||can(n.need);}).map(function(n){
+      return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(n.badge&&nNew?'<span class="badge">'+nNew+'</span>':'')+'</button>';}).join('');
+  }
+  function go(k,forceApp){
+    cur=k;var n=navItem(k);document.body.classList.remove('menu');
+    $('bt').textContent=n.title;$('bs').textContent=n.sub;
+    var sec='app';
+    if(k==='newsletter'&&can('admin')&&!forceApp)sec='news';
+    else if(k==='mem'||k==='team'||k==='site'||k==='reports')sec=k;
+    if(sec==='app'){kind=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[k]||'all';if(k==='dash'||k==='messages'){}page=1;openId=null;}
+    SECTIONS_ALL.forEach(function(x){$(x).classList.toggle('hide',x!==sec);});
+    var showStats=sec==='app'||sec==='news';
+    $('stats').classList.toggle('hide',!showStats);
+    $('rail').classList.toggle('hide',sec!=='app');
+    $('grid').classList.toggle('full',sec!=='app');
+    renderNav();
+    if(sec==='app')show();
+    if(sec==='news')loadNews();
+    if(sec==='site')loadSite();
+    if(sec==='team'){$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});}
+    if(sec==='mem'){$('mform').innerHTML='';loadMembers();}
+    if(sec==='reports')reports();
+    renderStats();
+    window.scrollTo(0,0);
+  }
+
+  // ---------- data ----------
   function load(){
     $('list').innerHTML='<div class="empty">Loading...</div>';
-    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).filter(function(a){return a.role!=='volunteer';}).map(function(a){return a.email;});me=r[1].me||me;show();}).catch(function(e){
+    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).filter(function(a){return a.role!=='volunteer';}).map(function(a){return a.email;});me=r[1].me||me;refreshAll();}).catch(function(e){
       if(e.status===401){logout('Your session ended. Please sign in again.');}
       else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
     });
   }
-  function show(){
-    view('app');
-    var counts={all:{t:0,n:0}};['prayer','contact','visit','newsletter'].forEach(function(k){counts[k]={t:0,n:0};});
-    items.forEach(function(i){if(i.status==='archived')return;counts.all.t++;counts[i.kind].t++;if(i.status==='new'){counts.all.n++;counts[i.kind].n++;}});
-    var keys=['all','prayer','contact','visit','newsletter'];
-    $('stats').innerHTML=keys.map(function(k){return '<button class="stat'+(k===kind?' on':'')+'" data-k="'+k+'"><b>'+counts[k].t+'</b><span>'+(k==='all'?'All messages':LABEL[k])+'</span><br><em>'+(counts[k].n?counts[k].n+' new':'&nbsp;')+'</em></button>';}).join('');
-    var q=$('q').value.toLowerCase().trim(), st=$('st').value, asg=$('asg').value;
-    var rows=items.filter(function(i){
-      if(kind!=='all'&&i.kind!==kind)return false;
+  function refreshAll(){renderNav();renderStats();renderRail();if(!$('app').classList.contains('hide'))show();if(!$('reports').classList.contains('hide'))reports();}
+
+  function counts(){var c={all:{t:0,n:0}};['prayer','contact','visit','newsletter'].forEach(function(k){c[k]={t:0,n:0};});
+    items.forEach(function(i){if(i.status==='archived'||!c[i.kind])return;c.all.t++;c[i.kind].t++;if(i.status==='new'){c.all.n++;c[i.kind].n++;}});return c;}
+  function renderStats(){
+    var c=counts(), keys=['all','prayer','contact','visit','newsletter'];
+    $('stats').innerHTML=keys.map(function(k){var on=$('app').classList.contains('hide')?false:(k===kind&&k!=='all');
+      return '<button class="stat k-'+k+(on?' on':'')+'" data-k="'+k+'">'+I(KICON[k])+'<div><b>'+c[k].t+'</b><span>'+(k==='all'?'All Messages':LABEL[k])+'</span><em class="'+(c[k].n?'':'zero')+'">'+c[k].n+' New</em></div></button>';}).join('');
+    var b=$('bell');b.innerHTML=I('bell')+(c.all.n?'<span class="dot"></span>':'');b.title=c.all.n+' new';
+  }
+
+  // ---------- message list ----------
+  function inKind(i){return kind==='all'||i.kind===kind;}
+  function tabMatch(i,t){
+    if(t==='all')return i.status!=='archived';
+    if(t==='new')return i.status==='new';
+    if(t==='in_progress')return i.status==='in_progress';
+    if(t==='mine')return i.assigned_to===me&&i.status!=='archived';
+    if(t==='closed')return i.status==='done'||i.status==='archived';
+    return true;}
+  function renderTabs(){
+    var base=items.filter(inKind), n=function(t){return base.filter(function(i){return tabMatch(i,t);}).length;};
+    var T=[['all','All',1],['new','New',1],['in_progress','In Progress',1],['mine','Assigned to Me',0],['closed','Closed',0]];
+    $('tabs').innerHTML=T.map(function(t){return '<button data-t="'+t[0]+'" class="'+(t[0]===tab?'on':'')+'">'+t[1]+(t[2]?' ('+n(t[0])+')':'')+'</button>';}).join('');
+  }
+  function filtered(){
+    var q=$('q').value.toLowerCase().trim(), asg=$('asg').value;
+    return items.filter(function(i){
+      if(!inKind(i)||!tabMatch(i,tab))return false;
       if(asg==='me'&&i.assigned_to!==me)return false;
       if(asg==='none'&&i.assigned_to)return false;
-      if(st==='open'&&!(i.status==='new'||i.status==='in_progress'))return false;
-      if(st!=='open'&&st!=='all'&&i.status!==st)return false;
       if(q){var hay=[i.name,i.email,i.phone,i.topic,i.message,i.admin_note].join(' ').toLowerCase();if(hay.indexOf(q)<0)return false;}
-      return true;
-    });
-    if(!rows.length){$('list').innerHTML='<div class="empty">Nothing here right now.</div>';return;}
-    $('list').innerHTML=rows.map(card).join('');
+      return true;});
   }
-  function card(i){
-    var d=i.details||{}, extra=[];
+  function show(){
+    renderTabs();renderStats();
+    var rows=filtered(), pages=Math.max(1,Math.ceil(rows.length/PER));if(page>pages)page=pages;
+    var slice=rows.slice((page-1)*PER,page*PER);
+    $('list').innerHTML=slice.length?slice.map(row).join(''):'<div class="empty">Nothing here right now.</div>';
+    if(!rows.length){$('pager').innerHTML='';return;}
+    var from=(page-1)*PER+1,to=Math.min(page*PER,rows.length),btn=[];
+    for(var p=1;p<=pages;p++){if(pages>7&&p>2&&p<pages-1&&Math.abs(p-page)>1){if(btn[btn.length-1]!=='…')btn.push('…');continue;}btn.push(p);}
+    $('pager').innerHTML='<span>Showing '+from+'–'+to+' of '+rows.length+' messages</span><div class="pg">'+
+      (page>1?'<button class="arrow" data-p="'+(page-1)+'" aria-label="Previous">'+I('prev')+'</button>':'')+
+      btn.map(function(p){return p==='…'?'<span style="align-self:center">…</span>':'<button data-p="'+p+'" class="'+(p===page?'on':'')+'">'+p+'</button>';}).join('')+
+      '<button class="arrow" data-p="'+(page+1)+'"'+(page>=pages?' disabled':'')+' aria-label="Next">'+I('next')+'</button></div>';
+  }
+  function extras(i){var d=i.details||{}, extra=[];
     if(i.kind==='visit'){if(d.date)extra.push('Visiting: '+esc(d.date));if(d.guests)extra.push('Guests: '+esc(d.guests));if(d.kids)extra.push('Bringing children');if(d.language)extra.push('Language: '+esc(d.language));}
-    if(i.topic)extra.unshift('Topic: '+esc(i.topic));
-    var c=[];if(i.email)c.push('<a href="mailto:'+esc(i.email)+'">'+esc(i.email)+'</a>');if(i.phone)c.push('<a href="tel:'+esc(i.phone.replace(/[^\d+]/g,''))+'">'+esc(i.phone)+'</a>');
-    return '<div class="card '+esc(i.status)+'" data-id="'+esc(i.id)+'">'+
-      '<div class="top"><span class="tag">'+SHORT[i.kind]+'</span>'+(i.is_private?'<span class="tag priv">Private, pastor only</span>':'')+
-      '<span class="who">'+esc(i.name||(i.kind==='newsletter'?i.email:'Anonymous'))+'</span><span class="when">'+esc(when(i.created_at))+'</span></div>'+
-      (c.length&&!(i.kind==='newsletter')?'<div class="contact">'+c.join('')+'</div>':'')+
+    if(i.topic)extra.unshift('Topic: '+esc(i.topic));return extra;}
+  function row(i){
+    var name=i.name||i.email||'Anonymous', isOpen=String(openId)===String(i.id);
+    var tags='<span class="tag t-'+esc(i.kind)+'">'+SHORT[i.kind]+'</span>'+(i.is_private?'<span class="tag t-priv">Private</span>':'')+
+      (i.status==='in_progress'?'<span class="tag t-prog">In progress</span>':i.status==='done'?'<span class="tag t-done">Done</span>':i.status==='archived'?'<span class="tag t-arch">Archived</span>':'');
+    var subj=i.topic||SUBJ[i.kind]||'Message';
+    var prev=i.message||extras(i).join(' · ')||(i.kind==='newsletter'?'Joined the email list from the website.':'');
+    var h='<div class="row rwrap'+(isOpen?' sel':'')+'" data-id="'+esc(i.id)+'">'+
+      '<div class="rhead" data-a="toggle">'+
+        '<span class="rdot'+(i.status==='new'?'':' no')+'"></span>'+avatar(name)+
+        '<div class="rname"><b>'+esc(name)+'</b>'+(i.name&&i.email?'<small>'+esc(i.email)+'</small>':'')+'<div class="tags">'+tags+'</div></div>'+
+        '<div class="rsubj"><time class="mdate">'+esc(when(i.created_at))+'</time><b>'+esc(subj)+'</b><p>'+esc(prev)+'</p></div>'+
+        '<div class="rright"><time>'+esc(when(i.created_at))+'</time><button class="kebab" data-a="menu" aria-label="More">'+I('dots')+'</button></div>'+
+      '</div>'+
+      (String(menuId)===String(i.id)?kmenu(i):'')+
+      (isOpen?detail(i):'')+'</div>';
+    return h;
+  }
+  function kmenu(i){
+    var b=function(a,l,c){return '<button data-a="'+a+'"'+(c?' class="'+c+'"':'')+'>'+l+'</button>';};
+    return '<div class="kmenu">'+b('toggle',String(openId)===String(i.id)?'Close details':'Open details')+
+      (i.status!=='in_progress'?b('st:in_progress','Mark in progress'):'')+(i.status!=='done'?b('st:done','Mark done'):'')+
+      (i.status!=='new'?b('st:new','Mark as new'):'')+(i.status!=='archived'?b('st:archived','Archive'):'')+
+      (can('staff')&&i.email&&i.kind!=='newsletter'?b('reply','Reply by email'):'')+(can('staff')?b('edit','Edit'):'')+(can('admin')?b('delete','Delete','del'):'')+'</div>';
+  }
+  function detail(i){
+    var extra=extras(i), c=[];
+    if(i.email)c.push('<a href="mailto:'+esc(i.email)+'">'+esc(i.email)+'</a>');if(i.phone)c.push('<a href="tel:'+esc(i.phone.replace(/[^\d+]/g,''))+'">'+esc(i.phone)+'</a>');
+    return '<div class="rbody">'+
+      (c.length&&i.kind!=='newsletter'?'<div class="contact" style="margin:0 0 8px">'+c.join('')+'</div>':'')+
       (i.message?'<div class="msg">'+esc(i.message)+'</div>':'')+
       (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
+      (i.is_private?'<div class="meta" style="color:#C0283A;font-weight:700">Private, pastor only</div>':'')+
       '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
-      (can('staff')?'<select data-f="assign" title="Assign to">'+'<option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>':(i.assigned_to?'<span class="meta" style="margin:0">Assigned to '+esc(i.assigned_to)+'</span>':''))+
-      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+(can('staff')&&i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply" style="border-radius:10px;padding:8px 14px">Reply</button>':'')+(can('staff')?'<button class="lbtn" data-a="edit">Edit</button>':'')+(can('admin')?'<button class="dbtn" data-a="delete">Delete</button>':'')+'<span class="saved"></span></div>'+
+      (can('staff')?'<select data-f="assign" title="Assign to"><option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>':(i.assigned_to?'<span class="meta" style="margin:0">Assigned to '+esc(i.assigned_to)+'</span>':''))+
+      '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+
+      (can('staff')&&i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply">Reply</button>':'')+(can('staff')?'<button class="lbtn" data-a="edit">Edit</button>':'')+(can('admin')?'<button class="dbtn" data-a="delete">Delete</button>':'')+'<span class="saved"></span></div>'+
       '<div class="replybox"></div>'+
-      ((replies[i.id]||[]).length?'<div class="meta" style="margin-top:10px">'+replies[i.id].map(function(r){return '<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><b style="color:var(--green)">Replied by '+esc(r.sent_by)+'</b> on '+esc(when(r.sent_at))+'<div style="white-space:pre-wrap;color:var(--ink);margin-top:4px">'+esc(r.body)+'</div></div>';}).join('')+'</div>':'')+
-      ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+'</div>';
+      ((replies[i.id]||[]).length?'<div class="meta" style="margin-top:10px">'+replies[i.id].map(function(r){return '<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><b style="color:var(--okgreen)">Replied by '+esc(r.sent_by)+'</b> on '+esc(when(r.sent_at))+'<div style="white-space:pre-wrap;color:var(--ink);margin-top:4px">'+esc(r.body)+'</div></div>';}).join('')+'</div>':'')+
+      ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+
+      '</div>';
   }
-  function form(i){
-    i=i||{kind:kind==='all'?'prayer':kind,status:'new'};
+  function form(i,preset){
+    i=i||{kind:preset||(kind==='all'?'prayer':kind),status:'new'};
     var opt=function(list,v){return list.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===v?' selected':'')+'>'+o[1]+'</option>';}).join('');};
-    return '<div class="card" style="border-left-color:var(--navy)" data-id="'+esc(i.id||'')+'"><div class="top"><span class="who">'+(i.id?'Edit entry':'Add a new entry')+'</span></div>'+
+    return '<div class="card" style="margin-bottom:12px;border-color:#9DBCF0" data-id="'+esc(i.id||'')+'"><div class="top"><span class="who">'+(i.id?'Edit entry':'Add a new entry')+'</span></div>'+
       '<div class="ef">'+
       '<label>Type<select name="kind">'+opt([['prayer','Prayer request'],['contact','Question or contact'],['visit','Visit request'],['newsletter','Email sign up']],i.kind)+'</select></label>'+
       '<label>Status<select name="status">'+opt([['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']],i.status)+'</select></label>'+
@@ -267,57 +580,155 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     if(id)body.id=id; msg.textContent='Saving...';
     api(id?'/admin/edit':'/admin/create',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){
       if(id){items=items.map(function(x){return String(x.id)===String(id)?j.item:x;});}else{items.unshift(j.item);$('addbox').innerHTML='';}
-      show();
+      toast(id?'Changes saved':'Entry added');refreshAll();
     }).catch(function(e){msg.textContent='Not saved: '+e.message;});
   }
-  function del(cardEl){
-    var id=cardEl.getAttribute('data-id'), it=items.filter(function(x){return String(x.id)===String(id);})[0]||{};
+  function del(id){
+    var it=byId(id)||{};
     if(!confirm('Delete this '+(SHORT[it.kind]||'entry').toLowerCase()+(it.name?' from '+it.name:'')+' for good? This cannot be undone.'))return;
-    api('/admin/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){items=items.filter(function(x){return String(x.id)!==String(id);});show();}).catch(function(e){alert('Could not delete: '+e.message);});
+    api('/admin/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){items=items.filter(function(x){return String(x.id)!==String(id);});toast('Deleted');refreshAll();}).catch(function(e){alert('Could not delete: '+e.message);});
   }
   var KLABEL={prayer:'prayer request',contact:'message',visit:'visit request',newsletter:'message'};
-  function openReply(cardEl){
-    var id=cardEl.getAttribute('data-id'), it=items.filter(function(x){return String(x.id)===String(id);})[0]||{}, box=cardEl.querySelector('.replybox');
+  function openReply(rowEl){
+    var it=byId(rowEl.getAttribute('data-id'))||{}, box=rowEl.querySelector('.replybox');if(!box)return;
     var first=(it.name||'').split(' ')[0];
-    box.innerHTML='<div class="ef" style="background:var(--paper);border-radius:10px;padding:12px;margin-top:12px">'+
+    box.innerHTML='<div class="ef" style="background:var(--soft);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:12px">'+
       '<div class="wide meta" style="margin:0">Replying to <b>'+esc(it.email)+'</b> from info@shekinahsda.org</div>'+
       '<label class="wide">Subject<input name="rsub" value="'+esc('Re: your '+(KLABEL[it.kind]||'message')+' to Shekinah Church')+'"></label>'+
       '<label class="wide">Message<textarea name="rbody" rows="7">'+esc((first?'Hi '+first+',':'Hello,')+'\n\n\n\nBlessings,\nShekinah Haitian SDA Church')+'</textarea></label>'+
       '<div class="wide act" style="margin:0"><button class="pbtn" data-a="sendreply">Send reply</button><button class="lbtn" data-a="cancelreply">Cancel</button><span class="saved"></span></div></div>';
     var ta=box.querySelector('[name="rbody"]');ta.focus();var p=ta.value.indexOf('\n\n')+2;ta.setSelectionRange(p,p);
   }
-  function sendReply(cardEl){
-    var id=cardEl.getAttribute('data-id'), box=cardEl.querySelector('.replybox'), msg=box.querySelector('.saved'), btn=box.querySelector('[data-a="sendreply"]');
+  function sendReply(rowEl){
+    var id=rowEl.getAttribute('data-id'), box=rowEl.querySelector('.replybox'), msg=box.querySelector('.saved'), btn=box.querySelector('[data-a="sendreply"]');
     var body={id:id,subject:box.querySelector('[name="rsub"]').value,body:box.querySelector('[name="rbody"]').value};
     btn.disabled=true;msg.textContent='Sending...';
     api('/admin/reply',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){
-      (replies[id]=replies[id]||[]).push(j.reply);items.forEach(function(x){if(String(x.id)===String(id)&&x.status==='new')x.status='in_progress';});show();
+      (replies[id]=replies[id]||[]).push(j.reply);items.forEach(function(x){if(String(x.id)===String(id)&&x.status==='new')x.status='in_progress';});toast('Reply sent');refreshAll();
     }).catch(function(e){btn.disabled=false;msg.textContent='Not sent: '+e.message;});
   }
   function assign(el){
-    var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
-    msg.textContent='Saving...';
+    var id=el.closest('[data-id]').getAttribute('data-id');
     api('/admin/assign',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,email:el.value||null})}).then(function(){
       items.forEach(function(x){if(String(x.id)===String(id))x.assigned_to=el.value||null;});
-      msg.textContent=el.value&&el.value!==me?'Assigned. They got an email.':'Saved';setTimeout(function(){msg.textContent='';},2500);
-    }).catch(function(e){msg.textContent='Not saved: '+e.message;});
+      toast(el.value&&el.value!==me?'Assigned. They got an email.':'Saved');renderTabs();
+    }).catch(function(e){toast('Not saved: '+e.message);});
   }
-  function save(el,patch){
-    var cardEl=el.closest('.card'), id=cardEl.getAttribute('data-id'), msg=cardEl.querySelector('.saved');
-    msg.textContent='Saving...';
-    patch.id=id;
-    api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(patch)}).then(function(j){
-      items.forEach(function(i){if(String(i.id)===String(id)){if(patch.status)i.status=patch.status;if(patch.admin_note!==undefined)i.admin_note=patch.admin_note;}});
-      msg.textContent='Saved';if(patch.status){cardEl.className='card '+patch.status;}setTimeout(function(){msg.textContent='';},1800);
-    }).catch(function(e){msg.textContent='Not saved: '+e.message;});
+  function setStatus(id,status){
+    api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:status})}).then(function(){
+      items.forEach(function(i){if(String(i.id)===String(id))i.status=status;});toast('Saved');refreshAll();
+    }).catch(function(e){toast('Not saved: '+e.message);});
   }
-  function csv(){
-    var rows=items.filter(function(i){return kind==='all'||i.kind===kind;});
+  function saveNote(el){
+    var id=el.closest('[data-id]').getAttribute('data-id');
+    api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,admin_note:el.value})}).then(function(){
+      items.forEach(function(i){if(String(i.id)===String(id))i.admin_note=el.value;});toast('Note saved');
+    }).catch(function(e){toast('Not saved: '+e.message);});
+  }
+  function csv(only){
+    var k=only||kind, rows=items.filter(function(i){return k==='all'||i.kind===k;});
     var cols=['id','kind','status','created_at','name','email','phone','topic','message','is_private','admin_note','details'];
     var out=[cols.join(',')].concat(rows.map(function(i){return cols.map(function(c){var v=c==='details'?JSON.stringify(i.details||{}):i[c];v=v==null?'':String(v);return '"'+v.replace(/"/g,'""')+'"';}).join(',');}));
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['﻿'+out.join('\r\n')],{type:'text/csv'}));
-    a.download='shekinah-'+(kind==='all'?'messages':kind)+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
+    a.download='shekinah-'+(k==='all'?'messages':k)+'-'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();
   }
+
+  // ---------- right rail ----------
+  function renderRail(){
+    $('addentry').innerHTML=I('plus')+'Add Entry';$('addentry').classList.toggle('hide',!can('staff'));
+    $('qah').innerHTML=I('gear2')+'Quick Actions';$('rah').innerHTML=I('clock')+'Recent Activity';
+    var qa=[];
+    if(can('admin'))qa.push(['send','mail','Send Email']);
+    if(can('staff'))qa.push(['addmem','userplus','Add Member'],['addvisit','cal','Add Visit'],['csv','down','Download CSV']);
+    $('qa').innerHTML=qa.map(function(q){return '<button data-q="'+q[0]+'">'+I(q[1])+q[2]+'</button>';}).join('');
+    $('qa').parentNode.classList.toggle('hide',!qa.length);
+    var AI={prayer:['pray','#1D7438','New prayer request from '],contact:['plusc','','New message from '],visit:['cal','#E0A21B','Visit request submitted'],newsletter:['userplus','#1D7438','New email sign up']};
+    var rec=items.slice().sort(function(a,b){return pdate(b.created_at)-pdate(a.created_at);}).slice(0,4);
+    $('recent').innerHTML=rec.length?rec.map(function(i){var a=AI[i.kind]||AI.contact;var t=a[2]+((i.kind==='prayer'||i.kind==='contact')?(i.name||'a visitor'):'');
+      return '<div data-open="'+esc(i.id)+'" style="cursor:pointer"><span style="flex:none;color:'+(a[1]||'inherit')+';display:flex">'+I(a[0])+'</span><span>'+esc(t)+'</span><time>'+esc(whenShort(i.created_at))+'</time></div>';}).join(''):'<div><span class="meta" style="margin:0">No activity yet.</span></div>';
+    $('cinfo').innerHTML='<li>'+I('pin')+'<span>205 E Carver St<br>Alvarado, Texas</span></li><li>'+I('cal')+'<span>Sabbath School: 10:00 AM<br>Divine Worship: 11:00 AM</span></li>';
+  }
+
+  // ---------- reports ----------
+  function reports(){
+    var K=['prayer','contact','visit','newsletter'], S=[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']];
+    var now=new Date(), months=[];for(var m=5;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m,1);months.push([d.getFullYear(),d.getMonth()]);}
+    var c=counts(), replied=Object.keys(replies).length, d30=items.filter(function(i){return (now-pdate(i.created_at))/86400000<=30;}).length;
+    var html='<div class="panel page"><div class="sec-h" style="margin-bottom:12px">At a glance</div><div class="kpis">'+
+      '<div class="kpi"><b>'+c.all.t+'</b><span>Open and closed messages</span></div><div class="kpi"><b>'+c.all.n+'</b><span>Waiting for a first look</span></div>'+
+      '<div class="kpi"><b>'+d30+'</b><span>Received in the last 30 days</span></div><div class="kpi"><b>'+replied+'</b><span>Answered by email from here</span></div></div>'+
+      '<p class="meta">These numbers count website form entries only. They are not attendance.</p></div>';
+    html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">By type and status</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Type</th>'+S.map(function(s){return '<th class="n">'+s[1]+'</th>';}).join('')+'<th class="n">Total</th><th></th></tr>'+
+      K.map(function(k){var rs=items.filter(function(i){return i.kind===k;});return '<tr><td><b>'+LABEL[k]+'</b></td>'+S.map(function(s){return '<td class="n">'+rs.filter(function(i){return i.status===s[0];}).length+'</td>';}).join('')+'<td class="n"><b>'+rs.length+'</b></td><td class="n">'+(can('staff')?'<button class="lbtn" data-csv="'+k+'" style="padding:5px 10px;font-size:13px">CSV</button>':'')+'</td></tr>';}).join('')+'</table></div></div>';
+    html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
+      months.map(function(mm){var lab=new Date(mm[0],mm[1],1).toLocaleString([], {month:'long',year:'numeric'});var rs=items.filter(function(i){var d=pdate(i.created_at);return d.getFullYear()===mm[0]&&d.getMonth()===mm[1];});
+        return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div>';
+    $('rep').innerHTML=html;
+  }
+  $('rep').addEventListener('click',function(e){var b=e.target.closest('[data-csv]');if(b)csv(b.getAttribute('data-csv'));});
+
+  // ---------- events ----------
+  $('nav').addEventListener('click',function(e){var b=e.target.closest('[data-nav]');if(b){tab='all';go(b.getAttribute('data-nav'));}});
+  $('burger').innerHTML=I('menu');$('sicon').innerHTML=I('search');$('ucaret').innerHTML=I('caret');
+  $('burger').onclick=function(){document.body.classList.toggle('menu');};
+  $('scrim').onclick=function(){document.body.classList.remove('menu');};
+  $('bell').onclick=function(){tab='new';go('messages');};
+  $('userchip').onclick=function(e){e.stopPropagation();$('umenu').classList.toggle('hide');};
+  document.addEventListener('click',function(e){if(!e.target.closest('#umenu'))$('umenu').classList.add('hide');
+    if(menuId!==null&&!e.target.closest('.kmenu')&&!e.target.closest('.kebab')){menuId=null;show();}});
+  $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;var k=b.getAttribute('data-k');tab='all';
+    go(k==='all'?'messages':k,true);});
+  $('tabs').addEventListener('click',function(e){var b=e.target.closest('[data-t]');if(!b)return;tab=b.getAttribute('data-t');page=1;openId=null;if(tab==='mine')$('asg').value='any';show();});
+  $('pager').addEventListener('click',function(e){var b=e.target.closest('[data-p]');if(!b||b.disabled)return;page=+b.getAttribute('data-p');openId=null;show();$('inbox').scrollIntoView({behavior:'smooth',block:'start'});});
+  $('q').oninput=function(){page=1;show();};$('asg').onchange=function(){page=1;show();};
+  $('list').addEventListener('click',function(e){
+    var b=e.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a'), rowEl=b.closest('.row'), cardEl=b.closest('.card');
+    if(e.target.closest('select,textarea,input,a'))return;
+    if(a==='toggle'){if(!rowEl)return;var id=rowEl.getAttribute('data-id');openId=String(openId)===id?null:id;menuId=null;
+      var it=byId(id);show();if(openId&&it&&it.status==='new'){/* opening does not change status */}return;}
+    if(a==='menu'){e.stopPropagation();var id2=rowEl.getAttribute('data-id');menuId=String(menuId)===id2?null:id2;show();return;}
+    if(a.indexOf('st:')===0){menuId=null;setStatus(rowEl.getAttribute('data-id'),a.slice(3));return;}
+    if(a==='edit'){var it2=byId(rowEl.getAttribute('data-id'));menuId=null;rowEl.outerHTML=form(it2);return;}
+    if(a==='delete'){menuId=null;del(rowEl.getAttribute('data-id'));return;}
+    if(a==='reply'){var id3=rowEl.getAttribute('data-id');menuId=null;if(String(openId)!==id3){openId=id3;show();rowEl=document.querySelector('.row[data-id="'+id3+'"]');}openReply(rowEl);return;}
+    if(a==='sendreply'){sendReply(rowEl);return;}
+    if(a==='cancelreply'){rowEl.querySelector('.replybox').innerHTML='';return;}
+    if(a==='savef'&&cardEl){submitForm(cardEl);return;}
+    if(a==='cancel'){show();return;}
+  });
+  $('addbox').addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a');
+    if(a==='savef')submitForm(b.closest('.card'));else if(a==='cancel')$('addbox').innerHTML='';});
+  $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')setStatus(e.target.closest('[data-id]').getAttribute('data-id'),e.target.value);else if(f==='assign')assign(e.target);else if(f==='note')saveNote(e.target);});
+  function openAdd(preset){if($('app').classList.contains('hide'))go('dash');$('addbox').innerHTML=form(null,preset);var n=$('addbox').querySelector('[name="name"]');n&&n.focus();$('inbox').scrollIntoView({behavior:'smooth',block:'start'});}
+  $('addentry').onclick=function(){openAdd();};
+  $('qa').addEventListener('click',function(e){var b=e.target.closest('[data-q]');if(!b)return;var q=b.getAttribute('data-q');
+    if(q==='send'){go('newsletter');setTimeout(function(){$('nsub').focus();},50);}
+    else if(q==='addmem'){go('mem');setTimeout(function(){memberForm(null);},300);}
+    else if(q==='addvisit')openAdd('visit');
+    else if(q==='csv')csv('all');});
+  $('recent').addEventListener('click',function(e){var d=e.target.closest('[data-open]');if(!d)return;var id=d.getAttribute('data-open'), it=byId(id);if(!it)return;
+    kind='all';tab=it.status==='archived'?'closed':tabMatch(it,'all')?'all':'closed';$('q').value='';$('asg').value='any';
+    var rows=filtered();var idx=rows.map(function(x){return String(x.id);}).indexOf(String(id));page=idx<0?1:Math.floor(idx/PER)+1;openId=id;
+    if(cur!=='dash'&&cur!=='messages')go('messages');else show();
+    var r=document.querySelector('.row[data-id="'+id+'"]');r&&r.scrollIntoView({behavior:'smooth',block:'center'});});
+
+  // ---------- sign in ----------
+  function logout(msg){setPw('');items=[];$('shell').classList.add('hide');$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
+  function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
+  function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
+  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;
+    $('login').classList.add('hide');$('shell').classList.remove('hide');
+    $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=ROLE_LABEL[myRole]||myRole;$('uemail').textContent=me;
+    renderRail();go('dash');return load();});}
+  $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
+    post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
+    .catch(function(err){$('lerr').textContent=err.message;}).then(function(){$('lbtn').disabled=false;});});
+  $('cf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';
+    post('/admin/login/verify',{email:$('em').value.trim(),code:$('code').value}).then(function(j){setPw(j.token);signedIn();}).catch(function(err){$('lerr').textContent=err.message;});});
+  $('back').onclick=function(e){e.preventDefault();showEmailStep();};
+  $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
+  $('refresh').onclick=function(){$('umenu').classList.add('hide');load().then(function(){toast('Up to date');});};
+
   // ---------- Email list ----------
   var subs=[];
   function loadNews(){
@@ -415,45 +826,12 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
     content[key]={value:val,by:content[key]&&content[key].by,at:content[key]&&content[key].at};renderSite();
     var m2=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m2)m2.textContent='Not saved yet. Click Save when you are done.';
   });
-
-  function logout(msg){setPw('');items=[];VIEWS.concat(['refresh','logout','msgb','newsb','siteb','teamb','memb']).forEach(function(x){$(x).classList.add('hide');});$('who').textContent='';$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
-  function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
-  function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
-  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;$('who').textContent=me+' ('+(ROLE_LABEL[myRole]||myRole)+')';return load();});}
-
-  $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
-    post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
-    .catch(function(err){$('lerr').textContent=err.message;}).then(function(){$('lbtn').disabled=false;});});
-  $('cf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';
-    post('/admin/login/verify',{email:$('em').value.trim(),code:$('code').value}).then(function(j){setPw(j.token);signedIn();}).catch(function(err){$('lerr').textContent=err.message;});});
-  $('back').onclick=function(e){e.preventDefault();showEmailStep();};
-  $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
   function roleSel(v,dis){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+['admin','staff','volunteer'].map(function(r){return '<option value="'+r+'"'+(r===v?' selected':'')+'>'+ROLE_LABEL[r]+'</option>';}).join('')+'</select>';}
   function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me;return '<div class="contact" data-em="'+esc(a.email)+'" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)"><b style="color:var(--navy);min-width:200px">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(a.role,mine)+'<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(mine?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
   $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;$('terr').textContent='';
     api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:row.getAttribute('data-em'),role:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked})}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').textContent=e2.message;});});
-  $('teamb').onclick=function(){view('team');$('terr').textContent='';api('/admin/admins').then(team).catch(function(e){$('terr').textContent=e.message;});};
-  $('msgb').onclick=function(){view('app');};
-  $('newsb').onclick=function(){view('news');loadNews();};
-  $('siteb').onclick=function(){view('site');loadSite();};
-  $('asg').onchange=show;
   $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,role:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);}).catch(function(e){$('terr').textContent=e.message;});});
   $('tlist').addEventListener('click',function(e){var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' as an admin?'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
-  $('refresh').onclick=load;
-  $('csv').onclick=csv;
-  $('q').oninput=show;$('st').onchange=show;
-  $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;kind=b.getAttribute('data-k');show();});
-  $('addb').onclick=function(){$('addbox').innerHTML=form(null);var n=$('addbox').querySelector('[name="name"]');n&&n.focus();};
-  function onAct(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.getAttribute('data-a'),cardEl=b.closest('.card');
-    if(a==='edit'){var id=cardEl.getAttribute('data-id');var it=items.filter(function(x){return String(x.id)===String(id);})[0];cardEl.outerHTML=form(it);}
-    else if(a==='delete')del(cardEl);
-    else if(a==='savef')submitForm(cardEl);
-    else if(a==='cancel'){if(cardEl.parentNode.id==='addbox')$('addbox').innerHTML='';else show();}
-    else if(a==='reply')openReply(cardEl);
-    else if(a==='sendreply')sendReply(cardEl);
-    else if(a==='cancelreply')cardEl.querySelector('.replybox').innerHTML='';}
-  $('list').addEventListener('click',onAct);$('addbox').addEventListener('click',onAct);
-  $('list').addEventListener('change',function(e){var f=e.target.getAttribute('data-f');if(f==='status')save(e.target,{status:e.target.value});else if(f==='assign')assign(e.target);else if(f==='note')save(e.target,{admin_note:e.target.value});});
   // ---- Members (separate members service; same sign in) ----
   var MAPI='https://br-old-sea-b51wuht3-members.compute.c-7.us-east-2.aws.neon.tech';
   var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
@@ -501,7 +879,6 @@ header h1{margin:0;font:700 19px/1.2 Georgia,serif;flex:1;min-width:160px}
   $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
     var csv=[cols.join(',')].concat(members.map(function(m){return cols.map(function(c){var v=m[c]==null?'':String(m[c]);if(/^\d{4}-\d{2}-\d{2}/.test(v))v=v.slice(0,10);return '"'+v.replace(/"/g,'""')+'"';}).join(',');})).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-members.csv';document.body.appendChild(a);a.click();a.remove();};
-  $('memb').onclick=function(){view('mem');$('mform').innerHTML='';loadMembers();};
   if(pw())signedIn().catch(function(){});
 })();
 </script>
