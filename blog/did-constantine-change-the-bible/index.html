@@ -3166,7 +3166,7 @@ function routeFromLocation() {
   if (/plan-your-visit/.test(location.hash || '')) return { page: 'visit' };
   if (/^\/kreyol\/planifye-vizit\/?$/.test(path)) return { page: 'visit', vLang: 'kr' };
   const m = path.match(/^\/blog\/([^/]+)\/?$/);
-  if (m && MOVED_POSTS[m[1]]) { location.replace(MOVED_POSTS[m[1]]); }
+  if (m && MOVED_POSTS[m[1]]) { location.replace(MOVED_POSTS[m[1]]); return { page: 'home' }; }
   if (m) { const p = POSTS.find(x => postSlug(x) === m[1] || x.id === m[1]); return { page: 'post', postSlug: m[1], postId: p ? p.id : null }; }
   const norm = path.replace(/\/?$/, '/');
   for (const k in ROUTE_PATHS) { if (k !== 'home' && norm === ROUTE_PATHS[k]) return { page: k }; }
@@ -3178,7 +3178,7 @@ class Component extends DCLogic {
     fetch('/assets/audio/podcast/manifest.json', { cache: 'no-cache' }).then(r => r.ok ? r.json() : {}).then(m => { if (m && typeof m === 'object') this.setState({ podMap: m }); }).catch(() => {});
     fetch(VISIT_CONFIG.formEndpoint.replace(/\/submit$/, '/content')).then(r => r.ok ? r.json() : {}).then(c => {
       const ok = a => Array.isArray(a) && a.length;
-      if (ok(c.posts)) POSTS = c.posts.filter(p => !MOVED_POSTS[p.slug]).map(p => ({ ...p, body: Array.isArray(p.body) ? p.body : String(p.body || '').split(/\n\s*\n/) }));
+      if (ok(c.posts)) POSTS = c.posts.filter(p => !MOVED_POSTS[postSlug(p)]).map(p => ({ ...p, body: Array.isArray(p.body) ? p.body : String(p.body || '').split(/\n\s*\n/) }));
       if (ok(c.ministries)) MINISTRIES = c.ministries;
       if (ok(c.sermons)) SERMONS = c.sermons;
       if (c.resources && ok(c.resources.local)) RESOURCES = c.resources;

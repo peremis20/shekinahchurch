@@ -24,7 +24,7 @@ def load():
 
 def sitemap_rows():
     rows = [(SITE + '/kreyol/', None)]
-    rows += [(SITE + '/kreyol/%s/' % s['slug'], s['date']) for s in load()]
+    rows += [(SITE + '/kreyol/%s/' % s['slug'], s.get('updated', s['date'])) for s in load()]
     return rows
 
 
@@ -56,6 +56,7 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .verses{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}.verses li{margin:0;background:var(--cream);border:1px solid var(--line);border-radius:40px;padding:4px 12px;font-size:15px}
 .body h2{margin-top:34px}.body p{margin:0 0 14px}.body h3{font-size:18px;color:var(--navy);margin:22px 0 6px}
 .q{margin:6px 0 18px;padding:16px 20px;border-left:4px solid var(--gold);background:var(--cream);border-radius:0 12px 12px 0}.q p{margin:0 0 8px;font-size:17px;font-style:italic}.q cite{font-size:13px;color:#5d6a80;font-style:normal}
+.pnote{font-size:14px;color:#5d6a80;margin-top:20px}.q a{color:inherit}
 .pray{margin:0 0 14px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff}.pray strong{display:block;color:var(--navy);margin-bottom:4px}.pray p{margin:0}
 .crisis{background:#FFF4E5;border:1px solid #F0C98A;border-radius:12px;padding:14px 16px;margin:0 0 20px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
@@ -144,7 +145,7 @@ def study_page(s, all_s):
         audio['duration'] = iso_minutes(s['length'])
     ld = {'@context': 'https://schema.org', '@graph': [
         {'@type': 'Article', 'headline': s['title'], 'description': s['desc'], 'inLanguage': 'ht',
-         'datePublished': s['date'], 'url': url, 'mainEntityOfPage': url, 'image': IMG,
+         'datePublished': s['date'], 'dateModified': s.get('updated', s['date']), 'url': url, 'mainEntityOfPage': url, 'image': IMG,
          'author': {'@type': 'Organization', 'name': 'Etid Biblik Shekinah'},
          'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE,
                        'logo': {'@type': 'ImageObject', 'url': SITE + '/assets/logo-mark.png'}},
@@ -164,6 +165,7 @@ def study_page(s, all_s):
              '<p>Etid odyo an Kreyòl ak de animatè. Koute l kounye a oswa pataje l ak fanmi ou.</p></div>' % (mp3, e(s['title'])))
     for para in s['summary']:
         p.append('<p>%s</p>' % e(para))
+    p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
     art = load_article(s['slug'])
     if art:
         p.append('<article class="body">')
@@ -173,18 +175,24 @@ def study_page(s, all_s):
                 if isinstance(x, str):
                     p.append('<p>%s</p>' % e(x))
                 elif 'quote' in x:
-                    p.append('<blockquote class="q"><p>%s</p><cite>%s</cite></blockquote>' % (e(x['quote']), e(x.get('cite', ''))))
+                    cite = e(x.get('cite', ''))
+                    if x.get('bsa'):
+                        cite += (', Bib Sen An, © 2017, 2023 Ron Smith (<a href="https://ebible.org/hatbsa/">ebible.org</a>), lisans '
+                                 '<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons Attribution ShareAlike 4.0</a>')
+                    p.append('<blockquote class="q"><p>%s</p><cite>%s</cite></blockquote>' % (e(x['quote']), cite))
                 elif 'prayer' in x:
                     p.append('<div class="pray"><strong>%s</strong><p>%s</p></div>' % (e(x['prayer']), e(x['text'])))
             for f in sec.get('faq', []):
                 p.append('<h3>%s</h3><p>%s</p>' % (e(f['q']), e(f['a'])))
+        if any(isinstance(x, dict) and 'quote' in x for sec in art['sections'] for x in sec['p']):
+            p.append('<p class="pnote">Vèsè ki pa nan blòk sitasyon yo se parafraz an Kreyòl. Li yo nan Bib ou pou w wè kontèks yo.</p>')
         p.append('</article>')
-    p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
     p.append('<h2>Vèsè biblik nan etid la</h2><ul class="verses">%s</ul>' % ''.join('<li>%s</li>' % e(v) for v in s['verses']))
     p.append('<h2>Kesyon pou reflechi ak fanmi ou</h2><ol>%s</ol>' % ''.join('<li>%s</li>' % e(q) for q in s['questions']))
     p.append('<div class="cta"><a class="btn" href="/prayer-request/">Voye yon demann priyè</a>'
              '<a class="btn alt" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a></div>')
-    others = [o for o in all_s if o['slug'] != s['slug']][:4]
+    rel = [o for sl in s.get('related', []) for o in all_s if o['slug'] == sl]
+    others = (rel + [o for o in all_s if o['slug'] != s['slug'] and o not in rel])[:4]
     p.append('<h2>Lòt etid an Kreyòl</h2><div class="cards">%s</div>' % ''.join(card(o) for o in others))
     p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
     return ''.join(p)
