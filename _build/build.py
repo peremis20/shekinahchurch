@@ -109,7 +109,7 @@ if isinstance(LIVE.get('posts'), list) and LIVE['posts']:
 for p in POSTS:
     p['_slug'] = p.get('slug') or slugify(p['title']) or p['id']
 # Posts merged into a Kreyol study page: no blog page, no sitemap entry, the old URL redirects.
-MOVED_POSTS = {'kijan-pou-m-priye': '/kreyol/kijan-pou-m-priye/'}
+MOVED_POSTS = {'kijan-pou-m-priye': '/kreyol/kijan-pou-m-priye/', 'kisa-bib-la-di-sou-saba-a': '/kreyol/kisa-bib-la-di-sou-saba-a/'}
 POSTS = [p for p in POSTS if p['_slug'] not in MOVED_POSTS]
 
 # ---- 1. Pull SEO tags out of the <helmet> block; they go into the real <head> per page ----
