@@ -1,0 +1,12 @@
+== A: 3.1 voice, calm style ==
+text models available: ['models/gemini-3.8-flash', 'models/gemini-3.7-flash', 'models/gemini-3.6-flash', 'models/gemini-3.5-flash', 'models/gemini-3.5-flash-lite', 'models/gemini-3.1-flash-lite-preview']
+text model: models/gemini-3.8-flash | tts models: ['models/gemini-3.8-flash-tts', 'models/gemini-3.8-flash-lite-tts', 'models/gemini-3.1-flash-tts-preview', 'models/gemini-2.5-flash-preview-tts', 'models/gemini-2.5-pro-preview-tts']
+voice model used: models/gemini-3.1-flash-tts-preview classic
+spoke part 1
+done: assets/audio/tests/gemini-sample-calm.mp3, 1.9 minutes, voice ('models/gemini-3.1-flash-tts-preview', 'classic')
+== B: 3.8 voice, tagged lines ==
+text models available: ['models/gemini-3.8-flash', 'models/gemini-3.7-flash', 'models/gemini-3.6-flash', 'models/gemini-3.5-flash', 'models/gemini-3.5-flash-lite', 'models/gemini-3.1-flash-lite-preview']
+text model: models/gemini-3.8-flash | tts models: ['models/gemini-3.8-flash-tts', 'models/gemini-3.8-flash-lite-tts', 'models/gemini-3.1-flash-tts-preview', 'models/gemini-2.5-flash-preview-tts', 'models/gemini-2.5-pro-preview-tts']
+voice model used: models/gemini-3.8-flash-tts tagged
+spoke part 1
+done: assets/audio/tests/gemini-sample-38.mp3, 1.8 minutes, voice ('models/gemini-3.8-flash-tts', 'tagged')
