@@ -56,8 +56,9 @@ def pick_models():
     if not t or not x:
         raise SystemExit('No usable models found. TTS: %s TEXT: %s' % (tts[:5], text[:5]))
     print('text models available:', text[:6])
-    print('text model:', x, '| tts model:', t, '| other tts:', tts[:6])
-    return x, t
+    print('text model:', x, '| tts models:', tts[:6])
+    order = ([t] if t else []) + [m for m in tts if m != t and 'lite' not in m]
+    return x, order
 
 
 def dialogue(model, script, minutes):
@@ -90,17 +91,42 @@ def chunks(lines, limit=3200):
         yield cur
 
 
-def speak(model, lines, wav):
-    body = {
-        'contents': [{'parts': [{'text': 'Li konvèsasyon sa a an Kreyòl ayisyen (Haitian Creole, ht-HT), ak yon ton cho, natirèl, '
-                                         'tankou de zanmi k ap fè yon emisyon radyo kretyen. Jan se yon gason, Mari se yon fanm.\n\n' + '\n'.join(lines)}]}],
-        'generationConfig': {'responseModalities': ['AUDIO'], 'speechConfig': {'multiSpeakerVoiceConfig': {'speakerVoiceConfigs': [
-            {'speaker': h, 'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': VOICES[h]}}} for h in HOSTS]}}}}
-    r = call('/%s:generateContent' % model, body)
-    part = r['candidates'][0]['content']['parts'][0]['inlineData']
-    pcm = base64.b64decode(part['data'])
-    rate = int(re.search(r'rate=(\d+)', part.get('mimeType', '') + ' rate=24000').group(1))
-    subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(rate), '-ac', '1', '-i', '-', wav], input=pcm)
+STYLE = ('Li konvèsasyon sa a an Kreyòl ayisyen (Haitian Creole, ht-HT), ak yon ton cho, natirèl, '
+         'tankou de zanmi k ap fè yon emisyon radyo kretyen. Jan se yon gason, Mari se yon fanm.')
+WORKING = {}
+
+
+def _bodies(lines):
+    pairs = [(m.group(1), m.group(2).strip()) for m in (re.match(r'^(Jan|Mari)\s*:\s*(.*)$', l) for l in lines) if m]
+    voices = {'multiSpeakerVoiceConfig': {'speakerVoiceConfigs': [
+        {'speaker': h, 'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': VOICES[h]}}} for h in HOSTS]}}
+    gen = {'responseModalities': ['AUDIO'], 'speechConfig': voices}
+    # newer TTS models: one text part per line, each tagged with its speaker
+    tagged = {'systemInstruction': {'parts': [{'text': STYLE}]},
+              'contents': [{'role': 'user', 'parts': [{'text': t, 'speechMetadata': {'speaker': h}} for h, t in pairs]}],
+              'generationConfig': gen}
+    # older TTS models: one transcript with "Name: line"
+    classic = {'contents': [{'parts': [{'text': STYLE + '\n\n' + '\n'.join('%s: %s' % p for p in pairs)}]}], 'generationConfig': gen}
+    return [('tagged', tagged), ('classic', classic)]
+
+
+def speak(models, lines, wav):
+    tries = [WORKING['combo']] if 'combo' in WORKING else [(m, f) for m in models for f in ('tagged', 'classic')]
+    last = ''
+    for model, fmt in tries:
+        body = dict(_bodies(lines))[fmt]
+        try:
+            r = call('/%s:generateContent' % model, body, tries=2)
+        except SystemExit as e:
+            last = str(e); print('voice try failed:', model, fmt, last[:160]); continue
+        part = next(p for p in r['candidates'][0]['content']['parts'] if 'inlineData' in p)['inlineData']
+        pcm = base64.b64decode(part['data'])
+        rate = int(re.search(r'rate=(\d+)', part.get('mimeType', '') + ' rate=24000').group(1))
+        subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(rate), '-ac', '1', '-i', '-', wav], input=pcm)
+        if 'combo' not in WORKING:
+            WORKING['combo'] = (model, fmt); print('voice model used:', model, fmt)
+        return
+    raise SystemExit('No voice model worked. Last error: ' + last)
 
 
 def main():
@@ -125,7 +151,7 @@ def main():
         subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-f', 'concat', '-safe', '0', '-i', lst,
                                '-ac', '1', '-b:a', '64k', '-metadata', 'artist=Etid Biblik Shekinah', out])
     dur = float(subprocess.check_output(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', out]).decode())
-    print('done: %s, %.1f minutes, models %s and %s' % (out, dur / 60, text_model, tts_model))
+    print('done: %s, %.1f minutes, voice %s' % (out, dur / 60, WORKING.get('combo')))
 
 
 if __name__ == '__main__':
