@@ -108,6 +108,9 @@ if isinstance(LIVE.get('posts'), list) and LIVE['posts']:
     POSTS = LIVE['posts']
 for p in POSTS:
     p['_slug'] = p.get('slug') or slugify(p['title']) or p['id']
+# Posts merged into a Kreyol study page: no blog page, no sitemap entry, the old URL redirects.
+MOVED_POSTS = {'kijan-pou-m-priye': '/kreyol/kijan-pou-m-priye/'}
+POSTS = [p for p in POSTS if p['_slug'] not in MOVED_POSTS]
 
 # ---- 1. Pull SEO tags out of the <helmet> block; they go into the real <head> per page ----
 hs, he = src.index('<helmet>'), src.index('</helmet>')
@@ -288,6 +291,8 @@ LEGACY = {
   'public/church-event.html': '/blog/', 'public/event/blogs.html': '/blog/',
   'public/contact-us.html': '/contact/', 'public/about-us.html': '/about/',
 }
+for slug, to in MOVED_POSTS.items():
+    LEGACY['blog/%s/index.html' % slug] = to
 for i in range(1, 9):
     LEGACY['ministry/%d.html' % i] = '/ministries/'
     LEGACY['public/ministry/%d.html' % i] = '/ministries/'

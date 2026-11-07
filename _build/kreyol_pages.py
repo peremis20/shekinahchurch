@@ -54,7 +54,9 @@ h2{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:22px;margin
 .player p{margin:8px 0 0;font-size:14px;color:#5B6270}
 ul,ol{padding-left:22px}li{margin:6px 0}
 .verses{display:flex;flex-wrap:wrap;gap:8px;padding:0;list-style:none}.verses li{margin:0;background:var(--cream);border:1px solid var(--line);border-radius:40px;padding:4px 12px;font-size:15px}
-.body h2{margin-top:34px}.body p{margin:0 0 14px}
+.body h2{margin-top:34px}.body p{margin:0 0 14px}.body h3{font-size:18px;color:var(--navy);margin:22px 0 6px}
+.q{margin:6px 0 18px;padding:16px 20px;border-left:4px solid var(--gold);background:var(--cream);border-radius:0 12px 12px 0}.q p{margin:0 0 8px;font-size:17px;font-style:italic}.q cite{font-size:13px;color:#5d6a80;font-style:normal}
+.pray{margin:0 0 14px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff}.pray strong{display:block;color:var(--navy);margin-bottom:4px}.pray p{margin:0}
 .crisis{background:#FFF4E5;border:1px solid #F0C98A;border-radius:12px;padding:14px 16px;margin:0 0 20px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:12px 22px}
@@ -122,6 +124,17 @@ def load_article(slug):
     return d if d.get('sections') else None
 
 
+def article_words(art):
+    out = []
+    for sec in art['sections']:
+        out.append(sec['h'])
+        for x in sec['p']:
+            out.append(x if isinstance(x, str) else ' '.join(str(v) for k, v in x.items() if k != 'cite'))
+        for f in sec.get('faq', []):
+            out += [f['q'], f['a']]
+    return len(' '.join(out).split())
+
+
 def study_page(s, all_s):
     url = SITE + '/kreyol/%s/' % s['slug']
     mp3 = '/assets/audio/bible-study/%s.mp3' % s['slug']
@@ -135,7 +148,7 @@ def study_page(s, all_s):
          'author': {'@type': 'Organization', 'name': 'Etid Biblik Shekinah'},
          'publisher': {'@type': 'Organization', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE,
                        'logo': {'@type': 'ImageObject', 'url': SITE + '/assets/logo-mark.png'}},
-         'audio': audio, **({'wordCount': sum(len((sec['h'] + ' ' + ' '.join(sec['p'])).split()) for sec in load_article(s['slug'])['sections'])} if load_article(s['slug']) else {})},
+         'audio': audio, **({'wordCount': article_words(load_article(s['slug']))} if load_article(s['slug']) else {})},
         {'@type': 'BreadcrumbList', 'itemListElement': [
             {'@type': 'ListItem', 'position': 1, 'name': 'Akèy', 'item': SITE + '/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'Etid Biblik an Kreyòl', 'item': SITE + '/kreyol/'},
@@ -156,7 +169,15 @@ def study_page(s, all_s):
         p.append('<article class="body">')
         for sec in art['sections']:
             p.append('<h2>%s</h2>' % e(sec['h']))
-            p.extend('<p>%s</p>' % e(x) for x in sec['p'])
+            for x in sec['p']:
+                if isinstance(x, str):
+                    p.append('<p>%s</p>' % e(x))
+                elif 'quote' in x:
+                    p.append('<blockquote class="q"><p>%s</p><cite>%s</cite></blockquote>' % (e(x['quote']), e(x.get('cite', ''))))
+                elif 'prayer' in x:
+                    p.append('<div class="pray"><strong>%s</strong><p>%s</p></div>' % (e(x['prayer']), e(x['text'])))
+            for f in sec.get('faq', []):
+                p.append('<h3>%s</h3><p>%s</p>' % (e(f['q']), e(f['a'])))
         p.append('</article>')
     p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
     p.append('<h2>Vèsè biblik nan etid la</h2><ul class="verses">%s</ul>' % ''.join('<li>%s</li>' % e(v) for v in s['verses']))
