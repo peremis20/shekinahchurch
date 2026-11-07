@@ -1,0 +1,29 @@
+text models available: ['models/gemini-3.8-flash', 'models/gemini-3.7-flash', 'models/gemini-3.6-flash', 'models/gemini-3.5-flash', 'models/gemini-3.5-flash-lite', 'models/gemini-3.1-flash-lite-preview']
+text model: models/gemini-3.8-flash | tts models: ['models/gemini-3.8-flash-tts', 'models/gemini-3.8-flash-lite-tts', 'models/gemini-3.1-flash-tts-preview', 'models/gemini-2.5-flash-preview-tts', 'models/gemini-2.5-pro-preview-tts']
+voice try failed: models/gemini-3.8-flash-tts tagged Gemini API error 400 on /models/gemini-3.8-flash-tts:generateContent: {
+  "error": {
+    "code": 400,
+    "message": "Developer instruction is not enabled for t
+voice try failed: models/gemini-3.8-flash-tts classic Gemini API error 400 on /models/gemini-3.8-flash-tts:generateContent: {
+  "error": {
+    "code": 400,
+    "message": "Multi-speaker generation requests must spe
+voice try failed: models/gemini-3.1-flash-tts-preview tagged Gemini API error 400 on /models/gemini-3.1-flash-tts-preview:generateContent: {
+  "error": {
+    "code": 400,
+    "message": "Speech metadata is not supported f
+Traceback (most recent call last):
+  File "/home/runner/work/shekinahchurch/shekinahchurch/_build/gemini_audio.py", line 158, in <module>
+    main()
+  File "/home/runner/work/shekinahchurch/shekinahchurch/_build/gemini_audio.py", line 147, in main
+    w = os.path.join(tmp, 'p%03d.wav' % i); speak(tts_model, c, w); parts.append(w)
+                                            ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/shekinahchurch/shekinahchurch/_build/gemini_audio.py", line 125, in speak
+    subprocess.check_call(['ffmpeg', '-v', 'error', '-y', '-f', 's16le', '-ar', str(rate), '-ac', '1', '-i', '-', wav], input=pcm)
+  File "/usr/lib/python3.12/subprocess.py", line 408, in check_call
+    retcode = call(*popenargs, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 389, in call
+    with Popen(*popenargs, **kwargs) as p:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Popen.__init__() got an unexpected keyword argument 'input'
