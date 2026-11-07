@@ -24,10 +24,16 @@ jobs:
         run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
       - name: Make the sample
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          K1: ${{ secrets.GEMINI_API_KEY }}
+          K2: ${{ vars.GEMINI_API_KEY }}
+          K3: ${{ secrets.GEMINI_KEY }}
+          K4: ${{ secrets.GOOGLE_API_KEY }}
+          K5: ${{ secrets.GEMINI_API }}
         run: |
           mkdir -p assets/audio/tests
-          python3 _build/gemini_audio.py _build/audio-test/sample-script.txt assets/audio/tests/gemini-sample.mp3 --minutes 2 2>&1 | tee _build/audio-test/last-run.log
+          for n in K1 K2 K3 K4 K5; do v="${!n}"; if [ -n "$v" ]; then echo "key found in $n (length ${#v})"; export GEMINI_API_KEY="$(echo -n "$v" | tr -d '[:space:]')"; break; fi; done
+          [ -n "$GEMINI_API_KEY" ] || echo "no key found in secrets GEMINI_API_KEY, GEMINI_KEY, GOOGLE_API_KEY, GEMINI_API or variable GEMINI_API_KEY" | tee _build/audio-test/last-run.log
+          python3 _build/gemini_audio.py _build/audio-test/sample-script.txt assets/audio/tests/gemini-sample.mp3 --minutes 2 2>&1 | tee -a _build/audio-test/last-run.log
       - name: Save the sample
         if: always()
         run: |
