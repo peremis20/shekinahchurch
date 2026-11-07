@@ -59,7 +59,7 @@ def main():
             sm = sm.replace('</urlset>', '  <url><loc>%s</loc><lastmod>%s</lastmod><priority>0.7</priority></url>\n</urlset>' % (url, today))
             open('sitemap.xml', 'w', encoding='utf-8').write(sm)
         json.dump({'mp3': '/assets/audio/bible-study/%s.mp3' % slug, 'length': length,
-                   'finished': datetime.datetime.utcnow().isoformat() + 'Z'},
+                   'finished': datetime.datetime.now(datetime.timezone.utc).isoformat()},
                   open(os.path.join(d, 'done.json'), 'w'), indent=1)
         done_any = True
     print('nothing queued' if not done_any else 'all queued audio published')
