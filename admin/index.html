@@ -240,6 +240,10 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
 .bars > div{display:flex;align-items:center;gap:10px;padding:6px 0;font-weight:600}
 .bars i{display:block;height:10px;border-radius:6px;background:var(--tc1,#1F63D8)}
 .bars span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#tkpis.many{grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+#tkpis.many .tk{padding:14px 12px;gap:10px}#tkpis.many .tk .ic{width:42px;height:42px}#tkpis.many .tk .ic svg{width:24px;height:24px}#tkpis.many .tk b{font-size:27px}#tkpis.many .tk span{font-size:13.5px}
+body[data-t=mem]{--tc:#1F5FCF;--tc1:#2C7BEA;--tcb:#DCE9FF}
+body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
 @media (max-width:1250px){#tkpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:700px){#tkpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.tk{padding:12px;gap:10px}.tk .ic{width:40px;height:40px}.tk b{font-size:24px}.tk span{font-size:13px}}
 /* login */
@@ -480,7 +484,7 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
     else if(k==='mem'||k==='team'||k==='site'||k==='reports')sec=k;
     if(sec==='app'){kind=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[k]||'all';if(k==='dash'||k==='messages'){}page=1;openId=null;}
     SECTIONS_ALL.forEach(function(x){$(x).classList.toggle('hide',x!==sec);});
-    var T=sec==='news'?'newsletter':(sec==='app'&&kind!=='all'?kind:'');
+    var T=sec==='news'?'newsletter':(sec==='mem'||sec==='team')?sec:(sec==='app'&&kind!=='all'?kind:'');if(sec==='mem'){memF=null;memK='';}
     if(T)document.body.setAttribute('data-t',T);else document.body.removeAttribute('data-t');
     $('stats').classList.toggle('hide',!(sec==='app'&&!T));
     $('tkpis').classList.toggle('hide',!T);
@@ -686,7 +690,7 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
   }
 
   // ---------- right rail ----------
-  function curType(){if(!$('news').classList.contains('hide'))return 'newsletter';if(!$('app').classList.contains('hide')&&kind!=='all')return kind;return '';}
+  function curType(){if(!$('news').classList.contains('hide'))return 'newsletter';if(!$('mem').classList.contains('hide'))return 'mem';if(!$('team').classList.contains('hide'))return 'team';if(!$('app').classList.contains('hide')&&kind!=='all')return kind;return '';}
   var ADDL={prayer:'Add Prayer Request',contact:'Add Question',visit:'Add Visit',newsletter:'Add Sign Up'};
   function renderRail(){
     var T=curType();
@@ -726,7 +730,14 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
       if(!$('news').classList.contains('hide')&&subs){var act=subs.filter(function(x){return !x.unsubscribed&&x.status!=='archived';});
         K=[['','group',act.length,'People on the list'],['','userplus',subs.filter(function(x){return (new Date()-pdate(x.created_at))/86400000<=30;}).length,'Joined in last 30 days'],['','bell',L.filter(function(i){return i.status==='new';}).length,'New sign ups to welcome'],['','mail',(window.__bc||0),'Emails sent'],['','down',subs.filter(function(x){return x.unsubscribed;}).length,'Unsubscribed']];}
       else K=[['all','group',L.length,'Email sign ups'],['new','bell',st('new'),'New sign ups'],['recent','userplus',L.filter(function(i){return tabMatch(i,'recent');}).length,'Joined in last 30 days'],['closed','plus',all.filter(function(i){return tabMatch(i,'closed');}).length,'Welcomed or closed'],['in_progress','clock',st('in_progress'),'In progress']];}
-    $('tkpis').innerHTML=K.map(function(k){return '<button class="tk'+(k[0]&&k[0]===tab&&k[0]!=='all'?' on':'')+'" data-tk="'+k[0]+'"><span class="ic">'+I(k[1])+'</span><div><b>'+k[2]+'</b><span>'+k[3]+'</span></div></button>';}).join('');
+    if(T==='mem'){var ms=members||[],has=function(arr){return function(m){return arr.indexOf(m.status)>=0;};};
+      var MS={'m:all':null,'m:mem':has(['Member','Baptized member']),'m:bap':function(m){return m.status==='Baptized member'||!!m.baptism_date;},'m:reg':has(['Regular attender']),'m:vis':has(['Visitor']),'m:ina':has(['Inactive','Transferred out']),'m:bday':function(m){var d=nextBday(m.birthday);return d!==null&&d<=30;}};
+      window.__MS=MS;var cnt=function(k){return MS[k]?ms.filter(MS[k]).length:ms.length;};
+      K=[['m:all','group',cnt('m:all'),'People in records'],['m:mem','userplus',cnt('m:mem'),'Church members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regular attenders'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:ina','clock',cnt('m:ina'),'Inactive or moved'],['m:bday','cal',cnt('m:bday'),'Birthdays in 30 days']];}
+    if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(r){return tl.filter(function(a){return a.role===r;}).length;};
+      K=[['x','team',tl.length,'People on the team'],['x','gear',rc('admin'),'Admins'],['x','contacts',rc('staff'),'Staff'],['x','userplus',rc('volunteer'),'Volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
+    $('tkpis').classList.toggle('many',K.length>5);
+    $('tkpis').innerHTML=K.map(function(k){return '<button class="tk'+((k[0]&&k[0]===tab&&k[0]!=='all')||(k[0]===memK&&memK)?' on':'')+'" data-tk="'+k[0]+'"><span class="ic">'+I(k[1])+'</span><div><b>'+k[2]+'</b><span>'+k[3]+'</span></div></button>';}).join('');
   }
   function tline(i,left,title,sub,right){return '<div data-open="'+esc(i.id)+'">'+left+'<div class="x"><b>'+esc(title)+'</b><small>'+esc(sub)+'</small></div>'+(right?'<span class="ago">'+esc(right)+'</span>':'')+'</div>';}
   function dbox(dt){var d=dayDate(dt)||pdate(dt);return '<span class="d">'+d.toLocaleDateString([], {month:'short'})+'<b>'+d.getDate()+'</b></span>';}
@@ -759,6 +770,8 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
     return h;
   }
   $('tkpis').addEventListener('click',function(e){var b=e.target.closest('[data-tk]');if(!b)return;var t=b.getAttribute('data-tk');
+    if(t==='x')return;
+    if(t.indexOf('m:')===0){memK=(memK===t||t==='m:all')?'':t;memF=memK?window.__MS[memK]:null;$('mst').value='';renderMembers();return;}
     if(!t){go('newsletter',true);return;}
     tab=(t===tab&&t!=='all')?'all':t;page=1;openId=null;show();renderTK();});
   $('trail').addEventListener('click',function(e){var c=e.target.closest('[data-csv]');if(c){csv(c.getAttribute('data-csv'));return;}
@@ -945,7 +958,7 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
     var m2=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m2)m2.textContent='Not saved yet. Click Save when you are done.';
   });
   function roleSel(v,dis){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+['admin','staff','volunteer'].map(function(r){return '<option value="'+r+'"'+(r===v?' selected':'')+'>'+ROLE_LABEL[r]+'</option>';}).join('')+'</select>';}
-  function team(list){$('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me;return '<div class="contact" data-em="'+esc(a.email)+'" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)"><b style="color:var(--navy);min-width:200px">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(a.role,mine)+'<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(mine?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
+  function team(list){window.__team=list;setTimeout(renderTK,0);$('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me;return '<div class="contact" data-em="'+esc(a.email)+'" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)"><b style="color:var(--navy);min-width:200px">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(a.role,mine)+'<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(mine?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
   $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;$('terr').textContent='';
     api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:row.getAttribute('data-em'),role:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked})}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').textContent=e2.message;});});
   $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,role:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);}).catch(function(e){$('terr').textContent=e.message;});});
@@ -961,11 +974,12 @@ body[data-t] .row.sel{background:color-mix(in srgb,var(--tcb,#F3F7FF) 45%,#fff);
     return mapi('/members').then(function(j){members=j.members||[];mStatuses=j.statuses||mStatuses;mRole=j.role||'';
       $('mst').innerHTML='<option value="">All statuses</option>'+mStatuses.map(function(s){return '<option>'+esc(s)+'</option>';}).join('');renderMembers();})
     .catch(function(e){if(e.status===401){logout('Your session ended. Please sign in again.');}else $('mlist').innerHTML='<div class="empty">Could not load members. '+esc(e.message)+'</div>';});}
-  function renderMembers(){
+  var memF=null,memK='';
+  function renderMembers(){setTimeout(renderTK,0);
     var up=members.map(function(m){return {m:m,d:nextBday(m.birthday)};}).filter(function(x){return x.d!==null&&x.d<=30;}).sort(function(a,b){return a.d-b.d;});
     $('mbday').innerHTML='<div class="top"><span class="who">Upcoming birthdays (next 30 days)</span></div>'+(up.length?up.map(function(x){return '<div class="meta" style="margin-top:6px"><b>'+esc(x.m.first_name+' '+x.m.last_name)+'</b> · '+fmtDate(x.m.birthday).replace(/, \d{4}$/,'')+' · '+(x.d===0?'<b>Today!</b>':x.d===1?'Tomorrow':'in '+x.d+' days')+(x.m.phone?' · '+esc(x.m.phone):'')+'</div>';}).join(''):'<p class="meta" style="margin-top:6px">No birthdays in the next 30 days.</p>');
     var q=$('mq').value.toLowerCase().trim(),st=$('mst').value;
-    var list=members.filter(function(m){return (!st||m.status===st)&&(!q||[m.first_name,m.last_name,m.phone,m.email,m.household,m.city].join(' ').toLowerCase().indexOf(q)>=0);});
+    var list=members.filter(function(m){return (!st||m.status===st)&&(!memF||memF(m))&&(!q||[m.first_name,m.last_name,m.phone,m.email,m.household,m.city].join(' ').toLowerCase().indexOf(q)>=0);});
     var counts={};members.forEach(function(m){counts[m.status]=(counts[m.status]||0)+1;});
     $('mcount').textContent=list.length+' of '+members.length+' people'+(members.length?' · '+Object.keys(counts).map(function(k){return counts[k]+' '+k;}).join(', '):'');
     $('mlist').innerHTML=list.length?list.map(function(m){return '<div class="card" style="border-left-color:var(--navy)"><div class="top"><span class="who">'+esc(m.first_name+' '+m.last_name)+'</span><span class="tag">'+esc(m.status)+'</span></div>'+
