@@ -1,0 +1,37 @@
+name: Gemini Kreyol audio test
+
+# Makes a short two host Kreyol sample with the Gemini API, fully in the cloud.
+# Runs when _build/audio-test/run.txt changes (or by hand). Needs the GEMINI_API_KEY secret.
+on:
+  push:
+    branches: [main]
+    paths: ['_build/audio-test/run.txt']
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gemini-audio-test
+  cancel-in-progress: false
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ffmpeg
+        run: sudo apt-get update -q && sudo apt-get install -y -q ffmpeg
+      - name: Make the sample
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          mkdir -p assets/audio/tests
+          python3 _build/gemini_audio.py _build/audio-test/sample-script.txt assets/audio/tests/gemini-sample.mp3 --minutes 2 2>&1 | tee _build/audio-test/last-run.log
+      - name: Save the sample
+        if: always()
+        run: |
+          git config user.name "shekinah-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio/tests _build/audio-test/last-run.log || true
+          if git diff --cached --quiet; then echo "Nothing to save"; else git commit -m "Gemini audio test sample" && git pull --rebase && git push; fi
