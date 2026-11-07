@@ -123,7 +123,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .rright{display:flex;flex-direction:column;align-items:flex-end;gap:6px;color:#3D4759;font-size:13.5px;white-space:nowrap}
 .kebab{background:none;border:0;width:34px;height:34px;border-radius:8px;display:grid;place-items:center;color:#3D4759}
 .kebab:hover{background:var(--soft)}
-.kmenu{position:absolute;right:8px;top:54px;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(20,33,61,.18);border:1px solid var(--line);padding:6px;z-index:30;min-width:190px}
+.kmenu{position:fixed;left:0;top:0;max-height:calc(100vh - 16px);overflow-y:auto;background:#fff;border-radius:12px;box-shadow:0 10px 30px rgba(20,33,61,.18);border:1px solid var(--line);padding:6px;z-index:30;min-width:190px}
 .kmenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14px}
 .kmenu button:hover{background:var(--soft)}
 .kmenu button.del{color:var(--red)}
@@ -564,7 +564,14 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       (page>1?'<button class="arrow" data-p="'+(page-1)+'" aria-label="Previous">'+I('prev')+'</button>':'')+
       btn.map(function(p){return p==='…'?'<span style="align-self:center">…</span>':'<button data-p="'+p+'" class="'+(p===page?'on':'')+'">'+p+'</button>';}).join('')+
       '<button class="arrow" data-p="'+(page+1)+'"'+(page>=pages?' disabled':'')+' aria-label="Next">'+I('next')+'</button></div>';
+    placeMenu();
   }
+  function placeMenu(){var m=document.querySelector('.kmenu');if(!m)return;var k=m.closest('.row').querySelector('.kebab');if(!k)return;
+    var r=k.getBoundingClientRect(),mh=m.offsetHeight,mw=m.offsetWidth,H=window.innerHeight,Wd=document.documentElement.clientWidth;
+    var top=r.bottom+6;if(top+mh>H-8)top=(r.top-mh-6>=8)?r.top-mh-6:Math.max(8,H-mh-8);
+    var left=Math.max(8,Math.min(r.right-mw,Wd-mw-8));m.style.top=top+'px';m.style.left=left+'px';}
+  window.addEventListener('scroll',function(){if(menuId!==null){menuId=null;show();}},{passive:true});
+  window.addEventListener('resize',function(){placeMenu();});
   function extras(i){var d=i.details||{}, extra=[];
     if(i.kind==='visit'){if(d.date)extra.push('Visiting: '+esc(fmtDay(d.date)));if(d.guests)extra.push('Guests: '+esc(d.guests));if(d.kids)extra.push('Bringing children');if(d.language)extra.push('Language: '+esc(LANG[d.language]||d.language));}
     if(i.topic)extra.unshift('Topic: '+esc(i.topic));return extra;}
