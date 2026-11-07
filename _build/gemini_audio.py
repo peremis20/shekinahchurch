@@ -13,7 +13,7 @@ import base64, json, os, re, subprocess, sys, tempfile, time, urllib.request, ur
 API = 'https://generativelanguage.googleapis.com/v1beta'
 KEY = os.environ.get('GEMINI_API_KEY', '')
 HOSTS = ('Jan', 'Mari')
-VOICES = {'Jan': os.environ.get('VOICE_JAN', 'Puck'), 'Mari': os.environ.get('VOICE_MARI', 'Kore')}
+VOICES = {'Jan': os.environ.get('VOICE_JAN', 'Schedar'), 'Mari': os.environ.get('VOICE_MARI', 'Sulafat')}
 
 
 def call(path, body=None, method=None, tries=4):
@@ -91,8 +91,11 @@ def chunks(lines, limit=3200):
         yield cur
 
 
-STYLE = ('Li konvèsasyon sa a an Kreyòl ayisyen (Haitian Creole, ht-HT), ak yon ton cho, natirèl, '
-         'tankou de zanmi k ap fè yon emisyon radyo kretyen. Jan se yon gason, Mari se yon fanm.')
+STYLE = os.environ.get('TTS_STYLE') or (
+    'Read this Haitian Creole (ht-HT) conversation in a calm, natural, everyday speaking voice, like two friends talking '
+    'at the kitchen table. Keep a steady, even volume and pitch from start to finish. No whispering, no dramatic rises '
+    'or drops, no theatrical emotion, no breathy or acted delivery. Speak at a relaxed normal pace with a warm, friendly '
+    'tone. A light natural smile is fine when something is funny, but stay conversational. Jan is a man; Mari is a woman.')
 WORKING = {}
 
 
@@ -102,8 +105,7 @@ def _bodies(lines):
         {'speaker': h, 'voiceConfig': {'prebuiltVoiceConfig': {'voiceName': VOICES[h]}}} for h in HOSTS]}}
     gen = {'responseModalities': ['AUDIO'], 'speechConfig': voices}
     # newer TTS models: one text part per line, each tagged with its speaker
-    tagged = {'systemInstruction': {'parts': [{'text': STYLE}]},
-              'contents': [{'role': 'user', 'parts': [{'text': t, 'speechMetadata': {'speaker': h}} for h, t in pairs]}],
+    tagged = {'contents': [{'role': 'user', 'parts': [{'text': t, 'speechMetadata': {'speaker': h}} for h, t in pairs]}],
               'generationConfig': gen}
     # older TTS models: one transcript with "Name: line"
     classic = {'contents': [{'parts': [{'text': STYLE + '\n\n' + '\n'.join('%s: %s' % p for p in pairs)}]}], 'generationConfig': gen}
@@ -111,7 +113,8 @@ def _bodies(lines):
 
 
 def speak(models, lines, wav):
-    tries = [WORKING['combo']] if 'combo' in WORKING else [(m, f) for m in models for f in ('tagged', 'classic')]
+    fmts = [os.environ['TTS_FORMAT']] if os.environ.get('TTS_FORMAT') else ['tagged', 'classic']
+    tries = [WORKING['combo']] if 'combo' in WORKING else [(m, f) for m in models for f in fmts]
     last = ''
     for model, fmt in tries:
         body = dict(_bodies(lines))[fmt]
