@@ -1,2 +1,0 @@
-no key found in secrets GEMINI_API_KEY, GEMINI_KEY, GOOGLE_API_KEY, GEMINI_API or variable GEMINI_API_KEY
-GEMINI_API_KEY is not set (add it as a GitHub secret).
