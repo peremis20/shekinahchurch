@@ -279,8 +279,8 @@ write('sitemap.xml', SEO.sitemap([(SITE + PAGES[k][0], '1.0' if k == 'home' else
                                  [(SITE + '/blog/%s/' % p['_slug'], p.get('date')) for p in POSTS] + KREYOL.sitemap_rows()))
 for p in POSTS:
     p['_url'] = SITE + '/blog/%s/' % p['_slug']
-write('llms.txt', SEO.llms_txt([(PAGES[k][3], SITE + PAGES[k][0], PAGES[k][2]) for k in PAGES], POSTS))
-write('llms-full.txt', SEO.llms_full(POSTS))
+write('llms.txt', SEO.llms_txt([(PAGES[k][3], SITE + PAGES[k][0], PAGES[k][2]) for k in PAGES], POSTS).rstrip('\n') + '\n' + KREYOL.llms_section())
+write('llms-full.txt', SEO.llms_full(POSTS) + KREYOL.llms_full_section())
 # Old URLs from the previous website that Google still has. Each gets a tiny page that
 # sends visitors and Google to the matching new page (meta refresh 0 acts like a 301).
 LEGACY = {

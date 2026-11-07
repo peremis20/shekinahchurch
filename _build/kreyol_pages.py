@@ -154,6 +154,10 @@ def study_page(s, all_s):
             {'@type': 'ListItem', 'position': 1, 'name': 'Akèy', 'item': SITE + '/'},
             {'@type': 'ListItem', 'position': 2, 'name': 'Etid Biblik an Kreyòl', 'item': SITE + '/kreyol/'},
             {'@type': 'ListItem', 'position': 3, 'name': s['title'], 'item': url}]}]}
+    faqs = [f for sec in (load_article(s['slug']) or {}).get('sections', []) for f in sec.get('faq', [])]
+    if faqs:
+        ld['@graph'].append({'@type': 'FAQPage', 'inLanguage': 'ht', 'mainEntity': [
+            {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': f['a']}} for f in faqs]})
     p = [head(s['seo_title'], s['desc'], url, ld), HEADER, '<main>']
     p.append('<div class="crumbs"><a href="/">Akèy</a> › <a href="/kreyol/">Etid Biblik an Kreyòl</a></div>')
     p.append('<span class="tag">Koute</span><span class="tag">Kreyòl</span>')
@@ -250,6 +254,14 @@ def write(rel, content):
 
 
 def build():
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('kreyol_lint', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tools', 'kreyol_lint.py'))
+        lint = importlib.util.module_from_spec(spec); spec.loader.exec_module(lint)
+        for w in lint.lint():
+            print('KREYOL LINT:', w)
+    except Exception as ex:
+        print('kreyol lint skipped:', ex)
     all_s = sorted(load(), key=lambda s: s['date'], reverse=True)
     for s in all_s:
         write('kreyol/%s/index.html' % s['slug'], study_page(s, all_s))
@@ -264,3 +276,39 @@ def build():
 
 if __name__ == '__main__':
     print('built', build(), 'kreyol study pages')
+
+
+def llms_section():
+    """Markdown list of the Kreyol studies for llms.txt (AI assistants)."""
+    out = ['', '## Etid Biblik an Kreyòl (Haitian Creole Bible studies: audio plus full article)', '',
+           '- [Etid Biblik an Kreyòl](%s/kreyol/): all Haitian Creole audio Bible studies with summaries, articles and Bible verses' % SITE]
+    for s in sorted(load(), key=lambda s: s['date'], reverse=True):
+        out.append('- [%s](%s/kreyol/%s/): %s' % (s['title'], SITE, s['slug'], s['desc']))
+    return '\n'.join(out) + '\n'
+
+
+def llms_full_section():
+    """Full text of every Kreyol study for llms-full.txt."""
+    out = []
+    for s in sorted(load(), key=lambda s: s['date'], reverse=True):
+        out += ['', '---', '', '# %s' % s['title'], '', 'URL: %s/kreyol/%s/' % (SITE, s['slug']),
+                'Language: Haitian Creole (ht)', 'Audio: %s/assets/audio/bible-study/%s.mp3 (%s)' % (SITE, s['slug'], s['length']),
+                'Published: %s' % s['date'] + ('  Updated: %s' % s['updated'] if s.get('updated') else ''), '']
+        out += s['summary']
+        out += ['', '## Sa w ap aprann', ''] + ['- ' + x for x in s['points']]
+        art = load_article(s['slug'])
+        if art:
+            for sec in art['sections']:
+                out += ['', '## ' + sec['h'], '']
+                for x in sec['p']:
+                    if isinstance(x, str):
+                        out += [x, '']
+                    elif 'quote' in x:
+                        out += ['> ' + x['quote'], '> (' + x.get('cite', '') + (', Bib Sen An, CC BY SA 4.0' if x.get('bsa') else '') + ')', '']
+                    elif 'prayer' in x:
+                        out += ['**%s:** %s' % (x['prayer'], x['text']), '']
+                for q in sec.get('faq', []):
+                    out += ['### ' + q['q'], '', q['a'], '']
+        out += ['', 'Vèsè: ' + ', '.join(s['verses'])]
+    return '\n'.join(out) + '\n'
+
