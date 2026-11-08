@@ -1,5 +1,5 @@
-$ python3 _build/gemini_audio.py /home/runner/work/shekinahchurch/shekinahchurch/_build/audio-queue/poukisa-bondye-kite-soufrans-rive/dialogue.txt ...
-/gemini-3.6-flash', 'models/gemini-3.5-flash', 'models/gemini-3.5-flash-lite', 'models/gemini-3.1-flash-lite-preview']
+$ python3 _build/gemini_audio.py /home/runner/work/shekinahchurch/shekinahchurch/_build/audio-queue/eske-jezi-se-bondye/dialogue.txt ...
+lash', 'models/gemini-3.6-flash', 'models/gemini-3.5-flash', 'models/gemini-3.5-flash-lite', 'models/gemini-3.1-flash-lite-preview']
 text model: models/gemini-3.8-flash | tts models: ['models/gemini-3.8-flash-tts', 'models/gemini-3.8-flash-lite-tts', 'models/gemini-3.1-flash-tts-preview', 'models/gemini-2.5-flash-preview-tts', 'models/gemini-2.5-pro-preview-tts']
 voice model used: models/gemini-3.1-flash-tts-preview classic
 spoke part 1
@@ -7,13 +7,11 @@ spoke part 2
 spoke part 3
 spoke part 4
 spoke part 5
-done: /tmp/poukisa-bondye-kite-soufrans-rive.mp3, 16.0 minutes, voice ('models/gemini-3.1-flash-tts-preview', 'classic')
+done: /tmp/eske-jezi-se-bondye.mp3, 16.9 minutes, voice ('models/gemini-3.1-flash-tts-preview', 'classic')
 
-$ python3 _build/tools/publish_audio.py /tmp/poukisa-bondye-kite-soufrans-rive.mp3 ...
-published poukisa-bondye-kite-soufrans-rive 16 min
+$ python3 _build/tools/publish_audio.py /tmp/eske-jezi-se-bondye.mp3 ...
+published eske-jezi-se-bondye 17 min
 $ python3 _build/kreyol_pages.py ...
-/home/runner/work/shekinahchurch/shekinahchurch/_build/tools/publish_queued_audio.py:62: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-  'finished': datetime.datetime.utcnow().isoformat() + 'Z'},
-built 11 kreyol study pages
+built 12 kreyol study pages
 
 all queued audio published
