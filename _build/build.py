@@ -105,7 +105,11 @@ except Exception as e:
     print('live content not loaded, using defaults:', e)
     LIVE = {}
 if isinstance(LIVE.get('posts'), list) and LIVE['posts']:
+    _lang = {(p.get('slug') or p.get('id')): p['lang'] for p in POSTS if p.get('lang')}
     POSTS = LIVE['posts']
+    for p in POSTS:
+        if not p.get('lang') and _lang.get(p.get('slug') or p.get('id')):
+            p['lang'] = _lang[p.get('slug') or p.get('id')]
 for p in POSTS:
     p['_slug'] = p.get('slug') or slugify(p['title']) or p['id']
 # Posts merged into a Kreyol study page: no blog page, no sitemap entry, the old URL redirects.
@@ -266,6 +270,8 @@ for key, path in routes:
              'url': SITE + path, 'ogTitle': p['title']}
         extra = SEO.ld_tags(SEO.post_schemas(p, SITE + path, POST_IMG.get(p['id'])))
         page = assemble(s, html, extra, post=p)
+        if SEO.post_lang(p) == 'ht':
+            page = page.replace('<html lang="en">', '<html lang="ht">', 1)
     else:
         page = assemble(seo(key), html, key=key)
         if key == 'visitkr':

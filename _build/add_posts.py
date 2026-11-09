@@ -96,6 +96,8 @@ def main(folder):
         p = {'id': None, 'slug': sl, 'cat': meta['cat'], 'title': meta['title'], 'date': meta['date'],
              'author': meta['author'], 'read': read_time(b), 'seoTitle': meta['seoTitle'],
              'metaDesc': meta['metaDesc'], 'excerpt': meta['excerpt'], 'body': b, 'verse': meta['verse']}
+        if SEO.post_lang(meta) == 'ht':
+            p['lang'] = 'ht'
         if meta.get('keywords'):
             p['keywords'] = meta['keywords'] if isinstance(meta['keywords'], list) else [k.strip() for k in str(meta['keywords']).split(',') if k.strip()]
         if sl in by_slug:
@@ -136,6 +138,8 @@ def main(folder):
     for p in added:
         url = SITE + '/blog/%s/' % p['slug']
         s = shell
+        if SEO.post_lang(p) == 'ht':
+            s = s.replace('<html lang="en">', '<html lang="ht">', 1)
         s = re.sub(r'<title>.*?</title>', '<title>%s</title>' % H.escape(p['seoTitle']), s, count=1, flags=re.S)
         s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="%s">' % H.escape(p['metaDesc'], quote=True), s, count=1)
         s = s.replace('<meta name="robots" content="noindex">', '<link rel="canonical" href="%s">' % url, 1)

@@ -138,6 +138,11 @@ def recipe(p, url, image):
     return r
 
 
+def post_lang(p):
+    """'ht' for Haitian Creole posts (post field "lang": "ht"), otherwise 'en'."""
+    return 'ht' if str(p.get('lang') or '').lower().startswith('ht') else 'en'
+
+
 def post_schemas(p, url, img_id, modified=None):
     image = img_url(img_id)
     pub = iso_date(p.get('date'))
@@ -146,7 +151,7 @@ def post_schemas(p, url, img_id, modified=None):
            'description': p.get('metaDesc') or p.get('excerpt', ''), 'image': [image],
            'author': {'@type': 'Person', 'name': p.get('author', ORG)}, 'publisher': org,
            'datePublished': pub, 'dateModified': iso_date(p.get('updated')) or modified or pub,
-           'mainEntityOfPage': {'@type': 'WebPage', '@id': url}, 'url': url, 'inLanguage': 'en-US',
+           'mainEntityOfPage': {'@type': 'WebPage', '@id': url}, 'url': url, 'inLanguage': 'ht' if post_lang(p) == 'ht' else 'en-US',
            'articleSection': p.get('cat', ''), 'wordCount': word_count(p.get('body') or []),
            'isPartOf': {'@type': 'Blog', 'name': 'Shekinah Blog', 'url': SITE + '/blog/'},
            'about': {'@type': 'Thing', 'name': p.get('cat', '')}}
@@ -158,7 +163,7 @@ def post_schemas(p, url, img_id, modified=None):
         {'@type': 'ListItem', 'position': 3, 'name': plain(p['title']), 'item': url}]}]
     qa = faqs(p)
     if len(qa) >= 2:
-        out.append({'@context': 'https://schema.org', '@type': 'FAQPage', 'mainEntity': [
+        out.append({'@context': 'https://schema.org', '@type': 'FAQPage', 'inLanguage': art['inLanguage'], 'mainEntity': [
             {'@type': 'Question', 'name': q, 'acceptedAnswer': {'@type': 'Answer', 'text': a}} for q, a in qa]})
     if p.get('cat') == 'Recipes':
         r = recipe(p, url, image)
@@ -186,6 +191,8 @@ def post_meta_tags(p, url, img_id, alt=None):
             '<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">']
     if pub:
         tags.insert(1, '<meta property="article:published_time" content="%s">' % pub)
+    if post_lang(p) == 'ht':
+        tags.append('<meta property="og:locale" content="ht_HT">')
     return '\n'.join(tags)
 
 
