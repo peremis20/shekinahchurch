@@ -26,7 +26,10 @@
   "daniel 2 prophecy explained": "daniel-2-prophecy-explained",
   "history of the sabbath change from saturday to sunday": "history-of-the-sabbath-change-saturday-to-sunday",
   "what happens one second after death": "what-happens-one-second-after-death",
-  "why is the book of enoch not in the bible": "why-is-the-book-of-enoch-not-in-the-bible"
+  "why is the book of enoch not in the bible": "why-is-the-book-of-enoch-not-in-the-bible",
+  "diri djon djon recipe": "diri-djon-djon-recipe",
+  "dis kòmandman bondye yo": "dis-komandman-bondye-yo",
+  "eight laws of health": "eight-laws-of-health"
  },
  "planned": [
   {
@@ -144,19 +147,6 @@
     "plant based haitian food",
     "haitian vegetarian dishes",
     "vegan caribbean recipes"
-   ]
-  },
-  {
-   "keyword": "diri djon djon recipe",
-   "cat": "Recipes",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "Black mushroom rice, fully plant based, with where to buy djon djon",
-   "priority": "high",
-   "secondary": [
-    "haitian black rice",
-    "djon djon mushroom",
-    "haitian mushroom rice"
    ]
   },
   {
@@ -339,19 +329,6 @@
     "healing scriptures",
     "prayer for the sick",
     "bible verses about healing"
-   ]
-  },
-  {
-   "keyword": "eight laws of health",
-   "cat": "Health",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "The eight natural remedies with sources for each, one habit per law",
-   "priority": "high",
-   "secondary": [
-    "newstart health",
-    "natural remedies bible",
-    "adventist health principles"
    ]
   },
   {
