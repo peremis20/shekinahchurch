@@ -39,7 +39,7 @@ def main(path):
     n = 0
     for f in files:
         s = open(f, encoding='utf-8').read()
-        m = re.search(r'let RESOURCES = (\{.*?\});\nconst RES_CATS', s, re.S)
+        m = re.search(r'let RESOURCES = (\{[^\n]*\});\n', s, re.S)
         if not m:
             continue
         s = s[:m.start(1)] + js + s[m.end(1):]
