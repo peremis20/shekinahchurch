@@ -271,6 +271,7 @@ def hub(all_s, posts=None):
              '<span>Videyo sou YouTube</span><p>Gade sèvis adorasyon nou yo ak mesaj biblik yo an Kreyòl, an franse ak an angle.</p><b class="more">Gade videyo yo ↗</b></div>')
     p.append('<h2 id="li-ak-gade">Li ak gade</h2>')
     p.append('<div class="cards">%s%s</div>' % (''.join(read_card(a) for a in arts), watch))
+    p.append('<p style="margin-top:22px"><a href="/bible-study/" lang="en"><b>Read our Bible studies in English →</b></a></p>')
     p.append('<div class="cta"><a class="btn" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a>'
              '<a class="btn alt" href="/prayer-request/">Voye yon demann priyè</a></div>')
     p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')

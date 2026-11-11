@@ -147,7 +147,7 @@
         
           
           
-            <a data-dc-tpl="31" href="/bible-study/" class="scp0" style="font-size: 15px; font-weight: 600; color: rgb(19, 41, 75); padding: 8px 0px; border-bottom: 2px solid transparent; cursor: pointer;"><span class="sc-interp">Bible Studies</span></a>
+            <a data-dc-tpl="31" href="/kreyol/" class="scp0" style="font-size: 15px; font-weight: 600; color: rgb(19, 41, 75); padding: 8px 0px; border-bottom: 2px solid transparent; cursor: pointer;"><span class="sc-interp">Bible Studies</span></a>
           
         
           
@@ -3328,7 +3328,7 @@ class Component extends DCLogic {
       heroShade: (typeof window !== 'undefined' && window.innerWidth < 760) ? 'linear-gradient(180deg, rgba(10,20,38,0.80) 0%, rgba(10,20,38,0.86) 45%, rgba(10,20,38,0.94) 100%)' : 'linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)',
       heroTextShadow: (typeof window !== 'undefined' && window.innerWidth < 760) ? '0 2px 16px rgba(0,0,0,0.75)' : '0 2px 12px rgba(0,0,0,0.45)',
       t: T.en,
-      nav: NAV.map(([label, key]) => ({ label: ((NAVT[(typeof window !== 'undefined' && window.__SITE_LANG) || 'en'] || {})[label]) || label, active: navKey === key, inactive: navKey !== key, go: this.nav(key, key === 'blog' ? { cat: 'All' } : null), href: ROUTE_PATHS[key] || '/' })),
+      nav: NAV.map(([label, key]) => ({ label: ((NAVT[(typeof window !== 'undefined' && window.__SITE_LANG) || 'en'] || {})[label]) || label, active: navKey === key, inactive: navKey !== key, go: key === 'bible' ? (() => {}) : this.nav(key, key === 'blog' ? { cat: 'All' } : null), href: key === 'bible' ? '/kreyol/' : (ROUTE_PATHS[key] || '/') })),  // menu 'Bible Studies' opens the Kreyol studies (Jimmy, Nov 10, 2026); the English page stays at /bible-study/
       isWide: !s.narrow, narrow: s.narrow, mobileMenu: s.narrow && s.menuOpen,
       toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
       langOpts: [['en', 'EN', 'English'], ['fr', 'FR', 'Français'], ['ht', 'KR', 'Kreyòl']].map(([code, short, name]) => { const cur = (typeof window !== 'undefined' && window.__SITE_LANG) || 'en'; return { short, name, active: cur === code, inactive: cur !== code, pick: () => { if (cur === code) return; const host = location.hostname.replace(/^www\./, ''); const exp = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; document.cookie = 'googtrans=; ' + exp; document.cookie = 'googtrans=; ' + exp + '; domain=' + host; document.cookie = 'googtrans=; ' + exp + '; domain=.' + host; if (code !== 'en') { document.cookie = 'googtrans=/en/' + code + '; path=/'; document.cookie = 'googtrans=/en/' + code + '; path=/; domain=.' + host; } location.reload(); } }; }),
