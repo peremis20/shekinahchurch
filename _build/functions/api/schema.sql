@@ -4,4 +4,4 @@ ALTER TABLE admins ADD COLUMN IF NOT EXISTS perms jsonb;         -- per person c
 CREATE TABLE IF NOT EXISTS rate_events (key text NOT NULL, at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS rate_events_key_at ON rate_events (key, at);
 -- Shared secret between the api and welcome functions for sending mail. Made in the database so it is never typed or shown.
-INSERT INTO automation_status (key, value, updated_at) VALUES ('mail_relay_key', encode(gen_random_bytes(32), 'hex'), now()) ON CONFLICT (key) DO NOTHING;
+INSERT INTO automation_status (key, value, updated_at) VALUES ('mail_relay_key', replace(gen_random_uuid()::text || gen_random_uuid()::text, '-', ''), now()) ON CONFLICT (key) DO NOTHING;

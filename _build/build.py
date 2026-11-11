@@ -23,7 +23,7 @@ else:
     SRC = os.path.join(ROOT, 'src', 'index.html')
     OUT = os.path.join(ROOT, 'github-upload')
 STAGE = os.environ.get('PRERENDER_DIR', '/tmp/claude-0/prerender')
-CONTENT_URL = 'https://br-old-sea-b51wuht3-shekinah.compute.c-7.us-east-2.aws.neon.tech/content'
+CONTENT_URL = 'https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/content'
 SITE = 'https://shekinahsda.org'
 NAME = 'Shekinah Haitian SDA Church'
 

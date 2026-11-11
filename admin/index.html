@@ -343,7 +343,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
 
         <section id="team" class="hide"><div class="panel page wrap">
           <div><div class="sec-h">Team and roles</div>
-          <p class="meta" style="margin-top:6px"><b>Admin:</b> everything, including this team page, the email list, the website editor and deleting. <b>Staff:</b> read and manage messages, reply, assign, add and edit entries, and edit the website. No deleting, email list or team. <b>Volunteer:</b> read messages, change status and add notes only. Private prayer requests are hidden from anyone who does not have the private box ticked.</p></div>
+          <p class="meta" style="margin-top:6px">Pick a role for each person. The role sets what they can see and do. Open <b>Customize</b> to change one person without changing the role for everyone. Private prayer requests stay hidden from anyone who does not have the private box ticked. Every limit is checked by the server, not only on this screen.</p><div id="troles" class="meta" style="margin-top:8px"></div></div>
           <div id="tlist"></div>
           <form id="tadd" class="bar"><input id="temail" type="email" placeholder="New person's email" required><select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select><label style="display:flex;gap:6px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pbtn">Add person</button></form>
           <div class="err" id="terr"></div>
@@ -403,13 +403,18 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
 <div id="toast" class="hide"></div>
 <script>
 (function(){
-  var API='https://br-old-sea-b51wuht3-shekinah.compute.c-7.us-east-2.aws.neon.tech';
+  var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
   var KEY='shk_admin_session';
   var LABEL={prayer:'Prayer Requests',contact:'Questions & Contacts',visit:'Visit Requests',newsletter:'Email Sign Ups'};
   var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit Request',newsletter:'Email List'};
   var SUBJ={prayer:'Prayer Request',contact:'General Inquiry',visit:'Plan a Visit',newsletter:'Email Sign Up'};
   var items=[], kind='all', tab='all', page=1, PER=5, openId=null, menuId=null, replies={}, admins=[], me='', myRole='volunteer', myPriv=false, cur='dash';
-  var RANK={volunteer:1,staff:2,admin:3}; function can(r){return (RANK[myRole]||1)>=RANK[r];}
+  var RANK={volunteer:1,staff:2,admin:3}, P={}, myAreas=['prayer','visit','contact','bible','transfer','newsletter'], myTitle='';
+  // What this person may do comes from the server (/admin/check). The server checks every action again; this only hides what they cannot use.
+  function can(r){if(Object.prototype.hasOwnProperty.call(P,r))return !!P[r];if(r==='staff')return !!P.messages_manage||(!Object.keys(P).length&&(RANK[myRole]||1)>=2);if(r==='admin')return !!P.messages_delete||(!Object.keys(P).length&&myRole==='admin');return false;}
+  function sees(a){return myAreas.indexOf(a)>=0;}
+  var PERM_LABEL={messages_manage:'Reply, edit, add and assign messages',messages_delete:'Delete messages',members_view:'See members',members_edit:'Add and edit members',members_delete:'Delete members',site_edit:'Edit the website',email_list:'Email list and newsletters',team_manage:'Manage the team'};
+  var AREA_LABEL={prayer:'Prayer requests',visit:'Visit requests',contact:'Questions and contacts',bible:'Bible study requests',transfer:'Membership transfers',newsletter:'Email sign ups'};
   var ROLE_LABEL={admin:'Admin',staff:'Staff',volunteer:'Volunteer'};
   var $=function(id){return document.getElementById(id);};
 
@@ -461,27 +466,27 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   var NAV=[
     {k:'dash',label:'Dashboard',icon:'home',title:'Church Dashboard',sub:'Manage messages, prayer requests, visitors, and more.'},
     {k:'messages',label:'Messages',icon:'mail',title:'Messages',sub:'Every message from the website in one place.',badge:true},
-    {k:'prayer',label:'Prayer Requests',icon:'pray',title:'Prayer Requests',sub:'Pray with and follow up on every request.'},
-    {k:'contact',label:'Questions & Contacts',icon:'contacts',title:'Questions & Contacts',sub:'Answer questions from visitors and friends.'},
-    {k:'visit',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.'},
-    {k:'newsletter',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.'},
-    {k:'mem',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'staff'},
-    {k:'team',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'admin'},
-    {k:'reports',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'staff'},
-    {k:'site',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'staff'}
+    {k:'prayer',label:'Prayer Requests',icon:'pray',title:'Prayer Requests',sub:'Pray with and follow up on every request.',area:['prayer']},
+    {k:'contact',label:'Questions & Contacts',icon:'contacts',title:'Questions & Contacts',sub:'Answer questions from visitors and friends.',area:['contact','bible','transfer']},
+    {k:'visit',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.',area:['visit']},
+    {k:'newsletter',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.',area:['newsletter'],orPerm:'email_list'},
+    {k:'mem',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'members_view'},
+    {k:'team',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'team_manage'},
+    {k:'reports',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'messages_manage'},
+    {k:'site',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'site_edit'}
   ];
   var SECTIONS_ALL=['app','team','news','mem','site','reports'];
   function navItem(k){return NAV.filter(function(n){return n.k===k;})[0];}
   function renderNav(){
     var nNew=items.filter(function(i){return i.status==='new';}).length;
-    $('nav').innerHTML=NAV.filter(function(n){return !n.need||can(n.need);}).map(function(n){
+    $('nav').innerHTML=NAV.filter(function(n){if(n.area&&!n.area.some(sees)&&!(n.orPerm&&can(n.orPerm)))return false;return !n.need||can(n.need);}).map(function(n){
       return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(n.badge&&nNew?'<span class="badge">'+nNew+'</span>':'')+'</button>';}).join('');
   }
   function go(k,forceApp){
     cur=k;var n=navItem(k);document.body.classList.remove('menu');
     $('bt').textContent=n.title;$('bs').textContent=n.sub;
     var sec='app';
-    if(k==='newsletter'&&can('admin')&&!forceApp)sec='news';
+    if(k==='newsletter'&&can('email_list')&&!forceApp)sec='news';
     else if(k==='mem'||k==='team'||k==='site'||k==='reports')sec=k;
     if(sec==='app'){kind=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[k]||'all';if(k==='dash'||k==='messages'){}page=1;openId=null;}
     SECTIONS_ALL.forEach(function(x){$(x).classList.toggle('hide',x!==sec);});
@@ -602,7 +607,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     return '<div class="kmenu">'+b('toggle',String(openId)===String(i.id)?'Close details':'Open details')+
       (i.status!=='in_progress'?b('st:in_progress','Mark in progress'):'')+(i.status!=='done'?b('st:done','Mark done'):'')+
       (i.status!=='new'?b('st:new','Mark as new'):'')+(i.status!=='archived'?b('st:archived','Archive'):'')+
-      (can('staff')&&i.email&&i.kind!=='newsletter'?b('reply','Reply by email'):'')+(can('staff')?b('edit','Edit'):'')+(can('admin')?b('delete','Delete','del'):'')+'</div>';
+      (can('messages_manage')&&i.email&&i.kind!=='newsletter'?b('reply','Reply by email'):'')+(can('messages_manage')?b('edit','Edit'):'')+(can('messages_delete')?b('delete','Delete','del'):'')+'</div>';
   }
   function detail(i){
     var extra=extras(i), c=[];
@@ -613,9 +618,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       (extra.length?'<div class="meta">'+extra.join(' &nbsp;|&nbsp; ')+'</div>':'')+
       (i.is_private?'<div class="meta" style="color:#C0283A;font-weight:700">Private, pastor only</div>':'')+
       '<div class="act"><select data-f="status">'+[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']].map(function(o){return '<option value="'+o[0]+'"'+(o[0]===i.status?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select>'+
-      (can('staff')?'<select data-f="assign" title="Assign to"><option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>':(i.assigned_to?'<span class="meta" style="margin:0">Assigned to '+esc(i.assigned_to)+'</span>':''))+
+      (can('messages_manage')?'<select data-f="assign" title="Assign to"><option value="">Not assigned</option>'+admins.concat(i.assigned_to&&admins.indexOf(i.assigned_to)<0?[i.assigned_to]:[]).map(function(a){return '<option value="'+esc(a)+'"'+(a===i.assigned_to?' selected':'')+'>'+(a===me?'Me ('+esc(a)+')':esc(a))+'</option>';}).join('')+'</select>':(i.assigned_to?'<span class="meta" style="margin:0">Assigned to '+esc(i.assigned_to)+'</span>':''))+
       '<textarea data-f="note" rows="1" placeholder="Private note for the team">'+esc(i.admin_note||'')+'</textarea>'+
-      (can('staff')&&i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply">Reply</button>':'')+(can('staff')?'<button class="lbtn" data-a="edit">Edit</button>':'')+(can('admin')?'<button class="dbtn" data-a="delete">Delete</button>':'')+'<span class="saved"></span></div>'+
+      (can('messages_manage')&&i.email&&i.kind!=='newsletter'?'<button class="pbtn" data-a="reply">Reply</button>':'')+(can('messages_manage')?'<button class="lbtn" data-a="edit">Edit</button>':'')+(can('messages_delete')?'<button class="dbtn" data-a="delete">Delete</button>':'')+'<span class="saved"></span></div>'+
       '<div class="replybox"></div>'+
       ((replies[i.id]||[]).length?'<div class="meta" style="margin-top:10px">'+replies[i.id].map(function(r){return '<div style="border-top:1px solid var(--line);padding-top:8px;margin-top:8px"><b style="color:var(--okgreen)">Replied by '+esc(r.sent_by)+'</b> on '+esc(when(r.sent_at))+'<div style="white-space:pre-wrap;color:var(--ink);margin-top:4px">'+esc(r.body)+'</div></div>';}).join('')+'</div>':'')+
       ((i.added_by||i.edited_by)?'<div class="meta">'+(i.added_by?'Added by '+esc(i.added_by):'')+(i.added_by&&i.edited_by?' &nbsp;|&nbsp; ':'')+(i.edited_by?'Last edited by '+esc(i.edited_by):'')+'</div>':'')+
@@ -702,14 +707,16 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   var ADDL={prayer:'Add Prayer Request',contact:'Add Question',visit:'Add Visit',newsletter:'Add Sign Up'};
   function renderRail(){
     var T=curType();
-    $('addentry').innerHTML=I('plus')+(ADDL[T]||'Add Entry');$('addentry').classList.toggle('hide',!can('staff'));
+    $('addentry').innerHTML=I('plus')+(ADDL[T]||'Add Entry');$('addentry').classList.toggle('hide',!can('messages_manage'));
     document.querySelectorAll('#rail .dpanel').forEach(function(x){x.classList.toggle('hide',!!T);});
     $('trail').classList.toggle('hide',!T);$('trail').innerHTML=T?typeRail(T):'';
     if(T)return;
     $('qah').innerHTML=I('gear2')+'Quick Actions';$('rah').innerHTML=I('clock')+'Recent Activity';
     var qa=[];
-    if(can('admin'))qa.push(['send','mail','Send Email']);
-    if(can('staff'))qa.push(['addmem','userplus','Add Member'],['addvisit','cal','Add Visit'],['csv','down','Download CSV']);
+    if(can('email_list'))qa.push(['send','mail','Send Email']);
+    if(can('members_edit'))qa.push(['addmem','userplus','Add Member']);
+    if(can('messages_manage')&&sees('visit'))qa.push(['addvisit','cal','Add Visit']);
+    if(can('messages_manage'))qa.push(['csv','down','Download CSV']);
     $('qa').innerHTML=qa.map(function(q){return '<button data-q="'+q[0]+'">'+I(q[1])+q[2]+'</button>';}).join('');
     $('qa').parentNode.classList.toggle('hide',!qa.length);
     var AI={prayer:['pray','#1D7438','New prayer request from '],contact:['plusc','','New message from '],visit:['cal','#E0A21B','Visit request submitted'],newsletter:['userplus','#1D7438','New email sign up']};
@@ -742,8 +749,8 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       var MS={'m:all':null,'m:mem':has(['Member','Baptized member']),'m:bap':function(m){return m.status==='Baptized member'||!!m.baptism_date;},'m:reg':has(['Regular attender']),'m:vis':has(['Visitor']),'m:ina':has(['Inactive','Transferred out']),'m:bday':function(m){var d=nextBday(m.birthday);return d!==null&&d<=30;}};
       window.__MS=MS;var cnt=function(k){return MS[k]?ms.filter(MS[k]).length:ms.length;};
       K=[['m:all','group',cnt('m:all'),'People in records'],['m:mem','userplus',cnt('m:mem'),'Church members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regular attenders'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:ina','clock',cnt('m:ina'),'Inactive or moved'],['m:bday','cal',cnt('m:bday'),'Birthdays in 30 days']];}
-    if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(r){return tl.filter(function(a){return a.role===r;}).length;};
-      K=[['x','team',tl.length,'People on the team'],['x','gear',rc('admin'),'Admins'],['x','contacts',rc('staff'),'Staff'],['x','userplus',rc('volunteer'),'Volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
+    if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(rs){return tl.filter(function(a){return rs.indexOf(a.title||a.role)>=0;}).length;};
+      K=[['x','team',tl.length,'People on the team'],['x','gear',rc(['admin']),'Admins'],['x','contacts',rc(['pastor','elder','clerk','staff','editor']),'Pastors, elders and staff'],['x','userplus',rc(['leader','volunteer']),'Leaders and volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
     $('tkpis').classList.toggle('many',K.length>5);
     $('tkpis').innerHTML=K.map(function(k){return '<button class="tk'+((k[0]&&k[0]===tab&&k[0]!=='all')||(k[0]===memK&&memK)?' on':'')+'" data-tk="'+k[0]+'"><span class="ic">'+I(k[1])+'</span><div><b>'+k[2]+'</b><span>'+k[3]+'</span></div></button>';}).join('');
   }
@@ -755,7 +762,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     if(T==='prayer'){
       var open=L.filter(function(i){return i.status==='new'||i.status==='in_progress';}).sort(function(a,b){return pdate(b.created_at)-pdate(a.created_at);});
       h+='<div class="panel rail"><h3>'+I('pray')+'Prayer List</h3><div class="tl">'+(open.length?open.slice(0,8).map(function(i){return tline(i,dbox(i.created_at),i.is_private?(i.name||'Private request')+' (private)':(i.name||'Anonymous'),i.topic||(i.message||'').slice(0,60)||'Prayer request',i.status==='in_progress'?'praying':'new');}).join(''):'<p class="meta" style="margin:0">No open prayer requests right now.</p>')+'</div>'+
-        (can('staff')?'<button class="lbtn tbtn" data-csv="prayer">Download prayer list</button>':'')+'</div>';
+        (can('messages_manage')?'<button class="lbtn tbtn" data-csv="prayer">Download prayer list</button>':'')+'</div>';
       h+='<div class="panel rail"><h3>'+I('pin')+'Keep it safe</h3><div class="note">Requests marked private are for the pastor only. Please do not share them in group chats or announcements.</div></div>';
     }
     if(T==='visit'){
@@ -798,7 +805,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       '<div class="kpi"><b>'+d30+'</b><span>Received in the last 30 days</span></div><div class="kpi"><b>'+replied+'</b><span>Answered by email from here</span></div></div>'+
       '<p class="meta">These numbers count website form entries only. They are not attendance.</p></div>';
     html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">By type and status</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Type</th>'+S.map(function(s){return '<th class="n">'+s[1]+'</th>';}).join('')+'<th class="n">Total</th><th></th></tr>'+
-      K.map(function(k){var rs=items.filter(function(i){return i.kind===k;});return '<tr><td><b>'+LABEL[k]+'</b></td>'+S.map(function(s){return '<td class="n">'+rs.filter(function(i){return i.status===s[0];}).length+'</td>';}).join('')+'<td class="n"><b>'+rs.length+'</b></td><td class="n">'+(can('staff')?'<button class="lbtn" data-csv="'+k+'" style="padding:5px 10px;font-size:13px">CSV</button>':'')+'</td></tr>';}).join('')+'</table></div></div>';
+      K.map(function(k){var rs=items.filter(function(i){return i.kind===k;});return '<tr><td><b>'+LABEL[k]+'</b></td>'+S.map(function(s){return '<td class="n">'+rs.filter(function(i){return i.status===s[0];}).length+'</td>';}).join('')+'<td class="n"><b>'+rs.length+'</b></td><td class="n">'+(can('messages_manage')?'<button class="lbtn" data-csv="'+k+'" style="padding:5px 10px;font-size:13px">CSV</button>':'')+'</td></tr>';}).join('')+'</table></div></div>';
     html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
       months.map(function(mm){var lab=new Date(mm[0],mm[1],1).toLocaleString([], {month:'long',year:'numeric'});var rs=items.filter(function(i){var d=pdate(i.created_at);return d.getFullYear()===mm[0]&&d.getMonth()===mm[1];});
         return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div>';
@@ -855,9 +862,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function logout(msg){setPw('');items=[];$('shell').classList.add('hide');$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
   function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
-  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;
+  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;P=j.perms||{};myAreas=j.areas||myAreas;myTitle=j.title_label||'';
     $('login').classList.add('hide');$('shell').classList.remove('hide');
-    $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=ROLE_LABEL[myRole]||myRole;$('uemail').textContent=me;
+    $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=myTitle||ROLE_LABEL[myRole]||myRole;var ma=$('madd');if(ma)ma.classList.toggle('hide',!can('members_edit'));$('uemail').textContent=me;
     renderRail();go('dash');return load();});}
   $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
     post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
@@ -965,14 +972,31 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     content[key]={value:val,by:content[key]&&content[key].by,at:content[key]&&content[key].at};renderSite();
     var m2=document.querySelector('[data-sec="'+key+'"] > .act .saved');if(m2)m2.textContent='Not saved yet. Click Save when you are done.';
   });
-  function roleSel(v,dis){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+['admin','staff','volunteer'].map(function(r){return '<option value="'+r+'"'+(r===v?' selected':'')+'>'+ROLE_LABEL[r]+'</option>';}).join('')+'</select>';}
-  function team(list){window.__team=list;setTimeout(renderTK,0);$('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me;return '<div class="contact" data-em="'+esc(a.email)+'" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)"><b style="color:var(--navy);min-width:200px">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(a.role,mine)+'<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+(mine?'':'<button class="sbtn" data-rm="'+esc(a.email)+'">Remove</button>')+'</div>';}).join('');}
-  $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;$('terr').textContent='';
-    api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:row.getAttribute('data-em'),role:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked})}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').textContent=e2.message;});});
-  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,role:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);}).catch(function(e){$('terr').textContent=e.message;});});
-  $('tlist').addEventListener('click',function(e){var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' as an admin?'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
-  // ---- Members (separate members service; same sign in) ----
-  var MAPI='https://br-old-sea-b51wuht3-members.compute.c-7.us-east-2.aws.neon.tech';
+  var teamOpen='';
+  function titlesOf(list){return (list&&list.titles)||[{id:'admin',label:'Admin'},{id:'staff',label:'Staff'},{id:'volunteer',label:'Volunteer'}];}
+  function roleSel(v,dis,list){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+titlesOf(list).map(function(t){return '<option value="'+t.id+'"'+(t.id===v?' selected':'')+'>'+esc(t.label)+'</option>';}).join('')+'</select>';}
+  function boxes(kind,labels,on,dis){return Object.keys(labels).map(function(k){return '<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-'+kind+'="'+k+'"'+(on(k)?' checked':'')+(dis?' disabled':'')+'> '+labels[k]+'</label>';}).join('');}
+  function team(list){window.__team=list;setTimeout(renderTK,0);
+    var ts=titlesOf(list);
+    if($('trole').getAttribute('data-n')!==String(ts.length)){$('trole').innerHTML=ts.map(function(t){return '<option value="'+t.id+'"'+(t.id==='volunteer'?' selected':'')+'>'+esc(t.label)+'</option>';}).join('');$('trole').setAttribute('data-n',ts.length);}
+    $('troles').innerHTML=ts.filter(function(t){return t.perms;}).map(function(t){var can=Object.keys(PERM_LABEL).filter(function(k){return t.perms[k];}).map(function(k){return PERM_LABEL[k].toLowerCase();});var see=(t.areas||[]).map(function(a){return AREA_LABEL[a].toLowerCase();});
+      return '<div style="margin-top:4px"><b>'+esc(t.label)+':</b> '+(t.id==='admin'?'everything.':'sees '+(see.length===6?'all messages':see.length?see.join(', '):'no messages')+'. '+(can.length?'Can '+can.join('; ')+'.':'Can read, set status and add notes only.'))+'</div>';}).join('');
+    $('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me, t=a.title||a.role, adm=t==='admin', pr=a.perms||{}, ar=a.areas||[];
+      return '<div class="contact" data-em="'+esc(a.email)+'" style="padding:10px 0;border-top:1px solid var(--line)"><div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><b style="color:var(--navy);min-width:170px;word-break:break-all">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(t,mine,list)+(a.custom?'<span class="tag">Custom</span>':'')+
+        '<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+
+        '<span style="margin-left:auto;display:flex;gap:8px">'+(mine||adm||!a.perms?'':'<button type="button" class="sbtn" style="padding:7px 12px;font-size:14px" data-cz="'+esc(a.email)+'">'+(teamOpen===a.email?'Close':'Customize')+'</button>')+(mine?'':'<button type="button" class="sbtn" style="padding:7px 12px;font-size:14px" data-rm="'+esc(a.email)+'">Remove</button>')+'</span></div>'+
+        (teamOpen===a.email&&!mine&&!adm&&a.perms?'<div data-czp="1" style="margin:10px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#FAF6EE;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px"><div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:13px;color:var(--navy)">Can do</b>'+boxes('pm',PERM_LABEL,function(k){return !!pr[k];})+'</div><div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:13px;color:var(--navy)">Can see these messages</b>'+boxes('ar',AREA_LABEL,function(k){return ar.indexOf(k)>=0;})+'<span class="when">Everyone can read, set the status and add notes on the messages they can see.</span></div></div>':'')+'</div>';}).join('');}
+  function teamSave(body){$('terr').textContent='';return api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').style.color='';$('terr').textContent=e2.message;api('/admin/admins').then(team).catch(function(){});});}
+  $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;
+    var body={email:row.getAttribute('data-em'),title:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked};
+    if(e.target.hasAttribute('data-pm')||e.target.hasAttribute('data-ar')){body.perms={};row.querySelectorAll('[data-pm]').forEach(function(c){body.perms[c.getAttribute('data-pm')]=c.checked;});body.areas=[];row.querySelectorAll('[data-ar]').forEach(function(c){if(c.checked)body.areas.push(c.getAttribute('data-ar'));});}
+    else if(!e.target.matches('[data-tr=role]')){var pan=row.querySelector('[data-czp]');if(pan){body.perms={};pan.querySelectorAll('[data-pm]').forEach(function(c){body.perms[c.getAttribute('data-pm')]=c.checked;});body.areas=[];pan.querySelectorAll('[data-ar]').forEach(function(c){if(c.checked)body.areas.push(c.getAttribute('data-ar'));});}else{var cur=((window.__team||{}).admins||[]).filter(function(a){return a.email===body.email;})[0];if(cur&&cur.custom){body.perms=cur.perms;body.areas=cur.areas;}}}
+    teamSave(body);});
+  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,title:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);$('terr').style.color='var(--green)';$('terr').textContent='Added. We emailed them how to sign in.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},4000);}).catch(function(e){$('terr').style.color='';$('terr').textContent=e.message;});});
+  $('tlist').addEventListener('click',function(e){var cz=e.target.getAttribute('data-cz');if(cz){teamOpen=teamOpen===cz?'':cz;team(window.__team);return;}
+    var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' from the team? They will be signed out right away.'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
+  // ---- Members (same server and sign in) ----
+  var MAPI=API;
   var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
   var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','date'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
   function mapi(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(MAPI+path,opt).then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
@@ -994,7 +1018,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       '<div class="contact">'+[m.phone?'<a href="tel:'+esc(m.phone.replace(/[^0-9+]/g,''))+'">'+esc(m.phone)+'</a>':'',m.email?'<a href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a>':''].filter(Boolean).join(' · ')+'</div>'+
       '<div class="meta">'+[m.address||m.city?esc([m.address,m.city,m.state,m.zip].filter(Boolean).join(', ')):'',m.birthday?'Birthday '+fmtDate(m.birthday):'',m.household?'Family: '+esc(m.household):'',m.member_since?'Member since '+fmtDate(m.member_since):'',m.baptism_date?'Baptized '+fmtDate(m.baptism_date):''].filter(Boolean).join(' · ')+'</div>'+
       (m.notes?'<div class="msg">'+esc(m.notes)+'</div>':'')+
-      '<div class="act"><button class="lbtn" data-m="edit" data-id="'+m.id+'">Edit</button>'+(can('admin')?'<button class="dbtn" data-m="del" data-id="'+m.id+'">Delete</button>':'')+'</div></div>';}).join(''):'<div class="empty">'+(members.length?'No one matches that search.':'No members yet. Click Add member to start.')+'</div>';}
+      '<div class="act">'+(can('members_edit')?'<button class="lbtn" data-m="edit" data-id="'+m.id+'">Edit</button>':'')+(can('members_delete')?'<button class="dbtn" data-m="del" data-id="'+m.id+'">Delete</button>':'')+'</div></div>';}).join(''):'<div class="empty">'+(members.length?'No one matches that search.':'No members yet. Click Add member to start.')+'</div>';}
   function memberForm(m){m=m||{status:'Member'};
     $('mform').innerHTML='<div class="card" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">'+(m.id?'Edit member':'Add a member')+'</span></div><div class="ef">'+MF.map(function(f){var v=m[f[0]]==null?'':String(m[f[0]]);if(f[2]==='date')v=v.slice(0,10);var lab='<label'+(f[3]?' class="wide"':'')+'>'+f[1];
       if(f[2]==='status')return lab+'<select data-k="status">'+mStatuses.map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+esc(s)+'</option>';}).join('')+'</select></label>';
