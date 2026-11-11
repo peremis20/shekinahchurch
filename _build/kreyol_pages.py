@@ -8,7 +8,7 @@ Also exposes sitemap_rows() so build.py keeps these URLs in sitemap.xml.
 
 Run from anywhere: python3 _build/kreyol_pages.py
 """
-import json, os, html as H
+import json, os, re, html as H
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.dirname(ROOT)
@@ -20,6 +20,29 @@ IMG = SITE + '/assets/church/church-01.jpg'
 
 def load():
     return json.load(open(DATA, encoding='utf-8'))
+
+
+def kreyol_posts(posts=None):
+    """Kreyol blog articles (not merged into a study) so the hub can list them. /kreyol/ is the one home for Kreyol content."""
+    if posts is None:
+        try:
+            posts = json.load(open(os.path.join(OUT, 'content-defaults.json'), encoding='utf-8')).get('posts', [])
+        except Exception:
+            posts = []
+    studies = {s['slug'] for s in load()}
+    out = []
+    for p in posts:
+        t = p.get('title') or ''
+        slug = p.get('_slug') or p.get('slug') or p.get('id')
+        is_ht = p.get('lang') == 'ht' or re.search('[òè]', t) or re.search(r'\b(Kisa|Kijan|Bib la|Bondye|pou m)\b', t)
+        if is_ht and slug and slug not in studies:
+            out.append({'slug': slug, 'title': t, 'excerpt': p.get('excerpt') or p.get('metaDesc') or ''})
+    return out
+
+
+def read_card(p):
+    return ('<div class="card"><a class="stretch" href="/blog/%s/"><h3>%s</h3></a><span>Atik pou li</span><p>%s</p><b class="more">Li atik la →</b></div>'
+            % (p['slug'], e(p['title']), e(p['excerpt'])))
 
 
 def sitemap_rows():
@@ -67,6 +90,7 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .card h3{margin:0;font-family:'Libre Baskerville',serif;color:var(--navy);font-size:17px;line-height:1.35}
 .card span{font-size:13px;font-weight:700;color:var(--gold)}
 .card p{margin:0;font-size:15px}
+.card b.more{margin-top:auto;color:#0E4A36;font-size:15px}
 .card{position:relative}
 .card a.stretch{color:inherit;text-decoration:none}.card a.stretch:after{content:"";position:absolute;inset:0;border-radius:14px}
 .card a.stretch:focus-visible{outline:none}.card:has(a.stretch:focus-visible){outline:3px solid var(--gold);outline-offset:2px}
@@ -229,7 +253,7 @@ PLAY_JS = ('<script>(function(){var a=new Audio(),cur=null,P=%s,S=%s;a.preload="
            '})();</script>') % (json.dumps(PLAY_ICON), json.dumps(PAUSE_ICON))
 
 
-def hub(all_s):
+def hub(all_s, posts=None):
     url = SITE + '/kreyol/'
     title = 'Etid Biblik an Kreyòl: odyo gratis | Legliz Shekinah'
     desc = 'Etid biblik gratis an Kreyòl ayisyen pou koute: Saba a, lanmò ak rezirèksyon, dezyèm vini Jezi, lapriyè, padon, gerizon ak plis ankò.'
@@ -240,7 +264,13 @@ def hub(all_s):
     p.append('<h1>Etid Biblik an Kreyòl</h1>')
     p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
              'ak kesyon pou pale ladan yo ak fanmi ou. Si ou vle etidye ak yon moun, <a href="/bible-study/">mande yon etid pèsonèl</a>.</p>')
+    p.append('<h2 id="odyo">Etid odyo</h2>')
     p.append('<div class="cards">%s</div>' % ''.join(card(s) for s in all_s))
+    arts = kreyol_posts(posts)
+    watch = ('<div class="card"><a class="stretch" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener"><h3>Sèvis Saba ak mesaj biblik</h3></a>'
+             '<span>Videyo sou YouTube</span><p>Gade sèvis adorasyon nou yo ak mesaj biblik yo an Kreyòl, an franse ak an angle.</p><b class="more">Gade videyo yo ↗</b></div>')
+    p.append('<h2 id="li-ak-gade">Li ak gade</h2>')
+    p.append('<div class="cards">%s%s</div>' % (''.join(read_card(a) for a in arts), watch))
     p.append('<div class="cta"><a class="btn" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a>'
              '<a class="btn alt" href="/prayer-request/">Voye yon demann priyè</a></div>')
     p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
@@ -253,7 +283,7 @@ def write(rel, content):
     open(path, 'w', encoding='utf-8').write(content)
 
 
-def build():
+def build(posts=None):
     try:
         import importlib.util
         spec = importlib.util.spec_from_file_location('kreyol_lint', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tools', 'kreyol_lint.py'))
@@ -265,7 +295,7 @@ def build():
     all_s = sorted(load(), key=lambda s: s['date'], reverse=True)
     for s in all_s:
         write('kreyol/%s/index.html' % s['slug'], study_page(s, all_s))
-    write('kreyol/index.html', hub(all_s))
+    write('kreyol/index.html', hub(all_s, posts))
     for slug in [''] + [x['slug'] + '/' for x in all_s]:
         to = '/kreyol/' + slug
         write('kreyol/etid/%sindex.html' % slug, '<!doctype html><html lang="ht"><head><meta charset="utf-8"><title>Etid Biblik Shekinah</title>'

@@ -279,7 +279,7 @@ for key, path in routes:
     write(path.lstrip('/') + 'index.html', page)
 
 write('404.html', assemble(seo('home'), '', noindex=True))
-KREYOL.build()
+KREYOL.build(POSTS)
 
 write('sitemap.xml', SEO.sitemap([(SITE + PAGES[k][0], '1.0' if k == 'home' else '0.8') for k in PAGES],
                                  [(SITE + '/blog/%s/' % p['_slug'], p.get('date')) for p in POSTS] + KREYOL.sitemap_rows()))
