@@ -291,10 +291,44 @@ async function unsubscribe(url) {
   return page('You are unsubscribed', 'You will not receive more newsletter emails from Shekinah. You are always welcome to worship with us, and you can subscribe again anytime on our website.');
 }
 
+// Mail relay for the "api" function (sign in codes, replies, staff alerts, newsletters to the list).
+// POST /send {to, subject, text, tag, reply_to?, unsub?} with header x-mail-key = automation_status.mail_relay_key.
+let relayKey = '';
+async function relay(req) {
+  if (!relayKey) { const r = await sql`SELECT value FROM automation_status WHERE key = 'mail_relay_key'`; relayKey = r.length ? r[0].value : ''; }
+  const got = req.headers.get('x-mail-key') || '';
+  if (!relayKey || got.length !== relayKey.length || !timingSafeEqual(Buffer.from(got), Buffer.from(relayKey))) return Response.json({ ok: false, error: 'not allowed' }, { status: 403 });
+  const m = await req.json().catch(() => ({}));
+  const to = String(m.to || '').trim(), subject = String(m.subject || '').slice(0, 250), tag = String(m.tag || 'relay').replace(/[^a-z0-9_-]/gi, '').slice(0, 40) || 'relay';
+  let text = String(m.text || '').slice(0, 30000);
+  if (!EMAIL_RE.test(to) || !subject || !text) return Response.json({ ok: false, error: 'missing to, subject or text' }, { status: 400 });
+  if (!process.env.RESEND_API_KEY) return Response.json({ ok: false, error: 'mail key missing' }, { status: 503 });
+  const unsub = m.unsub ? unsubUrl(to) : '';
+  const para = (t) => esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#0E4A36">$1</a>').replace(/\n/g, '<br>');
+  const html = `<div style="background:#FAF6EE;padding:24px 12px"><div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;padding:28px;font-family:${F};font-size:16px;line-height:1.6;color:#2C3443">`
+    + text.split(/\n\s*\n/).map((p) => `<p style="margin:0 0 14px">${para(p)}</p>`).join('')
+    + `<p style="margin:22px 0 0;font-size:13px;color:#5B6270;border-top:1px solid #EDE5D3;padding-top:14px">Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}`
+    + (unsub ? `<br>You are receiving this because you signed up on shekinahsda.org. <a href="${unsub}" style="color:#5B6270">Unsubscribe</a>` : '') + '</p></div></div>';
+  if (unsub) text += '\n\nShekinah Haitian Seventh-day Adventist Church, ' + ADDRESS + '\nUnsubscribe: ' + unsub;
+  const headers = unsub ? { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : undefined;
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from: FROM, to: [to], reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO, subject, html, text, headers, tags: [{ name: 'type', value: tag }] }),
+    signal: AbortSignal.timeout(15000),
+  });
+  const detail = (await r.text()).slice(0, 300);
+  if (!r.ok) console.log('relay send failed', tag, r.status, detail);
+  return Response.json({ ok: r.ok, detail: r.ok ? 'sent' : r.status + ' ' + detail }, { status: r.ok ? 200 : 502 });
+}
+
 export default {
   async fetch(req) {
     const url = new URL(req.url);
     if (url.pathname.replace(/\/$/, '') === '/unsubscribe') return unsubscribe(url);
+    if (req.method === 'POST' && url.pathname.replace(/\/$/, '') === '/send') {
+      try { return await relay(req); } catch (e) { console.error(e); return Response.json({ ok: false, error: 'failed' }, { status: 500 }); }
+    }
     if (req.method === 'POST' && url.pathname === '/') {
       if (!req.headers.get('x-neon-trigger-invocation-id')) return Response.json({ error: 'not a trigger call' }, { status: 403 });
       try { return Response.json(await run()); }
