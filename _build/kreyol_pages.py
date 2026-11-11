@@ -64,7 +64,7 @@ header{background:var(--navy);color:#fff}
 .bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .bar a{color:#fff;text-decoration:none;font-weight:700}
 .brand{display:flex;align-items:center;gap:10px;font-family:'Libre Baskerville',serif;font-size:17px}
-.brand img{width:36px;height:36px}
+.brand img{width:auto;height:46px;border-radius:6px;display:block}
 nav{display:flex;gap:16px;flex-wrap:wrap;font-size:15px}
 main{max-width:880px;margin:0 auto;padding:28px 20px 56px}
 .crumbs{font-size:14px;color:#5B6270;margin-bottom:14px}.crumbs a{color:#5B6270}
@@ -110,7 +110,7 @@ footer .bar{padding:22px 20px}footer a{color:#fff}
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">')
 
-HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-mark-light.png" alt="" width="36" height="36">Shekinah</a>'
+HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-horizontal.webp" alt="Shekinah Haitian Seventh-day Adventist Church" width="160" height="46"></a>'
           '<nav><a href="/kreyol/">Etid Biblik</a>'
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 
