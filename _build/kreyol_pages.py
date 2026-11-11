@@ -114,8 +114,46 @@ HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/
           '<nav><a href="/kreyol/">Etid Biblik</a>'
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 
-FOOTER = ('<footer><div class="bar"><span>Legliz Advantis Setyèm Jou Ayisyen Shekinah · 205 E Carver St, Alvarado, TX 76009 · '
+FOOTER_SIMPLE = ('<footer><div class="bar"><span>Legliz Advantis Setyèm Jou Ayisyen Shekinah · 205 E Carver St, Alvarado, TX 76009 · '
           'Lekòl Saba 10:00 AM, Sèvis adorasyon 11:00 AM chak Samdi</span><a href="/">shekinahsda.org</a></div></footer>')
+
+
+def main_footer():
+    """The Kreyol pages use the SAME footer as the rest of the site (Jimmy, Nov 10, 2026).
+    It is copied from the home page that build.py just rendered, so it stays in step with the main footer."""
+    try:
+        h = open(os.path.join(OUT, 'index.html'), encoding='utf-8').read()
+        a, b = h.find('<div id="ssr">'), h.find('</div>\n<template id="dc-src">')
+        body = h[a:b]
+        f = body[body.rindex('<footer'):body.rindex('</footer>') + 9]
+        f = re.sub(r'\sdata-dc-tpl="\d+"', '', f).replace('src="assets/', 'src="/assets/')
+        f = re.sub(r'<span class="scp\w+"([^>]*)>Give</span>', r'<a href="/give/"\1>Give</a>', f)
+        f = re.sub(r'\sclass="scp\w+"', '', f)
+        if 'foot-grid' not in f or 'Service Times' not in f:
+            raise ValueError('unexpected footer')
+        src = open(os.path.join(ROOT, 'index.src.html'), encoding='utf-8').read()
+        css = ''
+        for l in src.split('\n'):  # every footer rule of the main stylesheet, with its media query
+            if l.startswith('@media') and 'foot-' in l:
+                mq, inner = l[:l.index('{')], l[l.index('{') + 1:l.rindex('}')]
+                rules = ''.join('%s{%s}' % r for r in re.findall(r'([^{}]+)\{([^{}]*)\}', inner) if 'foot-' in r[0])
+                css += '%s{%s}' % (mq, rules)
+        ep = re.search(r"formEndpoint: '([^']+)'", src).group(1)
+        js = ('<script>(function(){var w=document.querySelector(".foot-connect");if(!w)return;var b=w.querySelector("button"),i=document.getElementById("nl-email"),hp=document.getElementById("hp-nl1");'
+              'if(!b||!i)return;var busy=0;function done(){b.parentNode.outerHTML=\'<span style="font-size:15px;font-weight:700;color:#E2B85C">Thank you! You\\\'re subscribed.</span>\';}'
+              'b.addEventListener("click",function(){var e=(i.value||"").trim();if(!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(e)){alert("Please enter a valid email address.");return;}'
+              'if(hp&&hp.value){done();return;}if(busy)return;busy=1;'
+              'fetch(%s,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({kind:"newsletter",email:e})})'
+              '.then(function(r){if(!r.ok)throw 0;if(window.gtag)gtag("event","newsletter_signup");done();})'
+              '.catch(function(){alert("Sorry, your message could not be sent. Please try again.");}).then(function(){busy=0;});});})();</script>') % json.dumps(ep)
+        return ('<style>footer.site{font-size:16px;margin-top:0;line-height:normal}footer.site a{text-decoration:none}footer.site a[href]:hover{color:#E2B85C !important}footer.site input,footer.site button{font-family:inherit;font-size:15px;cursor:pointer}footer.site input{cursor:text}' + css + '</style>'
+                + f.replace('<footer ', '<footer class="site" ', 1) + js)
+    except Exception as ex:
+        print('main footer not copied, using the simple footer:', ex)
+        return FOOTER_SIMPLE
+
+
+FOOTER = FOOTER_SIMPLE
 
 
 def head(title, desc, url, ld):
@@ -285,6 +323,8 @@ def write(rel, content):
 
 
 def build(posts=None):
+    global FOOTER
+    FOOTER = main_footer()  # read again here: build.py has just rewritten the home page
     try:
         import importlib.util
         spec = importlib.util.spec_from_file_location('kreyol_lint', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tools', 'kreyol_lint.py'))
