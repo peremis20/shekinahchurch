@@ -110,7 +110,7 @@ footer .bar{padding:22px 20px}footer a{color:#fff}
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com">'
          '<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">')
 
-HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-dark.png" alt="Shekinah Haitian Seventh-day Adventist Church" width="168" height="46"></a>'
+HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/logo-dark.png?v=3" alt="Shekinah Haitian Seventh-day Adventist Church" width="168" height="46"></a>'
           '<nav><a href="/kreyol/">Etid Biblik</a>'
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 

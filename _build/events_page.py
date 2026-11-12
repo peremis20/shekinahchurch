@@ -151,7 +151,7 @@ def page():
             '<link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">'
             '<link rel="apple-touch-icon" href="/apple-touch-icon.png">%s<style>%s</style></head><body>'
             % (H.escape(TITLE), H.escape(DESC), K.SITE, H.escape(DESC), K.SITE, K.FONTS, CSS))
-    top = ('<header class="top"><div class="topin"><a href="/"><img src="/assets/logo-light.png" alt="Shekinah Haitian Seventh-day Adventist Church" width="212" height="58"></a>'
+    top = ('<header class="top"><div class="topin"><a href="/"><img src="/assets/logo-light.png?v=3" alt="Shekinah Haitian Seventh-day Adventist Church" width="212" height="58"></a>'
            '<nav class="topnav"><a href="/">Home</a><a href="/about/">About</a><a href="/kreyol/">Bible Studies</a><a class="on" href="/events/">Events</a>'
            '<a href="/prayer-request/">Prayer Request</a><a href="/contact/">Contact</a><a class="give" href="/give/">Give</a></nav></div></header>')
     hero = ('<section class="hero"><div class="heroin"><div class="kick">Church Events</div><h1>What is happening at Shekinah</h1>'
