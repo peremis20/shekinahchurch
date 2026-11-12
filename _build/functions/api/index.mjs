@@ -48,16 +48,16 @@ async function wrote(stmt, params = [], pick = '*') {
 // A person has a "title" (a preset) and optional per person overrides in admins.perms.
 // admins.role stays one of admin | staff | volunteer for older code; the title is what the Team page shows.
 export const AREAS = ['prayer', 'visit', 'contact', 'bible', 'transfer', 'newsletter'];
-export const PERMS = ['messages_manage', 'messages_delete', 'members_view', 'members_edit', 'members_delete', 'site_edit', 'email_list', 'team_manage'];
+export const PERMS = ['messages_manage', 'messages_delete', 'members_view', 'members_edit', 'members_delete', 'site_edit', 'email_list', 'team_manage', 'calendar_edit'];
 const ALL = Object.fromEntries(PERMS.map((p) => [p, true]));
 const NONE = Object.fromEntries(PERMS.map((p) => [p, false]));
 export const TITLES = {
   admin:     { label: 'Admin',           role: 'admin',     perms: { ...ALL }, areas: AREAS },
-  pastor:    { label: 'Pastor',          role: 'staff',     perms: { ...NONE, messages_manage: true, members_view: true, members_edit: true, site_edit: true }, areas: AREAS },
+  pastor:    { label: 'Pastor',          role: 'staff',     perms: { ...NONE, messages_manage: true, members_view: true, members_edit: true, site_edit: true, calendar_edit: true }, areas: AREAS },
   elder:     { label: 'Elder',           role: 'volunteer', perms: { ...NONE, messages_manage: true, members_view: true }, areas: ['prayer', 'visit', 'contact', 'bible'] },
   clerk:     { label: 'Church clerk',    role: 'volunteer', perms: { ...NONE, messages_manage: true, members_view: true, members_edit: true }, areas: ['transfer'] },
-  staff:     { label: 'Staff',           role: 'staff',     perms: { ...NONE, messages_manage: true, members_view: true, members_edit: true, site_edit: true }, areas: AREAS },
-  editor:    { label: 'Website editor',  role: 'volunteer', perms: { ...NONE, site_edit: true }, areas: [] },
+  staff:     { label: 'Staff',           role: 'staff',     perms: { ...NONE, messages_manage: true, members_view: true, members_edit: true, site_edit: true, calendar_edit: true }, areas: AREAS },
+  editor:    { label: 'Website editor',  role: 'volunteer', perms: { ...NONE, site_edit: true, calendar_edit: true }, areas: [] },
   leader:    { label: 'Ministry leader', role: 'volunteer', perms: { ...NONE }, areas: ['visit', 'contact', 'bible'] },
   volunteer: { label: 'Volunteer',       role: 'volunteer', perms: { ...NONE }, areas: AREAS },
 };
@@ -471,7 +471,7 @@ const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Hea
 const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category";
 const EV_COLS = EV_PUB + ', is_public, created_by, updated_by, updated_at';
 const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
-const calEdit = () => true; // Jimmy, Nov 11, 2026: everyone on the team can add, edit and delete events and tasks
+const calEdit = (me) => !!me.perms.calendar_edit; // Jimmy, Nov 11, 2026: the whole team can view; only people with "Edit the calendar" can add, edit or delete
 const dayOf = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(Date.parse(String(v))) ? String(v) : null);
 const timeOf = (v) => (/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v || '')) ? String(v) : null);
 // Public: events marked "Show on the website", from today on, for the /events/ page.

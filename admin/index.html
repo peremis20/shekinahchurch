@@ -421,6 +421,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
         <section id="cal" class="hide"><div class="calgrid">
           <div class="panel page calmain">
             <div class="calbar"><button class="sbtn cnav" data-c="prev" aria-label="Previous month"></button><h2 id="calttl"></h2><button class="sbtn cnav" data-c="next" aria-label="Next month"></button><button class="lbtn" data-c="today">Today</button><span style="flex:1"></span><button class="pbtn hide" data-c="addev" id="caladd">+ Add event</button></div>
+            <p class="meta hide" id="calro" style="margin:-4px 0 12px">You can view the calendar. To add or change events and tasks, ask an admin to turn on "Edit the calendar" for you on the Team page.</p>
             <div id="calform"></div>
             <div class="cal7 calhead"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
             <div class="cal7" id="caldays"></div>
@@ -461,7 +462,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   // What this person may do comes from the server (/admin/check). The server checks every action again; this only hides what they cannot use.
   function can(r){if(Object.prototype.hasOwnProperty.call(PM,r))return !!PM[r];if(r==='staff')return !!PM.messages_manage||(!Object.keys(PM).length&&(RANK[myRole]||1)>=2);if(r==='admin')return !!PM.messages_delete||(!Object.keys(PM).length&&myRole==='admin');return false;}
   function sees(a){return myAreas.indexOf(a)>=0;}
-  var PERM_LABEL={messages_manage:'Reply, edit, add and assign messages',messages_delete:'Delete messages',members_view:'See members',members_edit:'Add and edit members',members_delete:'Delete members',site_edit:'Edit the website',email_list:'Email list and newsletters',team_manage:'Manage the team'};
+  var PERM_LABEL={messages_manage:'Reply, edit, add and assign messages',messages_delete:'Delete messages',members_view:'See members',members_edit:'Add and edit members',members_delete:'Delete members',site_edit:'Edit the website',email_list:'Email list and newsletters',team_manage:'Manage the team',calendar_edit:'Edit the calendar (add, change and delete events and tasks)'};
   var AREA_LABEL={prayer:'Prayer requests',visit:'Visit requests',contact:'Questions and contacts',bible:'Bible study requests',transfer:'Membership transfers',newsletter:'Email sign ups'};
   var ROLE_LABEL={admin:'Admin',staff:'Staff',volunteer:'Volunteer'};
   var $=function(id){return document.getElementById(id);};
@@ -578,7 +579,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     api('/calendar').then(function(j){CAL={events:j.events||[],tasks:j.tasks||[],kinds:j.kinds||[],team:j.team||[],can:!!j.can_edit};renderCal();})
       .catch(function(e){$('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Could not load the calendar. '+esc(e.message)+'</div>';});}
   function renderCal(){
-    $('caladd').classList.toggle('hide',!CAL.can);$('tkadd').classList.toggle('hide',!CAL.can);
+    $('caladd').classList.toggle('hide',!CAL.can);$('tkadd').classList.toggle('hide',!CAL.can);$('calro').classList.toggle('hide',CAL.can);
     document.querySelector('[data-c="prev"]').innerHTML=I('prev');document.querySelector('[data-c="next"]').innerHTML=I('next');
     $('calttl').textContent=calM.toLocaleDateString([], {month:'long',year:'numeric'});
     var first=new Date(calM.getFullYear(),calM.getMonth(),1), start=new Date(first);start.setDate(1-first.getDay());
