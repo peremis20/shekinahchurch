@@ -24,6 +24,7 @@ async function sql(strings, ...vals) {
 const SITE = 'https://shekinahsda.org';
 const FROM = process.env.WELCOME_FROM || 'Shekinah Haitian SDA Church <welcome@shekinahsda.org>';
 const REPLY_TO = process.env.WELCOME_REPLY_TO || 'info@shekinahsda.org';
+const FROM_NOREPLY = 'Shekinah Haitian SDA Church <noreply@shekinahsda.org>';
 const PUBLIC_URL = (process.env.PUBLIC_URL || '').replace(/\/$/, '');
 const SECRET = process.env.UNSUB_SECRET || '';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -305,7 +306,8 @@ async function relay(req) {
   if (!process.env.RESEND_API_KEY) return Response.json({ ok: false, error: 'mail key missing' }, { status: 503 });
   const unsub = m.unsub ? unsubUrl(to) : '';
   const para = (t) => esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#0E4A36">$1</a>').replace(/\n/g, '<br>');
-  const html = `<div style="background:#FAF6EE;padding:24px 12px"><div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;padding:28px;font-family:${F};font-size:16px;line-height:1.6;color:#2C3443">`
+  const own = !m.unsub && typeof m.html === 'string' && m.html.length > 0 && m.html.length < 200000;
+  const html = own ? m.html : `<div style="background:#FAF6EE;padding:24px 12px"><div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;padding:28px;font-family:${F};font-size:16px;line-height:1.6;color:#2C3443">`
     + text.split(/\n\s*\n/).map((p) => `<p style="margin:0 0 14px">${para(p)}</p>`).join('')
     + `<p style="margin:22px 0 0;font-size:13px;color:#5B6270;border-top:1px solid #EDE5D3;padding-top:14px">Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}`
     + (unsub ? `<br>You are receiving this because you signed up on shekinahsda.org. <a href="${unsub}" style="color:#5B6270">Unsubscribe</a>` : '') + '</p></div></div>';
@@ -314,7 +316,7 @@ async function relay(req) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM, to: [to], reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO, subject, html, text, headers, tags: [{ name: 'type', value: tag }] }),
+    body: JSON.stringify({ from: m.noreply ? FROM_NOREPLY : FROM, to: [to], ...(m.noreply ? {} : { reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO }), subject, html, text, headers, tags: [{ name: 'type', value: tag }] }),
     signal: AbortSignal.timeout(15000),
   });
   const detail = (await r.text()).slice(0, 300);

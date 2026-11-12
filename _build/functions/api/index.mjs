@@ -113,6 +113,65 @@ async function mail(m) {
   } catch (e) { return { ok: false, detail: String(e.message || e).slice(0, 300) }; }
 }
 
+// ---------- team invite email (the template every new team member receives) ----------
+const INV_ADDRESS = '205 E Carver St, Alvarado, TX 76009', INV_F = 'Helvetica,Arial,sans-serif', INV_S = 'Georgia,serif';
+const ROLE_TEXT={
+  admin:'Full access to the church admin, including the team and website settings.',
+  pastor:'Read and answer messages and prayer requests, view and update member records, and update the website.',
+  elder:'Read and answer prayer requests, visit plans, questions and Bible study requests, and view member records.',
+  clerk:'Handle membership transfer requests and keep member records up to date.',
+  staff:'Read and answer messages and prayer requests, view and update member records, and update the website.',
+  editor:'Update the website, such as events, announcements and service times.',
+  leader:'Follow up with first time visitors, questions and Bible study requests.',
+  volunteer:'Read and help answer messages that come in through the website.',
+};
+function inviteMail({ label, title, custom }) {
+  const what = custom ? 'Your access has been set up for the work you will be helping with.' : ROLE_TEXT[title];
+  const url = SITE + '/admin/';
+  const subject = 'Welcome to the Shekinah church admin team';
+  const text = `Hello,
+
+You have been added to the Shekinah Haitian Seventh-day Adventist Church admin team as ${label}. Thank you for serving our church family.
+
+What you can do: ${what}
+
+How to sign in
+1. Go to ${url}
+2. Enter this email address.
+3. We will email you a 6 digit code. Enter it to sign in. There is no password to remember.
+
+Please keep the messages and prayer requests you see private. They were shared with our church in trust.
+
+If you were not expecting this or have a question, write to info@shekinahsda.org.
+
+Blessings,
+Shekinah Haitian Seventh-day Adventist Church
+
+This message was sent from a no reply address (noreply@shekinahsda.org). Replies to it are not read.
+${INV_ADDRESS}`;
+  const p = (t, x = '') => `<p style="margin:0 0 16px;${x}">${t}</p>`;
+  const html = `<!doctype html><html><body style="margin:0;background:#FAF6EE">
+<div style="background:#FAF6EE;padding:28px 12px;font-family:${INV_F}">
+ <div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid #EDE5D3">
+  <div style="background:#13294B;padding:22px 24px;text-align:center"><img src="${SITE}/assets/logo-dark.png" width="280" alt="Shekinah Haitian Seventh-day Adventist Church" style="width:280px;max-width:100%;height:auto;border:0"></div>
+  <div style="padding:30px 32px 8px;font-size:16px;line-height:1.65;color:#2C3443">
+   <h1 style="font-family:${INV_S};font-size:24px;line-height:1.3;color:#13294B;margin:0 0 18px;font-weight:700">Welcome to the admin team</h1>
+   ${p('Hello,')}
+   ${p(`You have been added to the Shekinah Haitian Seventh-day Adventist Church admin team as <b style="color:#13294B">${label}</b>. Thank you for serving our church family.`)}
+   <div style="background:#F4F7FB;border-left:4px solid #D9A72B;border-radius:8px;padding:14px 16px;margin:0 0 22px"><div style="font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#5B6270;margin-bottom:4px">What you can do</div>${what}</div>
+   <div style="text-align:center;margin:0 0 24px"><a href="${url}" style="display:inline-block;background:#0E4A36;color:#FFFFFF;text-decoration:none;font-weight:700;padding:14px 28px;border-radius:10px">Sign in to the church admin</a></div>
+   <h2 style="font-size:16px;color:#13294B;margin:0 0 8px">How to sign in</h2>
+   <ol style="margin:0 0 20px;padding-left:22px"><li>Click the button above or go to <a href="${url}" style="color:#0E4A36">shekinahsda.org/admin</a>.</li><li>Enter this email address.</li><li>We will email you a 6 digit code. Enter it to sign in. There is no password to remember.</li></ol>
+   ${p('Please keep the messages and prayer requests you see private. They were shared with our church in trust.')}
+   ${p('If you were not expecting this or have a question, write to <a href="mailto:info@shekinahsda.org" style="color:#0E4A36">info@shekinahsda.org</a>.')}
+   ${p('Blessings,<br><b style="color:#13294B">Shekinah Haitian Seventh-day Adventist Church</b>', 'margin-bottom:26px')}
+  </div>
+  <div style="border-top:1px solid #EDE5D3;padding:16px 32px 22px;font-size:12.5px;line-height:1.6;color:#6B7280;text-align:center">This message was sent from a no reply address (noreply@shekinahsda.org). Replies to it are not read.<br>${INV_ADDRESS}</div>
+ </div>
+</div></body></html>`;
+  return { subject, text, html };
+}
+
 // ---------- rate limits ----------
 async function limit(key, max, minutes) {
   const r = await q("SELECT count(*) AS n FROM rate_events WHERE key = $1 AND at > now() - ($2 || ' minutes')::interval", [key, minutes]);
@@ -334,8 +393,8 @@ async function teamAdd(me, b) {
   need(EMAIL_RE.test(email), 400, 'Please enter a valid email address.');
   need(!(await one('SELECT 1 AS x FROM admins WHERE lower(email) = $1', [email])), 400, 'That person is already on the team.');
   await q('INSERT INTO admins (email, added_by, created_at, role, title, perms, can_see_private) VALUES ($1, $2, now(), $3, $4, $5::jsonb, $6)', [email, me.email, t.role, t.title, t.perms ? JSON.stringify(t.perms) : null, t.priv]);
-  await mail({ to: email, subject: 'You were added to the Shekinah church admin', tag: 'team-invite',
-    text: me.email + ' added you to the Shekinah church admin as ' + TITLES[t.title].label + '.\n\nTo sign in, go to ' + SITE + '/admin/ and enter this email address. We will email you a 6 digit code each time. There is no password.' });
+  const inv = inviteMail({ label: TITLES[t.title].label, title: t.title, custom: !!t.perms });
+  await mail({ to: email, subject: inv.subject, text: inv.text, html: inv.html, noreply: true, tag: 'team-invite' });
   return team(me);
 }
 async function teamUpdate(me, b) {
