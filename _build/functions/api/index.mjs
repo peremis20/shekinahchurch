@@ -466,6 +466,82 @@ async function memberDelete(me, b) {
   return { ok: true };
 }
 
+// ---------- calendar (church events and tasks, inside the admin only) ----------
+const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Health', 'Other'];
+const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category";
+const EV_COLS = EV_PUB + ', is_public, created_by, updated_by, updated_at';
+const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
+const calEdit = () => true; // Jimmy, Nov 11, 2026: everyone on the team can add, edit and delete events and tasks
+const dayOf = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(Date.parse(String(v))) ? String(v) : null);
+const timeOf = (v) => (/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v || '')) ? String(v) : null);
+// Public: events marked "Show on the website", from today on, for the /events/ page.
+async function publicEvents() {
+  return { events: await rows(`SELECT ${EV_PUB} FROM cal_events WHERE is_public AND coalesce(ends_on, starts_on) >= (now() AT TIME ZONE 'America/Chicago')::date - 1
+    AND starts_on <= (now() AT TIME ZONE 'America/Chicago')::date + 400 ORDER BY starts_on, start_time NULLS FIRST, id LIMIT 300`) };
+}
+async function calendar(me) {
+  const team = (await rows('SELECT email FROM admins ORDER BY lower(email)')).map((a) => a.email);
+  return {
+    events: await rows(`SELECT ${EV_COLS} FROM cal_events WHERE coalesce(ends_on, starts_on) >= current_date - 400 ORDER BY starts_on, start_time NULLS FIRST, id`),
+    tasks: await rows(`SELECT ${TK_COLS} FROM cal_tasks WHERE NOT done OR updated_at > now() - interval '30 days' ORDER BY done, due_on NULLS LAST, id`),
+    kinds: CAL_KINDS, can_edit: calEdit(me), team, me: me.email,
+  };
+}
+async function eventSave(me, b) {
+  need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  const e = b.event && typeof b.event === 'object' ? b.event : {};
+  const title = str(e.title, 200), start = dayOf(e.starts_on);
+  need(title, 400, 'Please add a name for the event.');
+  need(start, 400, 'Please choose the date of the event.');
+  let end = dayOf(e.ends_on); if (end && end < start) end = null; if (end === start) end = null;
+  const v = [title, start, end, timeOf(e.start_time), timeOf(e.end_time), str(e.location, 300), str(e.details, 4000), CAL_KINDS.includes(e.category) ? e.category : 'Other', me.email, e.is_public !== false];
+  let row;
+  if (e.id != null && e.id !== '') {
+    row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, updated_at = now()
+      WHERE id = $11 RETURNING *`, [...v, idOf(e.id)], EV_COLS);
+    need(row, 404, 'That event was not found.');
+  } else {
+    row = await wrote(`INSERT INTO cal_events (title, starts_on, ends_on, start_time, end_time, location, details, category, created_by, updated_by, is_public)
+      VALUES ($1, $2::date, $3::date, $4, $5, $6, $7, $8, $9, $9, $10::boolean) RETURNING *`, v, EV_COLS);
+  }
+  return { event: row };
+}
+async function eventDelete(me, b) {
+  need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  await q('DELETE FROM cal_events WHERE id = $1', [idOf(b.id)]); // its tasks stay, unlinked
+  return { ok: true };
+}
+async function taskSave(me, b) {
+  need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  const t = b.task && typeof b.task === 'object' ? b.task : {};
+  const title = str(t.title, 300);
+  need(title, 400, 'Please describe the task.');
+  let who = lower(t.assigned_to); if (who) need(await one('SELECT 1 AS x FROM admins WHERE lower(email) = $1', [who]), 400, 'Choose someone on the team.'); else who = null;
+  const ev = t.event_id != null && t.event_id !== '' ? idOf(t.event_id) : null;
+  const v = [title, dayOf(t.due_on), who, ev, str(t.notes, 2000), me.email];
+  let row;
+  if (t.id != null && t.id !== '') {
+    row = await wrote(`UPDATE cal_tasks SET title = $1, due_on = $2::date, assigned_to = $3, event_id = $4::bigint, notes = $5, updated_by = $6, updated_at = now() WHERE id = $7 RETURNING *`, [...v, idOf(t.id)], TK_COLS);
+    need(row, 404, 'That task was not found.');
+  } else {
+    row = await wrote(`INSERT INTO cal_tasks (title, due_on, assigned_to, event_id, notes, created_by, updated_by) VALUES ($1, $2::date, $3, $4::bigint, $5, $6, $6) RETURNING *`, v, TK_COLS);
+    if (who && who !== lower(me.email)) await mail({ to: who, subject: 'A church task for you: ' + title, tag: 'task',
+      text: 'You have a new task in the Shekinah church admin.\n\n' + title + (v[1] ? '\nDue: ' + v[1] : '') + (v[4] ? '\n\n' + v[4] : '') + '\n\nSee it on the Calendar page: ' + SITE + '/admin/' });
+  }
+  return { task: row };
+}
+async function taskDone(me, b) {
+  const t = await one(`SELECT ${TK_COLS} FROM cal_tasks WHERE id = $1`, [idOf(b.id)]);
+  need(t, 404, 'That task was not found.');
+  need(calEdit(me) || lower(t.assigned_to) === lower(me.email), 403, 'Only the person it is assigned to can check this off.');
+  return { task: await wrote(`UPDATE cal_tasks SET done = $1::boolean, updated_by = $2, updated_at = now() WHERE id = $3 RETURNING *`, [b.done === true, me.email, t.id], TK_COLS) };
+}
+async function taskDelete(me, b) {
+  need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  await q('DELETE FROM cal_tasks WHERE id = $1', [idOf(b.id)]);
+  return { ok: true };
+}
+
 // ---------- public form ----------
 const SPAM_WORDS = /\b(seo|backlinks?|guest post|link building|first page of google|rank(ing)? your (site|website)|web ?design services|crypto|bitcoin|casino|betting|viagra|cialis|forex|payday loan|lead generation|increase your (traffic|sales)|marketing agency|virtual assistant services)\b/i;
 function spam(e) {
@@ -510,10 +586,11 @@ const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove,
+  'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
 };
 const GETS = {
-  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members,
+  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
 };
 async function route(req, path) {
@@ -521,6 +598,7 @@ async function route(req, path) {
   if (key === 'GET /' || key === 'GET /health') return { ok: true, service: 'shekinah api' };
   if (key === 'POST /submit') return submit(req);
   if (key === 'GET /content') return publicContent();
+  if (key === 'GET /events') return publicEvents();
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
   if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout') {
@@ -536,8 +614,8 @@ async function route(req, path) {
 export default {
   async fetch(req) {
     const path = new URL(req.url).pathname.replace(/\/+$/, '') || '/';
-    const pub = path === '/content' || path === '/submit' || path === '/';
-    const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
+    const pub = path === '/content' || path === '/events' || path === '/submit' || path === '/';
+    const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' || path === '/events' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     try {
       return new Response(JSON.stringify(await route(req, path)), { status: 200, headers });
