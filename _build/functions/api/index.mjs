@@ -305,6 +305,18 @@ async function del(me, b) {
   await q('DELETE FROM submissions WHERE id = $1', [s.id]); // replies go with it (foreign key)
   return { ok: true };
 }
+async function delMany(me, b) {
+  allow(me, 'messages_delete');
+  need(Array.isArray(b.ids) && b.ids.length > 0 && b.ids.length <= 1000, 400, 'Choose at least one entry to delete.');
+  const want = [...new Set(b.ids.map((x) => String(x)))];
+  const found = await rows(`SELECT ${SUB} FROM submissions WHERE id::text IN (SELECT jsonb_array_elements_text($1::jsonb))`, [JSON.stringify(want)]);
+  const ids = found.filter((s) => canSee(me, s)).map((s) => s.id);
+  need(ids.length, 404, 'Those entries were not found.');
+  const list = JSON.stringify(ids.map(String));
+  await q('DELETE FROM welcome_log WHERE submission_id::text IN (SELECT jsonb_array_elements_text($1::jsonb))', [list]);
+  await q('DELETE FROM submissions WHERE id::text IN (SELECT jsonb_array_elements_text($1::jsonb))', [list]);
+  return { ok: true, deleted: ids.map(String) };
+}
 
 // ---------- email list ----------
 async function subscribers(me) {
@@ -495,7 +507,7 @@ async function submit(req) {
 
 // ---------- router ----------
 const ROUTES = {
-  'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del,
+  'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,

@@ -103,9 +103,15 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .row{border:1.5px solid var(--line);border-radius:14px;background:#fff;transition:border-color .15s,box-shadow .15s}
 .row:hover{border-color:#C9D6EC}
 .row.sel{background:#F3F7FF;border-color:#9DBCF0}
-.rhead{display:grid;grid-template-columns:18px 50px minmax(170px,240px) minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 12px 14px 12px;cursor:pointer}
+.rhead{display:grid;grid-template-columns:22px 18px 50px minmax(170px,240px) minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 12px 14px 12px;cursor:pointer}
 .rdot{width:12px;height:12px;border-radius:50%;background:#1F63D8;margin-top:19px}
 .rdot.no{background:none}
+.rck{width:20px;height:20px;margin:15px 0 0;accent-color:#1F63D8;cursor:pointer}
+.bulk{display:flex;align-items:center;gap:10px;flex-wrap:wrap;width:100%;padding:8px 12px;border:1.5px solid var(--line);border-radius:12px;background:#F8FAFD}
+.bulk label{display:flex;align-items:center;gap:8px;font-weight:700;font-size:14px;cursor:pointer}
+.bulk input{width:18px;height:18px;accent-color:#1F63D8}
+.bulk .bn{font-size:14px;color:var(--muted)}
+.bulk button{padding:7px 12px;font-size:14px}
 .av{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:21px}
 .rname b{display:block;font-size:16px;font-weight:800;word-break:break-word}
 .rname small{display:block;color:var(--muted);font-size:14px;word-break:break-all}
@@ -265,9 +271,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   body.menu #scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:35}
   #burger{display:grid}
   #body{border-radius:20px 20px 0 0}
-  .rhead{grid-template-columns:12px 44px minmax(0,1fr) auto}
-  .rsubj{grid-column:3/5}
-  .rright{grid-row:1;grid-column:4}
+  .rhead{grid-template-columns:22px 12px 44px minmax(0,1fr) auto}
+  .rsubj{grid-column:4/6}
+  .rright{grid-row:1;grid-column:5}
   .kebab{margin:0}
   .rbody{padding:0 14px 14px}
 }
@@ -291,7 +297,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   .av{width:40px;height:40px;font-size:18px}
   .rright time{display:none}.mdate{display:block}
   .rname small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal}
-  .rhead{grid-template-columns:12px 40px minmax(0,1fr) 34px}
+  .rhead{grid-template-columns:22px 12px 40px minmax(0,1fr) 34px}
   #banner:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,35,80,.15),rgba(13,35,80,.55));z-index:1}
   #banner:after{opacity:.9}
   .tabs button{font-size:14.5px;padding:7px 10px}
@@ -336,6 +342,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           <div class="panel" id="inbox">
             <div class="tabsbar"><div class="tabs" id="tabs"></div><label class="search"><span id="sicon"></span><input id="q" type="search" placeholder="Search names, emails, or messages..."></label></div>
             <div class="subsel hide" id="msgbar"><select id="asg"><option value="any">Assigned to anyone</option><option value="me">Assigned to me</option><option value="none">Not assigned</option></select><button class="sbtn" id="csvb" style="padding:7px 12px;font-size:14px">Download CSV</button></div>
+            <div class="subsel hide" id="bulkbar"></div>
             <div id="addbox"></div>
             <div class="rows" id="list"></div>
             <div class="pager" id="pager"></div>
@@ -563,7 +570,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     renderTabs();renderStats();renderTK();PER=cur==='messages'?10:5;
     var rows=filtered(), pages=Math.max(1,Math.ceil(rows.length/PER));if(page>pages)page=pages;
     var slice=rows.slice((page-1)*PER,page*PER);
+    lastRows=rows;var vis={};rows.forEach(function(r){vis[String(r.id)]=1;});Object.keys(picked).forEach(function(k){if(!vis[k])delete picked[k];});
     $('list').innerHTML=slice.length?slice.map(row).join(''):'<div class="empty">Nothing here right now.</div>';
+    bulkBar(rows);
     if(!rows.length){$('pager').innerHTML='';return;}
     var from=(page-1)*PER+1,to=Math.min(page*PER,rows.length),btn=[];
     for(var p=1;p<=pages;p++){if(pages>7&&p>2&&p<pages-1&&Math.abs(p-page)>1){if(btn[btn.length-1]!=='…')btn.push('…');continue;}btn.push(p);}
@@ -594,6 +603,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     if((replies[i.id]||[]).length)tags+='<span class="tag t-done">Replied</span>';
     var h='<div class="row rwrap'+(isOpen?' sel':'')+'" data-id="'+esc(i.id)+'">'+
       '<div class="rhead" data-a="toggle">'+
+        (bulkOK()?'<input type="checkbox" class="rck" data-ck="'+esc(i.id)+'"'+(picked[String(i.id)]?' checked':'')+' aria-label="Select">':'<span></span>')+
         '<span class="rdot'+(i.status==='new'?'':' no')+'"></span>'+avatar(name)+
         '<div class="rname"><b>'+esc(name)+'</b>'+(i.name&&i.email?'<small>'+esc(i.email)+'</small>':'')+'<div class="tags">'+tags+'</div></div>'+
         '<div class="rsubj"><time class="mdate">'+esc(when(i.created_at))+'</time><b>'+esc(subj)+'</b><p>'+esc(prev)+'</p></div>'+
@@ -603,6 +613,32 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       (isOpen?detail(i):'')+'</div>';
     return h;
   }
+  var picked={}, lastRows=[];
+  function bulkOK(){return can('messages_delete')||can('messages_manage');}
+  function bulkBar(rows){var el=$('bulkbar');if(!bulkOK()||!rows.length){el.classList.add('hide');el.innerHTML='';return;}
+    var n=Object.keys(picked).length, all=n&&n===rows.length;
+    el.classList.remove('hide');
+    el.innerHTML='<div class="bulk"><label><input type="checkbox" id="ckall"'+(all?' checked':'')+'> Select all ('+rows.length+')</label>'+
+      (n?'<span class="bn">'+n+' selected</span>'+(can('messages_manage')?'<button class="sbtn" data-b="archived">Archive</button><button class="sbtn" data-b="done">Mark done</button>':'')+
+        (can('messages_delete')?'<button class="dbtn" data-b="delete">Delete selected</button>':'')+'<button class="lbtn" data-b="clear">Clear</button>':'')+'</div>';
+    var ca=$('ckall');if(ca)ca.indeterminate=!!n&&!all;}
+  function bulkDo(what){var ids=Object.keys(picked);if(!ids.length)return;
+    if(what==='clear'){picked={};show();return;}
+    if(what==='delete'){
+      if(!confirm('Delete '+ids.length+(ids.length===1?' entry':' entries')+' for good? This cannot be undone.'))return;
+      api('/admin/delete-many',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ids:ids})}).then(function(j){
+        var gone={};(j.deleted||ids).forEach(function(k){gone[String(k)]=1;});
+        items=items.filter(function(x){return !gone[String(x.id)];});picked={};openId=null;toast('Deleted '+Object.keys(gone).length);refreshAll();
+      }).catch(function(e){alert('Could not delete: '+e.message);});return;}
+    Promise.all(ids.map(function(id){return api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,status:what})}).then(function(){
+      items.forEach(function(i){if(String(i.id)===String(id))i.status=what;});});})).then(function(){picked={};toast('Saved');refreshAll();})
+      .catch(function(e){toast('Some were not saved: '+e.message);refreshAll();});
+  }
+  $('bulkbar').addEventListener('change',function(e){if(e.target.id!=='ckall')return;
+    if(e.target.checked)lastRows.forEach(function(r){picked[String(r.id)]=1;});else picked={};show();});
+  $('bulkbar').addEventListener('click',function(e){var b=e.target.closest('[data-b]');if(b)bulkDo(b.getAttribute('data-b'));});
+  $('list').addEventListener('change',function(e){var c=e.target.closest('[data-ck]');if(!c)return;var k=c.getAttribute('data-ck');
+    if(c.checked)picked[k]=1;else delete picked[k];bulkBar(lastRows);});
   function kmenu(i){
     var b=function(a,l,c){return '<button data-a="'+a+'"'+(c?' class="'+c+'"':'')+'>'+l+'</button>';};
     return '<div class="kmenu">'+b('toggle',String(openId)===String(i.id)?'Close details':'Open details')+
