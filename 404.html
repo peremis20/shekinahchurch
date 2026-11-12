@@ -1521,6 +1521,7 @@ image-slot::part(credit){display:none !important}
       <a href="/plan-your-visit/" onClick="{{ goVisit }}" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Plan Your Visit</a>
       <a href="/kreyol/planifye-vizit/" lang="ht" translate="no" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Vizite nou (Kreyòl)</a>
       <a href="/kreyol/" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Bible Studies</a>
+      <a href="/events/" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Church Events</a>
       <a href="/blog/" onClick="{{ goBlog }}" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Blog</a>
       <a href="/prayer-request/" onClick="{{ goPrayer }}" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Prayer and Care</a>
       <span onClick="{{ goGive }}" style="font-size:15px;color:#C9D0DC;cursor:pointer" style-hover="color:#E2B85C">Give</span>
@@ -1605,8 +1606,8 @@ const trackEvent = name => { try { (window.dataLayer = window.dataLayer || []).p
 const SLOT_IMG = (() => { const m = {}; Object.keys(POST_IMG).forEach(k => { m['post-' + k] = UCRED(POST_IMG[k]); }); MIN_IMG.forEach((id, i) => { m['ministry-' + i] = UCRED(id); }); GAL_IMG.forEach((id, i) => { m['gallery-' + (i + 1)] = UCRED(id); }); return m; })();
 const applySlotImages = () => { document.querySelectorAll('image-slot[id]').forEach(el => { const d = SLOT_IMG[el.id]; if (!d) return; if (el.getAttribute('credit') !== d.credit) { el.setAttribute('credit', d.credit); el.setAttribute('credit-href', d.creditHref); } if (el.getAttribute('src') !== d.img) el.setAttribute('src', d.img); }); };
 const CATS = ['All', 'Bible Answers', 'Devotional', 'Health', 'Recipes'];
-const NAVT = {"fr":{"Home":"Accueil","About":"À propos","Ministries":"Ministères","Bible Studies":"Études bibliques","Prayer Request":"Prière","Contact":"Contact"},"ht":{"Home":"Akèy","About":"Konsènan nou","Ministries":"Ministè","Bible Studies":"Etid Biblik","Prayer Request":"Lapriyè","Contact":"Kontak"}};
-const NAV = [['Home','home'],['About','about'],['Bible Studies','bible'],['Prayer Request','prayer'],['Contact','contact']];
+const NAVT = {"fr":{"Home":"Accueil","About":"À propos","Ministries":"Ministères","Bible Studies":"Études bibliques","Events":"Événements","Prayer Request":"Prière","Contact":"Contact"},"ht":{"Home":"Akèy","About":"Konsènan nou","Ministries":"Ministè","Bible Studies":"Etid Biblik","Events":"Evènman","Prayer Request":"Lapriyè","Contact":"Kontak"}};
+const NAV = [['Home','home'],['About','about'],['Bible Studies','bible'],['Events','events'],['Prayer Request','prayer'],['Contact','contact']];
 const ALBUMS = ['All', 'Worship', 'Youth', 'Outreach', 'Fellowship'];
 const GALLERY = Array.from({ length: 12 }, (_, i) => ({ slotId: 'gallery-' + (i + 1), album: ALBUMS[1 + (i % 4)], big: i % 5 === 0 }));
 let MINISTRIES = [
@@ -1857,7 +1858,7 @@ class Component extends DCLogic {
       heroShade: (typeof window !== 'undefined' && window.innerWidth < 760) ? 'linear-gradient(180deg, rgba(10,20,38,0.80) 0%, rgba(10,20,38,0.86) 45%, rgba(10,20,38,0.94) 100%)' : 'linear-gradient(90deg, rgba(10,20,38,0) 0%, rgba(10,20,38,0.25) 35%, rgba(10,20,38,0.78) 58%, rgba(10,20,38,0.9) 100%)',
       heroTextShadow: (typeof window !== 'undefined' && window.innerWidth < 760) ? '0 2px 16px rgba(0,0,0,0.75)' : '0 2px 12px rgba(0,0,0,0.45)',
       t: T.en,
-      nav: NAV.map(([label, key]) => ({ label: ((NAVT[(typeof window !== 'undefined' && window.__SITE_LANG) || 'en'] || {})[label]) || label, active: navKey === key, inactive: navKey !== key, go: key === 'bible' ? (() => {}) : this.nav(key, key === 'blog' ? { cat: 'All' } : null), href: key === 'bible' ? '/kreyol/' : (ROUTE_PATHS[key] || '/') })),  // menu 'Bible Studies' opens the Kreyol studies (Jimmy, Nov 10, 2026); the English page stays at /bible-study/
+      nav: NAV.map(([label, key]) => ({ label: ((NAVT[(typeof window !== 'undefined' && window.__SITE_LANG) || 'en'] || {})[label]) || label, active: navKey === key, inactive: navKey !== key, go: (key === 'bible' || key === 'events') ? (() => {}) : this.nav(key, key === 'blog' ? { cat: 'All' } : null), href: key === 'bible' ? '/kreyol/' : key === 'events' ? '/events/' : (ROUTE_PATHS[key] || '/') })),  // menu 'Bible Studies' opens the Kreyol studies (Jimmy, Nov 10, 2026); the English page stays at /bible-study/
       isWide: !s.narrow, narrow: s.narrow, mobileMenu: s.narrow && s.menuOpen,
       toggleMenu: () => this.setState({ menuOpen: !s.menuOpen }),
       langOpts: [['en', 'EN', 'English'], ['fr', 'FR', 'Français'], ['ht', 'KR', 'Kreyòl']].map(([code, short, name]) => { const cur = (typeof window !== 'undefined' && window.__SITE_LANG) || 'en'; return { short, name, active: cur === code, inactive: cur !== code, pick: () => { if (cur === code) return; const host = location.hostname.replace(/^www\./, ''); const exp = 'expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/'; document.cookie = 'googtrans=; ' + exp; document.cookie = 'googtrans=; ' + exp + '; domain=' + host; document.cookie = 'googtrans=; ' + exp + '; domain=.' + host; if (code !== 'en') { document.cookie = 'googtrans=/en/' + code + '; path=/'; document.cookie = 'googtrans=/en/' + code + '; path=/; domain=.' + host; } location.reload(); } }; }),
