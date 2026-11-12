@@ -188,6 +188,11 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .ef input,.ef select,.ef textarea{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;color:var(--ink);font-weight:400}
 .ef input:focus,.ef select:focus,.ef textarea:focus,.act textarea:focus,.bar input:focus{outline:2px solid #9DBCF0;border-color:#9DBCF0}
 .ef .wide{grid-column:1/-1}
+.ef label{min-width:0}.ef label{white-space:nowrap}.ef label.wide{white-space:normal}.ef input:not([type=checkbox]),.ef select{height:44px}.ef input,.ef select,.ef textarea{width:100%;min-width:0;max-width:100%}
+.evbox .tkef{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.evbox .evef{grid-template-columns:repeat(4,minmax(0,1fr))}.evbox .evef .loc{grid-column:span 3}
+@media (max-width:760px){.evbox .evef{grid-template-columns:repeat(2,minmax(0,1fr))}.evbox .evef .loc{grid-column:span 1}}
+.evbox .ef:not(.tkef):not(.evef){grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))}
 .ef .chk{flex-direction:row;align-items:center;gap:8px}
 .pbtn{background:linear-gradient(180deg,#22813F,#145F2B);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-weight:800}
 .pbtn:hover{filter:brightness(1.08)}
@@ -605,16 +610,16 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       (e.is_public===false?'<p><b style="color:#8A6420">Team only</b></p>':'')+'<p><b>'+esc(dayLong(e.starts_on))+(e.ends_on?' to '+esc(dayLong(e.ends_on)):'')+'</b> · '+esc(evTime(e))+'</p>'+(e.location?'<p>'+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
       '<div class="act"><button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
     var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';};
-    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><div class="ef">'+
+    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><div class="ef evef">'+
       '<label class="wide">Event name<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="For example: Youth Sabbath"></label>'+
       '<label>Date<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'"></label>'+
-      '<label>Ends on (if more than one day)<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label>'+
+      '<label>End date (optional)<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label>'+
       '<label>Starts at<input type="time" name="start_time" value="'+esc(e.start_time||'')+'"></label>'+
       '<label>Ends at<input type="time" name="end_time" value="'+esc(e.end_time||'')+'"></label>'+
       '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
-      '<label>Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
+      '<label class="loc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
       '<label class="wide">Details<textarea name="details" rows="3" maxlength="4000">'+esc(e.details||'')+'</textarea></label>'+
-      '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
+      '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;flex:none;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
       '<div class="act"><button class="pbtn" data-c="saveev">'+(e.id?'Save changes':'Add event')+'</button><button class="lbtn" data-c="close">Cancel</button>'+(e.id?'<button class="dbtn" data-c="delev">Delete event</button>':'')+'<span class="saved" id="evmsg"></span></div></div>';
     $('calform').scrollIntoView({behavior:'smooth',block:'nearest'});var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
@@ -646,7 +651,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
         (CAL.can?'<div class="x"><button data-tedit>Edit</button><button data-tdel>Delete</button></div>':'')+'</div>';}).join('')
       :'<p class="meta">'+(tkTab==='done'?'No finished tasks in the last 30 days.':tkTab==='mine'?'Nothing assigned to you.':'No open tasks.')+'</p>';}
   function tkForm(k){k=k||{};var up=CAL.events.filter(function(e){return evDays(e)[1]>=ymd(new Date())||String(e.id)===String(k.event_id);});
-    $('tkform').innerHTML='<div class="evbox" data-id="'+esc(k.id||'')+'"><h3>'+(k.id?'Edit task':'Add a task')+'</h3><div class="ef" style="grid-template-columns:1fr 1fr">'+
+    $('tkform').innerHTML='<div class="evbox" data-id="'+esc(k.id||'')+'"><h3>'+(k.id?'Edit task':'Add a task')+'</h3><div class="ef tkef">'+
       '<label class="wide">Task<input name="title" maxlength="300" value="'+esc(k.title||'')+'" placeholder="For example: Print the programs"></label>'+
       '<label>Due date<input type="date" name="due_on" value="'+esc(k.due_on||'')+'"></label>'+
       '<label>Assign to<select name="assigned_to"><option value="">No one yet</option>'+CAL.team.map(function(m){return '<option value="'+esc(m)+'"'+(m===k.assigned_to?' selected':'')+'>'+esc(m)+'</option>';}).join('')+'</select></label>'+
