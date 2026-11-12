@@ -417,9 +417,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   var SHORT={prayer:'Prayer',contact:'Question',visit:'Visit Request',newsletter:'Email List'};
   var SUBJ={prayer:'Prayer Request',contact:'General Inquiry',visit:'Plan a Visit',newsletter:'Email Sign Up'};
   var items=[], kind='all', tab='all', page=1, PER=5, openId=null, menuId=null, replies={}, admins=[], me='', myRole='volunteer', myPriv=false, cur='dash';
-  var RANK={volunteer:1,staff:2,admin:3}, P={}, myAreas=['prayer','visit','contact','bible','transfer','newsletter'], myTitle='';
+  var RANK={volunteer:1,staff:2,admin:3}, PM={}, myAreas=['prayer','visit','contact','bible','transfer','newsletter'], myTitle='';
   // What this person may do comes from the server (/admin/check). The server checks every action again; this only hides what they cannot use.
-  function can(r){if(Object.prototype.hasOwnProperty.call(P,r))return !!P[r];if(r==='staff')return !!P.messages_manage||(!Object.keys(P).length&&(RANK[myRole]||1)>=2);if(r==='admin')return !!P.messages_delete||(!Object.keys(P).length&&myRole==='admin');return false;}
+  function can(r){if(Object.prototype.hasOwnProperty.call(PM,r))return !!PM[r];if(r==='staff')return !!PM.messages_manage||(!Object.keys(PM).length&&(RANK[myRole]||1)>=2);if(r==='admin')return !!PM.messages_delete||(!Object.keys(PM).length&&myRole==='admin');return false;}
   function sees(a){return myAreas.indexOf(a)>=0;}
   var PERM_LABEL={messages_manage:'Reply, edit, add and assign messages',messages_delete:'Delete messages',members_view:'See members',members_edit:'Add and edit members',members_delete:'Delete members',site_edit:'Edit the website',email_list:'Email list and newsletters',team_manage:'Manage the team'};
   var AREA_LABEL={prayer:'Prayer requests',visit:'Visit requests',contact:'Questions and contacts',bible:'Bible study requests',transfer:'Membership transfers',newsletter:'Email sign ups'};
@@ -899,7 +899,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function logout(msg){setPw('');items=[];$('shell').classList.add('hide');$('login').classList.remove('hide');showEmailStep();$('lerr').textContent=msg||'';}
   function showEmailStep(){$('lf').classList.remove('hide');$('cf').classList.add('hide');$('lmsg').textContent='Enter your admin email and we will send you a sign in code.';$('code').value='';}
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
-  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;P=j.perms||{};myAreas=j.areas||myAreas;myTitle=j.title_label||'';
+  function signedIn(){return api('/admin/check').then(function(j){me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;PM=j.perms||{};myAreas=j.areas||myAreas;myTitle=j.title_label||'';
     $('login').classList.add('hide');$('shell').classList.remove('hide');
     $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=myTitle||ROLE_LABEL[myRole]||myRole;var ma=$('madd');if(ma)ma.classList.toggle('hide',!can('members_edit'));$('uemail').textContent=me;
     renderRail();go('dash');return load();});}
