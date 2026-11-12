@@ -473,7 +473,7 @@ const EV_COLS = EV_PUB + ', is_public, created_by, updated_by, updated_at';
 const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
 const calEdit = (me) => !!me.perms.calendar_edit; // Jimmy, Nov 11, 2026: the whole team can view; only people with "Edit the calendar" can add, edit or delete
 const dayOf = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(Date.parse(String(v))) ? String(v) : null);
-const timeOf = (v) => (/^([01]\d|2[0-3]):[0-5]\d$/.test(String(v || '')) ? String(v) : null);
+const timeOf = (v) => { const m = /^([01]?\d|2[0-3]):([0-5]\d)(:\d\d)?$/.exec(String(v || '').trim()); return m ? m[1].padStart(2, '0') + ':' + m[2] : null; };
 // Public: events marked "Show on the website", from today on, for the /events/ page.
 async function publicEvents() {
   return { events: await rows(`SELECT ${EV_PUB} FROM cal_events WHERE is_public AND coalesce(ends_on, starts_on) >= (now() AT TIME ZONE 'America/Chicago')::date - 1

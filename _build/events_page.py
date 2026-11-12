@@ -58,6 +58,13 @@ main{max-width:1240px;margin:0 auto;padding:30px 24px 64px}
 .day.has{cursor:pointer}.day.out{background:#FAF8F3;color:#B0A99A}.day.today{border:2px solid var(--gold)}
 .day b{font-size:14px;color:var(--navy)}
 .chip{display:block;font-size:12.5px;font-weight:700;border-radius:6px;padding:3px 6px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:var(--cbg);color:var(--cfg);cursor:pointer;border:none;width:100%;text-align:left;font-family:inherit}
+.weekg{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}.wday{min-height:220px;border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px}.wday.today{border:2px solid var(--gold)}
+.wh{display:flex;gap:6px;align-items:baseline}.wh small{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase}.wh b{color:var(--navy)}
+.wev{display:block;width:100%;text-align:left;border:none;border-radius:8px;padding:6px 7px;background:var(--cbg);color:var(--cfg);font:inherit;font-size:13px;font-weight:800;line-height:1.3;cursor:pointer;overflow-wrap:anywhere}.wev small{display:block;font-size:11.5px;font-weight:700;opacity:.85}.wn{font-size:12.5px;color:#B0A99A}
+.yearg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}.ymon{border:1px solid var(--line);border-radius:12px;padding:10px}
+.ymt{border:none;background:none;font:inherit;font-family:'Libre Baskerville',serif;font-weight:700;color:var(--navy);font-size:16px;padding:0 0 8px;cursor:pointer}
+.yg{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}.yg i{font-style:normal;font-size:11px;font-weight:800;color:var(--muted)}
+.yd{border:none;background:none;font:inherit;font-size:13px;border-radius:6px;padding:3px 0;color:var(--ink);cursor:default}.yd.has{background:var(--cbg);color:var(--cfg);font-weight:800;cursor:pointer}.yd.today{outline:2px solid var(--gold)}
 .empty{text-align:center;color:var(--muted);padding:44px 16px;border:1.5px dashed #D9CFB8;border-radius:16px;background:var(--cream)}
 .visit{margin-top:40px;background:var(--cream);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;gap:20px;align-items:center;justify-content:space-between;flex-wrap:wrap}
 .visit h2{font-family:'Libre Baskerville',serif;color:var(--navy);margin:0 0 4px;font-size:22px}
@@ -67,13 +74,13 @@ main{max-width:1240px;margin:0 auto;padding:30px 24px 64px}
 .pop.show{display:flex}.pop .sheet{max-width:560px;width:100%;position:relative}.pop .sheet .card{box-shadow:0 20px 50px rgba(0,0,0,.3);padding-right:44px}
 .pop .x{position:absolute;top:10px;right:12px;border:none;background:none;font-size:26px;color:var(--muted);cursor:pointer}
 @media (max-width:760px){.topnav{gap:14px;font-size:14px;width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px}.topnav a{white-space:nowrap}.topin img{height:48px}
- .list{grid-template-columns:1fr}.day{min-height:58px;padding:4px}.day b{font-size:12px}.chip{font-size:0;height:7px;padding:0;background:var(--cfg)}.grid7{gap:3px}.mbar h2{font-size:18px;min-width:0;flex:1}}
+ .weekg{grid-template-columns:1fr}.wday{min-height:0}.tabs{flex-wrap:wrap}.list{grid-template-columns:1fr}.day{min-height:58px;padding:4px}.day b{font-size:12px}.chip{font-size:0;height:7px;padding:0;background:var(--cfg)}.grid7{gap:3px}.mbar h2{font-size:18px;min-width:0;flex:1}}
 """
 
 JS = r"""
 (function(){
   var API = '%s/events', box = document.getElementById('ev'), tabs = document.getElementById('tabs'), pop = document.getElementById('pop');
-  var EV = [], view = 'list', m = new Date(); m = new Date(m.getFullYear(), m.getMonth(), 1);
+  var EV = [], view = 'list', m = new Date(); m.setHours(0,0,0,0);
   function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
   function pd(s){var a=s.split('-');return new Date(+a[0],+a[1]-1,+a[2]);}
   function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
@@ -94,17 +101,32 @@ JS = r"""
       '<a class="add" href="'+gcal(e)+'" target="_blank" rel="noopener">+ Add to my calendar</a></div></article>';}
   function list(){var t=ymd(new Date()), up=EV.filter(function(e){return (e.ends_on||e.starts_on)>=t;});
     box.innerHTML=up.length?'<div class="list">'+up.map(card).join('')+'</div>':'<div class="empty">New events are coming soon. In the meantime, you are always welcome every Saturday: Sabbath School at 10:00 AM and worship at 11:00 AM.</div>';}
-  function month(){var first=new Date(m), start=new Date(first);start.setDate(1-first.getDay());var t=ymd(new Date()), cells=[];
+  function month(){var first=new Date(m.getFullYear(),m.getMonth(),1), start=new Date(first);start.setDate(1-first.getDay());var t=ymd(new Date()), cells=[];
     for(var i=0;i<42;i++){var d=new Date(start);d.setDate(start.getDate()+i);if(i===35&&d.getMonth()!==m.getMonth())break;var k=ymd(d);
       var evs=EV.filter(function(e){return k>=e.starts_on&&k<=(e.ends_on||e.starts_on);});
       cells.push('<div class="day'+(d.getMonth()!==m.getMonth()?' out':'')+(k===t?' today':'')+(evs.length?' has':'')+'" data-day="'+k+'"><b>'+d.getDate()+'</b>'+evs.map(function(e){return '<button class="chip k-'+esc(e.category||'Other')+'" data-id="'+esc(e.id)+'" title="'+esc(e.title)+'">'+esc(e.title)+'</button>';}).join('')+'</div>');}
     box.innerHTML='<div class="mbar"><button data-m="-1" aria-label="Previous month">&#8249;</button><h2>'+m.toLocaleDateString('en-US',{month:'long',year:'numeric'})+'</h2><button data-m="1" aria-label="Next month">&#8250;</button></div>'+
       '<div class="grid7">'+['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function(x){return '<div class="dow">'+x+'</div>';}).join('')+cells.join('')+'</div>';}
-  function draw(){tabs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===view);});view==='list'?list():month();}
+  function evsOn(k){return EV.filter(function(e){return k>=e.starts_on&&k<=(e.ends_on||e.starts_on);}).sort(function(a,b){return String(a.start_time||'').localeCompare(String(b.start_time||''));});}
+  function bar(title,unit){return '<div class="mbar"><button data-m="-1" aria-label="Previous '+unit+'">&#8249;</button><h2>'+title+'</h2><button data-m="1" aria-label="Next '+unit+'">&#8250;</button></div>';}
+  function week(){var ws=new Date(m);ws.setDate(m.getDate()-m.getDay());var we=new Date(ws);we.setDate(ws.getDate()+6);var t=ymd(new Date()), cells=[];
+    var title=ws.toLocaleDateString('en-US',{month:'short',day:'numeric'})+' to '+(ws.getMonth()===we.getMonth()?we.getDate():we.toLocaleDateString('en-US',{month:'short',day:'numeric'}))+', '+we.getFullYear();
+    for(var i=0;i<7;i++){var d=new Date(ws);d.setDate(ws.getDate()+i);var k=ymd(d), evs=evsOn(k);
+      cells.push('<div class="wday'+(k===t?' today':'')+'"><div class="wh"><small>'+d.toLocaleDateString('en-US',{weekday:'short'})+'</small><b>'+d.getDate()+'</b></div>'+
+        (evs.length?evs.map(function(e){return '<button class="wev k-'+esc(e.category||'Other')+'" data-id="'+esc(e.id)+'"><small>'+esc(e.start_time&&k===e.starts_on?t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):''):'All day')+'</small>'+esc(e.title)+'</button>';}).join(''):'<span class="wn">No events</span>')+'</div>');}
+    box.innerHTML=bar(title,'week')+'<div class="weekg">'+cells.join('')+'</div>';}
+  function year(){var y=m.getFullYear(), t=ymd(new Date()), out=[];
+    for(var mo=0;mo<12;mo++){var f=new Date(y,mo,1), st=new Date(f);st.setDate(1-f.getDay());var g=['S','M','T','W','T','F','S'].map(function(x){return '<i>'+x+'</i>';});
+      for(var q=0;q<42;q++){var d=new Date(st);d.setDate(st.getDate()+q);if(q===35&&d.getMonth()!==mo)break;var k=ymd(d), n=d.getMonth()===mo?evsOn(k):[];
+        g.push(d.getMonth()!==mo?'<span></span>':'<button class="yd'+(n.length?' has k-'+esc(n[0].category||'Other'):'')+(k===t?' today':'')+'" data-day="'+k+'"'+(n.length?' title="'+esc(n.map(function(e){return e.title;}).join(', '))+'"':' tabindex="-1"')+'>'+d.getDate()+'</button>');}
+      out.push('<div class="ymon"><button class="ymt" data-mon="'+mo+'">'+f.toLocaleDateString('en-US',{month:'long'})+'</button><div class="yg">'+g.join('')+'</div></div>');}
+    box.innerHTML=bar(String(y),'year')+'<div class="yearg">'+out.join('')+'</div>';}
+  function draw(){tabs.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-v')===view);});({list:list,week:week,month:month,year:year})[view]();}
   tabs.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;view=b.getAttribute('data-v');draw();});
-  box.addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(b){m=new Date(m.getFullYear(),m.getMonth()+(+b.getAttribute('data-m')),1);draw();return;}
-    var c=e.target.closest('.chip');if(c){var ev=EV.filter(function(x){return String(x.id)===c.getAttribute('data-id');})[0];if(ev){pop.querySelector('.in').innerHTML=card(ev);pop.classList.add('show');}return;}
-    var dy=e.target.closest('.day.has');if(dy){var k=dy.getAttribute('data-day'), evs=EV.filter(function(x){return k>=x.starts_on&&k<=(x.ends_on||x.starts_on);});
+  box.addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(b){var sg=+b.getAttribute('data-m');m=view==='year'?new Date(m.getFullYear()+sg,0,1):view==='week'?new Date(m.getFullYear(),m.getMonth(),m.getDate()+7*sg):new Date(m.getFullYear(),m.getMonth()+sg,1);draw();return;}
+    var mt=e.target.closest('[data-mon]');if(mt){m=new Date(m.getFullYear(),+mt.getAttribute('data-mon'),1);view='month';draw();return;}
+    var c=e.target.closest('.chip,.wev');if(c){var ev=EV.filter(function(x){return String(x.id)===c.getAttribute('data-id');})[0];if(ev){pop.querySelector('.in').innerHTML=card(ev);pop.classList.add('show');}return;}
+    var dy=e.target.closest('.day.has,.yd.has');if(dy){var k=dy.getAttribute('data-day'), evs=EV.filter(function(x){return k>=x.starts_on&&k<=(x.ends_on||x.starts_on);});
       pop.querySelector('.in').innerHTML='<div style="display:flex;flex-direction:column;gap:10px;max-height:80vh;overflow:auto">'+evs.map(card).join('')+'</div>';pop.classList.add('show');}});
   pop.addEventListener('click',function(e){if(e.target===pop||e.target.closest('.x'))pop.classList.remove('show');});
   function ld(evs){try{var s=document.createElement('script');s.type='application/ld+json';
@@ -134,7 +156,7 @@ def page():
            '<a href="/prayer-request/">Prayer Request</a><a href="/contact/">Contact</a><a class="give" href="/give/">Give</a></nav></div></header>')
     hero = ('<section class="hero"><div class="heroin"><div class="kick">Church Events</div><h1>What is happening at Shekinah</h1>'
             '<p>Worship, youth programs, outreach and fellowship in Alvarado, Texas. Everyone is welcome, and you never need to sign up to worship with us.</p></div></section>')
-    main = ('<main><div class="tabs" id="tabs"><button data-v="list" class="on">Upcoming</button><button data-v="month">Month view</button></div>'
+    main = ('<main><div class="tabs" id="tabs"><button data-v="list" class="on">Upcoming</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="year">Year</button></div>'
             '<div id="ev"><div class="empty">Loading events...</div><noscript><div class="empty">Turn on JavaScript to see our events, or call us at (888) 219-3842.</div></noscript></div>'
             '<div class="visit"><div><h2>Visiting for the first time?</h2><p>Every Saturday: Sabbath School at 10:00 AM and worship at 11:00 AM, 205 E Carver St, Alvarado.</p></div>'
             '<a class="btn" href="/plan-your-visit/">Plan your visit</a></div></main>'
