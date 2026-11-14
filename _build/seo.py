@@ -10,7 +10,7 @@ import datetime as DT, html as H, json, re
 
 SITE = 'https://shekinahsda.org'
 ORG = 'Shekinah Haitian Seventh-day Adventist Church'
-LOGO = SITE + '/assets/logo-mark.png'
+LOGO = SITE + '/assets/logo-mark.png?v=4'
 MONTHS = {m: i for i, m in enumerate(['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'], 1)}
 
 
