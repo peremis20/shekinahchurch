@@ -164,7 +164,7 @@ def head(title, desc, url, ld):
             '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s">'
             '<meta property="og:type" content="article"><meta property="og:title" content="%s"><meta property="og:description" content="%s">'
             '<meta property="og:url" content="%s"><meta property="og:image" content="%s"><meta property="og:locale" content="ht_HT">'
-            '<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=2"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">%s<style>%s</style>'
+            '<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">%s<style>%s</style>'
             '<script type="application/ld+json">%s</script>%s</head><body>'
             % (e(title), e(desc), url, e(title), e(desc), url, IMG, FONTS, CSS, json.dumps(ld, ensure_ascii=False), ga))
 

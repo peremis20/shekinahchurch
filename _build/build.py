@@ -196,7 +196,7 @@ def head_block(s, extra_ld=None, noindex=False, key=None, post=None):
         '<meta property="og:image" content="%s">' % (SEO.img_url(POST_IMG.get(post['id'])) if post else SITE + '/assets/church/church-01.jpg'),
         '<meta name="twitter:card" content="summary_large_image">',
     ] + ([SEO.post_meta_tags(post, s['url'], POST_IMG.get(post['id']))] if post else []) + [
-        '<link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=2"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">',
+        '<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">',
         '<style>x-dc{display:none!important}#ssr .ssr-slot{display:block}</style>',
         '<script>window.__SEO_PAGES=%s;window.__SEO_HOME=window.__SEO_PAGES.home;window.__SEO_VISIT=window.__SEO_PAGES.visit;</script>' % SEO_PAGES_JS,
     ] + (['<link rel="alternate" hreflang="en" href="%s">' % (SITE + PAGES['visit'][0]),

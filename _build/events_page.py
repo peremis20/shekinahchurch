@@ -148,8 +148,8 @@ def page():
             '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s/events/">'
             '<meta property="og:title" content="Church Events at Shekinah"><meta property="og:description" content="%s">'
             '<meta property="og:url" content="%s/events/"><meta property="og:type" content="website">'
-            '<link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">'
-            '<link rel="apple-touch-icon" href="/apple-touch-icon.png">%s<style>%s</style></head><body>'
+            '<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3">'
+            '<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">%s<style>%s</style></head><body>'
             % (H.escape(TITLE), H.escape(DESC), K.SITE, H.escape(DESC), K.SITE, K.FONTS, CSS))
     top = ('<header class="top"><div class="topin"><a href="/"><img src="/assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church" width="234" height="64"></a>'
            '<nav class="topnav"><a href="/">Home</a><a href="/about/">About</a><a href="/kreyol/">Bible Studies</a><a class="on" href="/events/">Events</a>'
