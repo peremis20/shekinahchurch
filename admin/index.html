@@ -590,14 +590,18 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function evTime(e){return e.start_time?(t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):'')):'All day';}
   function evDays(e){var a=e.starts_on,b=e.ends_on||e.starts_on;return [a,b];}
   function dayLong(s){return pday(s).toLocaleDateString([], {weekday:'long',month:'long',day:'numeric',year:'numeric'});}
-  function kc(e){return 'k-'+esc(e.category||'Other')+(e.color?' c-'+esc(e.color):'');}
-  var EVC=[['blue','Blue'],['navy','Navy'],['purple','Purple'],['pink','Pink'],['red','Red'],['orange','Orange'],['gold','Gold'],['green','Green'],['teal','Teal'],['brown','Brown'],['gray','Gray']];
+  function kc(e){return 'k-'+esc(e.category||'Other')+' c-'+(e._c||'blue');}
+  function nkey(t){return String(t||'').trim().replace(/\s+/g,' ').toLowerCase();}
+  function hcol(t){var h=0,k=nkey(t);for(var i=0;i<k.length;i++)h=(h*31+k.charCodeAt(i))>>>0;return h%EVC.length;}
+  function autoColors(){var byDay={};CAL.events.slice().sort(function(a,b){return (a.starts_on+(a.start_time||'')+a.id).localeCompare(b.starts_on+(b.start_time||'')+b.id);}).forEach(function(e){
+      var used=byDay[e.starts_on]||(byDay[e.starts_on]={}), i=hcol(e.title), n=0;while(used[i]&&n<EVC.length){i=(i+1)%EVC.length;n++;}used[i]=1;e._c=EVC[i][0];});}
+  var EVC=[['blue','Blue'],['navy','Navy'],['purple','Purple'],['pink','Pink'],['red','Red'],['orange','Orange'],['gold','Gold'],['green','Green'],['teal','Teal'],['brown','Brown']];
   function evById(id){return CAL.events.filter(function(e){return String(e.id)===String(id);})[0];}
   function loadCal(){if(!calM){calM=new Date();calM.setHours(0,0,0,0);}
     $('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Loading...</div>';
     api('/calendar').then(function(j){CAL={events:j.events||[],tasks:j.tasks||[],kinds:j.kinds||[],team:j.team||[],can:!!j.can_edit};renderCal();})
       .catch(function(e){$('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Could not load the calendar. '+esc(e.message)+'</div>';});}
-  function renderCal(){
+  function renderCal(){autoColors();
     $('caladd').classList.toggle('hide',!CAL.can);$('tkadd').classList.toggle('hide',!CAL.can);$('calro').classList.toggle('hide',CAL.can);
     document.querySelector('[data-c="prev"]').innerHTML=I('prev');document.querySelector('[data-c="next"]').innerHTML=I('next');
     document.querySelectorAll('#calv [data-cv]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-cv')===calView);});
@@ -658,8 +662,6 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       '<label>Starts at<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select></label>'+
       '<label>Ends at<select name="end_time">'+timeOpts(e.end_time,'No end time')+'</select></label>'+
       '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
-      '<div class="wide" style="font-size:14px;font-weight:700;color:var(--muted)">Color<div class="swl" role="radiogroup" aria-label="Event color"><label class="sw k-'+esc(e.category||'Other')+'"><input type="radio" name="color" value=""'+(e.color?'':' checked')+'><span>Type color</span></label>'+
-        EVC.map(function(c){return '<label class="sw c-'+c[0]+'" title="'+c[1]+'"><input type="radio" name="color" value="'+c[0]+'"'+(e.color===c[0]?' checked':'')+' aria-label="'+c[1]+'"><span>'+c[1]+'</span></label>';}).join('')+'</div></div>'+
       '<label class="loc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
       '<label class="wide">Details<textarea name="details" rows="3" maxlength="4000">'+esc(e.details||'')+'</textarea></label>'+
       '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;flex:none;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
@@ -667,7 +669,9 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     $('calform').scrollIntoView({behavior:'smooth',block:'nearest'});var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
     box.querySelectorAll('[name]').forEach(function(x){if(x.type==='radio'){if(x.checked)ev[x.name]=x.value;return;}ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
-    $('evmsg').textContent='Saving...';
+    var dupe=CAL.events.filter(function(x){return String(x.id)!==String(ev.id||'')&&x.starts_on===ev.starts_on&&nkey(x.title)===nkey(ev.title);})[0];
+    if(dupe){$('evmsg').textContent='"'+dupe.title+'" is already on the calendar that day. Open that event to change it instead.';return;}
+    ev.color='';$('evmsg').textContent='Saving...';
     api('/calendar/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:ev})}).then(function(j){
       var e=j.event;CAL.events=CAL.events.filter(function(x){return String(x.id)!==String(e.id);});CAL.events.push(e);
       CAL.events.sort(function(a,b){return (a.starts_on+(a.start_time||'')).localeCompare(b.starts_on+(b.start_time||''));});

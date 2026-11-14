@@ -496,8 +496,12 @@ async function eventSave(me, b) {
   need(start, 400, 'Please choose the date of the event.');
   let end = dayOf(e.ends_on); if (end && end < start) end = null; if (end === start) end = null;
   const v = [title, start, end, timeOf(e.start_time), timeOf(e.end_time), str(e.location, 300), str(e.details, 4000), CAL_KINDS.includes(e.category) ? e.category : 'Other', me.email, e.is_public !== false, CAL_COLORS.includes(e.color) ? e.color : null];
+  const isEdit = e.id != null && e.id !== '';
+  const dup = await rows(`SELECT id FROM cal_events WHERE lower(regexp_replace(trim(title), '\\s+', ' ', 'g')) = lower(regexp_replace(trim($1), '\\s+', ' ', 'g'))
+    AND starts_on = $2::date AND id <> $3 LIMIT 1`, [title, start, isEdit ? idOf(e.id) : -1]);
+  need(!dup.length, 409, 'There is already an event called "' + title + '" on that day. Open that event to change it instead of adding it again.');
   let row;
-  if (e.id != null && e.id !== '') {
+  if (isEdit) {
     row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, color = $11, updated_at = now()
       WHERE id = $12 RETURNING *`, [...v, idOf(e.id)], EV_COLS);
     need(row, 404, 'That event was not found.');
