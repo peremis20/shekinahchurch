@@ -1,0 +1,43 @@
+# Checks every few hours that shekinahsda.org still points at this GitHub site.
+# Added Nov 13, 2026 after Hostinger's automatic "Hosting CDN" repointed the domain to the old Hostinger site.
+# If a check fails, the run fails and GitHub emails the repo owner.
+name: Domain watch
+on:
+  schedule:
+    - cron: '23 */4 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check DNS and the live site
+        run: |
+          set -u
+          fail=0
+          A=$(dig +short shekinahsda.org A @1.1.1.1 | sort | tr '\n' ' ')
+          echo "A records: $A"
+          for ip in 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153; do
+            echo "$A" | grep -q "$ip" || { echo "::error::Missing GitHub A record $ip"; fail=1; }
+          done
+          for ip in $A; do
+            case "$ip" in 185.199.10[89].153|185.199.11[01].153) ;; *) echo "::error::Unexpected A record $ip (not GitHub Pages)"; fail=1;; esac
+          done
+          AAAA=$(dig +short shekinahsda.org AAAA @1.1.1.1 | tr '\n' ' ')
+          for ip in $AAAA; do
+            case "$ip" in 2606:50c0:800*) ;; *) echo "::error::Unexpected AAAA record $ip (not GitHub Pages)"; fail=1;; esac
+          done
+          W=$(dig +short www.shekinahsda.org CNAME @1.1.1.1)
+          echo "www CNAME: $W"
+          [ "$W" = "peremis20.github.io." ] || { echo "::error::www does not point to peremis20.github.io"; fail=1; }
+          T=$(curl -sL --max-time 30 https://shekinahsda.org/ | grep -o '<title>[^<]*' | head -1)
+          echo "Home title: $T"
+          echo "$T" | grep -q 'Haitian Seventh-day Adventist Church' || { echo "::error::Home page is not the church site"; fail=1; }
+          curl -sf --max-time 30 -o /dev/null https://shekinahsda.org/events/ || { echo "::error::/events/ does not load"; fail=1; }
+          if [ $fail -ne 0 ]; then
+            echo "Fix in Hostinger hPanel: Domains > shekinahsda.org > DNS. Four A records @ 185.199.108-111.153, www CNAME peremis20.github.io, no other @ A or AAAA. Keep Hosting CDN off for shekinahsda.org."
+            exit 1
+          fi
+          echo "All good."
