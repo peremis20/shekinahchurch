@@ -243,8 +243,7 @@ def study_page(s, all_s):
                 elif 'quote' in x:
                     cite = e(x.get('cite', ''))
                     if x.get('bsa'):
-                        cite += (', Bib Sen An, © 2017, 2023 Ron Smith (<a href="https://ebible.org/hatbsa/">ebible.org</a>), lisans '
-                                 '<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons Attribution ShareAlike 4.0</a>')
+                        cite += ', Bib Sen An'
                     p.append('<blockquote class="q"><p>%s</p><cite>%s</cite></blockquote>' % (e(x['quote']), cite))
                 elif 'list' in x:
                     p.append('<ol class="cmds">%s</ol>' % ''.join('<li>%s</li>' % e(i) for i in x['list']))
@@ -254,6 +253,9 @@ def study_page(s, all_s):
                 p.append('<h3>%s</h3><p>%s</p>' % (e(f['q']), e(f['a'])))
         if any(isinstance(x, dict) and 'quote' in x for sec in art['sections'] for x in sec['p']):
             p.append('<p class="pnote">Vèsè ki pa nan blòk sitasyon yo se parafraz an Kreyòl. Li yo nan Bib ou pou w wè kontèks yo.</p>')
+        if any(isinstance(x, dict) and x.get('bsa') for sec in art['sections'] for x in sec['p']):
+            p.append('<p class="pnote">Sitasyon Bib Sen An: © 2017, 2023 Ron Smith (<a href="https://ebible.org/hatbsa/">ebible.org</a>), '
+                     '<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY SA 4.0</a>.</p>')
         p.append('</article>')
     p.append('<h2>Vèsè biblik nan etid la</h2><ul class="verses">%s</ul>' % ''.join('<li>%s</li>' % e(v) for v in s['verses']))
     p.append('<h2>Kesyon pou reflechi ak fanmi ou</h2><ol>%s</ol>' % ''.join('<li>%s</li>' % e(q) for q in s['questions']))
