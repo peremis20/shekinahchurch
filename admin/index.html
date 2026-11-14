@@ -224,6 +224,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .chip{display:block;width:100%;border:none;border-radius:6px;padding:3px 6px;font-size:12.5px;font-weight:700;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;background:var(--cbg);color:var(--cfg)}
 .more{font-size:12px;color:var(--muted);font-weight:700;border:none;background:none;text-align:left;padding:0 4px;cursor:pointer}
 .k-Worship{--cbg:#DCE9FF;--cfg:#1F4FA8}.k-Youth{--cbg:#EDE2FA;--cfg:#5E2696}.k-Outreach{--cbg:#DDF3E2;--cfg:#1D6A34}.k-Meeting{--cbg:#FCEFC7;--cfg:#7A5512}.k-Fellowship{--cbg:#FDE7D2;--cfg:#A64E08}.k-Health{--cbg:#D6F3F3;--cfg:#0B6B71}.k-Other{--cbg:#EEF1F5;--cfg:#3D4759}
+.c-blue{--cbg:#DCE9FF;--cfg:#1F4FA8}.c-navy{--cbg:#D9DEEC;--cfg:#13294B}.c-purple{--cbg:#EDE2FA;--cfg:#5E2696}.c-pink{--cbg:#FCE1EE;--cfg:#A3195B}.c-red{--cbg:#FDE0DE;--cfg:#B42318}.c-orange{--cbg:#FDE7D2;--cfg:#A64E08}.c-gold{--cbg:#FCEFC7;--cfg:#7A5512}.c-green{--cbg:#DDF3E2;--cfg:#1D6A34}.c-teal{--cbg:#D6F3F3;--cfg:#0B6B71}.c-brown{--cbg:#EFE3D6;--cfg:#6B4423}.c-gray{--cbg:#EEF1F5;--cfg:#3D4759}.wev{border-left:4px solid var(--cfg)}.swl{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.sw{position:relative;cursor:pointer}.sw input{position:absolute;opacity:0;width:0;height:0}.sw span{display:grid;place-items:center;min-width:34px;height:34px;padding:0 10px;border-radius:999px;background:var(--cbg);color:var(--cfg);border:2px solid var(--cfg);font-size:12.5px;font-weight:800}.sw input:checked+span{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--cfg)}.sw input:focus-visible+span{outline:2px solid #1F63D8;outline-offset:3px}
 .upi{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;text-align:left;font:inherit;color:inherit}
 .upi:last-child{border-bottom:none}
 .upd{min-width:52px;border-radius:10px;background:#F1F5FB;text-align:center;padding:6px 4px;line-height:1.1}.upd small{display:block;font-size:11px;font-weight:800;color:#C0283A;text-transform:uppercase}.upd b{font-size:21px}
@@ -589,6 +590,8 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function evTime(e){return e.start_time?(t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):'')):'All day';}
   function evDays(e){var a=e.starts_on,b=e.ends_on||e.starts_on;return [a,b];}
   function dayLong(s){return pday(s).toLocaleDateString([], {weekday:'long',month:'long',day:'numeric',year:'numeric'});}
+  function kc(e){return 'k-'+esc(e.category||'Other')+(e.color?' c-'+esc(e.color):'');}
+  var EVC=[['blue','Blue'],['navy','Navy'],['purple','Purple'],['pink','Pink'],['red','Red'],['orange','Orange'],['gold','Gold'],['green','Green'],['teal','Teal'],['brown','Brown'],['gray','Gray']];
   function evById(id){return CAL.events.filter(function(e){return String(e.id)===String(id);})[0];}
   function loadCal(){if(!calM){calM=new Date();calM.setHours(0,0,0,0);}
     $('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Loading...</div>';
@@ -606,7 +609,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       for(var mo=0;mo<12;mo++){var f=new Date(y,mo,1), st=new Date(f);st.setDate(1-f.getDay());var mini=[];
         ['S','M','T','W','T','F','S'].forEach(function(x){mini.push('<i>'+x+'</i>');});
         for(var q=0;q<42;q++){var dd=new Date(st);dd.setDate(st.getDate()+q);if(q===35&&dd.getMonth()!==mo)break;var kk=ymd(dd), n=dd.getMonth()===mo?dayEvs(kk):[];
-          mini.push(dd.getMonth()!==mo?'<span></span>':'<button class="yd'+(n.length?' has k-'+esc(n[0].category||'Other'):'')+(kk===today?' today':'')+'" data-yday="'+kk+'" title="'+esc(n.map(function(e){return e.title;}).join(', '))+'">'+dd.getDate()+'</button>');}
+          mini.push(dd.getMonth()!==mo?'<span></span>':'<button class="yd'+(n.length?' has '+kc(n[0]):'')+(kk===today?' today':'')+'" data-yday="'+kk+'" title="'+esc(n.map(function(e){return e.title;}).join(', '))+'">'+dd.getDate()+'</button>');}
         cells.push('<div class="ymon"><button class="ymt" data-ymon="'+mo+'">'+f.toLocaleDateString([], {month:'long'})+'</button><div class="ygrid">'+mini.join('')+'</div></div>');}
       $('caldays').innerHTML=cells.join('');
     } else if(calView==='sat'){
@@ -614,14 +617,14 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       var sd=new Date(calM.getFullYear(),calM.getMonth(),1);sd.setDate(1+((6-sd.getDay()+7)%7));
       for(;sd.getMonth()===calM.getMonth();sd.setDate(sd.getDate()+7)){var k3=ymd(sd), ev3=dayEvs(k3);
         cells.push('<div class="cday wk sat'+(k3===today?' today':'')+(CAL.can?' can':'')+'" data-day="'+k3+'"><div class="wkh"><small>Saturday</small><b>'+sd.toLocaleDateString([], {month:'short',day:'numeric'})+'</b><span class="satn">'+(ev3.length?ev3.length+(ev3.length>1?' events':' event'):'')+'</span></div>'+
-          (ev3.length?ev3.map(function(e){return '<span class="wev k-'+esc(e.category||'Other')+'" data-ev="'+esc(e.id)+'"><small>'+esc(e.start_time&&k3===e.starts_on?t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):''):'All day')+'</small>'+esc(e.title)+(e.location?'<em>'+esc(e.location)+'</em>':'')+'</span>';}).join(''):'<span class="wnone">No events yet'+(CAL.can?'. Click to add one.':'')+'</span>')+'</div>');}
+          (ev3.length?ev3.map(function(e){return '<span class="wev '+kc(e)+'" data-ev="'+esc(e.id)+'"><small>'+esc(e.start_time&&k3===e.starts_on?t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):''):'All day')+'</small>'+esc(e.title)+(e.location?'<em>'+esc(e.location)+'</em>':'')+'</span>';}).join(''):'<span class="wnone">No events yet'+(CAL.can?'. Click to add one.':'')+'</span>')+'</div>');}
       $('caldays').innerHTML=cells.join('');
     } else if(calView==='week'){
       var ws=new Date(calM);ws.setDate(calM.getDate()-calM.getDay());var we=new Date(ws);we.setDate(ws.getDate()+6);
       $('calttl').textContent=ws.toLocaleDateString([], {month:'short',day:'numeric'})+' to '+(ws.getMonth()===we.getMonth()?we.getDate():we.toLocaleDateString([], {month:'short',day:'numeric'}))+', '+we.getFullYear();
       for(var w=0;w<7;w++){var d2=new Date(ws);d2.setDate(ws.getDate()+w);var k2=ymd(d2), ev2=dayEvs(k2);
         cells.push('<div class="cday wk'+(k2===today?' today':'')+(CAL.can?' can':'')+'" data-day="'+k2+'"><div class="wkh"><small>'+d2.toLocaleDateString([], {weekday:'short'})+'</small><b>'+d2.getDate()+'</b></div>'+
-          (ev2.length?ev2.map(function(e){return '<span class="wev k-'+esc(e.category||'Other')+'" data-ev="'+esc(e.id)+'"><small>'+esc(e.start_time&&k2===e.starts_on?t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):''):'All day')+'</small>'+esc(e.title)+(e.location?'<em>'+esc(e.location)+'</em>':'')+'</span>';}).join(''):'<span class="wnone">No events</span>')+'</div>');}
+          (ev2.length?ev2.map(function(e){return '<span class="wev '+kc(e)+'" data-ev="'+esc(e.id)+'"><small>'+esc(e.start_time&&k2===e.starts_on?t12(e.start_time)+(e.end_time?' to '+t12(e.end_time):''):'All day')+'</small>'+esc(e.title)+(e.location?'<em>'+esc(e.location)+'</em>':'')+'</span>';}).join(''):'<span class="wnone">No events</span>')+'</div>');}
       $('caldays').innerHTML=cells.join('');
     } else {
     $('calttl').textContent=calM.toLocaleDateString([], {month:'long',year:'numeric'});
@@ -629,7 +632,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     for(var i=0;i<42;i++){var d=new Date(start);d.setDate(start.getDate()+i);var k=ymd(d);
       if(i===35&&d.getMonth()!==calM.getMonth())break;
       var evs=dayEvs(k);
-      var max=3, chips=evs.slice(0,max).map(function(e){return '<span class="chip k-'+esc(e.category||'Other')+'" data-ev="'+esc(e.id)+'" title="'+esc(e.title)+'">'+(e.start_time&&k===e.starts_on?esc(t12(e.start_time).replace(':00','').replace(' ','').toLowerCase())+' ':'')+esc(e.title)+'</span>';}).join('');
+      var max=3, chips=evs.slice(0,max).map(function(e){return '<span class="chip '+kc(e)+'" data-ev="'+esc(e.id)+'" title="'+esc(e.title)+'">'+(e.start_time&&k===e.starts_on?esc(t12(e.start_time).replace(':00','').replace(' ','').toLowerCase())+' ':'')+esc(e.title)+'</span>';}).join('');
       if(evs.length>max)chips+='<button class="more" data-day="'+k+'">+'+(evs.length-max)+' more</button>';
       cells.push('<div class="cday'+(d.getMonth()!==calM.getMonth()?' out':'')+(k===today?' today':'')+(CAL.can?' can':'')+'" data-day="'+k+'"><b>'+d.getDate()+'</b>'+chips+'</div>');}
     $('caldays').innerHTML=cells.join('');
@@ -641,10 +644,10 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     $('calup').innerHTML=up.length?up.map(function(e){var d=pday(e.starts_on);
       return '<button class="upi" data-ev="'+esc(e.id)+'"><span class="upd"><small>'+d.toLocaleDateString([], {month:'short'})+'</small><b>'+d.getDate()+'</b></span><span style="min-width:0"><span class="t">'+esc(e.title)+'</span>'+
         '<div class="m">'+(e.is_public===false?'<b style="color:#8A6420">Team only</b> · ':'')+esc(d.toLocaleDateString([], {weekday:'long'}))+(e.ends_on?' to '+esc(pday(e.ends_on).toLocaleDateString([], {month:'short',day:'numeric'})):'')+' · '+esc(evTime(e))+(e.location?' · '+esc(e.location):'')+'</div>'+
-        '<span class="chip k-'+esc(e.category||'Other')+'" style="display:inline-block;width:auto;margin-top:6px;cursor:pointer">'+esc(e.category||'Other')+'</span></span></button>';}).join('')
+        '<span class="chip '+kc(e)+'" style="display:inline-block;width:auto;margin-top:6px;cursor:pointer">'+esc(e.category||'Other')+'</span></span></button>';}).join('')
       :'<p class="meta">No upcoming events yet.'+(CAL.can?' Click a day on the calendar or "Add event" to add one.':'')+'</p>';}
   function evForm(e,day){e=e||{starts_on:day||ymd(new Date()),category:'Worship'};var ro=!CAL.can;
-    if(ro){$('calform').innerHTML='<div class="evbox evview"><span class="chip k-'+esc(e.category||'Other')+'" style="display:inline-block;width:auto">'+esc(e.category||'Other')+'</span><h3 style="margin-top:8px">'+esc(e.title)+'</h3>'+
+    if(ro){$('calform').innerHTML='<div class="evbox evview"><span class="chip '+kc(e)+'" style="display:inline-block;width:auto">'+esc(e.category||'Other')+'</span><h3 style="margin-top:8px">'+esc(e.title)+'</h3>'+
       (e.is_public===false?'<p><b style="color:#8A6420">Team only</b></p>':'')+'<p><b>'+esc(dayLong(e.starts_on))+(e.ends_on?' to '+esc(dayLong(e.ends_on)):'')+'</b> · '+esc(evTime(e))+'</p>'+(e.location?'<p>'+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
       '<div class="act"><button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
     var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';};
@@ -655,13 +658,15 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       '<label>Starts at<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select></label>'+
       '<label>Ends at<select name="end_time">'+timeOpts(e.end_time,'No end time')+'</select></label>'+
       '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
+      '<div class="wide" style="font-size:14px;font-weight:700;color:var(--muted)">Color<div class="swl" role="radiogroup" aria-label="Event color"><label class="sw k-'+esc(e.category||'Other')+'"><input type="radio" name="color" value=""'+(e.color?'':' checked')+'><span>Type color</span></label>'+
+        EVC.map(function(c){return '<label class="sw c-'+c[0]+'" title="'+c[1]+'"><input type="radio" name="color" value="'+c[0]+'"'+(e.color===c[0]?' checked':'')+' aria-label="'+c[1]+'"><span>'+c[1]+'</span></label>';}).join('')+'</div></div>'+
       '<label class="loc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
       '<label class="wide">Details<textarea name="details" rows="3" maxlength="4000">'+esc(e.details||'')+'</textarea></label>'+
       '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;flex:none;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
       '<div class="act"><button class="pbtn" data-c="saveev">'+(e.id?'Save changes':'Add event')+'</button><button class="lbtn" data-c="close">Cancel</button>'+(e.id?'<button class="dbtn" data-c="delev">Delete event</button>':'')+'<span class="saved" id="evmsg"></span></div></div>';
     $('calform').scrollIntoView({behavior:'smooth',block:'nearest'});var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
-    box.querySelectorAll('[name]').forEach(function(x){ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
+    box.querySelectorAll('[name]').forEach(function(x){if(x.type==='radio'){if(x.checked)ev[x.name]=x.value;return;}ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
     $('evmsg').textContent='Saving...';
     api('/calendar/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:ev})}).then(function(j){
       var e=j.event;CAL.events=CAL.events.filter(function(x){return String(x.id)!==String(e.id);});CAL.events.push(e);

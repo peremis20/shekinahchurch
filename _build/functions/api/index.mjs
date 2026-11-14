@@ -468,7 +468,8 @@ async function memberDelete(me, b) {
 
 // ---------- calendar (church events and tasks, inside the admin only) ----------
 const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Health', 'Other'];
-const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category";
+const CAL_COLORS = ['blue', 'navy', 'purple', 'pink', 'red', 'orange', 'gold', 'green', 'teal', 'brown', 'gray'];
+const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category, color";
 const EV_COLS = EV_PUB + ', is_public, created_by, updated_by, updated_at';
 const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
 const calEdit = (me) => !!me.perms.calendar_edit; // Jimmy, Nov 11, 2026: the whole team can view; only people with "Edit the calendar" can add, edit or delete
@@ -494,15 +495,15 @@ async function eventSave(me, b) {
   need(title, 400, 'Please add a name for the event.');
   need(start, 400, 'Please choose the date of the event.');
   let end = dayOf(e.ends_on); if (end && end < start) end = null; if (end === start) end = null;
-  const v = [title, start, end, timeOf(e.start_time), timeOf(e.end_time), str(e.location, 300), str(e.details, 4000), CAL_KINDS.includes(e.category) ? e.category : 'Other', me.email, e.is_public !== false];
+  const v = [title, start, end, timeOf(e.start_time), timeOf(e.end_time), str(e.location, 300), str(e.details, 4000), CAL_KINDS.includes(e.category) ? e.category : 'Other', me.email, e.is_public !== false, CAL_COLORS.includes(e.color) ? e.color : null];
   let row;
   if (e.id != null && e.id !== '') {
-    row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, updated_at = now()
-      WHERE id = $11 RETURNING *`, [...v, idOf(e.id)], EV_COLS);
+    row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, color = $11, updated_at = now()
+      WHERE id = $12 RETURNING *`, [...v, idOf(e.id)], EV_COLS);
     need(row, 404, 'That event was not found.');
   } else {
-    row = await wrote(`INSERT INTO cal_events (title, starts_on, ends_on, start_time, end_time, location, details, category, created_by, updated_by, is_public)
-      VALUES ($1, $2::date, $3::date, $4, $5, $6, $7, $8, $9, $9, $10::boolean) RETURNING *`, v, EV_COLS);
+    row = await wrote(`INSERT INTO cal_events (title, starts_on, ends_on, start_time, end_time, location, details, category, created_by, updated_by, is_public, color)
+      VALUES ($1, $2::date, $3::date, $4, $5, $6, $7, $8, $9, $9, $10::boolean, $11) RETURNING *`, v, EV_COLS);
   }
   return { event: row };
 }

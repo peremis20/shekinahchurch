@@ -8,4 +8,5 @@ INSERT INTO automation_status (key, value, updated_at) VALUES ('mail_relay_key',
 -- Church calendar inside the admin: events and tasks.
 CREATE TABLE IF NOT EXISTS cal_events (id bigserial PRIMARY KEY, title text NOT NULL, starts_on date NOT NULL, ends_on date, start_time text, end_time text, location text NOT NULL DEFAULT '', details text NOT NULL DEFAULT '', category text NOT NULL DEFAULT 'Other', is_public boolean NOT NULL DEFAULT true, created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
 CREATE INDEX IF NOT EXISTS cal_events_starts_on ON cal_events (starts_on);
+ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS color text;
 CREATE TABLE IF NOT EXISTS cal_tasks (id bigserial PRIMARY KEY, title text NOT NULL, due_on date, assigned_to text, event_id bigint REFERENCES cal_events(id) ON DELETE SET NULL, done boolean NOT NULL DEFAULT false, notes text NOT NULL DEFAULT '', created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
