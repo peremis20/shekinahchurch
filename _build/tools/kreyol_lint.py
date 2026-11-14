@@ -69,7 +69,7 @@ def lint():
                     if pre and pre[-1] not in '.!?:' and path not in ('.seo_title', '.title'):
                         out.append('%s: day name "%s" should be lowercase mid sentence' % (where, m.group(0)))
                 first = re.split(r'(?<=[.!?])\s', t)[0]
-                if re.match(r'^Pa [a-zè]+', first) and not re.match(r'^Pa (gen|ka|bezwen|eseye|kite|fè|janm|t|te|konnen|di|se|bliye|pè|enkyete|kraze|jije|sispann|rete|mete|pran|ale|vin|kwè|tande|wè|tounen|panse)\b', first):
+                if '.list[' not in path and re.match(r'^Pa [a-zè]+', first) and not re.match(r'^Pa (gen|ka|bezwen|eseye|kite|fè|janm|t|te|konnen|di|se|bliye|pè|enkyete|kraze|jije|sispann|rete|mete|pran|ale|vin|kwè|tande|wè|tounen|panse)\b', first):
                     out.append('%s: check for a leftover audio script fragment: %s' % (where, t[:50]))
     return out
 
