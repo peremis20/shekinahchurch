@@ -21,18 +21,40 @@
   {
    "h": "Ki 10 kòmandman yo, youn pa youn?",
    "p": [
-    "Men yo jan yo parèt nan Egzòd 20, rezime an Kreyòl senp. Youn: pa gen okenn lòt dye devan Bondye (vèsè 3). De: pa fè ni adore zidòl (vèsè 4 rive 6). Twa: pa sèvi ak non Bondye nan move fason (vèsè 7). Kat: sonje jou Saba a, setyèm jou a, pou kenbe l sen (vèsè 8 rive 11). Senk: onore papa ak manman (vèsè 12). Sis: pa touye moun (vèsè 13). Sèt: pa fè adiltè (vèsè 14). Uit: pa vòlè (vèsè 15). Nèf: pa bay fo temwayaj (vèsè 16). Dis: pa anvi sa ki pou lòt moun (vèsè 17)."
+    "Men yo jan yo parèt nan Egzòd 20, rezime an Kreyòl senp.",
+    {
+     "list": [
+      "Pa gen okenn lòt dye devan Bondye (vèsè 3).",
+      "Pa fè ni adore zidòl (vèsè 4 rive 6).",
+      "Pa sèvi ak non Bondye nan move fason (vèsè 7).",
+      "Sonje jou Saba a, setyèm jou a, pou kenbe l sen (vèsè 8 rive 11).",
+      "Onore papa ak manman (vèsè 12).",
+      "Pa touye moun (vèsè 13).",
+      "Pa fè adiltè (vèsè 14).",
+      "Pa vòlè (vèsè 15).",
+      "Pa bay fo temwayaj (vèsè 16).",
+      "Pa anvi sa ki pou lòt moun (vèsè 17)."
+     ]
+    }
    ]
   },
   {
    "h": "Kisa kat premye kòmandman yo anseye sou relasyon nou ak Bondye?",
    "p": [
     "Kat premye kòmandman yo anseye nou ke Bondye merite premye plas nan kè nou, nan adorasyon nou, nan pawòl nou, ak nan tan nou. Premye a se fondasyon tout rès la.",
-    {"quote": "Ou pa pou gen lòt dye devan M.", "cite": "Egzòd 20:3", "bsa": true},
+    {
+     "quote": "Ou pa pou gen lòt dye devan M.",
+     "cite": "Egzòd 20:3",
+     "bsa": true
+    },
     "Jodi a, pi fò nan nou pa gen estati nan lakou nou, men nou tout konnen sa sa ye pou yon bagay pran plas Bondye: lajan, telefòn nan, yon relasyon, menm yon travay nou renmen anpil. Dezyèm kòmandman an entèdi nou fè imaj pou nou adore, paske Bondye vivan an pa ka fèmen nan bwa oswa nan wòch (Egzòd 20:4 rive 6). Nan menm pasaj la, Bondye pwomèt li montre lanmou li a plizyè milye moun ki renmen l epi ki kenbe kòmandman li yo.",
     "Twazyèm kòmandman an pale sou non Bondye (Egzòd 20:7). Lè nou di nou se moun Bondye, nou pote non li, menm jan yon pitit pote non fanmi li nan katye a. Si nou rele tèt nou kretyen epi nou trete moun mal, nou sèvi ak non sa a pou ryen.",
     "Katriyèm kòmandman an se sèl ki kòmanse ak mo \"sonje\", tankou si Bondye te konnen nou t ap gen tandans bliye l nan mitan tout okipasyon nou.",
-    {"quote": "Sonje jou Saba a pou kenbe l sen.", "cite": "Egzòd 20:8", "bsa": true},
+    {
+     "quote": "Sonje jou Saba a pou kenbe l sen.",
+     "cite": "Egzòd 20:8",
+     "bsa": true
+    },
     "Kòmandman sa a di klè ke se setyèm jou a ki Saba Seyè a, e li bay rezon an: Bondye te kreye syèl la ak tè a nan sis jou epi li te repoze setyèm jou a (Egzòd 20:11). Nan Bib la, yon jou konte depi solèy kouche rive solèy kouche (Jenèz 1:5, Levitik 23:32), kidonk Saba a kòmanse vandredi lè solèy kouche epi li fini samdi lè solèy kouche. Nou gen yon etid an Kreyòl ki pale sou Saba a an detay, si ou vle ale pi fon."
    ]
   },
@@ -40,20 +62,36 @@
    "h": "Kisa sis dènye kòmandman yo anseye sou relasyon nou ak lòt moun?",
    "p": [
     "Sis dènye kòmandman yo anseye ke renmen Bondye toujou parèt nan fason nou trete moun bò kote nou, kòmanse lakay nou. Senkyèm kòmandman an se pon ant de pati yo, paske paran yo se premye pòtre otorite ak swen yon timoun konnen.",
-    {"quote": "Onore papa ou avèk manman ou, pou jou lavi ou yo kapab anpil nan peyi ke SENYÈ a, Bondye ou a te bay ou.", "cite": "Egzòd 20:12", "bsa": true},
+    {
+     "quote": "Onore papa ou avèk manman ou, pou jou lavi ou yo kapab anpil nan peyi ke SENYÈ a, Bondye ou a te bay ou.",
+     "cite": "Egzòd 20:12",
+     "bsa": true
+    },
     "Pòl fè remake ke se premye kòmandman ki vini ak yon pwomès (Efezyen 6:2). Onore paran pa vle di nou dakò ak yo sou tout bagay, oswa nou kite yo fè nou mal. Li vle di nou respekte yo, nou pale yo byen, epi lè yo vin granmoun, nou okipe yo. Nan kilti ayisyen an, nou konnen byen sa sa ye pou yon pitit voye kòb lakay pou grann ak granpapa.",
-    {"quote": "Ou pa pou touye moun.", "cite": "Egzòd 20:13", "bsa": true},
+    {
+     "quote": "Ou pa pou touye moun.",
+     "cite": "Egzòd 20:13",
+     "bsa": true
+    },
     "Sizyèm kòmandman an pwoteje lavi, paske chak moun fèt nan imaj Bondye. Jezi te montre ke li kòmanse nan kè a, lè kòlè ak mepri kòmanse pouse rasin (Matye 5:21 rive 22). Setyèm kòmandman an, pa fè adiltè (Egzòd 20:14), pwoteje maryaj ak fidelite. Jezi te montre ke peche sa a kòmanse nan je ak nan lide (Matye 5:27 rive 28). Pou yon koup marye, kòmandman sa a se tankou yon kloti alantou yon jaden: li pa la pou fèmen lanmou, men pou pwoteje l.",
-    {"quote": "Ou pa pou vòlè.", "cite": "Egzòd 20:15", "bsa": true},
+    {
+     "quote": "Ou pa pou vòlè.",
+     "cite": "Egzòd 20:15",
+     "bsa": true
+    },
     "Wityèm kòmandman an pa sèlman pou moun ki kase pòt. Li touche fason nou travay, fason nou peye dèt nou, ak fason nou itilize tan patwon nou.",
-    {"quote": "Ou pa pou fè fo temwayaj kont vwazen ou.", "cite": "Egzòd 20:16", "bsa": true},
+    {
+     "quote": "Ou pa pou fè fo temwayaj kont vwazen ou.",
+     "cite": "Egzòd 20:16",
+     "bsa": true
+    },
     "Nan yon epòk kote yon rimè ka fè wonn mond lan sou WhatsApp anvan dlo te a fin bouyi, nevyèm kòmandman an pi aktyèl pase jounal maten an. Gaye yon tripotay se tankou louvri yon zòrye plim nan van: ou pa janm ka ranmase tout plim yo ankò. Dizyèm kòmandman an, pa anvi sa ki pou lòt moun (Egzòd 20:17), desann pi fon pase tout lòt yo, paske li gade dezi kè a. Pòl di se kòmandman sa a ki te fè l rekonèt peche nan pwòp kè li (Women 7:7)."
    ]
   },
   {
    "h": "Èske Jezi te vin aboli Dis Kòmandman yo?",
    "p": [
-    "Non. Nan Sèmon sou Mòn nan, Jezi te di li pa t vin aboli lalwa ni pwofèt yo, men li te vin akonpli yo (Matye 5:17). Li ajoute ke pa gen yon ti pwen, pa gen yon ti mak nan lalwa a ki pral disparèt toutotan syèl la ak tè a la (Matye 5:18 rive 19). Kidonk \"akonpli\" pa vle di \"fini ak li\", tankou yon kontra ki ekspire. Li vle di Jezi te viv lalwa nèt ale, li te montre sans pwofon li, epi li te ranpli l ak lanmou.",
+    "Non. Nan Sèmon sou Mòn nan, Jezi te di li pa t vin aboli lalwa ni pwofèt yo, men li te vin akonpli yo (Matye 5:17). Li ajoute ke pa gen yon ti pwen, pa gen yon ti mak nan lalwa a ki pral disparèt toutotan syèl la ak tè a la (Matye 5:18 rive 19). Nan kontèks vèsè sa yo, nou konprann ke \"akonpli\" pa vle di \"fini ak li\", tankou yon kontra ki ekspire. Li vle di Jezi te viv lalwa nèt ale, li te montre sans pwofon li, epi li te ranpli l ak lanmou.",
     "Yon jou, yon dòktè lalwa mande Jezi ki kòmandman ki pi gran, pou l sonde l (Matye 22:35). Jezi reponn: renmen Seyè a, Bondye ou, ak tout kè ou, ak tout nanm ou, ak tout lespri ou; se premye gwo kòmandman an. Dezyèm nan sanble avè l: renmen pwochen ou tankou tèt ou. Tout lalwa a ak pwofèt yo kenbe sou de kòmandman sa yo (Matye 22:37 rive 40).",
     "Jezi pa t mete Dis Kòmandman yo sou kote pou ranplase yo ak lanmou. Li te montre ke lanmou se rasin yo. Pòl di menm bagay la: lanmou se akonplisman lalwa (Women 13:8 rive 10). Epi Jezi di: si nou renmen m, n ap kenbe kòmandman m yo (Jan 14:15). Li pa di: \"Kenbe kòmandman m yo pou m ka renmen nou.\" Obeyisans lan se fwi relasyon an, li pa yon pri nou peye pou n achte l."
    ]
@@ -76,7 +114,7 @@
    "h": "Ki diferans ki genyen ant lalwa moral la ak lwa seremoni yo?",
    "p": [
     "Lalwa moral la se Dis Kòmandman yo: Bondye pale yo, li ekri yo sou wòch, epi yo te mete anndan lach la (Detewonòm 10:1 rive 5). Lwa seremoni yo se règ sou sakrifis ak rit nan tanp lan; Moyiz te ekri yo nan yon liv ki te mete bò kote lach la (Detewonòm 31:24 rive 26). Sakrifis yo te montre dwèt sou Jezi, Ti Mouton Bondye a. Liv Ebre eksplike ke sakrifis bèt yo te sèlman yon lonbraj de sa ki t ap vini, e ke Jezi te ofri tèt li yon fwa pou tout (Ebre 10:1 rive 10).",
-    "Lè yon moun di \"Nou pa anba lalwa ankò, nou pa touye mouton ankò,\" li gen rezon sou mouton yo, men sa pa vle di nou ka vòlè oswa bay manti. Lè Jezi mouri, sakrifis yo fini; karaktè Bondye pa fini. Lalwa moral la rete kòm lalwa libète Jak pale de li a (Jak 1:25, Jak 2:12).",
+    "Lè yon moun di \"Nou pa anba lalwa ankò, nou pa touye mouton ankò,\" li gen rezon sou mouton yo, men sa pa vle di nou ka vòlè oswa bay manti. Lè Jezi mouri, sakrifis yo fini; karaktè Bondye pa fini. Yon etid Enstiti Rechèch Biblik la eksplike ke lalwa moral la rete kòm lalwa libète Jak pale de li a (Jak 1:25, Jak 2:12).",
     "Efezyen 2:15 pale de kòmandman an fòm règleman Kris te aboli nan kò li, epi Kolosyen 2:14 rive 17 pale de bagay ki te sèlman yon lonbraj sa ki t ap vini. Nou konprann pasaj sa yo kòm pawòl sou lwa seremoni yo ki te montre dwèt sou Kris, pa sou Dis Kòmandman yo; se yon entèpretasyon, epi nou di l kareman. Gen lòt kretyen ki li yo yon lòt jan, epi nou respekte sensèrite yo. Men paske Jezi, Pòl ak Jak kontinye site kòmandman moral yo kòm gid pou kretyen, nou kwè lekti sa a pi byen respekte tout Ekriti a."
    ]
   },
@@ -91,13 +129,22 @@
    "h": "Kijan fanmi w ka viv Dis Kòmandman yo chak jou?",
    "p": [
     "Detewonòm 6:6 rive 7 mande paran yo pale de pawòl Bondye lè yo chita lakay yo, lè yo sou wout, lè yo kouche ak lè yo leve. Se pa yon klas fòmèl, se yon konvèsasyon ki pa janm fini.",
-    "Chak semèn, chwazi yon kòmandman, li l nan Egzòd 20 epi aprann li pa kè ak timoun yo. Nan tab la, mande chak moun ki kote yo te wè kòmandman sa a jodi a, lekòl, travay, oswa sou telefòn. Ekri dis yo sou yon fèy epi kole l sou frijidè a. Raple timoun yo ke Bondye te libere pèp la anvan li ba yo lalwa, e li renmen yo menm lè yo fè erè. Epi fini ak lapriyè: mande Bondye ekri lalwa li nan kè nou, pa sèlman sou papye a.",
+    "Chak semèn, chwazi yon kòmandman, li l nan Egzòd 20 epi aprann li pa kè ak timoun yo. Nan tab la, mande chak moun ki kote yo te wè kòmandman sa a jodi a: nan lekòl, nan travay, oswa sou telefòn. Ekri dis yo sou yon fèy epi kole l sou frijidè a. Raple timoun yo ke Bondye te libere pèp la anvan li ba yo lalwa, e li renmen yo menm lè yo fè erè. Epi fini ak lapriyè: mande Bondye ekri lalwa li nan kè nou, pa sèlman sou papye a.",
     "Lè yon timoun fè yon erè, sèvi ak kòmandman an kòm yon pòt pou pale de padon, pa kòm yon baton pou frape. Ou ka di: \"Ou konnen sa Bondye di sou manti a. Ann priye ansanm pou mande l padon, epi ann chèche kijan pou n repare sa.\""
    ],
    "faq": [
-    {"q": "Èske Dis Kòmandman yo te sèlman pou pèp Izrayèl la?", "a": "Non. Yo dekri prensip moral Bondye pou tout limanite. Menm anvan Sinayi, touye moun ak adiltè te deja peche devan Bondye, tankou nan istwa Kayen (Jenèz 4) ak istwa Jozèf (Jenèz 39:9). Bondye te bay pèp Izrayèl la lalwa a ekri pou lòt nasyon yo te ka wè sajès li (Detewonòm 4:6), epi Pòl site kòmandman yo pou kretyen lavil Wòm, anpil ladan yo pa t jwif (Women 13:9)."},
-    {"q": "Si m kase youn nan kòmandman yo, èske Bondye ap rejte m?", "a": "Non. Si nou konfese peche nou, Bondye fidèl e jis pou l padone nou epi pou l netwaye nou (1 Jan 1:9). Lalwa montre nou kote nou tonbe, men se lagras ki leve nou. David te kase plizyè kòmandman, men lè li te repanti, li te ekri Sòm 51, youn nan pi bèl priyè padon nan Bib la."},
-    {"q": "Ki diferans ki genyen ant Egzòd 20 ak Detewonòm 5?", "a": "Se menm dis kòmandman yo. Nan Egzòd, rezon pou Saba a se kreyasyon an (Egzòd 20:11). Nan Detewonòm, Moyiz ajoute souvni delivrans lan anba esklavaj (Detewonòm 5:15), epi nan dènye kòmandman an li mete madanm vwazen an anvan kay li (Detewonòm 5:21). Ansanm, de pasaj yo montre ke Bondye se tou de Kreyatè nou ak Liberatè nou."}
+    {
+     "q": "Èske Dis Kòmandman yo te sèlman pou pèp Izrayèl la?",
+     "a": "Non. Yo dekri prensip moral Bondye pou tout limanite. Menm anvan Sinayi, touye moun ak adiltè te deja peche devan Bondye, tankou nan istwa Kayen (Jenèz 4) ak istwa Jozèf (Jenèz 39:9). Bondye te bay pèp Izrayèl la lalwa a ekri pou lòt nasyon yo te ka wè sajès li (Detewonòm 4:6), epi Pòl site kòmandman yo pou kretyen lavil Wòm, anpil ladan yo pa t jwif (Women 13:9)."
+    },
+    {
+     "q": "Si m kase youn nan kòmandman yo, èske Bondye ap rejte m?",
+     "a": "Non. Si nou konfese peche nou, Bondye fidèl e jis pou l padone nou epi pou l netwaye nou (1 Jan 1:9). Lalwa montre nou kote nou tonbe, men se lagras ki leve nou. David te kase plizyè kòmandman, men lè li te repanti, li te ekri Sòm 51, youn nan pi bèl priyè padon nan Bib la."
+    },
+    {
+     "q": "Ki diferans ki genyen ant Egzòd 20 ak Detewonòm 5?",
+     "a": "Se menm dis kòmandman yo. Nan Egzòd, rezon pou Saba a se kreyasyon an (Egzòd 20:11). Nan Detewonòm, Moyiz ajoute souvni delivrans lan anba esklavaj (Detewonòm 5:15), epi nan dènye kòmandman an li mete madanm vwazen an anvan kay li (Detewonòm 5:21). Ansanm, de pasaj yo montre ke Bondye se tou de Kreyatè nou ak Liberatè nou."
+    }
    ]
   },
   {

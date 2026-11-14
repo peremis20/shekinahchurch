@@ -80,7 +80,7 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .body h2{margin-top:34px}.body p{margin:0 0 14px}.body h3{font-size:18px;color:var(--navy);margin:22px 0 6px}
 .q{margin:6px 0 18px;padding:16px 20px;border-left:4px solid var(--gold);background:var(--cream);border-radius:0 12px 12px 0}.q p{margin:0 0 8px;font-size:17px;font-style:italic}.q cite{font-size:13px;color:#5d6a80;font-style:normal}
 .pnote{font-size:14px;color:#5d6a80;margin-top:20px}.q a{color:inherit}
-.pray{margin:0 0 14px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff}.pray strong{display:block;color:var(--navy);margin-bottom:4px}.pray p{margin:0}
+.cmds{margin:0 0 18px;padding-left:26px}.cmds li{margin:0 0 6px}.pray{margin:0 0 14px;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:#fff}.pray strong{display:block;color:var(--navy);margin-bottom:4px}.pray p{margin:0}
 .crisis{background:#FFF4E5;border:1px solid #F0C98A;border-radius:12px;padding:14px 16px;margin:0 0 20px}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:12px 22px}
@@ -192,7 +192,7 @@ def article_words(art):
     for sec in art['sections']:
         out.append(sec['h'])
         for x in sec['p']:
-            out.append(x if isinstance(x, str) else ' '.join(str(v) for k, v in x.items() if k != 'cite'))
+            out.append(x if isinstance(x, str) else ' '.join(x['list']) if 'list' in x else ' '.join(str(v) for k, v in x.items() if k != 'cite'))
         for f in sec.get('faq', []):
             out += [f['q'], f['a']]
     return len(' '.join(out).split())
@@ -246,6 +246,8 @@ def study_page(s, all_s):
                         cite += (', Bib Sen An, © 2017, 2023 Ron Smith (<a href="https://ebible.org/hatbsa/">ebible.org</a>), lisans '
                                  '<a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">Creative Commons Attribution ShareAlike 4.0</a>')
                     p.append('<blockquote class="q"><p>%s</p><cite>%s</cite></blockquote>' % (e(x['quote']), cite))
+                elif 'list' in x:
+                    p.append('<ol class="cmds">%s</ol>' % ''.join('<li>%s</li>' % e(i) for i in x['list']))
                 elif 'prayer' in x:
                     p.append('<div class="pray"><strong>%s</strong><p>%s</p></div>' % (e(x['prayer']), e(x['text'])))
             for f in sec.get('faq', []):
@@ -376,6 +378,8 @@ def llms_full_section():
                         out += [x, '']
                     elif 'quote' in x:
                         out += ['> ' + x['quote'], '> (' + x.get('cite', '') + (', Bib Sen An, CC BY SA 4.0' if x.get('bsa') else '') + ')', '']
+                    elif 'list' in x:
+                        out += ['%d. %s' % (i + 1, t) for i, t in enumerate(x['list'])] + ['']
                     elif 'prayer' in x:
                         out += ['**%s:** %s' % (x['prayer'], x['text']), '']
                 for q in sec.get('faq', []):
