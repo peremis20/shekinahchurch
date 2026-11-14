@@ -20,12 +20,12 @@ CSS = """
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
 body{margin:0;background:#fff;color:var(--ink);font-family:'Mulish',system-ui,sans-serif;font-size:17px;line-height:1.6}
 a{color:var(--green)}
-.top{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:20;background:#13294B;border-bottom:1px solid #13294B}
 .topin{max-width:1240px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;justify-content:space-between}
-.topin img{height:58px;width:auto;display:block}
+.topin img{height:64px;width:auto;display:block}
 .topnav{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
-.topnav a{color:var(--navy);font-weight:700;font-size:15px;text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
-.topnav a:hover{color:var(--gold)}.topnav a.on{color:var(--gold);border-bottom-color:#C9A04A}
+.topnav a{color:#fff;font-weight:700;font-size:15px;text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
+.topnav a:hover{color:#E3B04B}.topnav a.on{color:#E3B04B;border-bottom-color:#E3B04B}
 .give{background:var(--green);color:#fff !important;border-radius:40px;padding:11px 20px !important;border:none !important}
 .hero{background:linear-gradient(135deg,#13294B,#1E3D6E);color:#fff}
 .heroin{max-width:1240px;margin:0 auto;padding:52px 24px 46px}
@@ -151,7 +151,7 @@ def page():
             '<link rel="icon" href="/favicon.ico?v=2" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">'
             '<link rel="apple-touch-icon" href="/apple-touch-icon.png">%s<style>%s</style></head><body>'
             % (H.escape(TITLE), H.escape(DESC), K.SITE, H.escape(DESC), K.SITE, K.FONTS, CSS))
-    top = ('<header class="top"><div class="topin"><a href="/"><img src="/assets/logo-light.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church" width="212" height="58"></a>'
+    top = ('<header class="top"><div class="topin"><a href="/"><img src="/assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church" width="234" height="64"></a>'
            '<nav class="topnav"><a href="/">Home</a><a href="/about/">About</a><a href="/kreyol/">Bible Studies</a><a class="on" href="/events/">Events</a>'
            '<a href="/prayer-request/">Prayer Request</a><a href="/contact/">Contact</a><a class="give" href="/give/">Give</a></nav></div></header>')
     hero = ('<section class="hero"><div class="heroin"><div class="kick">Church Events</div><h1>What is happening at Shekinah</h1>'
