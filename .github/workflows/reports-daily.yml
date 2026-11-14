@@ -1,0 +1,35 @@
+name: Reports daily
+# Pulls Google Analytics and Search Console numbers for the admin Reports dashboard.
+# Keyless: GitHub signs in to Google Cloud through workload identity (no stored keys),
+# and the API checks GitHub's own signed token before saving the numbers.
+on:
+  schedule:
+    - cron: '23 11 * * *'   # about 5:23 AM Central (6:23 AM in summer time)
+  workflow_dispatch:
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_REPORTS_SA }}
+          token_format: access_token
+          access_token_scopes: https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/webmasters.readonly
+      - name: Fetch Google Analytics and Search Console
+        env:
+          GOOGLE_TOKEN: ${{ steps.auth.outputs.access_token }}
+          GA_PROPERTY: ${{ vars.GA_PROPERTY }}
+          GSC_SITE: ${{ vars.GSC_SITE }}
+        run: python3 _build/tools/reports_fetch.py report.json
+      - name: Send to the church API
+        run: |
+          ID=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=shekinah-reports" | python3 -c 'import sys,json;print(json.load(sys.stdin)["value"])')
+          curl -sS --fail-with-body -X POST -H "Authorization: Bearer $ID" -H 'Content-Type: application/json' --data-binary @report.json \
+            https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/reports/ingest

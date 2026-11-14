@@ -586,6 +586,42 @@ async function submit(req) {
   return { ok: true };
 }
 
+// ---------- daily reports (Google Analytics + Search Console) ----------
+// A GitHub Actions job (.github/workflows/reports-daily.yml) reads both Google APIs with a keyless,
+// read only Google Cloud identity and posts the numbers here. It proves who it is with GitHub's own
+// signed OIDC token, so no shared secret exists anywhere.
+const GH_ISS = 'https://token.actions.githubusercontent.com', GH_REPO = 'peremis20/shekinahchurch', GH_AUD = 'shekinah-reports';
+let ghKeys = null, ghKeysAt = 0;
+const b64u = (s) => Buffer.from(s.replace(/-/g, '+').replace(/_/g, '/'), 'base64');
+async function githubOidc(req) {
+  const tok = (req.headers.get('authorization') || '').replace(/^Bearer\s+/i, '');
+  const parts = tok.split('.'); need(parts.length === 3, 401, 'Not allowed.');
+  let head, claims; try { head = JSON.parse(b64u(parts[0]).toString()); claims = JSON.parse(b64u(parts[1]).toString()); } catch { throw new Fail(401, 'Not allowed.'); }
+  need(head.alg === 'RS256' && head.kid, 401, 'Not allowed.');
+  if (!ghKeys || Date.now() - ghKeysAt > 3600e3) { const r = await fetch(GH_ISS + '/.well-known/jwks'); ghKeys = (await r.json()).keys || []; ghKeysAt = Date.now(); }
+  const jwk = ghKeys.find((k) => k.kid === head.kid); need(jwk, 401, 'Not allowed.');
+  const key = await crypto.subtle.importKey('jwk', { kty: jwk.kty, n: jwk.n, e: jwk.e, alg: 'RS256', ext: true }, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['verify']);
+  const ok = await crypto.subtle.verify('RSASSA-PKCS1-v1_5', key, b64u(parts[2]), new TextEncoder().encode(parts[0] + '.' + parts[1]));
+  const now = Date.now() / 1000;
+  need(ok && claims.iss === GH_ISS && claims.aud === GH_AUD && claims.repository === GH_REPO && claims.ref === 'refs/heads/main' && claims.exp > now && (claims.nbf || 0) <= now + 60, 401, 'Not allowed.');
+  return claims;
+}
+async function reportsIngest(req) {
+  await githubOidc(req);
+  const b = await body(req);
+  need(b && b.generated_at && (b.ga || b.gsc), 400, 'Missing report data.');
+  await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ('reports_daily', $1, now())
+    ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`, [JSON.stringify(b)]);
+  return { ok: true };
+}
+async function reportsGet(me) {
+  allow(me, 'messages_manage');
+  const r = await one("SELECT value, updated_at FROM automation_status WHERE key = 'reports_daily'");
+  if (!r) return { report: null };
+  let v = null; try { v = JSON.parse(r.value); } catch {}
+  return { report: v, saved_at: r.updated_at };
+}
+
 // ---------- router ----------
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
@@ -595,7 +631,7 @@ const ROUTES = {
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
 };
 const GETS = {
-  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar,
+  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
 };
 async function route(req, path) {
@@ -604,6 +640,7 @@ async function route(req, path) {
   if (key === 'POST /submit') return submit(req);
   if (key === 'GET /content') return publicContent();
   if (key === 'GET /events') return publicEvents();
+  if (key === 'POST /reports/ingest') return reportsIngest(req);
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
   if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout') {
