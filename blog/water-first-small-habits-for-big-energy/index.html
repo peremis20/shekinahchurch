@@ -8,7 +8,8 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-DBRNW7DHZH', { allow_google_signals: false, allow_ad_personalization_signals: false });
+  var shkIn=false;try{shkIn=localStorage.getItem('shk_internal')==='1'}catch(e){}
+  gtag('config', 'G-DBRNW7DHZH', shkIn?{ allow_google_signals: false, allow_ad_personalization_signals: false, traffic_type: 'internal' }:{ allow_google_signals: false, allow_ad_personalization_signals: false });
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <base href="/">

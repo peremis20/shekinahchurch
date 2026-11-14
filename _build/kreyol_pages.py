@@ -158,7 +158,7 @@ FOOTER = FOOTER_SIMPLE
 
 def head(title, desc, url, ld):
     ga = ('<script async src="https://www.googletagmanager.com/gtag/js?id=%s"></script>'
-          '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());gtag("config","%s");</script>' % (GA, GA))
+          '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());var shkIn=false;try{shkIn=localStorage.getItem("shk_internal")==="1"}catch(e){}gtag("config","%s",shkIn?{traffic_type:"internal"}:{});</script>' % (GA, GA))
     return ('<!doctype html><html lang="ht"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s">'
