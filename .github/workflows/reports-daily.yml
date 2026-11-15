@@ -18,15 +18,15 @@ jobs:
       - id: auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_REPORTS_SA }}
+          workload_identity_provider: projects/165282532166/locations/global/workloadIdentityPools/github/providers/github
+          service_account: shekinah-reports@shekinah-reports-2026.iam.gserviceaccount.com
           token_format: access_token
           access_token_scopes: https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/webmasters.readonly
       - name: Fetch Google Analytics and Search Console
         env:
           GOOGLE_TOKEN: ${{ steps.auth.outputs.access_token }}
-          GA_PROPERTY: ${{ vars.GA_PROPERTY }}
-          GSC_SITE: ${{ vars.GSC_SITE }}
+          GA_PROPERTY: '561104244'
+          GSC_SITE: 'sc-domain:shekinahsda.org'
         run: python3 _build/tools/reports_fetch.py report.json
       - name: Send to the church API
         run: |
