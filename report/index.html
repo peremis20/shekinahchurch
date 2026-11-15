@@ -58,7 +58,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
   var box=document.getElementById('rep');
   function msg(t){box.innerHTML='<div class="panel page"><p class="meta" style="margin:0">'+t+'</p></div>';}
-  var m=/[#&]k=([A-Za-z0-9_-]+)/.exec(location.hash||'');
+  var m=/^#(?:k=)?([A-Za-z0-9_-]+)$/.exec(location.hash||'');
   if(!m){msg('This link is missing its key. Ask the church office for a new link.');return;}
   fetch(API+'/reports/view?k='+encodeURIComponent(m[1])).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});})
     .then(function(j){if(!j.report){msg('The first daily update has not run yet. Please check back tomorrow.');return;}box.innerHTML=window.shkWebReport(j.report);})

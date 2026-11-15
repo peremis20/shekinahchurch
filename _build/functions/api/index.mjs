@@ -627,7 +627,8 @@ async function shareKey(make) {
   const r = await one("SELECT value FROM automation_status WHERE key = 'reports_share_key'");
   if (r && r.value) return r.value;
   if (!make) return '';
-  const k = randomBytes(18).toString('base64url');
+  const A = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let k = ''; for (let i = 0; i < 6; i++) k += A[randomInt(A.length)];
   await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ('reports_share_key', $1, now())
     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`, [k]);
   return k;
