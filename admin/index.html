@@ -58,7 +58,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 #userchip .av{width:46px;height:46px;border-radius:50%;background:#E8F0FF;color:var(--active);display:grid;place-items:center;font-weight:900;font-size:22px}
 #userchip b{display:block;font-size:17px;line-height:1.1}
 #userchip small{font-size:15px;opacity:.9}
-#umenu{position:absolute;right:0;top:64px;background:#fff;color:var(--ink);border-radius:12px;box-shadow:var(--shadow);min-width:220px;padding:6px;z-index:60}
+#umenu{position:fixed;right:16px;top:80px;background:#fff;color:var(--ink);border-radius:12px;box-shadow:var(--shadow);min-width:220px;padding:6px;z-index:9000}
 #umenu div{padding:8px 12px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);margin-bottom:4px;word-break:break-all}
 #umenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:8px;font-weight:600}
 #umenu button:hover{background:var(--soft)}
@@ -1169,7 +1169,10 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   $('burger').onclick=function(){document.body.classList.toggle('menu');};
   $('scrim').onclick=function(){document.body.classList.remove('menu');};
   $('bell').onclick=function(){tab='new';go('messages');};
-  $('userchip').onclick=function(e){e.stopPropagation();$('umenu').classList.toggle('hide');};
+  function placeUmenu(){var r=$('userchip').getBoundingClientRect(),m=$('umenu');m.style.top=Math.round(r.bottom+8)+'px';m.style.right=Math.max(8,Math.round(window.innerWidth-r.right))+'px';}
+  $('userchip').onclick=function(e){e.stopPropagation();placeUmenu();$('umenu').classList.toggle('hide');};
+  window.addEventListener('resize',function(){if(!$('umenu').classList.contains('hide'))placeUmenu();});
+  window.addEventListener('scroll',function(){$('umenu').classList.add('hide');},true);
   document.addEventListener('click',function(e){if(!e.target.closest('#umenu'))$('umenu').classList.add('hide');
     if(menuId!==null&&!e.target.closest('.kmenu')&&!e.target.closest('.kebab')){menuId=null;show();}});
   $('stats').addEventListener('click',function(e){var b=e.target.closest('.stat');if(!b)return;var k=b.getAttribute('data-k');tab='all';
