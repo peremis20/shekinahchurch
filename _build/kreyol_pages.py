@@ -305,7 +305,7 @@ def hub(all_s, posts=None):
     p = [head(title, desc, url, ld), HEADER, '<main>']
     p.append('<h1>Etid Biblik an Kreyòl</h1>')
     p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
-             'ak kesyon pou pale ladan yo ak fanmi ou. Si ou vle etidye ak yon moun, <a href="/bible-study/">mande yon etid pèsonèl</a>.</p>')
+             'ak kesyon pou pale ladan yo ak fanmi ou. Si ou vle etidye ak yon moun, <a href="/contact/?topic=bible">mande yon etid pèsonèl</a>.</p>')
     p.append('<h2 id="odyo">Etid odyo</h2>')
     p.append('<div class="cards">%s</div>' % ''.join(card(s) for s in all_s))
     arts = kreyol_posts(posts)
