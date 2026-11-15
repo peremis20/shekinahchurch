@@ -622,16 +622,43 @@ async function reportsGet(me) {
   return { report: v, saved_at: r.updated_at };
 }
 
+// View only share link: anyone with the secret link can see the website numbers, nothing else.
+async function shareKey(make) {
+  const r = await one("SELECT value FROM automation_status WHERE key = 'reports_share_key'");
+  if (r && r.value) return r.value;
+  if (!make) return '';
+  const k = randomBytes(18).toString('base64url');
+  await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ('reports_share_key', $1, now())
+    ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`, [k]);
+  return k;
+}
+async function reportsView(req) {
+  const k = new URL(req.url).searchParams.get('k') || '';
+  const real = await shareKey(false);
+  need(real && k.length === real.length && sha(k) === sha(real), 404, 'This link is not active.');
+  const r = await one("SELECT value, updated_at FROM automation_status WHERE key = 'reports_daily'");
+  let v = null; if (r) { try { v = JSON.parse(r.value); } catch {} }
+  return { report: v, saved_at: r ? r.updated_at : null };
+}
+async function shareGet(me) { allow(me, 'team_manage'); return { key: await shareKey(false) }; }
+async function shareMake(me) {
+  allow(me, 'team_manage');
+  await q("DELETE FROM automation_status WHERE key = 'reports_share_key'");
+  return { key: await shareKey(true) };
+}
+async function shareOff(me) { allow(me, 'team_manage'); await q("DELETE FROM automation_status WHERE key = 'reports_share_key'"); return { key: '' }; }
+
 // ---------- router ----------
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
+  'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
 };
 const GETS = {
-  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet,
+  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
 };
 async function route(req, path) {
@@ -641,6 +668,7 @@ async function route(req, path) {
   if (key === 'GET /content') return publicContent();
   if (key === 'GET /events') return publicEvents();
   if (key === 'POST /reports/ingest') return reportsIngest(req);
+  if (key === 'GET /reports/view') return reportsView(req);
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
   if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout') {
@@ -656,7 +684,7 @@ async function route(req, path) {
 export default {
   async fetch(req) {
     const path = new URL(req.url).pathname.replace(/\/+$/, '') || '/';
-    const pub = path === '/content' || path === '/events' || path === '/submit' || path === '/';
+    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/';
     const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' || path === '/events' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     try {

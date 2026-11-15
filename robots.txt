@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /admin.html
+Disallow: /report/
 Allow: /
 
 # Search engines and AI assistants are welcome to read and cite our articles.

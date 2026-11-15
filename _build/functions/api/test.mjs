@@ -214,6 +214,17 @@ const { createHash } = await import('node:crypto');
 await db.query("INSERT INTO admin_sessions (token_hash, email, expires_at) VALUES ($1, 'owner@x.org', now() + interval '1 day')", [createHash('sha256').update('legacy-token-123').digest('hex')]);
 r = await call('GET', '/admin/check', { token: 'legacy-token-123' }); ok(r.status === 200 && r.j.email === 'owner@x.org', 'old sessions still work', r);
 
+// ---- view only share link for the website numbers ----
+r = await call('GET', '/reports/view?k=abc'); ok(r.status === 404, 'no share link until one is made', r.status);
+r = await call('GET', '/admin/reports/share', { token: T.leader }); ok(r.status === 403, 'only team managers see the share link', r.status);
+r = await call('POST', '/admin/reports/share/new', { token: O, body: {} }); const K1 = r.j.key; ok(r.status === 200 && K1.length >= 20, 'make a share link', r.j);
+await db.query("INSERT INTO automation_status (key, value, updated_at) VALUES ('reports_daily', $1, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value", [JSON.stringify({ generated_at: 'x', ga: { last28: { activeUsers: 5 } } })]);
+r = await call('GET', '/reports/view?k=' + K1); ok(r.status === 200 && r.j.report.ga.last28.activeUsers === 5, 'share link shows the numbers', r.j);
+r = await call('GET', '/reports/view?k=' + K1.slice(0, -1) + 'x'); ok(r.status === 404, 'wrong link refused', r.status);
+r = await call('POST', '/admin/reports/share/new', { token: O, body: {} }); ok(r.j.key !== K1, 'new link replaces the old one');
+r = await call('GET', '/reports/view?k=' + K1); ok(r.status === 404, 'old link stops working', r.status);
+r = await call('POST', '/admin/reports/share/off', { token: O, body: {} }); r = await call('GET', '/admin/reports/share', { token: O }); ok(r.j.key === '', 'turn sharing off', r.j);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 globalThis.fetch = realFetch;
 process.exit(fail ? 1 : 0);
