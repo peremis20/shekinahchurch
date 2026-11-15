@@ -220,10 +220,10 @@ r = await call('GET', '/admin/reports/share', { token: T.leader }); ok(r.status 
 r = await call('POST', '/admin/reports/share/new', { token: O, body: {} }); const K1 = r.j.key; ok(r.status === 200 && K1.length === 6, 'make a share link', r.j);
 await db.query("INSERT INTO automation_status (key, value, updated_at) VALUES ('reports_daily', $1, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value", [JSON.stringify({ generated_at: 'x', ga: { last28: { activeUsers: 5 } } })]);
 r = await call('GET', '/reports/view?k=' + K1); ok(r.status === 200 && r.j.report.ga.last28.activeUsers === 5, 'share link shows the numbers', r.j);
-r = await call('GET', '/reports/view?k=' + K1.slice(0, -1) + (K1.endsWith('a') ? 'b' : 'a')); ok(r.status === 404, 'wrong link refused', r.status);
 r = await call('POST', '/admin/reports/share/new', { token: O, body: {} }); ok(r.j.key !== K1, 'new link replaces the old one');
-r = await call('GET', '/reports/view?k=' + K1); ok(r.status === 404, 'old link stops working', r.status);
+r = await call('GET', '/reports/view'); ok(r.status === 200, 'public page keeps working after a new key', r.status);
 r = await call('POST', '/admin/reports/share/off', { token: O, body: {} }); r = await call('GET', '/admin/reports/share', { token: O }); ok(r.j.key === '', 'turn sharing off', r.j);
+r = await call('GET', '/reports/view'); ok(r.status === 404, 'public page off', r.status);
 
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);

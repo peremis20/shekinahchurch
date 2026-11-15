@@ -633,10 +633,9 @@ async function shareKey(make) {
     ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()`, [k]);
   return k;
 }
-async function reportsView(req) {
-  const k = new URL(req.url).searchParams.get('k') || '';
-  const real = await shareKey(false);
-  need(real && k.length === real.length && sha(k) === sha(real), 404, 'This link is not active.');
+async function reportsView() {
+  // The public page shekinahsda.org/report works only while sharing is turned on in the admin.
+  need(await shareKey(false), 404, 'This link is not active.');
   const r = await one("SELECT value, updated_at FROM automation_status WHERE key = 'reports_daily'");
   let v = null; if (r) { try { v = JSON.parse(r.value); } catch {} }
   return { report: v, saved_at: r ? r.updated_at : null };
@@ -669,7 +668,7 @@ async function route(req, path) {
   if (key === 'GET /content') return publicContent();
   if (key === 'GET /events') return publicEvents();
   if (key === 'POST /reports/ingest') return reportsIngest(req);
-  if (key === 'GET /reports/view') return reportsView(req);
+  if (key === 'GET /reports/view') return reportsView();
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
   if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout' || key === 'POST /admin/logout-all') {
