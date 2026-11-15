@@ -225,6 +225,10 @@ r = await call('POST', '/admin/reports/share/new', { token: O, body: {} }); ok(r
 r = await call('GET', '/reports/view?k=' + K1); ok(r.status === 404, 'old link stops working', r.status);
 r = await call('POST', '/admin/reports/share/off', { token: O, body: {} }); r = await call('GET', '/admin/reports/share', { token: O }); ok(r.j.key === '', 'turn sharing off', r.j);
 
+// ---- sign out everywhere ----
+r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);
+r = await call('GET', '/admin/check', { token: O }); ok(r.status === 401, 'all sessions ended', r.status);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 globalThis.fetch = realFetch;
 process.exit(fail ? 1 : 0);

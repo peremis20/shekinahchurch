@@ -62,6 +62,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 #umenu div{padding:8px 12px;font-size:13px;color:var(--muted);border-bottom:1px solid var(--line);margin-bottom:4px;word-break:break-all}
 #umenu button{display:block;width:100%;text-align:left;background:none;border:0;padding:10px 12px;border-radius:8px;font-weight:600}
 #umenu button:hover{background:var(--soft)}
+#umenu #logoutall{color:#B42318;border-top:1px solid var(--line);border-radius:0 0 8px 8px;margin-top:4px}
 #burger{display:none;width:46px;height:46px;place-items:center}
 #body{flex:1;background:var(--bg);margin-top:-18px;border-radius:20px 0 0 0;padding:18px 18px 40px;position:relative;z-index:2}
 
@@ -384,7 +385,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
       <span id="bspacer"></span>
       <button id="bell" class="glass" aria-label="New messages"></button>
       <button id="userchip" class="glass"><span class="av" id="uav">?</span><span style="text-align:left"><b id="uname"></b><small id="urole"></small></span><span id="ucaret"></span></button>
-      <div id="umenu" class="hide"><div id="uemail"></div><button id="refresh">Refresh</button><button id="logout">Sign out</button></div>
+      <div id="umenu" class="hide"><div id="uemail"></div><button id="viewsite">View website</button><button id="refresh">Refresh</button><button id="logout">Sign out</button><button id="logoutall">Sign out of all devices</button></div>
     </header>
     <div id="body">
       <div id="stats"></div>
@@ -1226,6 +1227,10 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     post('/admin/login/verify',{email:$('em').value.trim(),code:$('code').value}).then(function(j){setPw(j.token);signedIn();}).catch(function(err){$('lerr').textContent=err.message;});});
   $('back').onclick=function(e){e.preventDefault();showEmailStep();};
   $('logout').onclick=function(){api('/admin/logout',{method:'POST'}).catch(function(){});logout();};
+  $('viewsite').onclick=function(){$('umenu').classList.add('hide');window.open('/','_blank','noopener');};
+  var allAsk=0;$('logoutall').onclick=function(e){e.stopPropagation();
+    if(Date.now()-allAsk>5000){allAsk=Date.now();this.textContent='Tap again to sign out everywhere';var b=this;setTimeout(function(){b.textContent='Sign out of all devices';},5000);return;}
+    api('/admin/logout-all',{method:'POST'}).then(function(){logout();}).catch(function(err){toast(err.message);});};
   $('refresh').onclick=function(){$('umenu').classList.add('hide');load().then(function(){toast('Up to date');});};
 
   // ---------- Email list ----------

@@ -671,10 +671,11 @@ async function route(req, path) {
   if (key === 'GET /reports/view') return reportsView(req);
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
-  if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout') {
+  if (ROUTES[key] || GETS[key] || key === 'GET /admin/check' || key === 'POST /admin/logout' || key === 'POST /admin/logout-all') {
     const me = await who(req);
     if (key === 'GET /admin/check') return checkOut(me);
     if (key === 'POST /admin/logout') { await q('DELETE FROM admin_sessions WHERE token_hash = $1', [sha(me.token)]); return { ok: true }; }
+    if (key === 'POST /admin/logout-all') { const r = await q('DELETE FROM admin_sessions WHERE lower(email) = lower($1) RETURNING 1', [me.email]); return { ok: true, ended: r.length }; }
     if (GETS[key]) return GETS[key](me);
     return ROUTES[key](me, await body(req));
   }
