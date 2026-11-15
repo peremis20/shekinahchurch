@@ -1130,6 +1130,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   // ---------- website numbers (Google Analytics + Search Console, refreshed daily) ----------
   // ---------- view only share link for the website numbers ----------
   function shareBox(){if(!can('team_manage'))return '';return '<div class="panel page" id="sharebox"><div class="sec-h" style="margin-bottom:4px">Share these numbers</div><p class="meta" style="margin:0 0 10px">Anyone with this link can see the website visitor numbers above, without signing in. They cannot see messages, names, or anything else. You can replace or turn off the link any time.</p><div id="sharein"><p class="meta">Loading...</p></div></div>';}
+  function shareTop(){return can('team_manage')?'<p style="margin:0;text-align:right"><a href="#sharebox" onclick="document.getElementById(\'sharebox\').scrollIntoView({behavior:\'smooth\'});return false;" style="font-weight:800;color:var(--navy)">Share these numbers with a view only link</a></p>':'';}
   function shareUrl(k){return location.origin+'/report/#k='+k;}
   function drawShare(k){var el=$('sharein');if(!el)return;
     el.innerHTML=k?'<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><input id="shareurl" readonly value="'+esc(shareUrl(k))+'" style="flex:1 1 320px;min-width:0;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font-size:14px"><button class="lbtn" id="sharecopy" type="button">Copy link</button><a class="lbtn" href="'+esc(shareUrl(k))+'" target="_blank" rel="noopener" style="text-decoration:none">Open</a><button class="lbtn" id="sharenew" type="button">Make a new link</button><button class="lbtn" id="shareoff" type="button">Turn off</button></div><p class="meta">Making a new link stops the old one from working.</p>'
@@ -1142,7 +1143,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function webReport(){var box=$('webrep');if(!box)return;box.innerHTML='<div class="panel page"><p class="meta">Loading website numbers...</p></div>';
     api('/admin/reports').then(function(j){var r=j.report;
       if(!r){box.innerHTML='<div class="panel page"><div class="sec-h">Website visitors</div><p class="meta">The first daily update has not run yet. Numbers from Google Analytics and Search Console will show here after it runs.</p></div>';return;}
-      box.innerHTML=window.shkWebReport(r)+shareBox();loadShare();
+      box.innerHTML=window.shkWebReport(r);
     }).catch(function(e){box.innerHTML='<div class="panel page"><p class="meta">Could not load the website numbers. '+esc(e.message)+'</p></div>';});}
   // ---------- reports ----------
   function reports(){
@@ -1158,7 +1159,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
       months.map(function(mm){var lab=new Date(mm[0],mm[1],1).toLocaleString([], {month:'long',year:'numeric'});var rs=items.filter(function(i){var d=pdate(i.created_at);return d.getFullYear()===mm[0]&&d.getMonth()===mm[1];});
         return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div>';
-    $('rep').innerHTML='<div id="webrep"></div>'+html.replace('<div class="sec-h" style="margin-bottom:12px">At a glance</div>','<div class="sec-h" style="margin-bottom:12px">Website forms at a glance</div>');webReport();
+    $('rep').innerHTML='<div id="webrep"></div>'+shareTop()+html.replace('<div class="sec-h" style="margin-bottom:12px">At a glance</div>','<div class="sec-h" style="margin-bottom:12px">Website forms at a glance</div>')+shareBox();webReport();loadShare();
   }
   $('rep').addEventListener('click',function(e){var b=e.target.closest('[data-csv]');if(b)csv(b.getAttribute('data-csv'));});
 
