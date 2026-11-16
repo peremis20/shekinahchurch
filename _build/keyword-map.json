@@ -29,7 +29,10 @@
   "why is the book of enoch not in the bible": "why-is-the-book-of-enoch-not-in-the-bible",
   "diri djon djon recipe": "diri-djon-djon-recipe",
   "dis kòmandman bondye yo": "dis-komandman-bondye-yo",
-  "eight laws of health": "eight-laws-of-health"
+  "eight laws of health": "eight-laws-of-health",
+  "haitian epis recipe": "haitian-epis-recipe",
+  "kisa bib la di sou batèm": "kisa-bib-la-di-sou-batem",
+  "what do seventh day adventists eat": "what-do-seventh-day-adventists-eat"
  },
  "planned": [
   {
@@ -43,19 +46,6 @@
     "what do seventh day adventists believe",
     "adventist church beliefs",
     "are adventists christian"
-   ]
-  },
-  {
-   "keyword": "what do seventh day adventists eat",
-   "cat": "Health",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "The Adventist health message explained with a real day of plant based Haitian meals",
-   "priority": "high",
-   "secondary": [
-    "adventist diet",
-    "loma linda blue zone",
-    "is it ok for adventists to eat meat"
    ]
   },
   {
@@ -199,19 +189,6 @@
     "jackfruit griot",
     "vegan haitian griot",
     "haitian epis recipe"
-   ]
-  },
-  {
-   "keyword": "haitian epis recipe",
-   "cat": "Recipes",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "The flavor base of Haitian cooking, how to make and store it",
-   "priority": "high",
-   "secondary": [
-    "epis seasoning",
-    "haitian green seasoning",
-    "how to make epis"
    ]
   },
   {
