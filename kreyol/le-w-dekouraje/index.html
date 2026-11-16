@@ -4,12 +4,12 @@
 body{margin:0;background:#fff;color:var(--ink);font-family:'Mulish',system-ui,sans-serif;font-size:17px;line-height:1.65}
 a{color:var(--green)}
 header{background:var(--navy);color:#fff}
-.bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bar{max-width:880px;margin:0 auto;padding:14px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
 .bar a{color:#fff;text-decoration:none;font-weight:700}
 .brand{display:flex;align-items:center;gap:10px;font-family:'Libre Baskerville',serif;font-size:17px}
 .brand img{width:auto;height:46px;display:block}
-nav{display:flex;gap:16px;flex-wrap:wrap;font-size:15px}
-@media (max-width:640px){.bar{justify-content:center}nav{width:100%;justify-content:center;gap:14px 18px}}
+nav{display:flex;gap:10px 26px;flex-wrap:wrap;justify-content:center;font-size:15px}
+@media (max-width:640px){nav{gap:10px 18px}}
 main{max-width:880px;margin:0 auto;padding:28px 20px 56px}
 .crumbs{font-size:14px;color:#5B6270;margin-bottom:14px}.crumbs a{color:#5B6270}
 h1{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:clamp(26px,4.5vw,36px);line-height:1.25;margin:0 0 10px}
