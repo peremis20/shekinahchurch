@@ -346,6 +346,11 @@ def build(posts=None):
         write('kreyol/etid/%sindex.html' % slug, '<!doctype html><html lang="ht"><head><meta charset="utf-8"><title>Etid Biblik Shekinah</title>'
               '<link rel="canonical" href="%s%s"><meta http-equiv="refresh" content="0; url=%s"><script>location.replace("%s")</script>'
               '</head><body><a href="%s">%s%s</a></body></html>\n' % (SITE, to, to, to, to, SITE, to))
+    try:
+        import podcast_feed
+        print('podcast feed:', podcast_feed.build(), 'episodes')
+    except Exception as ex:
+        print('podcast feed skipped:', ex)
     return len(all_s)
 
 
