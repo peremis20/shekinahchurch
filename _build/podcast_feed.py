@@ -20,9 +20,11 @@ CT = ZoneInfo('America/Chicago')
 TITLE = 'Etid Biblik Shekinah'
 AUTHOR = 'Shekinah Haitian SDA Church'
 EMAIL = 'info@shekinahsda.org'
-DESC = ('Etid biblik an Kreyòl ayisyen pou chak fanmi. Chak epizòd reponn yon kesyon moun ap poze sou Bib la: '
-        'Saba a, lapriyè, lanmò, Sentespri a, retou Jezi ak plis ankò. Yon ti tan pou aprann, reflechi ak grandi '
-        'nan lafwa. Legliz Advantis Setyèm Jou Shekinah, Alvarado, Texas. Atik konplè ak vèsè yo: shekinahsda.org/kreyol')
+DESC = ('Etid biblik an Kreyòl ayisyen pou chak fanmi ayisyen. Chak epizòd reponn yon kesyon moun ap poze sou Bib la ak '
+        'Pawòl Bondye: Saba a, lapriyè, lanmò, lanfè, Sentespri a, Dis Kòmandman yo, retou Jezi, padon, gerizon ak plis ankò. '
+        'Ansèyman klè, cho e senp, ak vèsè Bib la an Kreyòl. Legliz Advantis Setyèm Jou Shekinah, Alvarado, Texas. '
+        'Atik konplè ak vèsè yo: shekinahsda.org/kreyol')
+KEYWORDS = 'Bib, Bib la, etid biblik, Kreyòl, Kreyol, ayisyen, Haitian Creole, Haiti, Bondye, Jezi, lapriyè, Saba, predikasyon, Advantis, Adventist'
 
 
 def e(s):
@@ -80,13 +82,14 @@ def build():
     <itunes:image href="%s"/>
     <image><url>%s</url><title>%s</title><link>%s/kreyol/</link></image>
     <itunes:category text="Religion &amp; Spirituality"><itunes:category text="Christianity"/></itunes:category>
+    <itunes:keywords>%s</itunes:keywords>
     <itunes:explicit>false</itunes:explicit>
     <itunes:type>episodic</itunes:type>
     <lastBuildDate>%s</lastBuildDate>
 %s
   </channel>
 </rss>
-''' % (e(TITLE), SITE, FEED, e(DESC), e(DESC), e(AUTHOR), e(AUTHOR), EMAIL, COVER, COVER, e(TITLE), SITE, last, '\n'.join(items))
+''' % (e(TITLE), SITE, FEED, e(DESC), e(DESC), e(AUTHOR), e(AUTHOR), EMAIL, COVER, COVER, e(TITLE), SITE, e(KEYWORDS), last, '\n'.join(items))
     out = os.path.join(ROOT, 'podcast', 'kreyol.xml')
     os.makedirs(os.path.dirname(out), exist_ok=True)
     old = open(out, encoding='utf-8').read() if os.path.exists(out) else ''
