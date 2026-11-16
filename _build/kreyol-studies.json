@@ -52,7 +52,8 @@
   "date": "2026-11-15",
   "date_ht": "15 novanm 2026",
   "updated": "2026-11-15",
-  "length": "15 min"
+  "length": "15 min",
+  "theme": "gras"
  },
  {
   "slug": "dis-komandman-bondye-yo",
@@ -119,7 +120,8 @@
   "date": "2026-11-13",
   "date_ht": "13 novanm 2026",
   "updated": "2026-11-13",
-  "length": "33 min"
+  "length": "33 min",
+  "theme": "verite"
  },
  {
   "slug": "kijan-pou-m-komanse-li-bib-la",
@@ -178,7 +180,8 @@
    "eske-jezi-se-bondye",
    "kisa-advantis-yo-kwe"
   ],
-  "updated": "2026-11-13"
+  "updated": "2026-11-13",
+  "theme": "lavi"
  },
  {
   "slug": "eske-tout-relijyon-se-menm",
@@ -236,7 +239,8 @@
    "eske-bondye-ka-padone-m",
    "kisa-advantis-yo-kwe"
   ],
-  "updated": "2026-11-11"
+  "updated": "2026-11-11",
+  "theme": "gras"
  },
  {
   "slug": "kisa-bib-la-di-sou-divos-ak-remaryaj",
@@ -280,7 +284,8 @@
    "le-w-dekouraje",
    "kijan-pou-m-priye"
   ],
-  "updated": "2026-11-09"
+  "updated": "2026-11-09",
+  "theme": "lavi"
  },
  {
   "slug": "eske-jezi-se-bondye",
@@ -347,7 +352,8 @@
    "dezyem-vini-jezi",
    "eske-bondye-ka-padone-m"
   ],
-  "updated": "2026-11-07"
+  "updated": "2026-11-07",
+  "theme": "gras"
  },
  {
   "slug": "poukisa-bondye-kite-soufrans-rive",
@@ -402,7 +408,8 @@
    "priye-pou-gerizon",
    "kisa-ki-rive-le-yon-moun-mouri"
   ],
-  "updated": "2026-11-07"
+  "updated": "2026-11-07",
+  "theme": "gras"
  },
  {
   "slug": "ko-nanm-lespri-souf",
@@ -440,7 +447,8 @@
    "Kisa nanm ou ye? Èske repons ou chanje apre etid sa a?",
    "Lè ou konnen ou se yon sèl moun konplè devan Bondye, kijan sa ka chanje fason ou pran swen tèt ou?",
    "Kiyès ou konnen ki gen pè pou moun ki mouri yo, ki bezwen tande bon nouvèl sa a?"
-  ]
+  ],
+  "theme": "verite"
  },
  {
   "slug": "le-w-dekouraje",
@@ -478,7 +486,8 @@
    "Nan istwa Eli a, kisa ki touche ou plis?",
    "Kiyès ou ka pale avè l semèn sa a sou sa ou santi?",
    "Èske gen yon moun nan lavi ou ou ka ale chita avè l, tankou zanj lan te fè pou Eli?"
-  ]
+  ],
+  "theme": "lavi"
  },
  {
   "slug": "kijan-pou-m-priye",
@@ -528,7 +537,8 @@
    "le-w-dekouraje",
    "eske-bondye-ka-padone-m",
    "priye-pou-gerizon"
-  ]
+  ],
+  "theme": "lavi"
  },
  {
   "slug": "eske-bondye-ka-padone-m",
@@ -567,7 +577,8 @@
    "Nan twa istwa yo, kiyès ou plis idantifye ak li? Poukisa?",
    "Èske gen yon peche ou toujou ap al repeche nan fon lanmè a?",
    "Èske gen yon moun ou bezwen padone semèn sa a?"
-  ]
+  ],
+  "theme": "gras"
  },
  {
   "slug": "kisa-bib-la-di-sou-saba-a",
@@ -625,7 +636,8 @@
    "eske-konstanten-te-chanje-bib-la",
    "kisa-advantis-yo-kwe",
    "dezyem-vini-jezi"
-  ]
+  ],
+  "theme": "verite"
  },
  {
   "slug": "priye-pou-gerizon",
@@ -663,7 +675,8 @@
    "Lè ou malad, kiyès ou rele an premye? Ki plas Bondye genyen nan lis la?",
    "Ki moun ou konnen ki malad semèn sa a, epi kisa ou ka fè pou li?",
    "Èske ou ka fè Bondye konfyans menm lè ou pa konprann?"
-  ]
+  ],
+  "theme": "lavi"
  },
  {
   "slug": "dezyem-vini-jezi",
@@ -702,7 +715,8 @@
    "Si ou te konnen Jezi ap vini demen, kisa ou ta fè jodi a?",
    "Kijan konnen Jezi ap retounen ka ba ou espwa nan pwoblèm w ap travèse kounye a?",
    "Ki moun nan lavi ou ki bezwen tande bon nouvèl sa a?"
-  ]
+  ],
+  "theme": "verite"
  },
  {
   "slug": "kisa-advantis-yo-kwe",
@@ -741,7 +755,8 @@
    "Nan tout sa ou tande, kisa ki te pi sipriz ou?",
    "Kijan ou ta esplike yon zanmi ke nou sove pa gras?",
    "Si yon moun mande w kisa ou kwè, kisa ou ta di l an twa fraz?"
-  ]
+  ],
+  "theme": "gras"
  },
  {
   "slug": "kisa-ki-rive-le-yon-moun-mouri",
@@ -780,7 +795,8 @@
    "Kisa ou ta reponn timoun nan ki mande w kote granmè ale?",
    "Kijan konnen laverite sa a ka chanje fason ou viv lapenn ou?",
    "Si Jezi te retounen jodi a, èske ou pare pou w kontre l?"
-  ]
+  ],
+  "theme": "verite"
  },
  {
   "slug": "eske-konstanten-te-chanje-bib-la",
@@ -815,6 +831,7 @@
    "Poukisa istwa sou Konstanten an gaye konsa sou entènèt?",
    "Kijan prèv maniskri yo ka ranfòse konfyans ou nan Bib la?",
    "Kisa diferans ant chanje Bib la ak swiv abitid ki grandi bò kote l?"
-  ]
+  ],
+  "theme": "verite"
  }
 ]

@@ -85,6 +85,9 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:12px 22px}
 .btn.alt{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
+.theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
+a.tag{text-decoration:none}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:16px;margin-top:20px}
 .card{display:flex;flex-direction:column;gap:8px;padding:18px;border-radius:14px;background:var(--cream);border:1px solid var(--line);text-decoration:none;color:inherit}
 .card h3{margin:0;font-family:'Libre Baskerville',serif;color:var(--navy);font-size:17px;line-height:1.35}
@@ -222,7 +225,8 @@ def study_page(s, all_s):
             {'@type': 'Question', 'name': f['q'], 'acceptedAnswer': {'@type': 'Answer', 'text': f['a']}} for f in faqs]})
     p = [head(s['seo_title'], s['desc'], url, ld), HEADER, '<main>']
     p.append('<div class="crumbs"><a href="/">Akèy</a> › <a href="/kreyol/">Etid Biblik an Kreyòl</a></div>')
-    p.append('<span class="tag">Koute</span><span class="tag">Kreyòl</span>')
+    p.append('<span class="tag">Koute</span><span class="tag">Kreyòl</span>' + (
+        '<a class="tag" href="/kreyol/#%s">Tèm: %s</a>' % (s['theme'], e(THEME_NAME[s['theme']])) if s.get('theme') in THEME_NAME else ''))
     p.append('<h1>%s</h1><div class="meta">Etid Biblik Shekinah · %s · %s</div>' % (e(s['title']), e(s['date_ht']), e(s['length'])))
     if s.get('crisis'):
         p.append('<div class="crisis"><strong>Si w ap panse fè tèt ou mal:</strong> Ozetazini, rele oswa voye tèks nan <a href="tel:988">988</a>, a nenpòt ki lè. '
@@ -262,7 +266,8 @@ def study_page(s, all_s):
     p.append('<div class="cta"><a class="btn" href="/prayer-request/">Voye yon demann priyè</a>'
              '<a class="btn alt" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a></div>')
     rel = [o for sl in s.get('related', []) for o in all_s if o['slug'] == sl]
-    others = (rel + [o for o in all_s if o['slug'] != s['slug'] and o not in rel])[:4]
+    same = [o for o in all_s if o.get('theme') == s.get('theme') and o['slug'] != s['slug'] and o not in rel]
+    others = (rel + same + [o for o in all_s if o['slug'] != s['slug'] and o not in rel and o not in same])[:4]
     p.append('<h2>Lòt etid an Kreyòl</h2><div class="cards">%s</div>' % ''.join(card(o) for o in others))
     p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
     return ''.join(p)
@@ -270,6 +275,12 @@ def study_page(s, all_s):
 
 PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg>'
 PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
+
+
+THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
+          ('verite', 'Verite Bib la', 'Sa Bib la anseye sou lanmò, retou Jezi, Saba a, lalwa Bondye ak pwofesi.'),
+          ('lavi', 'Lavi kretyen', 'Lapriyè, li Bib la, espwa, gerizon ak fanmi nan lavi chak jou.')]
+THEME_NAME = {k: n for k, n, _ in THEMES}
 
 
 def card(s):
@@ -307,7 +318,16 @@ def hub(all_s, posts=None):
     p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
              'ak kesyon pou pale ladan yo ak fanmi ou. Si ou vle etidye ak yon moun, <a href="/contact/?topic=bible">mande yon etid pèsonèl</a>.</p>')
     p.append('<h2 id="odyo">Etid odyo</h2>')
-    p.append('<div class="cards">%s</div>' % ''.join(card(s) for s in all_s))
+    p.append('<nav class="themes" aria-label="Tèm yo">%s</nav>' % ''.join(
+        '<a href="#%s">%s <small>%d</small></a>' % (k, e(n), sum(1 for x in all_s if x.get('theme') == k)) for k, n, _ in THEMES))
+    for k, n, d in THEMES:
+        sub = [x for x in all_s if x.get('theme') == k]
+        if sub:
+            p.append('<h3 class="theme-h" id="%s">%s</h3><p class="theme-d">%s</p>' % (k, e(n), e(d)))
+            p.append('<div class="cards">%s</div>' % ''.join(card(x) for x in sub))
+    other = [x for x in all_s if x.get('theme') not in THEME_NAME]
+    if other:
+        p.append('<div class="cards">%s</div>' % ''.join(card(x) for x in other))
     arts = kreyol_posts(posts)
     watch = ('<div class="card"><a class="stretch" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener"><h3>Sèvis Saba ak mesaj biblik</h3></a>'
              '<span>Videyo sou YouTube</span><p>Gade sèvis adorasyon nou yo ak mesaj biblik yo an Kreyòl, an franse ak an angle.</p><b class="more">Gade videyo yo ↗</b></div>')

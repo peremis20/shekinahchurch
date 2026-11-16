@@ -50,6 +50,9 @@ def build():
         when = datetime.strptime(s['date'], '%Y-%m-%d').replace(hour=19, minute=10, tzinfo=CT)
         page = '%s/kreyol/%s/' % (SITE, s['slug'])
         summary = ' '.join(s.get('summary') or [s.get('desc', '')])
+        theme = {'gras': 'Gras Bondye', 'verite': 'Verite Bib la', 'lavi': 'Lavi kretyen'}.get(s.get('theme'))
+        if theme:
+            summary = 'Tèm: %s. %s' % (theme, summary)
         body = '<p>%s</p><p>Atik konplè, vèsè ak kesyon pou etidye: <a href="%s">%s</a></p>' % (e(summary), page, page)
         items.append('''    <item>
       <title>%s</title>
