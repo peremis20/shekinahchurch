@@ -71,6 +71,14 @@ def lint():
                 first = re.split(r'(?<=[.!?])\s', t)[0]
                 if '.list[' not in path and re.match(r'^Pa [a-zè]+', first) and not re.match(r'^Pa (gen|ka|bezwen|eseye|kite|fè|janm|t|te|konnen|di|se|bliye|pè|enkyete|kraze|jije|sispann|rete|mete|pran|ale|vin|kwè|tande|wè|tounen|panse)\b', first):
                     out.append('%s: check for a leftover audio script fragment: %s' % (where, t[:50]))
+    # Themes (Jimmy, Nov 15, 2026): remind him to split a theme once it grows.
+    from collections import Counter
+    for s in studies:
+        if s.get('theme') not in ('gras', 'verite', 'lavi'):
+            out.append('%s: theme must be gras, verite or lavi' % s['slug'])
+    for k, n in Counter(s.get('theme') for s in studies).items():
+        if k and n >= 10:
+            out.append('THEME REMINDER: theme %s now has %d studies. Tell Jimmy it is time to split it into smaller themes (see claude/kreyol-themes.md).' % (k, n))
     return out
 
 
