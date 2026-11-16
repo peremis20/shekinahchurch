@@ -85,6 +85,8 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:12px 22px}
 .btn.alt{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.listen-box{margin:22px 0 4px;padding:18px 20px;border-radius:14px;background:var(--cream);border:1px solid var(--line)}.listen-box b{color:var(--navy);font-size:17px}.listen-box p{margin:4px 0 12px}
+.listen{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.lbtn{display:inline-flex;align-items:center;gap:8px;background:#1DB954;color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.lbtn svg{width:20px;height:20px}.lbtn.alt{background:transparent;color:var(--navy);border:2px solid var(--line)}
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
 .theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
 a.tag{text-decoration:none}
@@ -164,7 +166,7 @@ def head(title, desc, url, ld):
           '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());var shkIn=false;try{shkIn=localStorage.getItem("shk_internal")==="1"}catch(e){}gtag("config","%s",shkIn?{traffic_type:"internal"}:{});</script>' % (GA, GA))
     return ('<!doctype html><html lang="ht"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s">'
+            '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><link rel="alternate" type="application/rss+xml" title="Etid Biblik Shekinah (podcast)" href="https://shekinahsda.org/podcast/kreyol.xml">'
             '<meta property="og:type" content="article"><meta property="og:title" content="%s"><meta property="og:description" content="%s">'
             '<meta property="og:url" content="%s"><meta property="og:image" content="%s"><meta property="og:locale" content="ht_HT">'
             '<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">%s<style>%s</style>'
@@ -232,7 +234,7 @@ def study_page(s, all_s):
         p.append('<div class="crisis"><strong>Si w ap panse fè tèt ou mal:</strong> Ozetazini, rele oswa voye tèks nan <a href="tel:988">988</a>, a nenpòt ki lè. '
                  'Nan lòt peyi, rele sèvis ijans lan oswa ale nan lopital ki pi pre a. Lavi ou gen anpil valè.</div>')
     p.append('<div class="player"><audio controls preload="metadata" src="%s" aria-label="%s"></audio>'
-             '<p>Etid odyo an Kreyòl ak de animatè. Koute l kounye a oswa pataje l ak fanmi ou.</p></div>' % (mp3, e(s['title'])))
+             '<p>Etid odyo an Kreyòl ak de animatè. Koute l kounye a oswa pataje l ak fanmi ou.</p>%s</div>' % (mp3, e(s['title']), listen_row(True)))
     for para in s['summary']:
         p.append('<p>%s</p>' % e(para))
     p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
@@ -277,6 +279,20 @@ PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6
 PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
 
 
+# Podcast apps where the studies are listed (add Apple, Amazon, Castbox when their links exist; see claude/podcast-links.md)
+LISTEN = [('Spotify', 'https://open.spotify.com/show/6wV9OYkZTJ0G3z3FQ3CUUd')]
+FEED_URL = SITE + '/podcast/kreyol.xml'
+SPOTIFY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21zm4.8 15.15a.66.66 0 0 1-.9.22c-2.47-1.5-5.58-1.85-9.24-1.01a.66.66 0 1 1-.3-1.28c4-.92 7.43-.52 10.22 1.17.31.19.41.6.22.9zm1.28-2.86a.82.82 0 0 1-1.13.27c-2.83-1.74-7.14-2.24-10.48-1.23a.82.82 0 1 1-.48-1.57c3.82-1.16 8.57-.6 11.82 1.4.39.23.51.74.27 1.13zm.11-2.98C14.8 8.8 9.2 8.6 5.97 9.59a.98.98 0 1 1-.57-1.88c3.71-1.13 9.89-.91 13.79 1.4a.98.98 0 0 1-1 1.7z"/></svg>'
+
+
+def listen_row(compact=False):
+    btns = ''.join('<a class="lbtn" href="%s" target="_blank" rel="noopener">%s<span>Koute sou %s</span></a>' % (u, SPOTIFY_SVG if n == 'Spotify' else '', e(n)) for n, u in LISTEN)
+    if compact:
+        return '<div class="listen">%s</div>' % btns
+    return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou Spotify. Abòne pou w resevwa chak nouvo etid.</p>'
+            '<div class="listen">%s<a class="lbtn alt" href="%s" rel="alternate" type="application/rss+xml"><span>Fil RSS</span></a></div></div>' % (btns, FEED_URL))
+
+
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
           ('verite', 'Verite Bib la', 'Sa Bib la anseye sou lanmò, retou Jezi, Saba a, lalwa Bondye ak pwofesi.'),
           ('lavi', 'Lavi kretyen', 'Lapriyè, li Bib la, espwa, gerizon ak fanmi nan lavi chak jou.')]
@@ -312,11 +328,15 @@ def hub(all_s, posts=None):
     desc = 'Etid biblik gratis an Kreyòl ayisyen pou koute: Saba a, lanmò ak rezirèksyon, dezyèm vini Jezi, lapriyè, padon, gerizon ak plis ankò.'
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': 'Etid Biblik an Kreyòl', 'description': desc,
           'inLanguage': 'ht', 'url': url,
-          'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/%s/' % s['slug']} for s in all_s]}
+          'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/%s/' % s['slug']} for s in all_s],
+          'about': {'@type': 'PodcastSeries', 'name': 'Etid Biblik Shekinah', 'url': url, 'webFeed': FEED_URL, 'inLanguage': 'ht',
+                    'image': SITE + '/assets/podcast/kreyol-cover.jpg', 'sameAs': [u for _, u in LISTEN],
+                    'author': {'@type': 'Church', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE + '/'}}}
     p = [head(title, desc, url, ld), HEADER, '<main>']
     p.append('<h1>Etid Biblik an Kreyòl</h1>')
     p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
              'ak kesyon pou pale ladan yo ak fanmi ou. Si ou vle etidye ak yon moun, <a href="/contact/?topic=bible">mande yon etid pèsonèl</a>.</p>')
+    p.append(listen_row())
     p.append('<h2 id="odyo">Etid odyo</h2>')
     p.append('<nav class="themes" aria-label="Tèm yo">%s</nav>' % ''.join(
         '<a href="#%s">%s <small>%d</small></a>' % (k, e(n), sum(1 for x in all_s if x.get('theme') == k)) for k, n, _ in THEMES))
