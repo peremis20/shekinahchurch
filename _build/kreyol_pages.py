@@ -290,7 +290,7 @@ def listen_row(compact=False):
     if compact:
         return '<div class="listen">%s</div>' % btns
     return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou Spotify. Abòne pou w resevwa chak nouvo etid.</p>'
-            '<div class="listen">%s<a class="lbtn alt" href="%s" rel="alternate" type="application/rss+xml"><span>Fil RSS</span></a></div></div>' % (btns, FEED_URL))
+            '<div class="listen">%s</div></div>' % btns)
 
 
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
