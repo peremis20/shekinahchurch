@@ -38,6 +38,9 @@
         barRows(sc.queries.slice(0,15),function(q){return q.query;},'clicks',function(q){return '<td class="n">'+nf(q.impressions)+'</td><td class="n">'+q.position+'</td>';})+'</table></div>':'<p class="meta">'+(sc.error?'Search Console is not connected yet.':'No search data yet.')+'</p>')+'</div>'+
         '<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Where visitors are</div><div style="overflow-x:auto"><table class="rtable"><tr><th>City</th><th class="n">People</th><th class="n">Real visits</th></tr>'+
         barRows((g.cities||[]).filter(function(c){return c.city&&c.city!=='(not set)';}).slice(0,10),function(c){return c.city+(c.region?', '+c.region:'');},'activeUsers',function(c){return '<td class="n">'+nf(c.engagedSessions)+'</td>';})+'</table></div></div></div>';
+      var pl=(g.plays||[]).filter(function(x){var k=x['customEvent:study'];return k&&k!=='(not set)';}),tt=g.study_titles||{};
+      if(pl.length)h+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Kreyòl audio plays by study, last 4 weeks</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Study</th><th class="n">Plays</th></tr>'+
+        barRows(pl.slice(0,20),function(x){var k=x['customEvent:study'];return tt[k]||k;},'eventCount')+'</table></div></div>';
       var ev=(g.events||[]).filter(function(e){return EVN[e.eventName];});
       var dev=g.devices||[], dt=dev.reduce(function(t,d){return t+(+d.activeUsers||0);},0)||1;
       h+='<div class="panel page"><div class="sec-h" style="margin-bottom:10px">Actions and devices, last 4 weeks</div><div class="wr-k">'+

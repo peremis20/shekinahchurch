@@ -78,6 +78,17 @@ G['cities'] = ga(['city', 'region'], ['activeUsers', 'engagedSessions'], '28days
 G['devices'] = ga(['deviceCategory'], ['activeUsers'], '28daysAgo', limit=5, order=by_users)
 G['languages'] = ga(['language'], ['activeUsers'], '28daysAgo', limit=8, order=by_users)
 G['events'] = ga(['eventName'], ['eventCount'], '28daysAgo', limit=30, order={'metric': {'metricName': 'eventCount'}, 'desc': True})
+# Kreyol audio plays by study (custom dimension "Study" = event parameter study, made Nov 15, 2026)
+try:
+    G['plays'] = ga(['customEvent:study'], ['eventCount'], '28daysAgo', limit=40,
+                    order={'metric': {'metricName': 'eventCount'}, 'desc': True},
+                    filt={'filter': {'fieldName': 'eventName', 'stringFilter': {'value': 'audio_play'}}})
+    _st = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'kreyol-studies.json'), encoding='utf-8'))
+    G['study_titles'] = {x['slug']: x['title'].split('?')[0] + ('?' if '?' in x['title'] else '') for x in _st}
+except SystemExit as e:
+    G['plays_error'] = str(e)
+except Exception as e:
+    G['plays_error'] = repr(e)
 
 S = report['gsc']
 try:
