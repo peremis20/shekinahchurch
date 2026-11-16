@@ -354,7 +354,7 @@ def hub(all_s, posts=None):
     arts = kreyol_posts(posts)
     watch = ('<div class="card"><a class="stretch" href="https://www.youtube.com/@SHEKINAHHaitianSDA/streams" target="_blank" rel="noopener"><h3>Sèvis Saba ak mesaj biblik</h3></a>'
              '<span>Videyo sou YouTube</span><p>Gade sèvis adorasyon nou yo ak mesaj biblik yo an Kreyòl, an franse ak an angle.</p><b class="more">Gade videyo yo ↗</b></div>')
-    p.append('<h2 id="li-ak-gade">Li ak gade</h2>')
+    p.append('<h2 id="youtube">YouTube Videos</h2>')
     p.append('<div class="cards">%s%s</div>' % (''.join(read_card(a) for a in arts), watch))
     p.append('<p style="margin-top:22px"><a href="/bible-study/" lang="en"><b>Read our Bible studies in English →</b></a></p>')
     p.append('<div class="cta"><a class="btn" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a>'
