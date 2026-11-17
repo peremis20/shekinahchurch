@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Etid Biblik Shekinah</title>
+    <title>Shekinah Haitian SDA Church</title>
     <link>https://shekinahsda.org/kreyol/</link>
     <atom:link href="https://shekinahsda.org/podcast/kreyol.xml" rel="self" type="application/rss+xml"/>
     <language>ht</language>
@@ -11,7 +11,7 @@
     <itunes:author>Shekinah Haitian SDA Church</itunes:author>
     <itunes:owner><itunes:name>Shekinah Haitian SDA Church</itunes:name><itunes:email>info@shekinahsda.org</itunes:email></itunes:owner>
     <itunes:image href="https://shekinahsda.org/assets/podcast/kreyol-cover.jpg"/>
-    <image><url>https://shekinahsda.org/assets/podcast/kreyol-cover.jpg</url><title>Etid Biblik Shekinah</title><link>https://shekinahsda.org/kreyol/</link></image>
+    <image><url>https://shekinahsda.org/assets/podcast/kreyol-cover.jpg</url><title>Shekinah Haitian SDA Church</title><link>https://shekinahsda.org/kreyol/</link></image>
     <itunes:category text="Religion &amp; Spirituality"><itunes:category text="Christianity"/></itunes:category>
     <itunes:keywords>Bib, Bib la, etid biblik, Kreyòl, Kreyol, ayisyen, Haitian Creole, Haiti, Bondye, Jezi, lapriyè, Saba, predikasyon, Advantis, Adventist</itunes:keywords>
     <itunes:explicit>false</itunes:explicit>

@@ -17,7 +17,7 @@ FEED = SITE + '/podcast/kreyol.xml'
 COVER = SITE + '/assets/podcast/kreyol-cover.jpg'
 CT = ZoneInfo('America/Chicago')
 
-TITLE = 'Etid Biblik Shekinah'
+TITLE = 'Shekinah Haitian SDA Church'
 AUTHOR = 'Shekinah Haitian SDA Church'
 EMAIL = 'info@shekinahsda.org'
 DESC = ('Etid biblik an Kreyòl ayisyen pou chak fanmi ayisyen. Chak epizòd reponn yon kesyon moun ap poze sou Bib la ak '

@@ -168,7 +168,7 @@ def head(title, desc, url, ld):
           '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date());var shkIn=false;try{shkIn=localStorage.getItem("shk_internal")==="1"}catch(e){}gtag("config","%s",shkIn?{traffic_type:"internal"}:{});</script>' % (GA, GA))
     return ('<!doctype html><html lang="ht"><head><meta charset="utf-8">'
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><link rel="alternate" type="application/rss+xml" title="Etid Biblik Shekinah (podcast)" href="https://shekinahsda.org/podcast/kreyol.xml">'
+            '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><link rel="alternate" type="application/rss+xml" title="Shekinah Haitian SDA Church (podcast)" href="https://shekinahsda.org/podcast/kreyol.xml">'
             '<meta property="og:type" content="article"><meta property="og:title" content="%s"><meta property="og:description" content="%s">'
             '<meta property="og:url" content="%s"><meta property="og:image" content="%s"><meta property="og:locale" content="ht_HT">'
             '<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">%s<style>%s</style>'
@@ -331,7 +331,7 @@ def hub(all_s, posts=None):
     ld = {'@context': 'https://schema.org', '@type': 'CollectionPage', 'name': 'Etid Biblik an Kreyòl', 'description': desc,
           'inLanguage': 'ht', 'url': url,
           'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/%s/' % s['slug']} for s in all_s],
-          'about': {'@type': 'PodcastSeries', 'name': 'Etid Biblik Shekinah', 'url': url, 'webFeed': FEED_URL, 'inLanguage': 'ht',
+          'about': {'@type': 'PodcastSeries', 'name': 'Shekinah Haitian SDA Church', 'url': url, 'webFeed': FEED_URL, 'inLanguage': 'ht',
                     'image': SITE + '/assets/podcast/kreyol-cover.jpg', 'sameAs': [u for _, u in LISTEN],
                     'author': {'@type': 'Church', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE + '/'}}}
     p = [head(title, desc, url, ld), HEADER, '<main>']
