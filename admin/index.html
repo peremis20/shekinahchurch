@@ -467,6 +467,30 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .rtable{border-collapse:separate;border-spacing:0;border:1px solid #E6EBF3;border-radius:14px;overflow:hidden}
 .rtable th{background:#0B2152;color:#fff;text-transform:none;letter-spacing:0;font-size:14.5px;font-weight:800;border:0}
 @media (max-width:700px){#tkpis{grid-template-columns:1fr 1fr}.tk:first-child{grid-column:1/-1}.tk b{font-size:22px}.tk .ic{width:42px;height:42px}}
+
+/* Side menu: groups, counts, collapse (Jimmy, Nov 16) */
+#side{display:flex;flex-direction:column}
+.brand .brand-mini{display:none;width:46px;height:46px}
+.navg{margin-top:10px}
+.navg-h{display:flex!important;align-items:center;gap:8px!important;padding:8px 16px 6px!important;font-size:12.5px!important;font-weight:800!important;letter-spacing:1.1px;text-transform:uppercase;color:#9FB4DA!important;background:none!important;box-shadow:none!important}
+.navg-h:hover{color:#fff!important}
+.navg-h svg{width:16px!important;height:16px!important;margin-left:auto;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transition:transform .15s}
+.navg-h .badge{margin-left:auto}.navg-h .badge+svg{margin-left:6px}
+.navg.shut .navg-h svg{transform:rotate(-90deg)}
+.navg-b{display:flex;flex-direction:column;gap:6px}.navg.shut .navg-b{display:none}
+.navmini-btn{margin-top:auto;display:flex;align-items:center;gap:12px;background:none;border:1px solid rgba(255,255,255,.18);color:#C9D6EE;border-radius:12px;padding:10px 14px;font-weight:700;font-size:14.5px;margin-top:22px}
+.navmini-btn:hover{background:rgba(255,255,255,.08);color:#fff}.navmini-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .15s}
+@media (min-width:1001px){
+  body.navmini #side{width:88px;padding:18px 10px 24px}
+  body.navmini .brand{justify-content:center;padding:4px 0 18px}body.navmini .brand .brand-logo{display:none}body.navmini .brand .brand-mini{display:block}
+  body.navmini .nav button{justify-content:center;padding:12px 0;position:relative}
+  body.navmini .nav button>span:not(.badge){display:none}
+  body.navmini .nav .badge{position:absolute;top:4px;right:6px;margin:0;min-width:20px;padding:0 6px;font-size:11.5px}
+  body.navmini .navg{margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,.14)}
+  body.navmini .navg-h{display:none!important}body.navmini .navg.shut .navg-b{display:flex}
+  body.navmini .navmini-btn{justify-content:center;padding:10px 0}body.navmini .navmini-btn span{display:none}body.navmini .navmini-btn svg{transform:rotate(180deg)}
+}
+@media (max-width:1000px){.navmini-btn{display:none}}
 </style>
 </head>
 <body>
@@ -483,8 +507,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 
 <div id="shell" class="hide">
   <aside id="side">
-    <div class="brand"><img class="brand-logo" src="assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church"></div>
+    <div class="brand"><img class="brand-logo" src="assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church"><img class="brand-mini" src="assets/logo-mark.png?v=4" alt="Shekinah"></div>
     <nav class="nav" id="nav"></nav>
+    <button class="navmini-btn" id="navmini" type="button" title="Collapse the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5M19 5v14"/></svg><span>Collapse menu</span></button>
   </aside>
   <div id="scrim"></div>
   <div id="main">
@@ -662,6 +687,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     group:'<circle cx="12" cy="7.5" r="3"/><circle cx="5.5" cy="9.5" r="2.3"/><circle cx="18.5" cy="9.5" r="2.3"/><path d="M6.5 19.5c.4-3.3 2.7-5.3 5.5-5.3s5.1 2 5.5 5.3"/><path d="M2 18.5c.3-2.3 1.7-3.7 3.6-3.9M22 18.5c-.3-2.3-1.7-3.7-3.6-3.9"/>',
     team:'<circle cx="12" cy="6" r="2.7"/><circle cx="5.5" cy="16" r="2.7"/><circle cx="18.5" cy="16" r="2.7"/><path d="M10.5 8.3 7 13.6M13.5 8.3l3.5 5.3M8.3 16h7.4"/>',
     chart:'<path d="M4 20V10M9 20V4M14 20v-8M19 20V7M3 20.5h18"/>',
+    clip:'<rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M8.5 13l2.5 2.5 4.5-5"/>',
     money:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>',
     gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
     bell:'<path d="M18 16V11a6 6 0 1 0-12 0v5l-2 2.5h16z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
@@ -701,24 +727,40 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   var NAV=[
     {k:'dash',label:'Dashboard',icon:'home',title:'Church Dashboard',sub:'Manage messages, prayer requests, visitors, and more.'},
     {k:'cal',label:'Calendar',icon:'cal2',title:'Church Calendar',sub:'Church events, tasks and what is coming up.'},
-    {k:'messages',label:'Messages',icon:'mail',title:'Messages',sub:'Every message from the website in one place.',badge:true},
-    {k:'prayer',label:'Prayer Requests',icon:'pray',title:'Prayer Requests',sub:'Pray with and follow up on every request.',area:['prayer']},
-    {k:'contact',label:'Questions & Contacts',icon:'contacts',title:'Questions & Contacts',sub:'Answer questions from visitors and friends.',area:['contact','bible','transfer']},
-    {k:'visit',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.',area:['visit']},
-    {k:'newsletter',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.',area:['newsletter'],orPerm:'email_list'},
-    {k:'mem',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'members_view'},
-    {k:'proj',label:'Projects',icon:'money',title:'Church Projects',sub:'Add projects and their cost. The total updates as you add.'},
-    {k:'team',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'team_manage'},
-    {k:'reports',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'messages_manage'},
-    {k:'site',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'site_edit'}
+    {k:'messages',grp:'com',label:'Messages',icon:'mail',title:'Messages',sub:'Every message from the website in one place.',badge:true},
+    {k:'prayer',grp:'com',label:'Prayer Requests',icon:'pray',title:'Prayer Requests',sub:'Pray with and follow up on every request.',area:['prayer']},
+    {k:'contact',grp:'com',label:'Questions',icon:'contacts',title:'Questions & Contacts',sub:'Answer questions from visitors and friends.',area:['contact','bible','transfer']},
+    {k:'visit',grp:'com',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.',area:['visit']},
+    {k:'newsletter',grp:'ppl',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.',area:['newsletter'],orPerm:'email_list'},
+    {k:'mem',grp:'ppl',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'members_view'},
+    {k:'proj',grp:'mng',label:'Projects',icon:'clip',title:'Church Projects',sub:'Add projects and their cost. The total updates as you add.'},
+    {k:'team',grp:'ppl',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'team_manage'},
+    {k:'reports',grp:'mng',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'messages_manage'},
+    {k:'site',grp:'mng',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'site_edit'}
   ];
   var SECTIONS_ALL=['app','team','news','mem','site','reports','cal','proj'];
   function navItem(k){return NAV.filter(function(n){return n.k===k;})[0];}
+  var NAVG={com:'Communications',ppl:'People',mng:'Manage'}, navShut={};
+  try{navShut=JSON.parse(localStorage.getItem('shk_navgrp')||'{}')||{};}catch(x){}
+  function navCount(n){var nw=items.filter(function(i){return i.status==='new';});
+    if(n.k==='messages')return nw.length;var kd=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[n.k];
+    return kd?nw.filter(function(i){return i.kind===kd;}).length:0;}
   function renderNav(){
-    var nNew=items.filter(function(i){return i.status==='new';}).length;
-    $('nav').innerHTML=NAV.filter(function(n){if(n.area&&!n.area.some(sees)&&!(n.orPerm&&can(n.orPerm)))return false;return !n.need||can(n.need);}).map(function(n){
-      return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(n.badge&&nNew?'<span class="badge">'+nNew+'</span>':'')+'</button>';}).join('');
+    var list=NAV.filter(function(n){if(n.area&&!n.area.some(sees)&&!(n.orPerm&&can(n.orPerm)))return false;return !n.need||can(n.need);});
+    var btn=function(n){var c=navCount(n);return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'" title="'+esc(n.label)+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(c?'<span class="badge">'+c+'</span>':'')+'</button>';};
+    var h='',done={};
+    list.forEach(function(n){
+      if(!n.grp){h+=btn(n);return;}
+      if(done[n.grp])return;done[n.grp]=1;
+      var g=list.filter(function(x){return x.grp===n.grp;}), shut=!!navShut[n.grp]&&!g.some(function(x){return x.k===cur;});
+      var tot=n.grp==='com'?navCount({k:'messages'}):g.reduce(function(a,x){return a+navCount(x);},0);
+      h+='<div class="navg'+(shut?' shut':'')+'"><button type="button" class="navg-h" data-grp="'+n.grp+'" aria-expanded="'+(!shut)+'"><span>'+NAVG[n.grp]+'</span>'+(shut&&tot?'<span class="badge">'+tot+'</span>':'')+'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button><div class="navg-b">'+g.map(btn).join('')+'</div></div>';});
+    $('nav').innerHTML=h;
   }
+  $('nav').addEventListener('click',function(e){var g=e.target.closest('[data-grp]');if(!g)return;var k=g.getAttribute('data-grp');navShut[k]=!navShut[k];try{localStorage.setItem('shk_navgrp',JSON.stringify(navShut));}catch(x){}renderNav();});
+  function setMini(on){document.body.classList.toggle('navmini',on);var b=$('navmini');b.title=on?'Open the menu':'Collapse the menu';b.querySelector('span').textContent=on?'Open menu':'Collapse menu';try{localStorage.setItem('shk_navmini',on?'1':'');}catch(x){}}
+  $('navmini').onclick=function(){setMini(!document.body.classList.contains('navmini'));};
+  try{if(localStorage.getItem('shk_navmini'))setMini(true);}catch(x){}
   function go(k,forceApp){
     cur=k;var n=navItem(k);document.body.classList.remove('menu');
     $('bt').textContent=n.title;$('bs').textContent=n.sub;
