@@ -101,9 +101,19 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .tpills{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0;justify-content:flex-start}.tpills button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;border-radius:40px;padding:12px 26px;background:#F6F0E6;color:var(--navy)}.tpills button span{font-weight:600;margin-left:4px}.tpills button.on{background:#1B2D5A;color:#fff;padding:12px 34px}
 .tline{border:0;border-top:1px solid #E6E1D6;margin:24px 0 0}
 @media (max-width:760px){.pod{grid-template-columns:1fr;gap:18px;padding:18px}.pod-b{border-left:0;padding-left:0}.pod-i{margin-left:0}.pod-btn{width:100%;justify-content:center}.tpills{gap:10px}.tpills button{padding:10px 18px;font-size:15px}.tpills button.on{padding:10px 22px}}
-.fond{margin-top:8px}.fond>h3.theme-h{font-size:26px}.fstep{margin-top:6px}.fstep-n{display:inline-block;background:#E2B85C;color:var(--navy);font-family:Mulish,system-ui,sans-serif;font-weight:900;font-size:13px;letter-spacing:.6px;text-transform:uppercase;border-radius:20px;padding:3px 12px;margin-right:8px;vertical-align:middle}
-.card.fcard{position:relative;padding-left:58px}.card .fnum{position:absolute;left:16px;top:18px;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff!important;font-weight:900;font-size:14px;display:grid;place-items:center}
-.fcard.soon{background:#fff;border-style:dashed;opacity:.85}.fcard.soon .fnum{background:#B9C2D0}.fcard.soon>span:not(.fnum){font-weight:800;color:#8A5A00}
+.fond{margin-top:14px;background:var(--navy);border-radius:22px;padding:28px 28px 20px;color:#fff}.fond .theme-h{color:#fff;font-size:26px;margin:6px 0 6px}.fond .theme-d{color:#D6DDE8}
+.fond-tag{display:inline-block;background:#E2B85C;color:var(--navy);font-weight:900;font-size:12px;letter-spacing:.6px;text-transform:uppercase;border-radius:20px;padding:4px 12px}
+.flist{list-style:none;margin:18px 0 0;padding:0}.fl-step{color:#E2B85C;font-weight:900;font-size:13px;letter-spacing:.6px;text-transform:uppercase;margin:16px 0 6px}
+.fl-row{display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 14px;margin:6px 0}
+.fl-n{flex:0 0 32px;height:32px;border-radius:50%;background:#E2B85C;color:var(--navy);font-weight:900;display:grid;place-items:center}
+.fl-t{flex:1;color:#fff;font-weight:800;font-size:17px;text-decoration:none}a.fl-t:hover{text-decoration:underline}
+.fl-row.soon{opacity:.6;border-style:dashed}.fl-row.soon .fl-n{background:#8C97AA}.fl-row em{font-style:normal;font-weight:800;font-size:13px;color:#E2B85C}
+.fl-p{display:flex;align-items:center;gap:10px;margin:0!important;padding:0!important;border:0!important;flex:0 0 auto}.fl-p button{width:40px!important;height:40px!important}.fl-p b{display:none}.fl-p small{color:#D6DDE8!important;font-size:13px}.fl-p .prog{display:none}
+.cat-h2{margin-top:44px}
+.tcat{margin-top:22px;border:1px solid #EADFC8;border-radius:22px;padding:0 22px 22px;background:#FFFDF8;overflow:hidden}
+.tcat-hd{margin:0 -22px 4px;padding:18px 22px;border-left:8px solid var(--tc)}.tcat-hd .theme-h{margin:0}.tcat-n{font-family:Mulish,system-ui,sans-serif;font-size:13px;font-weight:800;color:#fff;background:var(--tc);border-radius:20px;padding:3px 10px;vertical-align:middle;margin-left:8px}
+.t-gras{--tc:#B07A12}.t-gras .tcat-hd{background:#FBF1DC}.t-verite{--tc:#24508F}.t-verite .tcat-hd{background:#E8EFF9}.t-lavi{--tc:#2E7D5B}.t-lavi .tcat-hd{background:#E5F3EC}
+@media(max-width:600px){.fond{padding:20px 14px 14px}.fl-row{flex-wrap:wrap;gap:10px}.fl-t{font-size:16px;flex-basis:calc(100% - 46px)}.fl-p{margin-left:46px!important}.tcat{padding:0 12px 14px}.tcat-hd{margin:0 -12px 4px;padding:14px}}
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
 .theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
 a.tag{text-decoration:none}
@@ -352,20 +362,24 @@ FONDASYON = [  # cut to 7 core lessons (Jimmy, Nov 16, 2026); all other studies 
 
 
 def fondasyon_html(by_slug):
-    n, parts = 0, []
+    """Compact numbered path in a navy panel so all 7 lessons are visible at once (Jimmy, Nov 16)."""
+    n, rows = 0, []
     for step, name, items in FONDASYON:
-        cards = []
+        rows.append('<li class="fl-step">%s · %s</li>' % (e(step), e(name)))
         for it in items:
             n += 1
             st = by_slug.get(it)
             if st:
-                cards.append(card(st).replace('<div class="card">', '<div class="card fcard"><span class="fnum">%d</span>' % n, 1))
+                mp3 = '/assets/audio/bible-study/%s.mp3' % st['slug']
+                rows.append('<li class="fl-row"><span class="fl-n">%d</span><a class="fl-t" href="/kreyol/%s/">%s</a>'
+                            '<div class="play fl-p"><button type="button" data-src="%s" data-slug="%s" aria-label="Koute: %s">%s</button>'
+                            '<div><b>Koute</b><small data-l="%s">%s</small><span class="prog"><i></i></span></div></div></li>'
+                            % (n, st['slug'], e(st['title'].split('?')[0] + ('?' if '?' in st['title'] else '')), mp3, st['slug'],
+                               e(st['title']), PLAY_ICON, e(st['length']), e(st['length'])))
             else:
-                cards.append('<div class="card fcard soon"><span class="fnum">%d</span><h3>%s</h3><span>Byento</span>'
-                             '<p>Nou ap prepare etid sa a. Li pral disponib byento.</p></div>' % (n, e(FOND_SOON.get(it, it))))
-        parts.append('<div class="fstep"><h3 class="theme-h"><span class="fstep-n">%s</span> %s</h3><div class="cards">%s</div></div>'
-                     % (e(step), e(name), ''.join(cards)))
-    return ''.join(parts)
+                rows.append('<li class="fl-row soon"><span class="fl-n">%d</span><span class="fl-t">%s</span><em>Byento</em></li>'
+                            % (n, e(FOND_SOON.get(it, it))))
+    return '<ol class="flist">%s</ol>' % ''.join(rows)
 
 
 # Titles shown on "Byento" cards for slugs not published yet
@@ -425,13 +439,15 @@ def hub(all_s, posts=None):
              '<button type="button" data-tf="fondasyon">Fondasyon <span>(%d)</span></button>%s</nav><hr class="tline">' % (fond_n, ''.join(
         '<button type="button" data-tf="%s">%s <span>(%d)</span></button>' % (k, e(n), c) for k, n, c in
         ((k, n, sum(1 for x in rest if x.get('theme') == k)) for k, n, _ in THEMES) if c)))
-    p.append('<section class="tgrp fond" data-t="fondasyon"><h3 class="theme-h" id="fondasyon">Fondasyon</h3>'
-             '<p class="theme-d">Yon chemen etap pa etap: konnen Bondye, aksepte Jezi, batize, epi grandi nan lafwa. '
-             'Pou moun ki fèk ap chèche Bondye, ak pou kretyen ki vle yon lafwa ki pi fò. Koute yo nan lòd.</p>%s</section>' % fondasyon_html(by_slug))
+    p.append('<section class="tgrp fond" data-t="fondasyon"><div class="fond-hd"><span class="fond-tag">Kòmanse isit la</span>'
+             '<h3 class="theme-h" id="fondasyon">Fondasyon: %d leson</h3>'
+             '<p class="theme-d">Yon chemen kout, etap pa etap: konnen Bondye, aksepte Jezi, batize, epi kòmanse yon nouvo lavi. Koute yo nan lòd.</p></div>%s</section>'
+             % (sum(len(i) for _, _, i in FONDASYON), fondasyon_html(by_slug)))
+    p.append('<h2 class="hub-h2 cat-h2">Etid pa tèm</h2>')
     for k, n, d in THEMES:
         sub = [x for x in rest if x.get('theme') == k]
         if sub:
-            p.append('<section class="tgrp" data-t="%s"><h3 class="theme-h" id="%s">%s</h3><p class="theme-d">%s</p>' % (k, k, e(n), e(d)))
+            p.append('<section class="tgrp tcat t-%s" data-t="%s"><div class="tcat-hd"><h3 class="theme-h" id="%s">%s <span class="tcat-n">%d etid</span></h3><p class="theme-d">%s</p></div>' % (k, k, k, e(n), len(sub), e(d)))
             p.append('<div class="cards">%s</div></section>' % ''.join(card(x) for x in sub))
     p.append(TF_JS)
     other = [x for x in rest if x.get('theme') not in THEME_NAME]
