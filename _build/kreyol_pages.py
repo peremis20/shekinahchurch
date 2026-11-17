@@ -281,8 +281,9 @@ PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6
 PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
 
 
-# Podcast apps where the studies are listed (add Apple and Amazon when their links exist; see claude/podcast-links.md)
+# Podcast apps where the studies are listed (add Amazon when their links exist; see claude/podcast-links.md)
 LISTEN = [('Spotify', 'https://open.spotify.com/show/6wV9OYkZTJ0G3z3FQ3CUUd'),
+          ('Apple Podcasts', 'https://podcasts.apple.com/us/podcast/shekinah-haitian-sda-church/id6835701257'),
           ('Castbox', 'https://castbox.fm/channel/id7495794')]
 FEED_URL = SITE + '/podcast/kreyol.xml'
 POD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.6 1.4 4.8 3.5 6l.5-1.8A5 5 0 1 1 15 13.2l.5 1.8A7 7 0 0 0 12 2zm0 4a3 3 0 0 0-1.6 5.5l.6-.1h1.9l.6.1A3 3 0 0 0 12 6zm-1.4 7L9.5 21.5c-.1.3.2.5.5.5h4c.3 0 .6-.2.5-.5L13.4 13z"/></svg>'
