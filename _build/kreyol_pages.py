@@ -89,6 +89,18 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .study-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;font-weight:700;color:var(--navy);margin:16px 0 0}.study-cta .btn{background:#E2B85C;color:var(--navy)}.study-cta .btn:hover{background:#d6a83f}
 .listen-box{margin:22px 0 4px;padding:18px 20px;border-radius:14px;background:var(--cream);border:1px solid var(--line)}.listen-box b{color:var(--navy);font-size:17px}.listen-box p{margin:4px 0 12px}
 .listen{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.lbtn{display:inline-flex;align-items:center;gap:8px;background:#1DB954;color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.lbtn svg{width:20px;height:20px}.lbtn.cb{background:#F55B23}.lbtn.ap{background:#872EC4}.lbtn.am{background:#25D1DA;color:#0B1B33}.lbtn.alt{background:transparent;color:var(--navy);border:2px solid var(--line)}
+.hub-h1{position:relative;padding-bottom:18px;margin-bottom:22px}.hub-h1:after{content:"";position:absolute;left:0;bottom:0;width:132px;height:6px;border-radius:4px;background:#E2B85C}
+.hub-lead{font-size:18px;line-height:1.65;max-width:900px}
+.pod{display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:center;margin:30px 0 8px;padding:24px;border-radius:24px;background:#F8F1E6;border:1px solid #EFE3CF;box-shadow:0 6px 24px rgba(20,33,61,.06)}
+.pod img{width:100%;height:auto;border-radius:18px;display:block;object-fit:cover;aspect-ratio:306/229}
+.pod-b{border-left:1px solid #E3D3B6;padding-left:26px}.pod-b h2{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:clamp(22px,3vw,30px);margin:0 0 8px}.pod-b p{margin:0 0 20px;font-size:17px}
+.pod-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.pod-btn{display:inline-flex;align-items:center;gap:14px;background:#1B2D5A;color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:40px;padding:13px 24px;white-space:nowrap}.pod-btn svg{width:24px;height:24px}.pod-btn b{font-size:20px;margin-left:4px}.pod-btn:hover{background:#13234A}
+.pod-i{display:flex;gap:12px;margin-left:auto}.pod-i a{display:block;width:50px;height:50px;border-radius:14px;transition:transform .15s}.pod-i a:hover{transform:translateY(-2px)}.pod-i svg{width:50px;height:50px;display:block}
+.hub-h2{margin-top:44px;font-size:clamp(24px,3.4vw,32px)}
+.tpills{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0;justify-content:flex-start}.tpills button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;border-radius:40px;padding:12px 26px;background:#F6F0E6;color:var(--navy)}.tpills button span{font-weight:600;margin-left:4px}.tpills button.on{background:#1B2D5A;color:#fff;padding:12px 34px}
+.tline{border:0;border-top:1px solid #E6E1D6;margin:24px 0 0}
+@media (max-width:760px){.pod{grid-template-columns:1fr;gap:18px;padding:18px}.pod-b{border-left:0;padding-left:0}.pod-i{margin-left:0}.pod-btn{width:100%;justify-content:center}.tpills{gap:10px}.tpills button{padding:10px 18px;font-size:15px}.tpills button.on{padding:10px 22px}}
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
 .theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
 a.tag{text-decoration:none}
@@ -299,6 +311,28 @@ def listen_row(compact=False):
             '<div class="listen">%s</div></div>' % ((', '.join(n for n, _ in LISTEN[:-1]) + ' ak ' + LISTEN[-1][0]) if len(LISTEN) > 1 else LISTEN[0][0], btns))
 
 
+APP_ICON = {
+    'Spotify': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#1DB954"/><path d="M13 18.5c7-2.2 15.6-1.6 22 2M14.5 25c5.8-1.7 12.6-1.1 17.8 1.9M16 31c4.6-1.2 9.6-.8 13.6 1.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg>',
+    'Apple Podcasts': '<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="apg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F452FF"/><stop offset="1" stop-color="#832BC1"/></linearGradient></defs><rect width="48" height="48" rx="11" fill="url(#apg)"/><circle cx="24" cy="20" r="4.2" fill="#fff"/><path d="M21.3 27.5h5.4l-1 10.5h-3.4z" fill="#fff"/><path d="M16.4 29.5a10.5 10.5 0 1 1 15.2 0M13 32.6a15 15 0 1 1 22 0" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    'Castbox': '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.5 43.5 12.75v22.5L24 46.5 4.5 35.25v-22.5z" fill="#F55B23"/><path d="M15 22v6M19.5 18v14M24 20.5v9M28.5 16v10M33 22v4" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>',
+}
+HEADPHONES = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="3" y="14" width="5" height="7" rx="2" fill="currentColor"/><rect x="16" y="14" width="5" height="7" rx="2" fill="currentColor"/></svg>'
+
+
+def pod_card():
+    names = [n for n, _ in LISTEN]
+    apps = (', '.join(names[:-1]) + ' ak ' + names[-1]) if len(names) > 1 else names[0]
+    icons = ''.join('<a href="%s" target="_blank" rel="noopener" aria-label="Koute sou %s" title="Koute sou %s">%s</a>' % (u, e(n), e(n), APP_ICON.get(n, '')) for n, u in LISTEN)
+    return ('<section class="pod" aria-label="Podcast"><img src="/assets/kreyol/podcast-bible.webp" alt="Yon Bib louvri ak yon kas pou koute" width="306" height="229" loading="eager">'
+            '<div class="pod-b"><h2>Koute etid yo sou podcast</h2><p>Tout etid yo disponib sou %s.</p>'
+            '<div class="pod-r"><a class="pod-btn" href="#odyo">%s<span>Koute etid yo</span><b aria-hidden="true">&rarr;</b></a><div class="pod-i">%s</div></div></div></section>') % (apps, HEADPHONES, icons)
+
+
+TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=document.querySelectorAll(".tgrp");'
+         'b.forEach(function(x){x.addEventListener("click",function(){var t=x.getAttribute("data-tf");'
+         'b.forEach(function(y){y.classList.toggle("on",y===x);});g.forEach(function(s){s.style.display=!t||s.getAttribute("data-t")===t?"":"none";});});});})();</script>')
+
+
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
           ('verite', 'Verite Bib la', 'Sa Bib la anseye sou lanmò, retou Jezi, Saba a, lalwa Bondye ak pwofesi.'),
           ('lavi', 'Lavi kretyen', 'Lapriyè, li Bib la, espwa, gerizon ak fanmi nan lavi chak jou.')]
@@ -339,19 +373,19 @@ def hub(all_s, posts=None):
                     'image': SITE + '/assets/podcast/shekinah-podcast-cover.jpg', 'sameAs': [u for _, u in LISTEN],
                     'author': {'@type': 'Church', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE + '/'}}}
     p = [head(title, desc, url, ld), HEADER, '<main>']
-    p.append('<h1>Etid Biblik an Kreyòl</h1>')
-    p.append('<p>Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
-             'ak kesyon pou pale ladan yo ak fanmi ou.</p>'
-             '<p class="study-cta">Ou ta renmen etidye Bib la ak yon moun?<a class="btn" href="/contact/?topic=bible">Mande yon etid pèsonèl</a></p>')
-    p.append(listen_row())
-    p.append('<h2 id="odyo">Etid odyo</h2>')
-    p.append('<nav class="themes" aria-label="Tèm yo">%s</nav>' % ''.join(
-        '<a href="#%s">%s <small>%d</small></a>' % (k, e(n), sum(1 for x in all_s if x.get('theme') == k)) for k, n, _ in THEMES))
+    p.append('<h1 class="hub-h1">Etid Biblik an Kreyòl</h1>')
+    p.append('<p class="hub-lead">Etid biblik gratis pou koute an Kreyòl, ak kesyon, ti blag, ak anpil espwa. Chak etid gen yon rezime, vèsè biblik yo, '
+             'ak kesyon pou pale ladan yo ak fanmi ou.</p>')
+    p.append(pod_card())
+    p.append('<h2 id="odyo" class="hub-h2">Etid odyo</h2>')
+    p.append('<nav class="tpills" aria-label="Tèm yo"><button type="button" class="on" data-tf="">Tout etid</button>%s</nav><hr class="tline">' % ''.join(
+        '<button type="button" data-tf="%s">%s <span>(%d)</span></button>' % (k, e(n), sum(1 for x in all_s if x.get('theme') == k)) for k, n, _ in THEMES))
     for k, n, d in THEMES:
         sub = [x for x in all_s if x.get('theme') == k]
         if sub:
-            p.append('<h3 class="theme-h" id="%s">%s</h3><p class="theme-d">%s</p>' % (k, e(n), e(d)))
-            p.append('<div class="cards">%s</div>' % ''.join(card(x) for x in sub))
+            p.append('<section class="tgrp" data-t="%s"><h3 class="theme-h" id="%s">%s</h3><p class="theme-d">%s</p>' % (k, k, e(n), e(d)))
+            p.append('<div class="cards">%s</div></section>' % ''.join(card(x) for x in sub))
+    p.append(TF_JS)
     other = [x for x in all_s if x.get('theme') not in THEME_NAME]
     if other:
         p.append('<div class="cards">%s</div>' % ''.join(card(x) for x in other))
@@ -361,6 +395,7 @@ def hub(all_s, posts=None):
     p.append('<h2 id="youtube">YouTube Videos</h2>')
     p.append('<div class="cards">%s%s</div>' % (''.join(read_card(a) for a in arts), watch))
     p.append('<p style="margin-top:22px"><a href="/bible-study/" lang="en"><b>Read our Bible studies in English →</b></a></p>')
+    p.append('<p class="study-cta">Ou ta renmen etidye Bib la ak yon moun?<a class="btn" href="/contact/?topic=bible">Mande yon etid pèsonèl</a></p>')
     p.append('<div class="cta"><a class="btn" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a>'
              '<a class="btn alt" href="/prayer-request/">Voye yon demann priyè</a></div>')
     p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
