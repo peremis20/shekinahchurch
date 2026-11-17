@@ -101,6 +101,9 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .tpills{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0;justify-content:flex-start}.tpills button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;border-radius:40px;padding:12px 26px;background:#F6F0E6;color:var(--navy)}.tpills button span{font-weight:600;margin-left:4px}.tpills button.on{background:#1B2D5A;color:#fff;padding:12px 34px}
 .tline{border:0;border-top:1px solid #E6E1D6;margin:24px 0 0}
 @media (max-width:760px){.pod{grid-template-columns:1fr;gap:18px;padding:18px}.pod-b{border-left:0;padding-left:0}.pod-i{margin-left:0}.pod-btn{width:100%;justify-content:center}.tpills{gap:10px}.tpills button{padding:10px 18px;font-size:15px}.tpills button.on{padding:10px 22px}}
+.fond{margin-top:8px}.fond>h3.theme-h{font-size:26px}.fstep{margin-top:6px}.fstep-n{display:inline-block;background:#E2B85C;color:var(--navy);font-family:Mulish,system-ui,sans-serif;font-weight:900;font-size:13px;letter-spacing:.6px;text-transform:uppercase;border-radius:20px;padding:3px 12px;margin-right:8px;vertical-align:middle}
+.card.fcard{position:relative;padding-left:58px}.card .fnum{position:absolute;left:16px;top:18px;width:30px;height:30px;border-radius:50%;background:var(--navy);color:#fff!important;font-weight:900;font-size:14px;display:grid;place-items:center}
+.fcard.soon{background:#fff;border-style:dashed;opacity:.85}.fcard.soon .fnum{background:#B9C2D0}.fcard.soon>span:not(.fnum){font-weight:800;color:#8A5A00}
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
 .theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
 a.tag{text-decoration:none}
@@ -337,6 +340,45 @@ TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=doc
          'b.forEach(function(y){y.classList.toggle("on",y===x);});g.forEach(function(s){s.style.display=!t||s.getAttribute("data-t")===t?"":"none";});});});})();</script>')
 
 
+# Fondasyon series (Jimmy, Nov 16, 2026): one path from not knowing God to baptism and a strong Christian life.
+# Each item is a study slug (existing audio) or a title still to record (shown as "Byento").
+# Studies listed here show ONLY in Fondasyon on /kreyol/, not again under the themes.
+FONDASYON = [
+    ('Etap 1', 'Konnen Bondye ak konnen kiyès mwen ye', [
+        'Kiyès Bondye ye?', 'eske-tout-relijyon-se-menm', 'kijan-pou-m-komanse-li-bib-la',
+        'Kreyasyon an: kijan Bondye kreye moun', 'Kiyès mwen ye e poukisa m la?']),
+    ('Etap 2', 'Konprann pwoblèm nan ak repons Bondye', [
+        'poukisa-bondye-kite-soufrans-rive', 'eske-jezi-se-bondye', 'Sali pa lagras']),
+    ('Etap 3', 'Aksepte Jezi epi batize', [
+        'eske-bondye-ka-padone-m', 'Batèm', 'ki-moun-sentespri-a-ye']),
+    ('Etap 4', 'Viv kòm yon nouvo kretyen', [
+        'kijan-pou-m-priye', 'dis-komandman-bondye-yo', 'kisa-bib-la-di-sou-saba-a', 'kisa-advantis-yo-kwe',
+        'Legliz la ak lavi kretyen']),
+    ('Etap 5', 'Espwa ak lafwa ki fò', [
+        'kisa-ki-rive-le-yon-moun-mouri', 'dezyem-vini-jezi', 'Pwochen etap ou']),
+]
+
+
+def fondasyon_html(by_slug):
+    n, parts = 0, []
+    for step, name, items in FONDASYON:
+        cards = []
+        for it in items:
+            n += 1
+            st = by_slug.get(it)
+            if st:
+                cards.append(card(st).replace('<div class="card">', '<div class="card fcard"><span class="fnum">%d</span>' % n, 1))
+            else:
+                cards.append('<div class="card fcard soon"><span class="fnum">%d</span><h3>%s</h3><span>Byento</span>'
+                             '<p>Nou ap prepare etid sa a. Li pral disponib byento.</p></div>' % (n, e(it)))
+        parts.append('<div class="fstep"><h3 class="theme-h"><span class="fstep-n">%s</span> %s</h3><div class="cards">%s</div></div>'
+                     % (e(step), e(name), ''.join(cards)))
+    return ''.join(parts)
+
+
+FOND_SLUGS = {it for _, _, items in FONDASYON for it in items if '-' in it and ' ' not in it}
+
+
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
           ('verite', 'Verite Bib la', 'Sa Bib la anseye sou lanmò, retou Jezi, Saba a, lalwa Bondye ak pwofesi.'),
           ('lavi', 'Lavi kretyen', 'Lapriyè, li Bib la, espwa, gerizon ak fanmi nan lavi chak jou.')]
@@ -382,15 +424,23 @@ def hub(all_s, posts=None):
              'ak kesyon pou pale ladan yo ak fanmi ou.</p>')
     p.append(pod_card())
     p.append('<h2 id="odyo" class="hub-h2">Etid odyo</h2>')
-    p.append('<nav class="tpills" aria-label="Tèm yo"><button type="button" class="on" data-tf="">Tout etid</button>%s</nav><hr class="tline">' % ''.join(
-        '<button type="button" data-tf="%s">%s <span>(%d)</span></button>' % (k, e(n), sum(1 for x in all_s if x.get('theme') == k)) for k, n, _ in THEMES))
+    by_slug = {x['slug']: x for x in all_s}
+    fond_n = sum(1 for x in all_s if x['slug'] in FOND_SLUGS)
+    rest = [x for x in all_s if x['slug'] not in FOND_SLUGS]
+    p.append('<nav class="tpills" aria-label="Tèm yo"><button type="button" class="on" data-tf="">Tout etid</button>'
+             '<button type="button" data-tf="fondasyon">Fondasyon <span>(%d)</span></button>%s</nav><hr class="tline">' % (fond_n, ''.join(
+        '<button type="button" data-tf="%s">%s <span>(%d)</span></button>' % (k, e(n), c) for k, n, c in
+        ((k, n, sum(1 for x in rest if x.get('theme') == k)) for k, n, _ in THEMES) if c)))
+    p.append('<section class="tgrp fond" data-t="fondasyon"><h3 class="theme-h" id="fondasyon">Fondasyon</h3>'
+             '<p class="theme-d">Yon chemen etap pa etap: konnen Bondye, aksepte Jezi, batize, epi grandi nan lafwa. '
+             'Pou moun ki fèk ap chèche Bondye, ak pou kretyen ki vle yon lafwa ki pi fò. Koute yo nan lòd.</p>%s</section>' % fondasyon_html(by_slug))
     for k, n, d in THEMES:
-        sub = [x for x in all_s if x.get('theme') == k]
+        sub = [x for x in rest if x.get('theme') == k]
         if sub:
             p.append('<section class="tgrp" data-t="%s"><h3 class="theme-h" id="%s">%s</h3><p class="theme-d">%s</p>' % (k, k, e(n), e(d)))
             p.append('<div class="cards">%s</div></section>' % ''.join(card(x) for x in sub))
     p.append(TF_JS)
-    other = [x for x in all_s if x.get('theme') not in THEME_NAME]
+    other = [x for x in rest if x.get('theme') not in THEME_NAME]
     if other:
         p.append('<div class="cards">%s</div>' % ''.join(card(x) for x in other))
     arts = kreyol_posts(posts)
