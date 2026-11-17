@@ -228,7 +228,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 @media (max-width:1180px){.pj-kpis{grid-template-columns:1fr 1fr}.pj-mid{grid-template-columns:1fr}}
 .pj-chip{max-width:160px}
 @media (max-width:900px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
-@media (max-width:560px){.pj-kpis{grid-template-columns:1fr}.pj-kpi.main{grid-column:auto}.pj-f{grid-template-columns:1fr 1fr}.pj-tools select{flex:1 1 140px;min-width:0}.pj-add{margin-left:0;width:100%;justify-content:center}.pj-donut svg.d{width:120px;height:120px}.pj-dep .r b{min-width:84px}}
+@media (max-width:560px){.pj-kpis{grid-template-columns:1fr 1fr;gap:10px}.pj-kpi.main{grid-column:1/-1}.pj-kpi{padding:14px;gap:10px;flex-direction:column;align-items:flex-start}.pj-kpi.main{flex-direction:row;align-items:center}.pj-kpi .ic{width:44px;height:44px}.pj-f{grid-template-columns:1fr 1fr}.pj-tools select{flex:1 1 140px;min-width:0}.pj-add{margin-left:0;width:100%;justify-content:center}.pj-donut svg.d{width:120px;height:120px}.pj-dep .r b{min-width:84px}}
 .ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
 .ef input,.ef select,.ef textarea{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;color:var(--ink);font-weight:400}
@@ -403,6 +403,46 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   .search{min-width:100%}
   .page{padding:14px}
 }
+
+/* Projects look for Team, Reports and Settings */
+.pjx .panel{border-radius:18px;border:1px solid #E6EBF3;box-shadow:0 4px 18px rgba(20,33,61,.06)}
+.pjx .page{padding:20px 22px}
+.pjx .sec-h{font:800 19px Mulish,system-ui,sans-serif;color:#0E1B3D}
+.pjx .kpis,.pjx .wr-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px}.pjx .pj-kpi span{white-space:normal}
+.pjx .kpi{background:#fff;border:1px solid #E6EBF3;border-radius:16px;box-shadow:0 2px 10px rgba(20,33,61,.05);padding:16px 18px}
+.pjx .kpi b{font:900 26px Mulish,system-ui,sans-serif;color:#0E1B3D}.pjx .kpi span{color:#33415C;font-weight:600}
+.pjx .wr-k .kpi:first-child{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}.pjx .wr-k .kpi:first-child b,.pjx .wr-k .kpi:first-child span{color:#fff}.pjx .wr-k .kpi:first-child small{color:#BFE7C8}
+.pjx .rtable{border-collapse:separate;border-spacing:0;border:1px solid #E6EBF3;border-radius:14px;overflow:hidden}
+.pjx .rtable th{background:#0B2152;color:#fff;text-transform:none;letter-spacing:0;font-size:14.5px;font-weight:800;padding:13px 12px;border:0}
+.pjx .rtable td{border-bottom:1px solid #EEF1F6;font-weight:600;color:#1F2A44}.pjx .rtable tr:last-child td{border-bottom:0}
+.pjx .pbtn{background:linear-gradient(180deg,#1E9B3B,#13802D);border-radius:12px;padding:12px 20px;font-size:15px}
+.pjx .lbtn,.pjx .sbtn{border:1.5px solid #D3DBE8;border-radius:12px;background:#fff;font-weight:800;padding:10px 16px;color:#1F2A44}
+.pjx .dbtn{border-radius:12px}
+.pjx .ef input:not([type=checkbox]),.pjx .ef select,.pjx .ef textarea,.pjx input#shareurl{border:1.5px solid #D3DBE8;border-radius:10px}
+.pjx #siteed>.card{border:1px solid #E6EBF3!important;border-left:1px solid #E6EBF3!important;border-radius:18px;box-shadow:0 4px 18px rgba(20,33,61,.06);padding:20px 22px}
+.pjx #siteed>.card>.top .who{font:800 19px Mulish,system-ui,sans-serif;color:#0E1B3D}
+.pjx #siteed .items>.card{background:#F8FAFD;border:1px solid #E6EBF3;border-left:4px solid #1D5FE0;border-radius:14px;box-shadow:none}
+body[data-t=team] #tkpis{display:none!important}
+#tadd+.err:empty{display:none}
+.pj-info{display:flex;align-items:center;gap:16px;padding:16px 20px}.pj-info .ic{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none}.pj-info .ic svg{width:24px;height:24px}.pj-info b{display:block;font-weight:800;font-size:17px;color:#0E1B3D}.pj-info span{color:#33415C;font-weight:600}
+.pj-addp{display:grid;grid-template-columns:2fr 1fr auto auto;gap:14px;align-items:end}.pj-addp label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#33415C;min-width:0}
+.pj-addp input[type=email],.pj-addp select{height:48px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 12px;font-size:16px;background:#fff;width:100%;min-width:0}
+.pj-addp label.chk{flex-direction:row;align-items:center;gap:8px;height:48px;white-space:nowrap}.pj-addp label.chk input{width:20px;height:20px;accent-color:#1D5FE0}.pj-addp .pj-add{margin:0;height:48px}
+.pj-note{margin:0 0 14px;color:#33415C;font-weight:500;line-height:1.55}
+.pj-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.pj-role{border:1px solid #E6EBF3;border-radius:14px;padding:12px 14px;background:#F8FAFD}.pj-role p{margin:8px 0 0;color:#33415C;font-weight:500;font-size:14.5px;line-height:1.5}
+.pj-tag{display:inline-block;background:#E3EDFF;color:#1D5FE0;border-radius:8px;padding:1px 8px;font-size:12px;font-weight:800;vertical-align:middle}
+.pj-tm{overflow:visible}.tm-h,.tm-row{display:grid;grid-template-columns:minmax(220px,2.2fr) minmax(150px,1.1fr) minmax(130px,1fr) minmax(130px,1fr) 190px;gap:12px;align-items:center}
+.tm-h{background:#0B2152;color:#fff;font-weight:800;font-size:15px;padding:16px 20px;border-radius:18px 18px 0 0}
+.tm-r{border-bottom:1px solid #EEF1F6;padding:14px 20px}.tm-r:last-child{border-bottom:0}
+.tm-p{display:flex;align-items:center;gap:12px;min-width:0}.tm-av{width:42px;height:42px;border-radius:50%;color:#fff;font-weight:900;display:grid;place-items:center;flex:none;font-size:18px}
+.tm-p b{display:block;font-weight:800;font-size:16px;color:#0E1B3D}.tm-p>div>span{display:block;color:#5D6A80;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tm-row select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;width:100%;max-width:200px}
+.tm-sw{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1F2A44}.tm-sw input{width:20px;height:20px;accent-color:#1D5FE0}
+.tm-when{color:#33415C;font-weight:600}
+.pj-act .tm-cz{width:auto;padding:0 14px;font-weight:800;font-size:14px}
+.tm-cz-p{margin:12px 0 2px;padding:14px 16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.tm-cz-p>div{display:flex;flex-direction:column;gap:7px}.tm-cz-p b{font-size:14px;color:#0E1B3D}
+@media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label:first-child,.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
+@media (max-width:560px){.pj-roles{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -448,12 +488,19 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           </div>
         </section>
 
-        <section id="team" class="hide"><div class="panel page wrap">
-          <div><div class="sec-h">Team and roles</div>
-          <p class="meta" style="margin-top:6px">Pick a role for each person. The role sets what they can see and do. Open <b>Customize</b> to change one person without changing the role for everyone. Private prayer requests stay hidden from anyone who does not have the private box ticked. Every limit is checked by the server, not only on this screen.</p><div id="troles" class="meta" style="margin-top:8px"></div></div>
-          <div id="tlist"></div>
-          <form id="tadd" class="bar"><input id="temail" type="email" placeholder="New person's email" required><select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select><label style="display:flex;gap:6px;align-items:center;font-size:14px;font-weight:600"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pbtn">Add person</button></form>
-          <div class="err" id="terr"></div>
+        <section id="team" class="hide"><div class="pj pjx">
+          <div class="pj-kpis" id="tkpi"></div>
+          <div class="pj-card">
+            <h3>Add a person</h3>
+            <form id="tadd" class="pj-addp"><label>Email<input id="temail" type="email" placeholder="New person's email" required></label><label>Role<select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select></label><label class="chk"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pj-add" type="submit"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Person</button></form>
+            <div class="err" id="terr"></div>
+          </div>
+          <div class="pj-table pj-tm"><div class="tm-h"><span>Person</span><span>Role</span><span>Private prayers</span><span>Last sign in</span><span>Actions</span></div><div id="tlist"></div></div>
+          <div class="pj-card">
+            <h3>What each role can do</h3>
+            <p class="pj-note">Pick a role for each person. The role sets what they can see and do. Open <b>Customize</b> to change one person without changing the role for everyone. Private prayer requests stay hidden from anyone who does not have the private box ticked. Every limit is checked by the server, not only on this screen.</p>
+            <div id="troles" class="pj-roles"></div>
+          </div>
         </div></section>
 
         <section id="news" class="hide"><div class="wrap">
@@ -522,10 +569,10 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           </div></div>
         </div></section>
 
-        <section id="site" class="hide">
-          <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
+        <section id="site" class="hide"><div class="pj pjx">
+          <div class="pj-card pj-info"><div class="ic" style="background:#E3EDFF;color:#1D5FE0"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></svg></div><div><b>Edit the website</b><span>Changes show on the live website within about a minute after you click Save.</span></div></div>
           <div class="wrap" id="siteed"></div>
-        </section>
+        </div></section>
 
         <section id="cal" class="hide"><div class="calgrid">
           <div class="panel page calmain">
@@ -543,7 +590,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           </div>
         </div></section>
 
-        <section id="reports" class="hide"><div class="wrap" id="rep"></div></section>
+        <section id="reports" class="hide"><div class="pj pjx"><div class="wrap" id="rep"></div></div></section>
 
         <aside id="rail">
           <button id="addentry"></button>
@@ -1234,16 +1281,15 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     var K=['prayer','contact','visit','newsletter'], S=[['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']];
     var now=new Date(), months=[];for(var m=5;m>=0;m--){var d=new Date(now.getFullYear(),now.getMonth()-m,1);months.push([d.getFullYear(),d.getMonth()]);}
     var c=counts(), replied=Object.keys(replies).length, d30=items.filter(function(i){return (now-pdate(i.created_at))/86400000<=30;}).length;
-    var html='<div class="panel page"><div class="sec-h" style="margin-bottom:12px">At a glance</div><div class="kpis">'+
-      '<div class="kpi"><b>'+c.all.t+'</b><span>Open and closed messages</span></div><div class="kpi"><b>'+c.all.n+'</b><span>Waiting for a first look</span></div>'+
-      '<div class="kpi"><b>'+d30+'</b><span>Received in the last 30 days</span></div><div class="kpi"><b>'+replied+'</b><span>Answered by email from here</span></div></div>'+
-      '<p class="meta">These numbers count website form entries only. They are not attendance.</p></div>';
+    var kp=function(ic,bg,fg,n,l,main){return '<div class="pj-kpi'+(main?' main':'')+'"><div class="ic"'+(main?'':' style="background:'+bg+';color:'+fg+'"')+'>'+pjI(ic)+'</div><div style="min-width:0"><b>'+n+'</b><span>'+l+'</span></div></div>';};
+    var html='<div class="sec-h" style="margin:8px 0 0">Website forms at a glance</div><div class="pj-kpis">'+kp('inbox','','',c.all.t,'All messages',1)+kp('mail','#FFF1D6','#8A5A00',c.all.n,'Waiting for a first look')+
+      kp('cal','#E3EDFF','#1D5FE0',d30,'Received in last 30 days')+kp('reply','#E3F6E8','#157A2F',replied,'Answered by email')+'</div><p class="meta" style="margin:-6px 0 0">These numbers count website form entries only. They are not attendance.</p>';
     html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">By type and status</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Type</th>'+S.map(function(s){return '<th class="n">'+s[1]+'</th>';}).join('')+'<th class="n">Total</th><th></th></tr>'+
       K.map(function(k){var rs=items.filter(function(i){return i.kind===k;});return '<tr><td><b>'+LABEL[k]+'</b></td>'+S.map(function(s){return '<td class="n">'+rs.filter(function(i){return i.status===s[0];}).length+'</td>';}).join('')+'<td class="n"><b>'+rs.length+'</b></td><td class="n">'+(can('messages_manage')?'<button class="lbtn" data-csv="'+k+'" style="padding:5px 10px;font-size:13px">CSV</button>':'')+'</td></tr>';}).join('')+'</table></div></div>';
     html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
       months.map(function(mm){var lab=new Date(mm[0],mm[1],1).toLocaleString([], {month:'long',year:'numeric'});var rs=items.filter(function(i){var d=pdate(i.created_at);return d.getFullYear()===mm[0]&&d.getMonth()===mm[1];});
         return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div>';
-    $('rep').innerHTML='<div id="webrep"></div>'+shareTop()+html.replace('<div class="sec-h" style="margin-bottom:12px">At a glance</div>','<div class="sec-h" style="margin-bottom:12px">Website forms at a glance</div>')+shareBox();webReport();loadShare();
+    $('rep').innerHTML='<div id="webrep"></div>'+shareTop()+html+shareBox();webReport();loadShare();
   }
   $('rep').addEventListener('click',function(e){var b=e.target.closest('[data-csv]');if(b)csv(b.getAttribute('data-csv'));});
 
@@ -1418,15 +1464,24 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   function roleSel(v,dis,list){return '<select data-tr="role"'+(dis?' disabled':'')+'>'+titlesOf(list).map(function(t){return '<option value="'+t.id+'"'+(t.id===v?' selected':'')+'>'+esc(t.label)+'</option>';}).join('')+'</select>';}
   function boxes(kind,labels,on,dis){return Object.keys(labels).map(function(k){return '<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-'+kind+'="'+k+'"'+(on(k)?' checked':'')+(dis?' disabled':'')+'> '+labels[k]+'</label>';}).join('');}
   function team(list){window.__team=list;setTimeout(renderTK,0);
-    var ts=titlesOf(list);
+    var ts=titlesOf(list),A=list.admins||[],tl=function(a){return a.title||a.role;};
     if($('trole').getAttribute('data-n')!==String(ts.length)){$('trole').innerHTML=ts.map(function(t){return '<option value="'+t.id+'"'+(t.id==='volunteer'?' selected':'')+'>'+esc(t.label)+'</option>';}).join('');$('trole').setAttribute('data-n',ts.length);}
+    var lab={};ts.forEach(function(t){lab[t.id]=t.label;});
+    var kp=function(ic,bg,fg,n,l,main){return '<div class="pj-kpi'+(main?' main':'')+'"><div class="ic"'+(main?'':' style="background:'+bg+';color:'+fg+'"')+'>'+pjI(ic)+'</div><div style="min-width:0"><b>'+n+'</b><span>'+l+'</span></div></div>';};
+    $('tkpi').innerHTML=kp('people','','',A.length,'Team Members',1)+kp('shield','#E3EDFF','#1D5FE0',A.filter(function(a){return tl(a)==='admin';}).length,'Admins')+
+      kp('book','#F1E8FF','#7C3AED',A.filter(function(a){var t=tl(a);return t==='pastor'||t==='elder';}).length,'Pastors and Elders')+kp('lock','#FFF1D6','#8A5A00',A.filter(function(a){return a.can_see_private;}).length,'See Private Prayers');
     $('troles').innerHTML=ts.filter(function(t){return t.perms;}).map(function(t){var can=Object.keys(PERM_LABEL).filter(function(k){return t.perms[k];}).map(function(k){return PERM_LABEL[k].toLowerCase();});var see=(t.areas||[]).map(function(a){return AREA_LABEL[a].toLowerCase();});
-      return '<div style="margin-top:4px"><b>'+esc(t.label)+':</b> '+(t.id==='admin'?'everything.':'sees '+(see.length===6?'all messages':see.length?see.join(', '):'no messages')+'. '+(can.length?'Can '+can.join('; ')+'.':'Can read, set status and add notes only.'))+'</div>';}).join('');
-    $('tlist').innerHTML=(list.admins||[]).map(function(a){var mine=a.email===list.me, t=a.title||a.role, adm=t==='admin', pr=a.perms||{}, ar=a.areas||[];
-      return '<div class="contact" data-em="'+esc(a.email)+'" style="padding:10px 0;border-top:1px solid var(--line)"><div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center"><b style="color:var(--navy);min-width:170px;word-break:break-all">'+esc(a.email)+'</b>'+(mine?' <span class="tag">You</span>':'')+roleSel(t,mine,list)+(a.custom?'<span class="tag">Custom</span>':'')+
-        '<label style="display:flex;gap:6px;align-items:center;font-size:13px"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'> Can see private prayer requests</label><span class="when">'+(a.last_login?'Last sign in '+esc(when(a.last_login)):'Has not signed in yet')+'</span>'+
-        '<span style="margin-left:auto;display:flex;gap:8px">'+(mine||adm||!a.perms?'':'<button type="button" class="sbtn" style="padding:7px 12px;font-size:14px" data-cz="'+esc(a.email)+'">'+(teamOpen===a.email?'Close':'Customize')+'</button>')+(mine?'':'<button type="button" class="sbtn" style="padding:7px 12px;font-size:14px" data-rm="'+esc(a.email)+'">Remove</button>')+'</span></div>'+
-        (teamOpen===a.email&&!mine&&!adm&&a.perms?'<div data-czp="1" style="margin:10px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#FAF6EE;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px"><div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:13px;color:var(--navy)">Can do</b>'+boxes('pm',PERM_LABEL,function(k){return !!pr[k];})+'</div><div style="display:flex;flex-direction:column;gap:6px"><b style="font-size:13px;color:var(--navy)">Can see these messages</b>'+boxes('ar',AREA_LABEL,function(k){return ar.indexOf(k)>=0;})+'<span class="when">Everyone can read, set the status and add notes on the messages they can see.</span></div></div>':'')+'</div>';}).join('');}
+      return '<div class="pj-role"><span class="pj-chip" style="background:#E3EDFF;color:#1D5FE0">'+esc(t.label)+'</span><p>'+(t.id==='admin'?'Everything.':'Sees '+(see.length===6?'all messages':see.length?see.join(', '):'no messages')+'. '+(can.length?'Can '+can.join('; ')+'.':'Can read, set status and add notes only.'))+'</p></div>';}).join('');
+    var AV=['#1D5FE0','#7C3AED','#157A2F','#D9437A','#0E7C86','#8A5A00'];
+    $('tlist').innerHTML=A.length?A.map(function(a,i){var mine=a.email===list.me, t=tl(a), adm=t==='admin', pr=a.perms||{}, ar=a.areas||[];
+      return '<div class="tm-r" data-em="'+esc(a.email)+'"><div class="tm-row">'+
+        '<div class="tm-p"><span class="tm-av" style="background:'+AV[i%AV.length]+'">'+esc((a.email[0]||'?').toUpperCase())+'</span><div style="min-width:0"><b>'+esc(firstName(a.email))+(mine?' <span class="pj-tag">You</span>':'')+(a.custom?' <span class="pj-tag">Custom</span>':'')+'</b><span>'+esc(a.email)+'</span></div></div>'+
+        '<div data-l="Role">'+roleSel(t,mine,list)+'</div>'+
+        '<div data-l="Private prayers"><label class="tm-sw"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'><span>'+(a.can_see_private?'Can see':'Hidden')+'</span></label></div>'+
+        '<div data-l="Last sign in" class="tm-when">'+(a.last_login?esc(when(a.last_login)):'Not yet')+'</div>'+
+        '<div class="pj-act">'+(mine||adm||!a.perms?'':'<button type="button" class="e tm-cz" data-cz="'+esc(a.email)+'" title="Customize what this person can do">'+(teamOpen===a.email?'Close':'Customize')+'</button>')+(mine?'':'<button type="button" class="x" data-rm="'+esc(a.email)+'" aria-label="Remove '+esc(a.email)+'">'+pjI('trash')+'</button>')+'</div></div>'+
+        (teamOpen===a.email&&!mine&&!adm&&a.perms?'<div data-czp="1" class="tm-cz-p"><div><b>Can do</b>'+boxes('pm',PERM_LABEL,function(k){return !!pr[k];})+'</div><div><b>Can see these messages</b>'+boxes('ar',AREA_LABEL,function(k){return ar.indexOf(k)>=0;})+'<span class="when">Everyone can read, set the status and add notes on the messages they can see.</span></div></div>':'')+'</div>';}).join('')
+      :'<div class="pj-empty">No one on the team yet.</div>';}
   function teamSave(body){$('terr').textContent='';return api('/admin/admins/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e2){$('terr').style.color='';$('terr').textContent=e2.message;api('/admin/admins').then(team).catch(function(){});});}
   $('tlist').addEventListener('change',function(e){var row=e.target.closest('[data-em]');if(!row)return;
     var body={email:row.getAttribute('data-em'),title:row.querySelector('[data-tr=role]').value,can_see_private:row.querySelector('[data-tr=priv]').checked};
@@ -1434,8 +1489,8 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     else if(!e.target.matches('[data-tr=role]')){var pan=row.querySelector('[data-czp]');if(pan){body.perms={};pan.querySelectorAll('[data-pm]').forEach(function(c){body.perms[c.getAttribute('data-pm')]=c.checked;});body.areas=[];pan.querySelectorAll('[data-ar]').forEach(function(c){if(c.checked)body.areas.push(c.getAttribute('data-ar'));});}else{var cur=((window.__team||{}).admins||[]).filter(function(a){return a.email===body.email;})[0];if(cur&&cur.custom){body.perms=cur.perms;body.areas=cur.areas;}}}
     teamSave(body);});
   $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,title:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);$('terr').style.color='var(--green)';$('terr').textContent='Added. We emailed them how to sign in.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},4000);}).catch(function(e){$('terr').style.color='';$('terr').textContent=e.message;});});
-  $('tlist').addEventListener('click',function(e){var cz=e.target.getAttribute('data-cz');if(cz){teamOpen=teamOpen===cz?'':cz;team(window.__team);return;}
-    var em=e.target.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' from the team? They will be signed out right away.'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
+  $('tlist').addEventListener('click',function(e){var cz=(e.target.closest('[data-cz]')||{getAttribute:function(){return null;}}).getAttribute('data-cz');if(cz){teamOpen=teamOpen===cz?'':cz;team(window.__team);return;}
+    var rb=e.target.closest('[data-rm]'),em=rb&&rb.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' from the team? They will be signed out right away.'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   // ---- Members (same server and sign in) ----
   var MAPI=API;
   var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
@@ -1490,6 +1545,8 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8" r="1.4"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
     pen:'<path d="M15.5 4.5 19.5 8.5 8.5 19.5H4.5v-4z"/><path d="m13.5 6.5 4 4"/>',trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
     check:'<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><path d="m8 12.5 3 3 5-6" stroke="#fff"/>',play:'<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><path d="M10.5 8.5v7l5.5-3.5z" fill="#fff" stroke="none"/>',
+    shield:'<path d="M12 3 4.5 6v6c0 4.5 3.2 7.6 7.5 9 4.3-1.4 7.5-4.5 7.5-9V6z"/><path d="m9 12 2 2 4-4"/>',lock:'<rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/>',
+    inbox:'<path d="M3.5 13.5 6 5h12l2.5 8.5V19H3.5z"/><path d="M3.5 13.5h5l1.5 2.5h4l1.5-2.5h5"/>',mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/>',reply:'<path d="M10 7 4 12l6 5M4 12h10a6 6 0 0 1 6 6"/>',cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
     clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',dash:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/>'};
   function pjI(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(PJI[n]||PJI.tag)+'</svg>';}
   var PJ_DEP={'Building Development':['building','#8A5A00','#FFF1D6'],'Building':['building','#8A5A00','#FFF1D6'],'Music':['music','#7C3AED','#F1E8FF'],'Youth':['people','#1D5FE0','#E3EDFF'],'Children':['kids','#D9437A','#FDE7F0'],
