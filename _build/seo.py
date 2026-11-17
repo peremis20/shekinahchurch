@@ -218,7 +218,7 @@ def sitemap(pages, posts, today=None):
 FACTS = """Shekinah Haitian Seventh-day Adventist Church is a Haitian Seventh-day Adventist congregation at 205 E Carver St, Alvarado, Texas 76009, serving Johnson County and the Dallas Fort Worth area (Burleson, Mansfield, Cleburne, Fort Worth).
 
 - Sabbath School: Saturday 10:00 AM
-- Divine Worship Service: Saturday 11:00 AM
+- Divine Worship Service: Saturday 11:30 AM
 - Prayer meeting: online on Zoom, Tuesday and Wednesday 7:30 PM Central (Meeting ID 818 9375 1524, passcode 123)
 - Worship languages: Haitian Creole (Kreyòl), French, and English
 - The church family shares a meal after the Sabbath service

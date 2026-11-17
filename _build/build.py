@@ -30,13 +30,13 @@ NAME = 'Shekinah Haitian SDA Church'
 
 PAGES = {
   'home': ('/', 'Haitian Seventh-day Adventist Church, Alvarado TX | Shekinah',
-           'Shekinah is a Haitian Seventh-day Adventist church in Alvarado, TX. Saturdays: Sabbath School 10 AM, worship 11 AM, in Kreyòl, French, and English.',
+           'Shekinah is a Haitian Seventh-day Adventist church in Alvarado, TX. Saturdays: Sabbath School 10 AM, worship 11:30 AM, in Kreyòl, French, and English.',
            'Shekinah Haitian Seventh-day Adventist Church in Alvarado, TX'),
   'visit': ('/plan-your-visit/', 'Plan Your Visit | Shekinah Haitian SDA Church, Alvarado TX',
             'First time visiting a church in Alvarado, TX? See Sabbath service times, what to expect, and kids at Shekinah, with worship in Kreyòl, French, and English.',
             'Plan Your First Visit to Shekinah Haitian SDA Church'),
   'visitkr': ('/kreyol/planifye-vizit/', 'Legliz Advantis Ayisyen nan Alvarado TX | Planifye Vizit Ou',
-              'Legliz Advantis Setyèm Jou Ayisyen Shekinah nan Alvarado, Texas. Lekòl Saba a 10:00 AM, sèvis adorasyon a 11:00 AM chak Samdi, an Kreyòl, Franse, ak Anglè.',
+              'Legliz Advantis Setyèm Jou Ayisyen Shekinah nan Alvarado, Texas. Lekòl Saba a 10:00 AM, sèvis adorasyon a 11:30 AM chak Samdi, an Kreyòl, Franse, ak Anglè.',
               'Planifye vizit ou nan Legliz Advantis Ayisyen Shekinah'),
   'about': ('/about/', 'About Us | Shekinah Haitian SDA Church in Alvarado, TX',
             'Meet Shekinah Haitian Seventh-day Adventist Church in Alvarado, Texas: our story, our pastor, and the church family that welcomes you every Sabbath.',

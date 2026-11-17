@@ -41,7 +41,7 @@ async function status(value) {
 
 // One short template for every form: logo, banner, a few warm sentences, one summary box, a verse, sign off.
 const F = 'Helvetica,Arial,sans-serif', S = 'Georgia,serif';
-const VISIT_TIMES = 'Sabbath School 10:00 AM · Divine Worship 11:00 AM';
+const VISIT_TIMES = 'Sabbath School 10:00 AM · Divine Worship 11:30 AM';
 const ADDRESS = '205 E Carver St, Alvarado, TX 76009';
 // Use the first name only when the person typed one. Never guess or make up a name.
 const firstName = (name) => { const f = String(name || '').trim().split(/\s+/)[0] || ''; return /[@\d]/.test(f) ? '' : f; };

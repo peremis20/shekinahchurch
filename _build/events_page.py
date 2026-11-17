@@ -100,7 +100,7 @@ JS = r"""
       (e.location?'<div class="where">'+esc(e.location)+'</div>':'')+(e.details?'<p class="det">'+esc(e.details)+'</p>':'')+
       '<a class="add" href="'+gcal(e)+'" target="_blank" rel="noopener">+ Add to my calendar</a></div></article>';}
   function list(){var t=ymd(new Date()), up=EV.filter(function(e){return (e.ends_on||e.starts_on)>=t;});
-    box.innerHTML=up.length?'<div class="list">'+up.map(card).join('')+'</div>':'<div class="empty">New events are coming soon. In the meantime, you are always welcome every Saturday: Sabbath School at 10:00 AM and worship at 11:00 AM.</div>';}
+    box.innerHTML=up.length?'<div class="list">'+up.map(card).join('')+'</div>':'<div class="empty">New events are coming soon. In the meantime, you are always welcome every Saturday: Sabbath School at 10:00 AM and worship at 11:30 AM.</div>';}
   function month(){var first=new Date(m.getFullYear(),m.getMonth(),1), start=new Date(first);start.setDate(1-first.getDay());var t=ymd(new Date()), cells=[];
     for(var i=0;i<42;i++){var d=new Date(start);d.setDate(start.getDate()+i);if(i===35&&d.getMonth()!==m.getMonth())break;var k=ymd(d);
       var evs=EV.filter(function(e){return k>=e.starts_on&&k<=(e.ends_on||e.starts_on);});
@@ -158,7 +158,7 @@ def page():
             '<p>Worship, youth programs, outreach and fellowship in Alvarado, Texas. Everyone is welcome, and you never need to sign up to worship with us.</p></div></section>')
     main = ('<main><div class="tabs" id="tabs"><button data-v="list" class="on">Upcoming</button><button data-v="week">Week</button><button data-v="month">Month</button><button data-v="year">Year</button></div>'
             '<div id="ev"><div class="empty">Loading events...</div><noscript><div class="empty">Turn on JavaScript to see our events, or call us at (888) 219-3842.</div></noscript></div>'
-            '<div class="visit"><div><h2>Visiting for the first time?</h2><p>Every Saturday: Sabbath School at 10:00 AM and worship at 11:00 AM, 205 E Carver St, Alvarado.</p></div>'
+            '<div class="visit"><div><h2>Visiting for the first time?</h2><p>Every Saturday: Sabbath School at 10:00 AM and worship at 11:30 AM, 205 E Carver St, Alvarado.</p></div>'
             '<a class="btn" href="/plan-your-visit/">Plan your visit</a></div></main>'
             '<div class="pop" id="pop" role="dialog" aria-modal="true"><div class="sheet"><button class="x" aria-label="Close">&times;</button><div class="in"></div></div></div>')
     return head + top + hero + main + footer + '<script>' + JS + '</script></body></html>\n'

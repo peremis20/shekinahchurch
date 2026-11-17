@@ -147,7 +147,7 @@ HEADER = ('<header><div class="bar"><a class="brand" href="/"><img src="/assets/
           '<a href="/kreyol/planifye-vizit/">Planifye vizit ou</a><a href="/prayer-request/">Demann priyè</a></nav></div></header>')
 
 FOOTER_SIMPLE = ('<footer><div class="bar"><span>Legliz Advantis Setyèm Jou Ayisyen Shekinah · 205 E Carver St, Alvarado, TX 76009 · '
-          'Lekòl Saba 10:00 AM, Sèvis adorasyon 11:00 AM chak Samdi</span><a href="/">shekinahsda.org</a></div></footer>')
+          'Lekòl Saba 10:00 AM, Sèvis adorasyon 11:30 AM chak Samdi</span><a href="/">shekinahsda.org</a></div></footer>')
 
 
 def main_footer():

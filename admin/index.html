@@ -1253,7 +1253,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var rec=items.slice().sort(function(a,b){return pdate(b.created_at)-pdate(a.created_at);}).slice(0,4);
     $('recent').innerHTML=rec.length?rec.map(function(i){var a=AI[i.kind]||AI.contact;var t=a[2]+((i.kind==='prayer'||i.kind==='contact')?(i.name||'a visitor'):'');
       return '<div data-open="'+esc(i.id)+'" style="cursor:pointer"><span style="flex:none;color:'+(a[1]||'inherit')+';display:flex">'+I(a[0])+'</span><span>'+esc(t)+'</span><time>'+esc(whenShort(i.created_at))+'</time></div>';}).join(''):'<div><span class="meta" style="margin:0">No activity yet.</span></div>';
-    $('cinfo').innerHTML='<li>'+I('pin')+'<span>205 E Carver St<br>Alvarado, Texas</span></li><li>'+I('cal')+'<span>Sabbath School: 10:00 AM<br>Divine Worship: 11:00 AM</span></li>';
+    $('cinfo').innerHTML='<li>'+I('pin')+'<span>205 E Carver St<br>Alvarado, Texas</span></li><li>'+I('cal')+'<span>Sabbath School: 10:00 AM<br>Divine Worship: 11:30 AM</span></li>';
   }
 
   // ---------- type pages ----------
@@ -1300,7 +1300,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       h+='<div class="panel rail"><h3>'+I('cal')+'Upcoming Visits</h3><div class="tl">'+(up.length?up.slice(0,8).map(function(i){var d=i.details||{};return tline(i,dbox(d.date),i.name||i.email||'Visitor',[d.guests?d.guests+' guests':'',d.kids?'with children':'',d.language?LANG[d.language]||d.language:''].filter(Boolean).join(' · ')||'Visit request',fmtDay(d.date).split(',')[0]);}).join(''):'<p class="meta" style="margin:0">No upcoming visits yet.</p>')+'</div></div>';
       var s=nextSat(), ss=s.toISOString().slice(0,10), lab=s.toLocaleDateString([], {weekday:'long',month:'long',day:'numeric'});
       var sat=L.filter(function(i){var d=dayDate((i.details||{}).date);return d&&d.getTime()===s.getTime();});
-      h+='<div class="panel rail"><h3>'+I('home')+'This Sabbath</h3><div class="note"><b>'+esc(lab)+'</b><br>Sabbath School 10:00 AM · Divine Worship 11:00 AM<br>205 E Carver St, Alvarado, Texas</div><p class="meta" style="margin-top:10px">'+(sat.length?sat.length+(sat.length===1?' family plans':' families plan')+' to visit this Sabbath.':'No visits booked for this Sabbath yet.')+'</p></div>';
+      h+='<div class="panel rail"><h3>'+I('home')+'This Sabbath</h3><div class="note"><b>'+esc(lab)+'</b><br>Sabbath School 10:00 AM · Divine Worship 11:30 AM<br>205 E Carver St, Alvarado, Texas</div><p class="meta" style="margin-top:10px">'+(sat.length?sat.length+(sat.length===1?' family plans':' families plan')+' to visit this Sabbath.':'No visits booked for this Sabbath yet.')+'</p></div>';
     }
     if(T==='contact'){
       var w=L.filter(function(i){return tabMatch(i,'waiting');}).sort(function(a,b){return pdate(a.created_at)-pdate(b.created_at);});
