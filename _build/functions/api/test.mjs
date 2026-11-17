@@ -225,6 +225,20 @@ r = await call('GET', '/reports/view'); ok(r.status === 200, 'public page keeps 
 r = await call('POST', '/admin/reports/share/off', { token: O, body: {} }); r = await call('GET', '/admin/reports/share', { token: O }); ok(r.j.key === '', 'turn sharing off', r.j);
 r = await call('GET', '/reports/view'); ok(r.status === 404, 'public page off', r.status);
 
+// ---- projects and costs ----
+r = await call('GET', '/projects'); ok(r.status === 401, 'projects need sign in', r.status);
+r = await call('GET', '/projects', { token: T.leader }); ok(r.status === 200 && r.j.projects.length === 0 && r.j.depts.length > 5, 'any team member sees projects', r.j);
+r = await call('POST', '/projects/save', { token: T.leader, body: { project: { name: 'New chairs', dept: 'Building', purpose: 'Replace broken chairs', cost: '$1,250.50' } } });
+const PJ = r.j.project; ok(r.status === 200 && PJ.cost === 1250.5 && PJ.created_by === 'leader@x.org' && PJ.added_on, 'leader adds a project', r.j);
+r = await call('POST', '/projects/save', { token: T.leader, body: { project: { name: 'x', cost: 'abc' } } }); ok(r.status === 400, 'cost must be a number', r.j);
+r = await call('POST', '/projects/save', { token: T.leader, body: { project: { name: '', cost: 5 } } }); ok(r.status === 400, 'name required', r.j);
+r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Youth retreat', dept: 'Youth', purpose: 'Bus', cost: 300 } } }); const PJ2 = r.j.project; ok(r.status === 200, 'admin adds a project');
+r = await call('POST', '/projects/save', { token: T.leader, body: { project: { id: PJ2.id, name: 'Changed', cost: 1 } } }); ok(r.status === 403, 'cannot change someone else\'s project', r.status);
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: PJ.id, name: 'New chairs', dept: 'Building', purpose: 'Replace broken chairs', cost: 1200 } } }); ok(r.status === 200 && r.j.project.cost === 1200, 'admin can change any project', r.j);
+r = await call('GET', '/projects', { token: T.leader }); ok(r.j.projects.length === 2 && r.j.projects.reduce((a, p) => a + p.cost, 0) === 1500, 'total adds up', r.j.projects);
+r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ2.id } }); ok(r.status === 403, 'cannot delete someone else\'s project');
+r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ.id } }); ok(r.status === 200, 'delete own project');
+
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);
 r = await call('GET', '/admin/check', { token: O }); ok(r.status === 401, 'all sessions ended', r.status);

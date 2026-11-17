@@ -10,3 +10,5 @@ CREATE TABLE IF NOT EXISTS cal_events (id bigserial PRIMARY KEY, title text NOT 
 CREATE INDEX IF NOT EXISTS cal_events_starts_on ON cal_events (starts_on);
 ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS color text;
 CREATE TABLE IF NOT EXISTS cal_tasks (id bigserial PRIMARY KEY, title text NOT NULL, due_on date, assigned_to text, event_id bigint REFERENCES cal_events(id) ON DELETE SET NULL, done boolean NOT NULL DEFAULT false, notes text NOT NULL DEFAULT '', created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+-- Church projects and their costs (admin Projects page, Jimmy Nov 16, 2026).
+CREATE TABLE IF NOT EXISTS projects (id bigserial PRIMARY KEY, name text NOT NULL, dept text NOT NULL DEFAULT '', purpose text NOT NULL DEFAULT '', cost numeric(12,2) NOT NULL DEFAULT 0, created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());

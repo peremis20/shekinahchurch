@@ -184,6 +184,9 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .act select{padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;font-weight:600}
 .act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;resize:vertical;min-height:40px}
 .saved{color:var(--okgreen);font-size:13.5px;font-weight:700}
+.pj-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.pj-k{background:var(--soft,#F6F8FC);border:1px solid var(--line);border-radius:12px;padding:14px 16px}.pj-k b{display:block;font-family:'Libre Baskerville',Georgia,serif;font-size:28px;font-weight:900;color:var(--ink)}.pj-k span{color:var(--muted);font-weight:700;font-size:14px}.pj-k.big{background:#13294B;border-color:#13294B}.pj-k.big b{color:#fff}.pj-k.big span{color:#E8D6A6}
+@media (max-width:520px){.pj-sum{grid-template-columns:1fr 1fr}.pj-k.big{grid-column:1/-1}.pj-k b{font-size:22px}}
+.pj-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}.pj-row:last-child{border-bottom:0}.pj-row .who{font-weight:800;font-size:16px}.pj-row .cost{font-weight:900;font-size:17px;white-space:nowrap}.pj-row .msg{margin:6px 0 0}.pj-row .act{margin-top:8px}.pj-row .act button{padding:6px 12px;font-size:13.5px}
 .ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
 .ef input,.ef select,.ef textarea{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;color:var(--ink);font-weight:400}
@@ -441,6 +444,25 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           </div>
         </div></section>
 
+        <section id="proj" class="hide"><div class="wrap">
+          <div class="panel page pj-sum" id="pjsum"></div>
+          <div class="panel page">
+            <div class="sec-h" style="margin-bottom:2px">Add a project</div>
+            <div class="ef" id="pjform">
+              <label>Project name<input data-p="name" type="text" maxlength="200" placeholder="Example: New chairs"></label>
+              <label>Department<input data-p="dept" type="text" maxlength="100" list="pjdepts" placeholder="Choose or type"></label>
+              <label>Cost ($)<input data-p="cost" type="text" inputmode="decimal" placeholder="0.00"></label>
+              <label class="wide">Purpose of the project<textarea data-p="purpose" rows="2" maxlength="2000" placeholder="What is it for?"></textarea></label>
+            </div>
+            <datalist id="pjdepts"></datalist>
+            <div class="act" style="margin-top:12px"><button class="pbtn" id="pjsave">Add project</button><button class="lbtn hide" id="pjcancel">Cancel</button><span class="saved" id="pjmsg"></span></div>
+          </div>
+          <div class="panel page">
+            <div class="bar"><input id="pjq" type="search" placeholder="Search projects"><select id="pjdept"><option value="">All departments</option></select><button class="sbtn" id="pjcsv">Download CSV</button></div>
+            <div id="pjlist" style="margin-top:12px"></div>
+          </div>
+        </div></section>
+
         <section id="site" class="hide">
           <p class="meta" style="margin:0 0 14px">Changes show on the live website within about a minute after you click Save.</p>
           <div class="wrap" id="siteed"></div>
@@ -510,6 +532,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     group:'<circle cx="12" cy="7.5" r="3"/><circle cx="5.5" cy="9.5" r="2.3"/><circle cx="18.5" cy="9.5" r="2.3"/><path d="M6.5 19.5c.4-3.3 2.7-5.3 5.5-5.3s5.1 2 5.5 5.3"/><path d="M2 18.5c.3-2.3 1.7-3.7 3.6-3.9M22 18.5c-.3-2.3-1.7-3.7-3.6-3.9"/>',
     team:'<circle cx="12" cy="6" r="2.7"/><circle cx="5.5" cy="16" r="2.7"/><circle cx="18.5" cy="16" r="2.7"/><path d="M10.5 8.3 7 13.6M13.5 8.3l3.5 5.3M8.3 16h7.4"/>',
     chart:'<path d="M4 20V10M9 20V4M14 20v-8M19 20V7M3 20.5h18"/>',
+    money:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 9.5v5M18 9.5v5"/>',
     gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
     bell:'<path d="M18 16V11a6 6 0 1 0-12 0v5l-2 2.5h16z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
     chat:'<path d="M12 4c5 0 9 3.4 9 7.6s-4 7.6-9 7.6c-1.2 0-2.4-.2-3.5-.6L4 20l1.3-3.7C3.8 15 3 13.4 3 11.6 3 7.4 7 4 12 4z"/><path d="M8 11.8h.01M12 11.8h.01M16 11.8h.01" stroke-width="2.6"/>',
@@ -554,11 +577,12 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     {k:'visit',label:'Visit Requests',icon:'cal',title:'Visit Requests',sub:'Welcome families who plan to visit.',area:['visit']},
     {k:'newsletter',label:'Email Sign Ups',icon:'mail',title:'Email Sign Ups',sub:'Send updates to everyone on the email list.',area:['newsletter'],orPerm:'email_list'},
     {k:'mem',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'members_view'},
+    {k:'proj',label:'Projects',icon:'money',title:'Church Projects',sub:'Add projects and their cost. The total updates as you add.'},
     {k:'team',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'team_manage'},
     {k:'reports',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'messages_manage'},
     {k:'site',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'site_edit'}
   ];
-  var SECTIONS_ALL=['app','team','news','mem','site','reports','cal'];
+  var SECTIONS_ALL=['app','team','news','mem','site','reports','cal','proj'];
   function navItem(k){return NAV.filter(function(n){return n.k===k;})[0];}
   function renderNav(){
     var nNew=items.filter(function(i){return i.status==='new';}).length;
@@ -570,7 +594,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     $('bt').textContent=n.title;$('bs').textContent=n.sub;
     var sec='app';
     if(k==='newsletter'&&can('email_list')&&!forceApp)sec='news';
-    else if(k==='mem'||k==='team'||k==='site'||k==='reports'||k==='cal')sec=k;
+    else if(k==='mem'||k==='team'||k==='site'||k==='reports'||k==='cal'||k==='proj')sec=k;
     if(sec==='app'){kind=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[k]||'all';if(k==='dash'||k==='messages'){}page=1;openId=null;}
     SECTIONS_ALL.forEach(function(x){$(x).classList.toggle('hide',x!==sec);});
     var T=sec==='news'?'newsletter':(sec==='mem'||sec==='team')?sec:(sec==='app'&&kind!=='all'?kind:'');if(sec==='mem'){memF=null;memK='';}
@@ -590,6 +614,7 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
     if(sec==='mem'){$('mform').innerHTML='';loadMembers();}
     if(sec==='reports')reports();
     if(sec==='cal')loadCal();
+    if(sec==='proj')loadProj();
     renderStats();
     window.scrollTo(0,0);
   }
@@ -1395,6 +1420,48 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
         members.sort(function(a,b){return (a.last_name+a.first_name).localeCompare(b.last_name+b.first_name);});$('mform').innerHTML='';renderMembers();})
       .catch(function(err){$('msave').textContent='Not saved: '+err.message;});}}
   $('mform').addEventListener('click',onMem);$('mlist').addEventListener('click',onMem);
+
+  // ---- Projects and costs (any team member can add; the person who added it or an admin can change it) ----
+  var PJ={list:[],depts:[],me:'',manage:false}, pjEdit=0;
+  function usd(n){return '$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
+  function pjMine(p){return PJ.manage||String(p.created_by||'').toLowerCase()===String(PJ.me||'').toLowerCase();}
+  function loadProj(){$('pjlist').innerHTML='<div class="empty">Loading...</div>';
+    mapi('/projects').then(function(j){PJ.list=j.projects||[];PJ.depts=j.depts||[];PJ.me=j.me||'';PJ.manage=!!j.can_manage;renderProj();})
+    .catch(function(e){if(e.status===401)logout('Your session ended. Please sign in again.');else $('pjlist').innerHTML='<div class="empty">Could not load projects. '+esc(e.message)+'</div>';});}
+  function pjDepts(){var all=PJ.depts.slice();PJ.list.forEach(function(p){if(p.dept&&all.indexOf(p.dept)<0)all.push(p.dept);});return all;}
+  function renderProj(){
+    var total=PJ.list.reduce(function(a,p){return a+Number(p.cost||0);},0), by={};
+    PJ.list.forEach(function(p){var d=p.dept||'No department';by[d]=(by[d]||0)+Number(p.cost||0);});
+    var top=Object.keys(by).sort(function(a,b){return by[b]-by[a];}).slice(0,2);
+    $('pjsum').innerHTML='<div class="pj-k big"><b>'+usd(total)+'</b><span>Total cost of all projects</span></div><div class="pj-k"><b>'+PJ.list.length+'</b><span>Projects</span></div>'+
+      top.map(function(d){return '<div class="pj-k"><b>'+usd(by[d])+'</b><span>'+esc(d)+'</span></div>';}).join('');
+    $('pjdepts').innerHTML=pjDepts().map(function(d){return '<option value="'+esc(d)+'">';}).join('');
+    var sel=$('pjdept'),cur=sel.value;sel.innerHTML='<option value="">All departments</option>'+Object.keys(by).sort().map(function(d){return '<option'+(d===cur?' selected':'')+'>'+esc(d)+'</option>';}).join('');
+    var q=$('pjq').value.trim().toLowerCase(),dv=sel.value;
+    var list=PJ.list.filter(function(p){return (!dv||(p.dept||'No department')===dv)&&(!q||[p.name,p.dept,p.purpose,p.created_by].join(' ').toLowerCase().indexOf(q)>=0);});
+    var sub=list.reduce(function(a,p){return a+Number(p.cost||0);},0);
+    $('pjlist').innerHTML=(list.length?(dv||q?'<p class="meta" style="margin:0 0 4px">'+list.length+' shown · '+usd(sub)+'</p>':'')+list.map(function(p){
+      return '<div class="pj-row"><div style="min-width:0"><div class="who">'+esc(p.name)+(p.dept?' <span class="tag">'+esc(p.dept)+'</span>':'')+'</div>'+
+        (p.purpose?'<div class="msg">'+esc(p.purpose)+'</div>':'')+'<div class="meta">Added by '+esc(firstName(p.created_by)||p.created_by)+(p.added_on?' on '+fmtDate(p.added_on):'')+'</div>'+
+        (pjMine(p)?'<div class="act"><button class="lbtn" data-pj="edit" data-id="'+p.id+'">Edit</button><button class="dbtn" data-pj="del" data-id="'+p.id+'">Delete</button></div>':'')+
+        '</div><div class="cost">'+usd(p.cost)+'</div></div>';}).join(''):'<div class="empty">'+(PJ.list.length?'No projects match.':'No projects yet. Add the first one above.')+'</div>');}
+  function pjForm(p){pjEdit=p?p.id:0;$('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');el.value=p?(k==='cost'?Number(p.cost||0).toFixed(2):(p[k]||'')):'';});
+    $('pjsave').textContent=p?'Save changes':'Add project';$('pjcancel').classList.toggle('hide',!p);$('pjmsg').textContent='';if(p)$('pjform').scrollIntoView({behavior:'smooth',block:'center'});}
+  $('pjsave').onclick=function(){var o={id:pjEdit||undefined};$('pjform').querySelectorAll('[data-p]').forEach(function(el){o[el.getAttribute('data-p')]=el.value.trim();});
+    if(!o.name){$('pjmsg').textContent='Please add the project name.';return;}
+    var c=Number(String(o.cost).replace(/[$,\s]/g,''));if(o.cost===''||!isFinite(c)||c<0){$('pjmsg').textContent='Please enter the cost as a number.';return;}
+    $('pjmsg').textContent='Saving...';
+    mapi('/projects/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({project:o})}).then(function(j){var p=j.project,i=PJ.list.findIndex(function(x){return x.id==p.id;});
+      if(i>=0)PJ.list[i]=p;else PJ.list.unshift(p);pjForm(null);$('pjmsg').textContent='Saved.';renderProj();}).catch(function(e){$('pjmsg').textContent='Not saved: '+e.message;});};
+  $('pjcancel').onclick=function(){pjForm(null);};
+  $('pjlist').addEventListener('click',function(e){var b=e.target.closest('[data-pj]');if(!b)return;var id=b.getAttribute('data-id'),p=PJ.list.filter(function(x){return String(x.id)===id;})[0];if(!p)return;
+    if(b.getAttribute('data-pj')==='edit')pjForm(p);
+    else if(confirm('Delete the project "'+p.name+'"? This cannot be undone.'))mapi('/projects/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})})
+      .then(function(){PJ.list=PJ.list.filter(function(x){return String(x.id)!==id;});if(String(pjEdit)===id)pjForm(null);renderProj();}).catch(function(err){alert(err.message);});});
+  $('pjq').addEventListener('input',renderProj);$('pjdept').addEventListener('change',renderProj);
+  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','added_on','created_by'],head=['Project','Department','Purpose','Cost','Added on','Added by'];
+    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+PJ.list.reduce(function(a,p){return a+Number(p.cost||0);},0).toFixed(2)+',"",""']).join('\r\n');
+    var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};
   $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
