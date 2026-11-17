@@ -428,7 +428,7 @@ def hub(all_s, posts=None):
     p.append('<h2 id="odyo" class="hub-h2">Etid odyo</h2>')
     by_slug = {x['slug']: x for x in all_s}
     fond_n = sum(1 for x in all_s if x['slug'] in FOND_SLUGS)
-    rest = [x for x in all_s if x['slug'] not in FOND_SLUGS]
+    rest = all_s  # every study also stays in its own theme (Jimmy, Nov 16)
     p.append('<nav class="tpills" aria-label="Tèm yo"><button type="button" class="on" data-tf="">Tout etid</button>'
              '<button type="button" data-tf="fondasyon">Fondasyon <span>(%d)</span></button>%s</nav><hr class="tline">' % (fond_n, ''.join(
         '<button type="button" data-tf="%s">%s <span>(%d)</span></button>' % (k, e(n), c) for k, n, c in
