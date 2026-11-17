@@ -22,7 +22,7 @@ AUTHOR = 'Shekinah Haitian SDA Church'
 EMAIL = 'info@shekinahsda.org'
 DESC = ('Etid biblik an Kreyòl ayisyen pou chak fanmi ayisyen. Chak epizòd reponn yon kesyon moun ap poze sou Bib la ak '
         'Pawòl Bondye: Saba a, lapriyè, lanmò, lanfè, Sentespri a, Dis Kòmandman yo, retou Jezi, padon, gerizon ak plis ankò. '
-        'Ansèyman klè, cho e senp, ak vèsè Bib la an Kreyòl. Legliz Advantis Setyèm Jou Shekinah, Alvarado, Texas. '
+        'Ansèyman klè, cho e senp, ak vèsè Bib la an Kreyòl. Shekinah Haitian SDA Church (Legliz Advantis Setyèm Jou Shekinah), Alvarado, Texas. '
         'Atik konplè ak vèsè yo: shekinahsda.org/kreyol')
 KEYWORDS = 'Bib, Bib la, etid biblik, Kreyòl, Kreyol, ayisyen, Haitian Creole, Haiti, Bondye, Jezi, lapriyè, Saba, predikasyon, Advantis, Adventist'
 
