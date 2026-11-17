@@ -346,7 +346,7 @@ TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=doc
 FONDASYON = [
     ('Etap 1', 'Konnen Bondye ak konnen kiyès mwen ye', [
         'kiyes-bondye-ye', 'eske-tout-relijyon-se-menm', 'kijan-pou-m-komanse-li-bib-la',
-        'kreyasyon-an-kijan-bondye-kreye-moun', 'Kiyès mwen ye e poukisa m la?']),
+        'kreyasyon-an-kijan-bondye-kreye-moun', 'kiyes-mwen-ye-e-poukisa-m-la']),
     ('Etap 2', 'Konprann pwoblèm nan ak repons Bondye', [
         'poukisa-bondye-kite-soufrans-rive', 'eske-jezi-se-bondye', 'Sali pa lagras']),
     ('Etap 3', 'Aksepte Jezi epi batize', [
@@ -377,7 +377,7 @@ def fondasyon_html(by_slug):
 
 
 # Titles shown on "Byento" cards for slugs not published yet
-FOND_SOON = {'kiyes-bondye-ye': 'Kiyès Bondye ye?', 'kreyasyon-an-kijan-bondye-kreye-moun': 'Kreyasyon an: kijan Bondye kreye moun'}
+FOND_SOON = {'kiyes-bondye-ye': 'Kiyès Bondye ye?', 'kreyasyon-an-kijan-bondye-kreye-moun': 'Kreyasyon an: kijan Bondye kreye moun', 'kiyes-mwen-ye-e-poukisa-m-la': 'Kiyès mwen ye e poukisa m la?'}
 FOND_SLUGS = {it for _, _, items in FONDASYON for it in items if '-' in it and ' ' not in it}
 
 
