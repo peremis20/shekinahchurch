@@ -345,8 +345,8 @@ TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=doc
 # Studies listed here show ONLY in Fondasyon on /kreyol/, not again under the themes.
 FONDASYON = [
     ('Etap 1', 'Konnen Bondye ak konnen kiyès mwen ye', [
-        'Kiyès Bondye ye?', 'eske-tout-relijyon-se-menm', 'kijan-pou-m-komanse-li-bib-la',
-        'Kreyasyon an: kijan Bondye kreye moun', 'Kiyès mwen ye e poukisa m la?']),
+        'kiyes-bondye-ye', 'eske-tout-relijyon-se-menm', 'kijan-pou-m-komanse-li-bib-la',
+        'kreyasyon-an-kijan-bondye-kreye-moun', 'Kiyès mwen ye e poukisa m la?']),
     ('Etap 2', 'Konprann pwoblèm nan ak repons Bondye', [
         'poukisa-bondye-kite-soufrans-rive', 'eske-jezi-se-bondye', 'Sali pa lagras']),
     ('Etap 3', 'Aksepte Jezi epi batize', [
@@ -370,12 +370,14 @@ def fondasyon_html(by_slug):
                 cards.append(card(st).replace('<div class="card">', '<div class="card fcard"><span class="fnum">%d</span>' % n, 1))
             else:
                 cards.append('<div class="card fcard soon"><span class="fnum">%d</span><h3>%s</h3><span>Byento</span>'
-                             '<p>Nou ap prepare etid sa a. Li pral disponib byento.</p></div>' % (n, e(it)))
+                             '<p>Nou ap prepare etid sa a. Li pral disponib byento.</p></div>' % (n, e(FOND_SOON.get(it, it))))
         parts.append('<div class="fstep"><h3 class="theme-h"><span class="fstep-n">%s</span> %s</h3><div class="cards">%s</div></div>'
                      % (e(step), e(name), ''.join(cards)))
     return ''.join(parts)
 
 
+# Titles shown on "Byento" cards for slugs not published yet
+FOND_SOON = {'kiyes-bondye-ye': 'Kiyès Bondye ye?', 'kreyasyon-an-kijan-bondye-kreye-moun': 'Kreyasyon an: kijan Bondye kreye moun'}
 FOND_SLUGS = {it for _, _, items in FONDASYON for it in items if '-' in it and ' ' not in it}
 
 
