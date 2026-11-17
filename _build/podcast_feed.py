@@ -36,11 +36,16 @@ def hms(sec):
     return '%d:%02d:%02d' % (sec // 3600, sec % 3600 // 60, sec % 60)
 
 
-def build():
+def build(fond_order=None):
+    """fond_order: study slugs of the Fondasyon series in step order (Season 1). Other studies are Season 2."""
+    fond_order = list(fond_order or [])
     studies = json.load(open(os.path.join(ROOT, '_build', 'kreyol-studies.json'), encoding='utf-8'))
     studies = sorted(studies, key=lambda s: s['date'], reverse=True)
     items = []
-    n = len(studies)
+    published = {s['slug'] for s in studies}
+    step = {slug: k + 1 for k, slug in enumerate(fond_order)}  # step number in the full path (1 to 19)
+    others = sorted([s for s in studies if s['slug'] not in step], key=lambda s: s['date'])
+    other_no = {s['slug']: k + 1 for k, s in enumerate(others)}
     for i, s in enumerate(studies):
         mp3 = os.path.join(ROOT, 'assets', 'audio', 'bible-study', s['slug'] + '.mp3')
         if not os.path.exists(mp3):
@@ -53,6 +58,11 @@ def build():
         theme = {'gras': 'Gras Bondye', 'verite': 'Verite Bib la', 'lavi': 'Lavi kretyen'}.get(s.get('theme'))
         if theme:
             summary = 'Tèm: %s. %s' % (theme, summary)
+        if s['slug'] in step:
+            season, epno, title = 1, step[s['slug']], 'Fondasyon %d: %s' % (step[s['slug']], s['title'])
+            summary = 'Seri Fondasyon, etap %d. %s' % (step[s['slug']], summary)
+        else:
+            season, epno, title = 2, other_no[s['slug']], s['title']
         body = '<p>%s</p><p>Atik konplè, vèsè ak kesyon pou etidye: <a href="%s">%s</a></p>' % (e(summary), page, page)
         items.append('''    <item>
       <title>%s</title>
@@ -63,12 +73,13 @@ def build():
       <pubDate>%s</pubDate>
       <enclosure url="%s/assets/audio/bible-study/%s.mp3" length="%d" type="audio/mpeg"/>
       <itunes:duration>%s</itunes:duration>
+      <itunes:season>%d</itunes:season>
       <itunes:episode>%d</itunes:episode>
       <itunes:episodeType>full</itunes:episodeType>
       <itunes:explicit>false</itunes:explicit>
       <itunes:image href="%s"/>
-    </item>''' % (e(s['title']), body.replace(']]>', ''), e(summary), page, s['slug'], format_datetime(when),
-                  SITE, s['slug'], size, hms(secs), n - i, COVER))
+    </item>''' % (e(title), body.replace(']]>', ''), e(summary), page, s['slug'], format_datetime(when),
+                  SITE, s['slug'], size, hms(secs), season, epno, COVER))
     last = format_datetime(datetime.strptime(studies[0]['date'], '%Y-%m-%d').replace(hour=19, minute=10, tzinfo=CT)) if studies else ''
     xml = '''<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">

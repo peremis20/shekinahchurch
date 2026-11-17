@@ -486,7 +486,7 @@ def build(posts=None):
               '</head><body><a href="%s">%s%s</a></body></html>\n' % (SITE, to, to, to, to, SITE, to))
     try:
         import podcast_feed
-        print('podcast feed:', podcast_feed.build(), 'episodes')
+        print('podcast feed:', podcast_feed.build([it for _, _, items in FONDASYON for it in items]), 'episodes')
     except Exception as ex:
         print('podcast feed skipped:', ex)
     return len(all_s)
