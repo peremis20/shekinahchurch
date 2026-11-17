@@ -443,6 +443,30 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-cz-p{margin:12px 0 2px;padding:14px 16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.tm-cz-p>div{display:flex;flex-direction:column;gap:7px}.tm-cz-p b{font-size:14px;color:#0E1B3D}
 @media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label:first-child,.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
 @media (max-width:560px){.pj-roles{grid-template-columns:1fr}}
+
+/* One look for every admin page (Jimmy, Nov 16): same as the Projects page */
+.sec-h,.rail h3,.info h4,.stat b,.tk b,.kpi b,.who{font-family:Mulish,system-ui,sans-serif!important}
+.sec-h,.rail h3{font-size:19px;font-weight:800;color:#0E1B3D}
+.panel{border-radius:18px;border:1px solid #E6EBF3;box-shadow:0 4px 18px rgba(20,33,61,.06)}
+#tkpis{grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}body[data-t=mem] .tk{padding:14px;gap:10px}body[data-t=mem] .tk .ic{width:42px;height:42px}body[data-t=mem] .tk b{font-size:22px}body[data-t=mem] .tk span{font-size:13.5px}
+.tk{border:1px solid #E6EBF3;border-top:1px solid #E6EBF3;border-radius:18px;box-shadow:0 4px 18px rgba(20,33,61,.06);padding:18px 20px;gap:16px}
+.tk .ic{width:52px;height:52px;border-radius:50%}
+.tk b{font-size:26px;font-weight:900;color:#0E1B3D}
+.tk span{font-weight:600;color:#33415C;font-size:15px}
+.tk:first-child{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}.tk:first-child b,.tk:first-child span{color:#fff}.tk:first-child .ic{background:rgba(255,255,255,.12);color:#fff}
+.tk.on{box-shadow:0 0 0 3px #1D5FE0}
+.card{border:1px solid #E6EBF3;border-radius:16px;box-shadow:0 2px 10px rgba(20,33,61,.04)}
+#mlist .card,#siteed .card,#mform .card{border-left-width:1px!important;border-left-color:#E6EBF3!important}
+#mlist .card .who{font-size:17px;font-weight:800;color:#0E1B3D}
+.pbtn{background:linear-gradient(180deg,#1E9B3B,#13802D);border-radius:12px;font-weight:800}
+.lbtn,.sbtn{border:1.5px solid #D3DBE8;border-radius:12px;background:#fff;font-weight:800;color:#1F2A44}
+.dbtn{border-radius:12px}
+.bar input,.bar select,.ef input:not([type=checkbox]),.ef select,.ef textarea{border:1.5px solid #D3DBE8;border-radius:12px}
+.bar input:not([type=checkbox]),.bar select{height:48px}
+.rtable{border-collapse:separate;border-spacing:0;border:1px solid #E6EBF3;border-radius:14px;overflow:hidden}
+.rtable th{background:#0B2152;color:#fff;text-transform:none;letter-spacing:0;font-size:14.5px;font-weight:800;border:0}
+@media (max-width:700px){#tkpis{grid-template-columns:1fr 1fr}.tk:first-child{grid-column:1/-1}.tk b{font-size:22px}.tk .ic{width:42px;height:42px}}
 </style>
 </head>
 <body>
