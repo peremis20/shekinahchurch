@@ -332,7 +332,7 @@ def hub(all_s, posts=None):
           'inLanguage': 'ht', 'url': url,
           'hasPart': [{'@type': 'Article', 'headline': s['title'], 'url': SITE + '/kreyol/%s/' % s['slug']} for s in all_s],
           'about': {'@type': 'PodcastSeries', 'name': 'Shekinah Haitian SDA Church', 'url': url, 'webFeed': FEED_URL, 'inLanguage': 'ht',
-                    'image': SITE + '/assets/podcast/kreyol-cover.jpg', 'sameAs': [u for _, u in LISTEN],
+                    'image': SITE + '/assets/podcast/shekinah-podcast-cover.jpg', 'sameAs': [u for _, u in LISTEN],
                     'author': {'@type': 'Church', 'name': 'Shekinah Haitian Seventh-day Adventist Church', 'url': SITE + '/'}}}
     p = [head(title, desc, url, ld), HEADER, '<main>']
     p.append('<h1>Etid Biblik an Kreyòl</h1>')

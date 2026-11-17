@@ -14,7 +14,7 @@ from zoneinfo import ZoneInfo
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = 'https://shekinahsda.org'
 FEED = SITE + '/podcast/kreyol.xml'
-COVER = SITE + '/assets/podcast/kreyol-cover.jpg'
+COVER = SITE + '/assets/podcast/shekinah-podcast-cover.jpg'
 CT = ZoneInfo('America/Chicago')
 
 TITLE = 'Shekinah Haitian SDA Church'
