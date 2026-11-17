@@ -650,30 +650,38 @@ async function shareOff(me) { allow(me, 'team_manage'); await q("DELETE FROM aut
 
 // ---------- projects (church projects and costs; Jimmy, Nov 16, 2026) ----------
 // Every team member can see the list and add a project. Changing or deleting: the person who added it, or anyone who can manage the team.
-const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by";
-const PJ_DEPTS = ['Building', 'Children', 'Community Services', 'Deacons', 'Education', 'Health', 'Music', 'Outreach', 'Pathfinders', 'Sabbath School', 'Women', 'Men', 'Youth', 'Other'];
+// cost = estimated cost. The overall budget is in automation_status 'projects_budget' (set by team managers).
+const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, actual_cost::float8 AS actual_cost, status, progress, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by";
+const PJ_DEPTS = ['Building Development', 'Children', 'Community Services', 'Deacons', 'Education', 'Health', 'Music', 'Outreach', 'Pathfinders', 'Sabbath School', 'Women', 'Men', 'Youth', 'Other'];
+const PJ_STATUS = ['Not Started', 'Planned', 'In Progress', 'Completed'];
 const pjMine = (me, p) => me.perms.team_manage || lower(p.created_by) === lower(me.email);
 function money(v) {
-  const n = Number(String(v == null ? '' : v).replace(/[$,\s]/g, ''));
+  const n = Number(String(v == null || v === '' ? '0' : v).replace(/[$,\s]/g, ''));
   return isFinite(n) && n >= 0 && n < 1e10 ? Math.round(n * 100) / 100 : null;
 }
+async function pjBudget() { const r = await q("SELECT value FROM automation_status WHERE key = 'projects_budget'"); return r[0] ? Number(r[0].value) || 0 : 0; }
 async function projects(me) {
   const list = await rows(`SELECT ${PJ_COLS} FROM projects ORDER BY created_at DESC, id DESC`);
-  return { projects: list, depts: PJ_DEPTS, me: me.email, can_manage: !!me.perms.team_manage };
+  return { projects: list, depts: PJ_DEPTS, statuses: PJ_STATUS, budget: await pjBudget(), me: me.email, can_manage: !!me.perms.team_manage };
 }
 async function projectSave(me, b) {
   const p = b.project && typeof b.project === 'object' ? b.project : {};
-  const name = str(p.name, 200), dept = str(p.dept, 100), purpose = str(p.purpose, 2000), cost = money(p.cost);
+  const name = str(p.name, 200), dept = str(p.dept, 100), purpose = str(p.purpose, 2000), cost = money(p.cost), actual = money(p.actual_cost);
+  const status = PJ_STATUS.includes(p.status) ? p.status : 'Planned';
+  let progress = Math.round(Number(p.progress)); if (!isFinite(progress)) progress = 0; progress = Math.max(0, Math.min(100, progress));
+  if (status === 'Completed') progress = 100;
   need(name, 400, 'Please add the project name.');
-  need(cost !== null, 400, 'Please enter the cost as a number, like 250 or 1200.50.');
+  need(cost !== null, 400, 'Please enter the estimated cost as a number, like 250 or 1200.50.');
+  need(actual !== null, 400, 'Please enter the actual cost as a number, or leave it empty.');
+  const v = [name, dept, purpose, cost, actual, status, progress, me.email];
   let row;
   if (p.id != null && p.id !== '') {
     const old = await one('SELECT id, created_by FROM projects WHERE id = $1', [idOf(p.id)]);
     need(old, 404, 'That project was not found.');
     need(pjMine(me, old), 403, 'Only the person who added this project or an admin can change it.');
-    row = await wrote('UPDATE projects SET name = $1, dept = $2, purpose = $3, cost = $4::numeric, updated_by = $5, updated_at = now() WHERE id = $6 RETURNING *', [name, dept, purpose, cost, me.email, old.id], PJ_COLS);
+    row = await wrote('UPDATE projects SET name = $1, dept = $2, purpose = $3, cost = $4::numeric, actual_cost = $5::numeric, status = $6, progress = $7::int, updated_by = $8, updated_at = now() WHERE id = $9 RETURNING *', [...v, old.id], PJ_COLS);
   } else {
-    row = await wrote('INSERT INTO projects (name, dept, purpose, cost, created_by, updated_by) VALUES ($1, $2, $3, $4::numeric, $5, $5) RETURNING *', [name, dept, purpose, cost, me.email], PJ_COLS);
+    row = await wrote('INSERT INTO projects (name, dept, purpose, cost, actual_cost, status, progress, created_by, updated_by) VALUES ($1, $2, $3, $4::numeric, $5::numeric, $6, $7::int, $8, $8) RETURNING *', v, PJ_COLS);
   }
   return { project: row };
 }
@@ -684,6 +692,13 @@ async function projectDelete(me, b) {
   await q('DELETE FROM projects WHERE id = $1', [old.id]);
   return { ok: true };
 }
+async function projectBudget(me, b) {
+  allow(me, 'team_manage');
+  const n = money(b.budget);
+  need(n !== null, 400, 'Please enter the budget as a number.');
+  await q("INSERT INTO automation_status (key, value, updated_at) VALUES ('projects_budget', $1, now()) ON CONFLICT (key) DO UPDATE SET value = EXCLUDED.value, updated_at = now()", [String(n)]);
+  return { budget: n };
+}
 
 // ---------- router ----------
 const ROUTES = {
@@ -693,7 +708,7 @@ const ROUTES = {
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
-  'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete,
+  'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
   'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects,

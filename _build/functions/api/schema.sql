@@ -12,3 +12,6 @@ ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS color text;
 CREATE TABLE IF NOT EXISTS cal_tasks (id bigserial PRIMARY KEY, title text NOT NULL, due_on date, assigned_to text, event_id bigint REFERENCES cal_events(id) ON DELETE SET NULL, done boolean NOT NULL DEFAULT false, notes text NOT NULL DEFAULT '', created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
 -- Church projects and their costs (admin Projects page, Jimmy Nov 16, 2026).
 CREATE TABLE IF NOT EXISTS projects (id bigserial PRIMARY KEY, name text NOT NULL, dept text NOT NULL DEFAULT '', purpose text NOT NULL DEFAULT '', cost numeric(12,2) NOT NULL DEFAULT 0, created_by text, updated_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS actual_cost numeric(12,2) NOT NULL DEFAULT 0;  -- cost is the estimated cost
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'Planned';
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS progress integer NOT NULL DEFAULT 0;

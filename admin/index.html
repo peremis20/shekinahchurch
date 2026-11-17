@@ -184,9 +184,51 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .act select{padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;font-weight:600}
 .act textarea{flex:1;min-width:200px;padding:8px 10px;border:1.5px solid #D3DBE8;border-radius:10px;resize:vertical;min-height:40px}
 .saved{color:var(--okgreen);font-size:13.5px;font-weight:700}
-.pj-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.pj-k{background:var(--soft,#F6F8FC);border:1px solid var(--line);border-radius:12px;padding:14px 16px}.pj-k b{display:block;font-family:'Libre Baskerville',Georgia,serif;font-size:28px;font-weight:900;color:var(--ink)}.pj-k span{color:var(--muted);font-weight:700;font-size:14px}.pj-k.big{background:#13294B;border-color:#13294B}.pj-k.big b{color:#fff}.pj-k.big span{color:#E8D6A6}
-@media (max-width:520px){.pj-sum{grid-template-columns:1fr 1fr}.pj-k.big{grid-column:1/-1}.pj-k b{font-size:22px}}
-.pj-row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line)}.pj-row:last-child{border-bottom:0}.pj-row .who{font-weight:800;font-size:16px}.pj-row .cost{font-weight:900;font-size:17px;white-space:nowrap}.pj-row .msg{margin:6px 0 0}.pj-row .act{margin-top:8px}.pj-row .act button{padding:6px 12px;font-size:13.5px}
+.pj{display:flex;flex-direction:column;gap:18px;font-family:Mulish,system-ui,sans-serif}
+.pj svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pj-card{background:#fff;border:1px solid #E6EBF3;border-radius:18px;box-shadow:0 4px 18px rgba(20,33,61,.06);padding:20px 22px}
+.pj-card h3{margin:0 0 14px;font:800 19px Mulish,system-ui,sans-serif;color:#0E1B3D}
+.pj-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pj-kpi{display:flex;align-items:center;gap:16px;background:#fff;border:1px solid #E6EBF3;border-radius:18px;box-shadow:0 4px 18px rgba(20,33,61,.06);padding:18px 20px;min-width:0}
+.pj-kpi .ic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;flex:none}.pj-kpi .ic svg{width:28px;height:28px}
+.pj-kpi b{display:block;font:900 clamp(19px,1.6vw,26px) Mulish,system-ui,sans-serif;color:#0E1B3D;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pj-kpi span{display:block;color:#33415C;font-weight:600;font-size:15px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pj-kpi.main{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}.pj-kpi.main b,.pj-kpi.main span{color:#fff}.pj-kpi.main .ic{background:rgba(255,255,255,.12);color:#fff}
+.pj-mid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:16px}
+.pj-donut{display:flex;align-items:center;gap:22px}.pj-donut svg.d{width:150px;height:150px;flex:none}
+.pj-leg{flex:1;display:flex;flex-direction:column;gap:12px}.pj-leg div{display:flex;align-items:center;gap:10px;font-weight:600;color:#1F2A44}.pj-leg i{width:12px;height:12px;border-radius:50%;flex:none}.pj-leg b{margin-left:auto;font-weight:800}
+.pj-bud .top{display:flex;justify-content:flex-end;font-weight:600;color:#33415C;margin-bottom:8px}.pj-bud .top b{color:#0E1B3D;margin-right:4px}
+.pj-bud .bar{display:flex;align-items:center;gap:10px}.pj-track{flex:1;height:16px;border-radius:10px;background:#E9EDF3;overflow:hidden}.pj-track i{display:block;height:100%;border-radius:10px}
+.pj-pct{background:#E3F6E8;color:#157A2F;font-weight:800;border-radius:10px;padding:3px 9px;font-size:14px}
+.pj-bud .two{display:grid;grid-template-columns:1fr 1fr;margin-top:16px;padding-top:14px;border-top:1px solid #E6EBF3}.pj-bud .two>div{display:flex;align-items:center;gap:10px;min-width:0}.pj-bud .two>div+div{border-left:1px solid #E6EBF3;padding-left:16px}
+.pj-bud .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none}.pj-bud .ic svg{width:22px;height:22px}.pj-bud .two b{display:block;font-weight:900;font-size:19px;color:#0E1B3D}.pj-bud .two span{color:#5D6A80;font-weight:600;font-size:13.5px}
+.pj-link{background:none;border:0;color:#1D5FE0;font-weight:700;padding:0;cursor:pointer;font-size:14px}
+.pj-dep{display:flex;flex-direction:column;gap:14px}.pj-dep .n{font-weight:600;color:#1F2A44;margin-bottom:6px}.pj-dep .r{display:flex;align-items:center;gap:14px}.pj-dep .r .pj-track{height:14px}.pj-dep .r b{min-width:100px;text-align:right;font-weight:800;color:#0E1B3D}
+.pj-tools{display:flex;gap:14px;align-items:center;flex-wrap:wrap;padding:16px 18px}
+.pj-search{flex:1 1 260px;display:flex;align-items:center;gap:10px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 14px;height:50px}.pj-search svg{width:22px;height:22px;color:#1F2A44}.pj-search input{border:0;outline:0;flex:1;font-size:16px;min-width:0;background:transparent}
+.pj-tools select{height:50px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 14px;font-weight:700;font-size:15px;color:#1F2A44;background:#fff;min-width:170px}
+.pj-add{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#1E9B3B,#13802D);color:#fff;border:0;border-radius:12px;padding:0 22px;height:50px;font-weight:800;font-size:16px;cursor:pointer;margin-left:auto}.pj-add svg{width:22px;height:22px}
+.pj-table{background:#fff;border:1px solid #E6EBF3;border-radius:18px;box-shadow:0 4px 18px rgba(20,33,61,.06);overflow-x:auto}
+.pj-table table{width:100%;border-collapse:collapse;min-width:960px}.pj-table th{background:#0B2152;color:#fff;text-align:left;font-weight:800;font-size:15px;padding:15px 10px;white-space:nowrap}.pj-table th:first-child,.pj-table td:first-child{padding-left:20px}
+.pj-table td{padding:15px 10px;border-bottom:1px solid #EEF1F6;vertical-align:middle;color:#1F2A44;font-weight:600}.pj-table tr:last-child td{border-bottom:0}
+.pj-table td.nm b{display:block;font-weight:800;font-size:16.5px;color:#0E1B3D}.pj-table td.nm{min-width:190px}.pj-table td.nm span{display:block;color:#33415C;font-weight:500;margin-top:3px;max-width:320px}
+.pj-table td.m{white-space:nowrap}
+.pj-chip{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:6px 12px;font-weight:800;font-size:14.5px;line-height:1.2}.pj-chip svg{width:20px;height:20px;flex:none}
+.pj-st{display:inline-flex;align-items:center;gap:8px;border-radius:20px;padding:7px 14px;font-weight:800;font-size:14.5px;white-space:nowrap}.pj-st svg{width:18px;height:18px}
+.pj-pr b{display:block;font-weight:800;margin-bottom:6px}.pj-pr .pj-track{height:12px;width:120px;max-width:100%}
+.pj-act{display:flex;gap:10px}.pj-act button{width:40px;height:40px;border-radius:10px;background:#fff;display:grid;place-items:center;cursor:pointer}.pj-act svg{width:20px;height:20px}
+.pj-act .e{border:1.5px solid #1D5FE0;color:#1D5FE0}.pj-act .x{border:1.5px solid #E5484D;color:#E5484D}
+.pj-empty{padding:40px 16px;text-align:center;color:#5D6A80;font-weight:600}
+.pj-foot{margin:-6px 0 0;text-align:right}
+.pj-modal{position:fixed;inset:0;background:rgba(10,20,45,.45);z-index:9500;display:flex;align-items:center;justify-content:center;padding:16px}.pj-modal.hide{display:none}
+.pj-dlg{background:#fff;border-radius:18px;max-width:640px;width:100%;max-height:92vh;overflow:auto;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.25)}.pj-dlg.sm{max-width:420px}.pj-dlg h3{margin:0 0 14px;font:800 21px Mulish,system-ui,sans-serif;color:#0E1B3D}
+.pj-f{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.pj-f .w{grid-column:1/-1}.pj-f label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#33415C;min-width:0}
+.pj-f input,.pj-f select,.pj-f textarea{border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;height:46px;font-size:16px;color:#0E1B3D;background:#fff;width:100%;min-width:0;font-family:inherit}.pj-f textarea{height:auto;padding:10px 12px}
+.pj-btns{display:flex;align-items:center;gap:12px;margin-top:18px;justify-content:flex-end;flex-wrap:wrap}.pj-btns .pj-add{margin-left:0;height:46px}.pj-cancel{height:46px;padding:0 18px;border-radius:12px;border:1.5px solid #D3DBE8;background:#fff;font-weight:800;cursor:pointer}.pj-msg{margin-right:auto;color:#B42318;font-weight:700;font-size:14px}
+@media (max-width:1180px){.pj-kpis{grid-template-columns:1fr 1fr}.pj-mid{grid-template-columns:1fr}}
+.pj-chip{max-width:160px}
+@media (max-width:900px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
+@media (max-width:560px){.pj-kpis{grid-template-columns:1fr}.pj-kpi.main{grid-column:auto}.pj-f{grid-template-columns:1fr 1fr}.pj-tools select{flex:1 1 140px;min-width:0}.pj-add{margin-left:0;width:100%;justify-content:center}.pj-donut svg.d{width:120px;height:120px}.pj-dep .r b{min-width:84px}}
 .ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
 .ef input,.ef select,.ef textarea{padding:10px 12px;border:1.5px solid #D3DBE8;border-radius:10px;background:#fff;color:var(--ink);font-weight:400}
@@ -444,23 +486,40 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
           </div>
         </div></section>
 
-        <section id="proj" class="hide"><div class="wrap">
-          <div class="panel page pj-sum" id="pjsum"></div>
-          <div class="panel page">
-            <div class="sec-h" style="margin-bottom:2px">Add a project</div>
-            <div class="ef" id="pjform">
-              <label>Project name<input data-p="name" type="text" maxlength="200" placeholder="Example: New chairs"></label>
+        <section id="proj" class="hide"><div class="pj">
+          <div class="pj-kpis" id="pjkpis"></div>
+          <div class="pj-mid">
+            <div class="pj-card"><h3>Project Status</h3><div id="pjstatus"></div></div>
+            <div class="pj-card"><h3>Budget Overview</h3><div id="pjbudget"></div></div>
+            <div class="pj-card"><h3>Projects by Department</h3><div id="pjbydept"></div></div>
+          </div>
+          <div class="pj-card pj-tools">
+            <label class="pj-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="pjq" type="search" placeholder="Search projects..."></label>
+            <select id="pjdept"><option value="">All Departments</option></select>
+            <select id="pjst"><option value="">All Statuses</option></select>
+            <button class="pj-add" id="pjnew"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Project</button>
+          </div>
+          <div class="pj-table" id="pjlist"></div>
+          <p class="pj-foot"><button class="pj-link" id="pjcsv">Download as spreadsheet (CSV)</button></p>
+          <datalist id="pjdepts"></datalist>
+          <div class="pj-modal hide" id="pjmodal"><div class="pj-dlg" role="dialog" aria-modal="true" aria-labelledby="pjmt">
+            <h3 id="pjmt">Add Project</h3>
+            <div class="pj-f" id="pjform">
+              <label class="w">Project name<input data-p="name" type="text" maxlength="200" placeholder="Example: New carpet"></label>
               <label>Department<input data-p="dept" type="text" maxlength="100" list="pjdepts" placeholder="Choose or type"></label>
-              <label>Cost ($)<input data-p="cost" type="text" inputmode="decimal" placeholder="0.00"></label>
-              <label class="wide">Purpose of the project<textarea data-p="purpose" rows="2" maxlength="2000" placeholder="What is it for?"></textarea></label>
+              <label>Status<select data-p="status"></select></label>
+              <label>Estimated cost ($)<input data-p="cost" type="text" inputmode="decimal" placeholder="0.00"></label>
+              <label>Actual cost ($)<input data-p="actual_cost" type="text" inputmode="decimal" placeholder="0.00"></label>
+              <label>Progress (%)<input data-p="progress" type="number" min="0" max="100" step="5" placeholder="0"></label>
+              <label class="w">Purpose of the project<textarea data-p="purpose" rows="3" maxlength="2000" placeholder="What is it for?"></textarea></label>
             </div>
-            <datalist id="pjdepts"></datalist>
-            <div class="act" style="margin-top:12px"><button class="pbtn" id="pjsave">Add project</button><button class="lbtn hide" id="pjcancel">Cancel</button><span class="saved" id="pjmsg"></span></div>
-          </div>
-          <div class="panel page">
-            <div class="bar"><input id="pjq" type="search" placeholder="Search projects"><select id="pjdept"><option value="">All departments</option></select><button class="sbtn" id="pjcsv">Download CSV</button></div>
-            <div id="pjlist" style="margin-top:12px"></div>
-          </div>
+            <div class="pj-btns"><span class="pj-msg" id="pjmsg"></span><button class="pj-cancel" id="pjcancel">Cancel</button><button class="pj-add" id="pjsave">Save Project</button></div>
+          </div></div>
+          <div class="pj-modal hide" id="pjbmodal"><div class="pj-dlg sm" role="dialog" aria-modal="true">
+            <h3>Church project budget</h3>
+            <div class="pj-f"><label class="w">Total budget for projects ($)<input id="pjbval" type="text" inputmode="decimal" placeholder="20,000"></label></div>
+            <div class="pj-btns"><span class="pj-msg" id="pjbmsg"></span><button class="pj-cancel" id="pjbcancel">Cancel</button><button class="pj-add" id="pjbsave">Save</button></div>
+          </div></div>
         </div></section>
 
         <section id="site" class="hide">
@@ -1422,45 +1481,100 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
   $('mform').addEventListener('click',onMem);$('mlist').addEventListener('click',onMem);
 
   // ---- Projects and costs (any team member can add; the person who added it or an admin can change it) ----
-  var PJ={list:[],depts:[],me:'',manage:false}, pjEdit=0;
+  var PJ={list:[],depts:[],statuses:['Not Started','Planned','In Progress','Completed'],budget:0,me:'',manage:false}, pjEdit=0;
+  var PJI={layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12.5 9 5 9-5M3 17l9 5 9-5"/>',clip:'<rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M8.5 13l2.5 2.5 4.5-5"/>',
+    music:'<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',building:'<path d="M4 21V9l5-3v15M9 21V4h11v17M3 21h18M12.5 8h1M16 8h1M12.5 12h1M16 12h1M12.5 16h1M16 16h1M6 12h1M6 16h1"/>',
+    target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/><path d="M15.5 8.5 20 4M17 4h3v3"/>',coins:'<ellipse cx="12" cy="6" rx="6" ry="2.5"/><path d="M6 6v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V6M6 10v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4M6 14v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/>',
+    kids:'<circle cx="12" cy="6" r="3"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/>',heart:'<path d="M12 20s-7.5-4.5-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 3c0 5.5-7.5 10-7.5 10z"/>',
+    people:'<circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 20c.5-3.5 3-5.5 6-5.5s5.5 2 6 5.5M15 14.6c2.6 0 4.6 1.8 5 5.4"/>',book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20"/>',
+    tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8" r="1.4"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
+    pen:'<path d="M15.5 4.5 19.5 8.5 8.5 19.5H4.5v-4z"/><path d="m13.5 6.5 4 4"/>',trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+    check:'<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><path d="m8 12.5 3 3 5-6" stroke="#fff"/>',play:'<circle cx="12" cy="12" r="9" fill="currentColor" stroke="none"/><path d="M10.5 8.5v7l5.5-3.5z" fill="#fff" stroke="none"/>',
+    clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',dash:'<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12h7"/>'};
+  function pjI(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(PJI[n]||PJI.tag)+'</svg>';}
+  var PJ_DEP={'Building Development':['building','#8A5A00','#FFF1D6'],'Building':['building','#8A5A00','#FFF1D6'],'Music':['music','#7C3AED','#F1E8FF'],'Youth':['people','#1D5FE0','#E3EDFF'],'Children':['kids','#D9437A','#FDE7F0'],
+    'Health':['heart','#157A2F','#E3F6E8'],'Outreach':['globe','#0E7C86','#DDF4F5'],'Community Services':['heart','#0E7C86','#DDF4F5'],'Education':['book','#1D5FE0','#E3EDFF'],'Sabbath School':['book','#7C3AED','#F1E8FF'],
+    'Pathfinders':['target','#157A2F','#E3F6E8'],'Deacons':['people','#8A5A00','#FFF1D6'],'Women':['heart','#D9437A','#FDE7F0'],'Men':['people','#1D5FE0','#E3EDFF']};
+  function pjDep(d){return PJ_DEP[d]||['tag','#475467','#EEF1F6'];}
+  var PJ_ST={'Completed':['check','#1F9D3A','#E3F6E8','#157A2F'],'In Progress':['play','#1D5FE0','#E3EDFF','#1D5FE0'],'Planned':['clock','#8B95A7','#EEF0F4','#1F2A44'],'Not Started':['dash','#C5CCD8','#F3F4F6','#5D6A80']};
   function usd(n){return '$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
   function pjMine(p){return PJ.manage||String(p.created_by||'').toLowerCase()===String(PJ.me||'').toLowerCase();}
-  function loadProj(){$('pjlist').innerHTML='<div class="empty">Loading...</div>';
-    mapi('/projects').then(function(j){PJ.list=j.projects||[];PJ.depts=j.depts||[];PJ.me=j.me||'';PJ.manage=!!j.can_manage;renderProj();})
-    .catch(function(e){if(e.status===401)logout('Your session ended. Please sign in again.');else $('pjlist').innerHTML='<div class="empty">Could not load projects. '+esc(e.message)+'</div>';});}
+  function pjPost(path,o){return mapi(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}
+  function loadProj(){$('pjlist').innerHTML='<div class="pj-empty">Loading...</div>';
+    mapi('/projects').then(function(j){PJ.list=j.projects||[];PJ.depts=j.depts||[];PJ.statuses=j.statuses||PJ.statuses;PJ.budget=+j.budget||0;PJ.me=j.me||'';PJ.manage=!!j.can_manage;renderProj();})
+    .catch(function(e){if(e.status===401)logout('Your session ended. Please sign in again.');else $('pjlist').innerHTML='<div class="pj-empty">Could not load projects. '+esc(e.message)+'</div>';});}
   function pjDepts(){var all=PJ.depts.slice();PJ.list.forEach(function(p){if(p.dept&&all.indexOf(p.dept)<0)all.push(p.dept);});return all;}
   function renderProj(){
-    var total=PJ.list.reduce(function(a,p){return a+Number(p.cost||0);},0), by={};
-    PJ.list.forEach(function(p){var d=p.dept||'No department';by[d]=(by[d]||0)+Number(p.cost||0);});
-    var top=Object.keys(by).sort(function(a,b){return by[b]-by[a];}).slice(0,2);
-    $('pjsum').innerHTML='<div class="pj-k big"><b>'+usd(total)+'</b><span>Total cost of all projects</span></div><div class="pj-k"><b>'+PJ.list.length+'</b><span>Projects</span></div>'+
-      top.map(function(d){return '<div class="pj-k"><b>'+usd(by[d])+'</b><span>'+esc(d)+'</span></div>';}).join('');
+    var L=PJ.list,total=L.reduce(function(a,p){return a+Number(p.cost||0);},0),by={},cnt={};
+    L.forEach(function(p){var d=p.dept||'Other';by[d]=(by[d]||0)+Number(p.cost||0);cnt[p.status]=(cnt[p.status]||0)+1;});
+    var deps=Object.keys(by).sort(function(a,b){return by[b]-by[a];});
+    var k='<div class="pj-kpi main"><div class="ic">'+pjI('layers')+'</div><div style="min-width:0"><b>'+usd(total)+'</b><span>Total Project Cost</span></div></div>'+
+      '<div class="pj-kpi"><div class="ic" style="background:#E3EDFF;color:#1D5FE0">'+pjI('clip')+'</div><div><b>'+L.length+'</b><span>Total Projects</span></div></div>';
+    deps.slice(0,2).forEach(function(d){var m=pjDep(d);k+='<div class="pj-kpi"><div class="ic" style="background:'+m[2]+';color:'+m[1]+'">'+pjI(m[0])+'</div><div style="min-width:0"><b>'+usd(by[d])+'</b><span>'+esc(d)+'</span></div></div>';});
+    for(var z=deps.length;z<2;z++)k+='<div class="pj-kpi"><div class="ic" style="background:#EEF1F6;color:#475467">'+pjI('tag')+'</div><div><b>$0.00</b><span>No department yet</span></div></div>';
+    $('pjkpis').innerHTML=k;
+    // status donut
+    var order=['In Progress','Planned','Not Started','Completed'],C=2*Math.PI*42,off=0,arcs='';
+    order.forEach(function(st){var n=cnt[st]||0;if(!n||!L.length)return;var len=C*n/L.length;arcs+='<circle cx="60" cy="60" r="42" fill="none" stroke="'+PJ_ST[st][1]+'" stroke-width="18" stroke-dasharray="'+len+' '+(C-len)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 60 60)" style="stroke-linecap:butt"/>';off+=len;});
+    $('pjstatus').innerHTML='<div class="pj-donut"><svg class="d" viewBox="0 0 120 120"><circle cx="60" cy="60" r="42" fill="none" stroke="#E9EDF3" stroke-width="18"/>'+arcs+
+      '<text x="60" y="60" text-anchor="middle" style="font:900 30px Mulish,sans-serif;fill:#0E1B3D;stroke:none">'+L.length+'</text><text x="60" y="80" text-anchor="middle" style="font:600 12px Mulish,sans-serif;fill:#1F2A44;stroke:none">Projects</text></svg>'+
+      '<div class="pj-leg">'+order.map(function(st){return '<div><i style="background:'+PJ_ST[st][1]+'"></i>'+st+'<b>'+(cnt[st]||0)+'</b></div>';}).join('')+'</div></div>';
+    // budget
+    var B=PJ.budget,pct=B?Math.round(total/B*100):0,rem=B-total;
+    $('pjbudget').innerHTML='<div class="pj-bud">'+(B?'<div class="top"><b>'+usd(total)+'</b> of '+usd(B)+'</div><div class="bar"><div class="pj-track"><i style="width:'+Math.min(100,pct)+'%;background:'+(pct>100?'#E5484D':'#1E9B3B')+'"></i></div><span class="pj-pct"'+(pct>100?' style="background:#FDE8E8;color:#B42318"':'')+'>'+pct+'%</span></div>'
+        :'<p style="margin:0 0 6px;color:#5D6A80;font-weight:600">No budget set yet.</p>')+
+      '<div class="two"><div><div class="ic" style="background:#E3F6E8;color:#157A2F">'+pjI('coins')+'</div><div><b>'+usd(total)+'</b><span>Spent / Committed</span></div></div>'+
+      '<div><div class="ic" style="background:#F1E8FF;color:#7C3AED">'+pjI('target')+'</div><div><b'+(B&&rem<0?' style="color:#B42318"':'')+'>'+(B?(rem<0?'-':'')+usd(Math.abs(rem)):'—')+'</b><span>Remaining</span></div></div></div>'+
+      (PJ.manage?'<p style="margin:12px 0 0;text-align:right"><button class="pj-link" id="pjbedit">'+(B?'Change budget':'Set the budget')+'</button></p>':'')+'</div>';
+    var be=$('pjbedit');if(be)be.onclick=function(){$('pjbval').value=B?String(B):'';$('pjbmsg').textContent='';$('pjbmodal').classList.remove('hide');$('pjbval').focus();};
+    // by department
+    var mx=deps.length?by[deps[0]]:0;
+    $('pjbydept').innerHTML=deps.length?'<div class="pj-dep">'+deps.map(function(d){var m=pjDep(d);return '<div><div class="n">'+esc(d)+'</div><div class="r"><div class="pj-track"><i style="width:'+(mx?Math.max(3,by[d]/mx*100):0)+'%;background:'+m[1]+'"></i></div><b>'+usd(by[d])+'</b></div></div>';}).join('')+'</div>'
+      :'<p style="margin:0;color:#5D6A80;font-weight:600">No projects yet.</p>';
+    // filters
     $('pjdepts').innerHTML=pjDepts().map(function(d){return '<option value="'+esc(d)+'">';}).join('');
-    var sel=$('pjdept'),cur=sel.value;sel.innerHTML='<option value="">All departments</option>'+Object.keys(by).sort().map(function(d){return '<option'+(d===cur?' selected':'')+'>'+esc(d)+'</option>';}).join('');
-    var q=$('pjq').value.trim().toLowerCase(),dv=sel.value;
-    var list=PJ.list.filter(function(p){return (!dv||(p.dept||'No department')===dv)&&(!q||[p.name,p.dept,p.purpose,p.created_by].join(' ').toLowerCase().indexOf(q)>=0);});
-    var sub=list.reduce(function(a,p){return a+Number(p.cost||0);},0);
-    $('pjlist').innerHTML=(list.length?(dv||q?'<p class="meta" style="margin:0 0 4px">'+list.length+' shown · '+usd(sub)+'</p>':'')+list.map(function(p){
-      return '<div class="pj-row"><div style="min-width:0"><div class="who">'+esc(p.name)+(p.dept?' <span class="tag">'+esc(p.dept)+'</span>':'')+'</div>'+
-        (p.purpose?'<div class="msg">'+esc(p.purpose)+'</div>':'')+'<div class="meta">Added by '+esc(firstName(p.created_by)||p.created_by)+(p.added_on?' on '+fmtDate(p.added_on):'')+'</div>'+
-        (pjMine(p)?'<div class="act"><button class="lbtn" data-pj="edit" data-id="'+p.id+'">Edit</button><button class="dbtn" data-pj="del" data-id="'+p.id+'">Delete</button></div>':'')+
-        '</div><div class="cost">'+usd(p.cost)+'</div></div>';}).join(''):'<div class="empty">'+(PJ.list.length?'No projects match.':'No projects yet. Add the first one above.')+'</div>');}
-  function pjForm(p){pjEdit=p?p.id:0;$('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');el.value=p?(k==='cost'?Number(p.cost||0).toFixed(2):(p[k]||'')):'';});
-    $('pjsave').textContent=p?'Save changes':'Add project';$('pjcancel').classList.toggle('hide',!p);$('pjmsg').textContent='';if(p)$('pjform').scrollIntoView({behavior:'smooth',block:'center'});}
+    var sd=$('pjdept'),cd=sd.value;sd.innerHTML='<option value="">All Departments</option>'+Object.keys(by).sort().map(function(d){return '<option'+(d===cd?' selected':'')+'>'+esc(d)+'</option>';}).join('');
+    var ss=$('pjst'),cs=ss.value;ss.innerHTML='<option value="">All Statuses</option>'+PJ.statuses.map(function(x){return '<option'+(x===cs?' selected':'')+'>'+esc(x)+'</option>';}).join('');
+    var q=$('pjq').value.trim().toLowerCase(),dv=sd.value,sv=ss.value;
+    var list=L.filter(function(p){return (!dv||(p.dept||'Other')===dv)&&(!sv||p.status===sv)&&(!q||[p.name,p.dept,p.purpose,p.status].join(' ').toLowerCase().indexOf(q)>=0);});
+    $('pjlist').innerHTML=list.length?'<table><thead><tr><th>Project Name</th><th>Department</th><th>Estimated Cost</th><th>Actual Cost</th><th>Status</th><th>Progress</th><th>Date Added</th><th>Actions</th></tr></thead><tbody>'+list.map(function(p){
+      var m=pjDep(p.dept||'Other'),st=PJ_ST[p.status]||PJ_ST.Planned,pr=Math.max(0,Math.min(100,+p.progress||0));
+      return '<tr><td class="nm"><b>'+esc(p.name)+'</b>'+(p.purpose?'<span>'+esc(p.purpose)+'</span>':'')+'</td>'+
+        '<td data-l="Department">'+(p.dept?'<span class="pj-chip" style="background:'+m[2]+';color:'+m[1]+'">'+pjI(m[0])+'<span>'+esc(p.dept)+'</span></span>':'')+'</td>'+
+        '<td class="m" data-l="Estimated Cost">'+usd(p.cost)+'</td><td class="m" data-l="Actual Cost">'+usd(p.actual_cost)+'</td>'+
+        '<td data-l="Status"><span class="pj-st" style="background:'+st[2]+';color:'+st[3]+'"><span style="color:'+st[1]+';display:grid">'+pjI(st[0])+'</span>'+esc(p.status)+'</span></td>'+
+        '<td class="pr pj-pr" data-l="Progress"><b>'+pr+'%</b><div class="pj-track"><i style="width:'+pr+'%;background:'+(pr>=100?'#1E9B3B':'#1D5FE0')+'"></i></div></td>'+
+        '<td class="m" data-l="Date Added">'+fmtDate(p.added_on)+'</td>'+
+        '<td class="ac">'+(pjMine(p)?'<div class="pj-act"><button class="e" data-pj="edit" data-id="'+p.id+'" aria-label="Edit '+esc(p.name)+'">'+pjI('pen')+'</button><button class="x" data-pj="del" data-id="'+p.id+'" aria-label="Delete '+esc(p.name)+'">'+pjI('trash')+'</button></div>':'')+'</td></tr>';}).join('')+'</tbody></table>'
+      :'<div class="pj-empty">'+(L.length?'No projects match.':'No projects yet. Click Add Project to start.')+'</div>';}
+  function pjForm(p){pjEdit=p?p.id:0;$('pjmt').textContent=p?'Edit Project':'Add Project';
+    $('pjform').querySelector('[data-p="status"]').innerHTML=PJ.statuses.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
+    $('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');
+      el.value=p?((k==='cost'||k==='actual_cost')?Number(p[k]||0).toFixed(2):(p[k]==null?'':p[k])):(k==='status'?'Planned':'');});
+    $('pjmsg').textContent='';$('pjmodal').classList.remove('hide');$('pjform').querySelector('[data-p="name"]').focus();}
+  function pjClose(){$('pjmodal').classList.add('hide');pjEdit=0;}
+  $('pjnew').onclick=function(){pjForm(null);};$('pjcancel').onclick=pjClose;
+  $('pjmodal').addEventListener('click',function(e){if(e.target===$('pjmodal'))pjClose();});
+  $('pjbmodal').addEventListener('click',function(e){if(e.target===$('pjbmodal'))$('pjbmodal').classList.add('hide');});
+  $('pjbcancel').onclick=function(){$('pjbmodal').classList.add('hide');};
+  $('pjbsave').onclick=function(){$('pjbmsg').textContent='Saving...';pjPost('/projects/budget',{budget:$('pjbval').value}).then(function(j){PJ.budget=+j.budget||0;$('pjbmodal').classList.add('hide');renderProj();}).catch(function(e){$('pjbmsg').textContent=e.message;});};
   $('pjsave').onclick=function(){var o={id:pjEdit||undefined};$('pjform').querySelectorAll('[data-p]').forEach(function(el){o[el.getAttribute('data-p')]=el.value.trim();});
     if(!o.name){$('pjmsg').textContent='Please add the project name.';return;}
-    var c=Number(String(o.cost).replace(/[$,\s]/g,''));if(o.cost===''||!isFinite(c)||c<0){$('pjmsg').textContent='Please enter the cost as a number.';return;}
+    var ok=function(v){var n=Number(String(v||'0').replace(/[$,\s]/g,''));return isFinite(n)&&n>=0;};
+    if(o.cost===''||!ok(o.cost)){$('pjmsg').textContent='Please enter the estimated cost as a number.';return;}
+    if(!ok(o.actual_cost)){$('pjmsg').textContent='Please enter the actual cost as a number.';return;}
     $('pjmsg').textContent='Saving...';
-    mapi('/projects/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({project:o})}).then(function(j){var p=j.project,i=PJ.list.findIndex(function(x){return x.id==p.id;});
-      if(i>=0)PJ.list[i]=p;else PJ.list.unshift(p);pjForm(null);$('pjmsg').textContent='Saved.';renderProj();}).catch(function(e){$('pjmsg').textContent='Not saved: '+e.message;});};
-  $('pjcancel').onclick=function(){pjForm(null);};
+    pjPost('/projects/save',{project:o}).then(function(j){var p=j.project,i=PJ.list.findIndex(function(x){return x.id==p.id;});
+      if(i>=0)PJ.list[i]=p;else PJ.list.unshift(p);pjClose();renderProj();}).catch(function(e){$('pjmsg').textContent='Not saved: '+e.message;});};
   $('pjlist').addEventListener('click',function(e){var b=e.target.closest('[data-pj]');if(!b)return;var id=b.getAttribute('data-id'),p=PJ.list.filter(function(x){return String(x.id)===id;})[0];if(!p)return;
     if(b.getAttribute('data-pj')==='edit')pjForm(p);
-    else if(confirm('Delete the project "'+p.name+'"? This cannot be undone.'))mapi('/projects/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})})
-      .then(function(){PJ.list=PJ.list.filter(function(x){return String(x.id)!==id;});if(String(pjEdit)===id)pjForm(null);renderProj();}).catch(function(err){alert(err.message);});});
-  $('pjq').addEventListener('input',renderProj);$('pjdept').addEventListener('change',renderProj);
-  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','added_on','created_by'],head=['Project','Department','Purpose','Cost','Added on','Added by'];
-    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+PJ.list.reduce(function(a,p){return a+Number(p.cost||0);},0).toFixed(2)+',"",""']).join('\r\n');
+    else if(confirm('Delete the project "'+p.name+'"? This cannot be undone.'))pjPost('/projects/delete',{id:id})
+      .then(function(){PJ.list=PJ.list.filter(function(x){return String(x.id)!==id;});renderProj();}).catch(function(err){alert(err.message);});});
+  $('pjq').addEventListener('input',renderProj);$('pjdept').addEventListener('change',renderProj);$('pjst').addEventListener('change',renderProj);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){pjClose();$('pjbmodal').classList.add('hide');}});
+  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','actual_cost','status','progress','added_on','created_by'],head=['Project','Department','Purpose','Estimated cost','Actual cost','Status','Progress %','Added on','Added by'];
+    var t=function(k){return PJ.list.reduce(function(a,p){return a+Number(p[k]||0);},0).toFixed(2);};
+    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+t('cost')+','+t('actual_cost')+',"","","",""']).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};

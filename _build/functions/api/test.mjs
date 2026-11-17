@@ -235,8 +235,12 @@ r = await call('POST', '/projects/save', { token: T.leader, body: { project: { n
 r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Youth retreat', dept: 'Youth', purpose: 'Bus', cost: 300 } } }); const PJ2 = r.j.project; ok(r.status === 200, 'admin adds a project');
 r = await call('POST', '/projects/save', { token: T.leader, body: { project: { id: PJ2.id, name: 'Changed', cost: 1 } } }); ok(r.status === 403, 'cannot change someone else\'s project', r.status);
 r = await call('POST', '/projects/save', { token: O, body: { project: { id: PJ.id, name: 'New chairs', dept: 'Building', purpose: 'Replace broken chairs', cost: 1200 } } }); ok(r.status === 200 && r.j.project.cost === 1200, 'admin can change any project', r.j);
-r = await call('GET', '/projects', { token: T.leader }); ok(r.j.projects.length === 2 && r.j.projects.reduce((a, p) => a + p.cost, 0) === 1500, 'total adds up', r.j.projects);
+r = await call('GET', '/projects', { token: T.leader }); ok(r.j.projects.length === 2 && r.j.projects[0].status === 'Planned' && r.j.projects.reduce((a, p) => a + p.cost, 0) === 1500, 'total adds up', r.j.projects);
 r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ2.id } }); ok(r.status === 403, 'cannot delete someone else\'s project');
+r = await call('POST', '/projects/save', { token: T.leader, body: { project: { name: 'Carpet', dept: 'Building Development', cost: 8000, actual_cost: '', status: 'Completed', progress: 20 } } }); ok(r.status === 200 && r.j.project.progress === 100 && r.j.project.actual_cost === 0 && r.j.project.status === 'Completed', 'completed means 100 percent', r.j);
+r = await call('POST', '/projects/budget', { token: T.leader, body: { budget: 5 } }); ok(r.status === 403, 'only managers set the budget');
+r = await call('POST', '/projects/budget', { token: O, body: { budget: '20,000' } }); ok(r.status === 200 && r.j.budget === 20000, 'set budget', r.j);
+r = await call('GET', '/projects', { token: T.leader }); ok(r.j.budget === 20000 && r.j.statuses.length === 4, 'budget shows for everyone', r.j.budget);
 r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ.id } }); ok(r.status === 200, 'delete own project');
 
 // ---- sign out everywhere ----
