@@ -296,7 +296,7 @@ def listen_row(compact=False):
     if compact:
         return '<div class="listen">%s</div>' % btns
     return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou %s. Abòne pou w resevwa chak nouvo etid.</p>'
-            '<div class="listen">%s</div></div>' % (' ak '.join(n for n, _ in LISTEN), btns))
+            '<div class="listen">%s</div></div>' % ((', '.join(n for n, _ in LISTEN[:-1]) + ' ak ' + LISTEN[-1][0]) if len(LISTEN) > 1 else LISTEN[0][0], btns))
 
 
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
