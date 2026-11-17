@@ -94,9 +94,9 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .pod{display:grid;grid-template-columns:250px 1fr;gap:26px;align-items:center;margin:30px 0 8px;padding:24px;border-radius:24px;background:#F8F1E6;border:1px solid #EFE3CF;box-shadow:0 6px 24px rgba(20,33,61,.06)}
 .pod img{width:100%;height:auto;border-radius:18px;display:block;object-fit:cover;aspect-ratio:306/229}
 .pod-b{border-left:1px solid #E3D3B6;padding-left:26px}.pod-b h2{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:clamp(22px,3vw,30px);margin:0 0 8px}.pod-b p{margin:0 0 20px;font-size:17px}
-.pod-r{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.pod-btn{display:inline-flex;align-items:center;gap:14px;background:#1B2D5A;color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:40px;padding:13px 24px;white-space:nowrap}.pod-btn svg{width:24px;height:24px}.pod-btn b{font-size:20px;margin-left:4px}.pod-btn:hover{background:#13234A}
-.pod-i{display:flex;gap:12px;margin-left:auto}.pod-i a{display:block;width:50px;height:50px;border-radius:14px;transition:transform .15s}.pod-i a:hover{transform:translateY(-2px)}.pod-i svg{width:50px;height:50px;display:block}
+.pod-r{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.pod-btn{display:inline-flex;align-items:center;gap:14px;background:#1B2D5A;color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:40px;padding:12px 20px;white-space:nowrap}.pod-btn svg{width:24px;height:24px}.pod-btn b{font-size:20px;margin-left:4px}.pod-btn:hover{background:#13234A}
+.pod-i{display:flex;gap:10px;margin-left:auto}.pod-i a{display:block;width:44px;height:44px;border-radius:14px;transition:transform .15s}.pod-i a:hover{transform:translateY(-2px)}.pod-i svg{width:44px;height:44px;display:block}
 .hub-h2{margin-top:44px;font-size:clamp(24px,3.4vw,32px)}
 .tpills{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0;justify-content:flex-start}.tpills button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;border-radius:40px;padding:12px 26px;background:#F6F0E6;color:var(--navy)}.tpills button span{font-weight:600;margin-left:4px}.tpills button.on{background:#1B2D5A;color:#fff;padding:12px 34px}
 .tline{border:0;border-top:1px solid #E6E1D6;margin:24px 0 0}
@@ -293,10 +293,11 @@ PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6
 PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
 
 
-# Podcast apps where the studies are listed (add Amazon when their links exist; see claude/podcast-links.md)
+# Podcast apps where the studies are listed (all four added; was: add Amazon when their links exist; see claude/podcast-links.md)
 LISTEN = [('Spotify', 'https://open.spotify.com/show/6wV9OYkZTJ0G3z3FQ3CUUd'),
           ('Apple Podcasts', 'https://podcasts.apple.com/us/podcast/shekinah-haitian-sda-church/id6835701257'),
-          ('Castbox', 'https://castbox.fm/channel/id7495794')]
+          ('Castbox', 'https://castbox.fm/channel/id7495794'),
+          ('Amazon Music', 'https://music.amazon.com/podcasts/b8293e08-08a6-401f-abd1-1293cbf71c8c')]
 FEED_URL = SITE + '/podcast/kreyol.xml'
 POD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.6 1.4 4.8 3.5 6l.5-1.8A5 5 0 1 1 15 13.2l.5 1.8A7 7 0 0 0 12 2zm0 4a3 3 0 0 0-1.6 5.5l.6-.1h1.9l.6.1A3 3 0 0 0 12 6zm-1.4 7L9.5 21.5c-.1.3.2.5.5.5h4c.3 0 .6-.2.5-.5L13.4 13z"/></svg>'
 APP_CLASS = {'Spotify': '', 'Castbox': ' cb', 'Apple Podcasts': ' ap', 'Amazon Music': ' am'}
@@ -314,6 +315,7 @@ def listen_row(compact=False):
 APP_ICON = {
     'Spotify': '<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="24" fill="#1DB954"/><path d="M13 18.5c7-2.2 15.6-1.6 22 2M14.5 25c5.8-1.7 12.6-1.1 17.8 1.9M16 31c4.6-1.2 9.6-.8 13.6 1.5" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/></svg>',
     'Apple Podcasts': '<svg viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="apg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F452FF"/><stop offset="1" stop-color="#832BC1"/></linearGradient></defs><rect width="48" height="48" rx="11" fill="url(#apg)"/><circle cx="24" cy="20" r="4.2" fill="#fff"/><path d="M21.3 27.5h5.4l-1 10.5h-3.4z" fill="#fff"/><path d="M16.4 29.5a10.5 10.5 0 1 1 15.2 0M13 32.6a15 15 0 1 1 22 0" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    'Amazon Music': '<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#25D1DA"/><path d="M20 30V15l12-2.5v15" fill="none" stroke="#0B1B33" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17" cy="30" r="3.4" fill="#0B1B33"/><circle cx="29" cy="27.5" r="3.4" fill="#0B1B33"/><path d="M12 36.5c7.5 4 16.5 4 24 0" fill="none" stroke="#0B1B33" stroke-width="2.4" stroke-linecap="round"/><path d="m33 34.5 3.2 2-1 3.6" fill="none" stroke="#0B1B33" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     'Castbox': '<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 1.5 43.5 12.75v22.5L24 46.5 4.5 35.25v-22.5z" fill="#F55B23"/><path d="M15 22v6M19.5 18v14M24 20.5v9M28.5 16v10M33 22v4" stroke="#fff" stroke-width="2.8" stroke-linecap="round"/></svg>',
 }
 HEADPHONES = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15v-3a8 8 0 0 1 16 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><rect x="3" y="14" width="5" height="7" rx="2" fill="currentColor"/><rect x="16" y="14" width="5" height="7" rx="2" fill="currentColor"/></svg>'
