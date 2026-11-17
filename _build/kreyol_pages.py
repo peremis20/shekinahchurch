@@ -88,7 +88,7 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .btn.alt{background:#fff;color:var(--navy);border:1px solid var(--navy)}
 .study-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;font-weight:700;color:var(--navy);margin:16px 0 0}.study-cta .btn{background:#E2B85C;color:var(--navy)}.study-cta .btn:hover{background:#d6a83f}
 .listen-box{margin:22px 0 4px;padding:18px 20px;border-radius:14px;background:var(--cream);border:1px solid var(--line)}.listen-box b{color:var(--navy);font-size:17px}.listen-box p{margin:4px 0 12px}
-.listen{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.lbtn{display:inline-flex;align-items:center;gap:8px;background:#1DB954;color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.lbtn svg{width:20px;height:20px}.lbtn.alt{background:transparent;color:var(--navy);border:2px solid var(--line)}
+.listen{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}.lbtn{display:inline-flex;align-items:center;gap:8px;background:#1DB954;color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.lbtn svg{width:20px;height:20px}.lbtn.cb{background:#F55B23}.lbtn.ap{background:#872EC4}.lbtn.am{background:#25D1DA;color:#0B1B33}.lbtn.alt{background:transparent;color:var(--navy);border:2px solid var(--line)}
 .themes{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 4px}.themes a{background:var(--navy);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:10px 18px}.themes small{opacity:.75;font-weight:700;margin-left:4px}
 .theme-h{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:20px;margin:30px 0 4px;scroll-margin-top:16px}.theme-d{margin:0;color:var(--muted,#5D6A80)}
 a.tag{text-decoration:none}
@@ -281,18 +281,21 @@ PLAY_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6
 PAUSE_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>'
 
 
-# Podcast apps where the studies are listed (add Apple, Amazon, Castbox when their links exist; see claude/podcast-links.md)
-LISTEN = [('Spotify', 'https://open.spotify.com/show/6wV9OYkZTJ0G3z3FQ3CUUd')]
+# Podcast apps where the studies are listed (add Apple and Amazon when their links exist; see claude/podcast-links.md)
+LISTEN = [('Spotify', 'https://open.spotify.com/show/6wV9OYkZTJ0G3z3FQ3CUUd'),
+          ('Castbox', 'https://castbox.fm/channel/id7495794')]
 FEED_URL = SITE + '/podcast/kreyol.xml'
+POD_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 2.6 1.4 4.8 3.5 6l.5-1.8A5 5 0 1 1 15 13.2l.5 1.8A7 7 0 0 0 12 2zm0 4a3 3 0 0 0-1.6 5.5l.6-.1h1.9l.6.1A3 3 0 0 0 12 6zm-1.4 7L9.5 21.5c-.1.3.2.5.5.5h4c.3 0 .6-.2.5-.5L13.4 13z"/></svg>'
+APP_CLASS = {'Spotify': '', 'Castbox': ' cb', 'Apple Podcasts': ' ap', 'Amazon Music': ' am'}
 SPOTIFY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21zm4.8 15.15a.66.66 0 0 1-.9.22c-2.47-1.5-5.58-1.85-9.24-1.01a.66.66 0 1 1-.3-1.28c4-.92 7.43-.52 10.22 1.17.31.19.41.6.22.9zm1.28-2.86a.82.82 0 0 1-1.13.27c-2.83-1.74-7.14-2.24-10.48-1.23a.82.82 0 1 1-.48-1.57c3.82-1.16 8.57-.6 11.82 1.4.39.23.51.74.27 1.13zm.11-2.98C14.8 8.8 9.2 8.6 5.97 9.59a.98.98 0 1 1-.57-1.88c3.71-1.13 9.89-.91 13.79 1.4a.98.98 0 0 1-1 1.7z"/></svg>'
 
 
 def listen_row(compact=False):
-    btns = ''.join('<a class="lbtn" href="%s" target="_blank" rel="noopener">%s<span>Koute sou %s</span></a>' % (u, SPOTIFY_SVG if n == 'Spotify' else '', e(n)) for n, u in LISTEN)
+    btns = ''.join('<a class="lbtn%s" href="%s" target="_blank" rel="noopener">%s<span>Koute sou %s</span></a>' % (APP_CLASS.get(n, ''), u, SPOTIFY_SVG if n == 'Spotify' else POD_SVG, e(n)) for n, u in LISTEN)
     if compact:
         return '<div class="listen">%s</div>' % btns
-    return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou Spotify. Abòne pou w resevwa chak nouvo etid.</p>'
-            '<div class="listen">%s</div></div>' % btns)
+    return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou %s. Abòne pou w resevwa chak nouvo etid.</p>'
+            '<div class="listen">%s</div></div>' % (' ak '.join(n for n, _ in LISTEN), btns))
 
 
 THEMES = [('gras', 'Gras Bondye', 'Kiyès Bondye ye, Jezi ak Sentespri a, padon ak lagras li ofri nou.'),
