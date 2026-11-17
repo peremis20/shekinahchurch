@@ -343,19 +343,11 @@ TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=doc
 # Fondasyon series (Jimmy, Nov 16, 2026): one path from not knowing God to baptism and a strong Christian life.
 # Each item is a study slug (existing audio) or a title still to record (shown as "Byento").
 # Studies listed here show ONLY in Fondasyon on /kreyol/, not again under the themes.
-FONDASYON = [
-    ('Etap 1', 'Konnen Bondye ak konnen kiyès mwen ye', [
-        'kiyes-bondye-ye', 'eske-tout-relijyon-se-menm', 'kijan-pou-m-komanse-li-bib-la',
-        'kreyasyon-an-kijan-bondye-kreye-moun', 'kiyes-mwen-ye-e-poukisa-m-la']),
-    ('Etap 2', 'Konprann pwoblèm nan ak repons Bondye', [
-        'poukisa-bondye-kite-soufrans-rive', 'eske-jezi-se-bondye', 'Sali pa lagras']),
-    ('Etap 3', 'Aksepte Jezi epi batize', [
-        'eske-bondye-ka-padone-m', 'Batèm', 'ki-moun-sentespri-a-ye']),
-    ('Etap 4', 'Viv kòm yon nouvo kretyen', [
-        'kijan-pou-m-priye', 'dis-komandman-bondye-yo', 'kisa-bib-la-di-sou-saba-a', 'kisa-advantis-yo-kwe',
-        'Legliz la ak lavi kretyen']),
-    ('Etap 5', 'Espwa ak lafwa ki fò', [
-        'kisa-ki-rive-le-yon-moun-mouri', 'dezyem-vini-jezi', 'Pwochen etap ou']),
+FONDASYON = [  # cut to 7 core lessons (Jimmy, Nov 16, 2026); all other studies live in their theme
+    ('Etap 1', 'Konnen Bondye', ['kiyes-bondye-ye', 'kreyasyon-an-kijan-bondye-kreye-moun']),
+    ('Etap 2', 'Konnen Jezi ak lagras li', ['eske-jezi-se-bondye', 'Sali pa lagras']),
+    ('Etap 3', 'Aksepte Jezi epi batize', ['eske-bondye-ka-padone-m', 'Batèm']),
+    ('Etap 4', 'Kòmanse nouvo lavi ou', ['Pwochen etap ou']),
 ]
 
 
