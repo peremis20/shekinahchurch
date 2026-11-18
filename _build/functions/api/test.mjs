@@ -243,6 +243,16 @@ r = await call('POST', '/projects/budget', { token: O, body: { budget: '20,000' 
 r = await call('GET', '/projects', { token: T.leader }); ok(r.j.budget === 20000 && r.j.statuses.length === 4, 'budget shows for everyone', r.j.budget);
 r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ.id } }); ok(r.status === 200, 'delete own project');
 
+// ---- likes ----
+r = await call('GET', '/likes?p=/kreyol/batem-kijan-pou-m-batize/'); ok(r.status === 200 && r.j.n === 0 && r.headers.get('access-control-allow-origin') === '*', 'likes start at 0', r.j);
+r = await call('POST', '/likes', { body: { p: '/kreyol/batem-kijan-pou-m-batize/' }, ip: '9.9.9.1' }); ok(r.status === 200 && r.j.n === 1, 'like adds one', r.j);
+r = await call('POST', '/likes', { body: { p: '/kreyol/batem-kijan-pou-m-batize/' }, ip: '9.9.9.2' }); ok(r.j.n === 2, 'second person', r.j);
+r = await call('POST', '/likes', { body: { p: '/kreyol/batem-kijan-pou-m-batize/', on: false }, ip: '9.9.9.2' }); ok(r.j.n === 1, 'unlike takes one away', r.j);
+for (let i = 0; i < 6; i++) r = await call('POST', '/likes', { body: { p: '/blog/some-post/' }, ip: '9.9.9.3' }); ok(r.j.n === 4, 'one person cannot pile up likes', r.j);
+r = await call('POST', '/likes', { body: { p: '/admin/x/' } }); ok(r.status === 400, 'only study and blog pages');
+r = await call('GET', '/likes?p=javascript:alert(1)'); ok(r.status === 400, 'bad page rejected');
+r = await call('POST', '/likes', { body: { p: '/blog/x-y/', on: false }, ip: '9.9.9.4' }); ok(r.j.n === 0, 'never below zero', r.j);
+
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);
 r = await call('GET', '/admin/check', { token: O }); ok(r.status === 401, 'all sessions ended', r.status);

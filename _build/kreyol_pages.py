@@ -262,6 +262,7 @@ def study_page(s, all_s):
                  'Nan lòt peyi, rele sèvis ijans lan oswa ale nan lopital ki pi pre a. Lavi ou gen anpil valè.</div>')
     p.append('<div class="player"><audio controls preload="metadata" src="%s" aria-label="%s"></audio>'
              '<p>Etid odyo an Kreyòl ak de animatè. Koute l kounye a oswa pataje l ak fanmi ou.</p>%s</div>' % (mp3, e(s['title']), listen_row(True)))
+    p.append('<div class="pact"></div>')  # like and share (Nov 17)
     for para in s['summary']:
         p.append('<p>%s</p>' % e(para))
     p.append('<h2>Sa w ap aprann</h2><ul>%s</ul>' % ''.join('<li>%s</li>' % e(x) for x in s['points']))
@@ -292,13 +293,14 @@ def study_page(s, all_s):
         p.append('</article>')
     p.append('<h2>Vèsè biblik nan etid la</h2><ul class="verses">%s</ul>' % ''.join('<li>%s</li>' % e(v) for v in s['verses']))
     p.append('<h2>Kesyon pou reflechi ak fanmi ou</h2><ol>%s</ol>' % ''.join('<li>%s</li>' % e(q) for q in s['questions']))
+    p.append('<div class="pact"></div>')
     p.append('<div class="cta"><a class="btn" href="/prayer-request/">Voye yon demann priyè</a>'
              '<a class="btn alt" href="/kreyol/planifye-vizit/">Vin vizite nou yon Samdi</a></div>')
     rel = [o for sl in s.get('related', []) for o in all_s if o['slug'] == sl]
     same = [o for o in all_s if o.get('theme') == s.get('theme') and o['slug'] != s['slug'] and o not in rel]
     others = (rel + same + [o for o in all_s if o['slug'] != s['slug'] and o not in rel and o not in same])[:4]
     p.append('<h2>Lòt etid an Kreyòl</h2><div class="cards">%s</div>' % ''.join(card(o) for o in others))
-    p.append('</main>' + FOOTER + PLAY_JS + '</body></html>\n')
+    p.append('</main>' + FOOTER + PLAY_JS + '<script src="/assets/js/page-actions.js" defer></script></body></html>\n')
     return ''.join(p)
 
 

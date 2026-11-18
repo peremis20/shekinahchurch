@@ -15,3 +15,6 @@ CREATE TABLE IF NOT EXISTS projects (id bigserial PRIMARY KEY, name text NOT NUL
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS actual_cost numeric(12,2) NOT NULL DEFAULT 0;  -- cost is the estimated cost
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS status text NOT NULL DEFAULT 'Planned';
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS progress integer NOT NULL DEFAULT 0;
+
+-- likes on Kreyol studies and blog posts (Nov 17, 2026)
+CREATE TABLE IF NOT EXISTS page_likes (page text PRIMARY KEY, n integer NOT NULL DEFAULT 0, updated_at timestamptz NOT NULL DEFAULT now());

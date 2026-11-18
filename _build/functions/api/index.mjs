@@ -714,12 +714,38 @@ const GETS = {
   'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
 };
+// ---------- likes (public, Nov 17, 2026) ----------
+const LIKE_PAGE = /^\/(kreyol|blog)\/[a-z0-9-]{1,120}\/$/;
+async function likesGet(req) {
+  const page = str(new URL(req.url).searchParams.get('p'), 140);
+  need(LIKE_PAGE.test(page), 400, 'Unknown page.');
+  const r = await q('SELECT n FROM page_likes WHERE page = $1', [page]);
+  return { page, n: r.length ? Number(r[0].n) : 0 };
+}
+async function likesPost(req) {
+  const b = await body(req);
+  const page = str(b && b.p, 140), on = !(b && b.on === false);
+  need(LIKE_PAGE.test(page), 400, 'Unknown page.');
+  const who = ip(req);
+  need(await limit('like:' + who, 60, 1440), 429, 'Please try again later.');
+  if (!(await limit('like:' + who + ':' + page, 4, 1440))) {
+    const r = await q('SELECT n FROM page_likes WHERE page = $1', [page]);
+    return { page, n: r.length ? Number(r[0].n) : 0 };
+  }
+  const r = on
+    ? await q('INSERT INTO page_likes (page, n) VALUES ($1, 1) ON CONFLICT (page) DO UPDATE SET n = page_likes.n + 1, updated_at = now() RETURNING n', [page])
+    : await q('UPDATE page_likes SET n = GREATEST(n - 1, 0), updated_at = now() WHERE page = $1 RETURNING n', [page]);
+  return { page, n: r.length ? Number(r[0].n) : 0 };
+}
+
 async function route(req, path) {
   const key = req.method + ' ' + path;
   if (key === 'GET /' || key === 'GET /health') return { ok: true, service: 'shekinah api' };
   if (key === 'POST /submit') return submit(req);
   if (key === 'GET /content') return publicContent();
   if (key === 'GET /events') return publicEvents();
+  if (key === 'GET /likes') return likesGet(req);
+  if (key === 'POST /likes') return likesPost(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   if (key === 'GET /reports/view') return reportsView();
   if (key === 'POST /admin/login/start') return loginStart(req);
@@ -738,7 +764,7 @@ async function route(req, path) {
 export default {
   async fetch(req) {
     const path = new URL(req.url).pathname.replace(/\/+$/, '') || '/';
-    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/';
+    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/likes' || path === '/';
     const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' || path === '/events' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     try {
