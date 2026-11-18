@@ -15,7 +15,7 @@ OUT = os.path.dirname(ROOT)
 SITE = 'https://shekinahsda.org'
 DATA = os.path.join(ROOT, 'kreyol-studies.json')
 GA = 'G-DBRNW7DHZH'
-IMG = SITE + '/assets/church/church-01.jpg'
+IMG = SITE + '/assets/share/shekinah-share-ht.jpg'  # branded share image (Jimmy, Nov 17)
 
 
 def load():
@@ -195,7 +195,7 @@ def head(title, desc, url, ld):
             '<meta name="viewport" content="width=device-width, initial-scale=1">'
             '<title>%s</title><meta name="description" content="%s"><link rel="canonical" href="%s"><link rel="alternate" type="application/rss+xml" title="Shekinah Haitian SDA Church (podcast)" href="https://shekinahsda.org/podcast/kreyol.xml">'
             '<meta property="og:type" content="article"><meta property="og:title" content="%s"><meta property="og:description" content="%s">'
-            '<meta property="og:url" content="%s"><meta property="og:image" content="%s"><meta property="og:locale" content="ht_HT">'
+            '<meta property="og:url" content="%s"><meta property="og:image" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:locale" content="ht_HT">'
             '<meta name="twitter:card" content="summary_large_image"><link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">%s<style>%s</style>'
             '<script type="application/ld+json">%s</script>%s</head><body>'
             % (e(title), e(desc), url, e(title), e(desc), url, IMG, FONTS, CSS, json.dumps(ld, ensure_ascii=False), ga))

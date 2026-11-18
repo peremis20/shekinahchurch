@@ -30,7 +30,7 @@ NAME = 'Shekinah Haitian SDA Church'
 
 PAGES = {
   'home': ('/', 'Haitian Seventh-day Adventist Church, Alvarado TX | Shekinah',
-           'Shekinah is a Haitian Seventh-day Adventist church in Alvarado, TX. Saturdays: Sabbath School 10 AM, worship 11:30 AM, in Kreyòl, French, and English.',
+           'A warm Haitian Seventh-day Adventist church family in Alvarado, TX. Saturdays: Sabbath School 10 AM, worship 11:30 AM, in Kreyòl, French and English.',
            'Shekinah Haitian Seventh-day Adventist Church in Alvarado, TX'),
   'visit': ('/plan-your-visit/', 'Plan Your Visit | Shekinah Haitian SDA Church, Alvarado TX',
             'First time visiting a church in Alvarado, TX? See Sabbath service times, what to expect, and kids at Shekinah, with worship in Kreyòl, French, and English.',
@@ -193,7 +193,8 @@ def head_block(s, extra_ld=None, noindex=False, key=None, post=None):
         '<meta property="og:url" content="%s">' % s['url'],
         '<meta property="og:title" content="%s">' % H.escape(s['ogTitle'], quote=True),
         '<meta property="og:description" content="%s">' % H.escape(s['desc'], quote=True),
-        '<meta property="og:image" content="%s">' % (SEO.img_url(POST_IMG.get(post['id'])) if post else SITE + '/assets/church/church-01.jpg'),
+        '<meta property="og:image" content="%s">' % (SEO.img_url(POST_IMG.get(post['id'])) if post else SITE + ('/assets/share/shekinah-share-ht.jpg' if key == 'visitkr' else '/assets/share/shekinah-share.jpg')),
+    ] + ([] if post else ['<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="%s">' % H.escape('Logo Legliz Advantis Ayisyen Shekinah: Yon fanmi pou ou. Yon lafwa k ap grandi.' if key == 'visitkr' else 'Shekinah Haitian Seventh-day Adventist Church logo: A Place to Belong. A Faith to Grow.', quote=True)]) + [
         '<meta name="twitter:card" content="summary_large_image">',
     ] + ([SEO.post_meta_tags(post, s['url'], POST_IMG.get(post['id']))] if post else []) + [
         '<link rel="icon" href="/favicon.ico?v=3" sizes="any"><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3"><link rel="apple-touch-icon" href="/apple-touch-icon.png?v=3">',
