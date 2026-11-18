@@ -355,9 +355,9 @@ TF_JS = ('<script>(function(){var b=document.querySelectorAll("[data-tf]"),g=doc
 # Studies listed here show ONLY in Fondasyon on /kreyol/, not again under the themes.
 FONDASYON = [  # cut to 7 core lessons (Jimmy, Nov 16, 2026); all other studies live in their theme
     ('Etap 1', 'Konnen Bondye', ['kiyes-bondye-ye', 'kreyasyon-an-kijan-bondye-kreye-moun']),
-    ('Etap 2', 'Konnen Jezi ak lagras li', ['eske-jezi-se-bondye', 'Sali pa lagras']),
-    ('Etap 3', 'Aksepte Jezi epi batize', ['eske-bondye-ka-padone-m', 'Batèm']),
-    ('Etap 4', 'Kòmanse nouvo lavi ou', ['Pwochen etap ou']),
+    ('Etap 2', 'Konnen Jezi ak lagras li', ['eske-jezi-se-bondye', 'sali-pa-lagras-kijan-pou-m-sove']),
+    ('Etap 3', 'Aksepte Jezi epi batize', ['eske-bondye-ka-padone-m', 'batem-kijan-pou-m-batize']),
+    ('Etap 4', 'Kòmanse nouvo lavi ou', ['pwochen-etap-ou']),
 ]
 
 
@@ -383,7 +383,7 @@ def fondasyon_html(by_slug):
 
 
 # Titles shown on "Byento" cards for slugs not published yet
-FOND_SOON = {'kiyes-bondye-ye': 'Kiyès Bondye ye?', 'kreyasyon-an-kijan-bondye-kreye-moun': 'Kreyasyon an: kijan Bondye kreye moun', 'kiyes-mwen-ye-e-poukisa-m-la': 'Kiyès mwen ye e poukisa m la?'}
+FOND_SOON = {'sali-pa-lagras-kijan-pou-m-sove': 'Sali pa lagras', 'batem-kijan-pou-m-batize': 'Batèm', 'pwochen-etap-ou': 'Pwochen etap ou', 'kiyes-bondye-ye': 'Kiyès Bondye ye?', 'kreyasyon-an-kijan-bondye-kreye-moun': 'Kreyasyon an: kijan Bondye kreye moun', 'kiyes-mwen-ye-e-poukisa-m-la': 'Kiyès mwen ye e poukisa m la?'}
 FOND_SLUGS = {it for _, _, items in FONDASYON for it in items if '-' in it and ' ' not in it}
 
 
