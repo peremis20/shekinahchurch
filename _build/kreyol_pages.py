@@ -96,6 +96,7 @@ ul,ol{padding-left:22px}li{margin:6px 0}
 .pod-b{border-left:1px solid #E3D3B6;padding-left:26px}.pod-b h2{font-family:'Libre Baskerville',serif;color:var(--navy);font-size:clamp(22px,3vw,30px);margin:0 0 8px}.pod-b p{margin:0 0 20px;font-size:17px}
 .pod-r{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .pod-btn{display:inline-flex;align-items:center;gap:14px;background:#1B2D5A;color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:40px;padding:12px 20px;white-space:nowrap}.pod-btn svg{width:24px;height:24px}.pod-btn b{font-size:20px;margin-left:4px}.pod-btn:hover{background:#13234A}
+.follow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}.follow span{font-weight:700;font-size:14px;color:#5B6473;margin-right:2px}.follow a{display:block;width:32px;height:32px;border-radius:9px;transition:transform .15s}.follow a:hover{transform:translateY(-2px)}.follow svg,.follow img{width:32px;height:32px;display:block;border-radius:8px}
 .pod-i{display:flex;gap:10px;margin-left:auto}.pod-i a{display:block;width:44px;height:44px;border-radius:14px;transition:transform .15s}.pod-i a:hover{transform:translateY(-2px)}.pod-i svg,.pod-i img{width:44px;height:44px;display:block;border-radius:10px}
 .hub-h2{margin-top:44px;font-size:clamp(24px,3.4vw,32px)}
 .tpills{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 0;justify-content:flex-start}.tpills button{border:0;cursor:pointer;font:inherit;font-weight:700;font-size:16px;border-radius:40px;padding:12px 26px;background:#F6F0E6;color:var(--navy)}.tpills button span{font-weight:600;margin-left:4px}.tpills button.on{background:#1B2D5A;color:#fff;padding:12px 34px}
@@ -321,8 +322,9 @@ SPOTIFY_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentCo
 
 def listen_row(compact=False):
     btns = ''.join('<a class="lbtn%s" href="%s" target="_blank" rel="noopener">%s<span>Koute sou %s</span></a>' % (APP_CLASS.get(n, ''), u, SPOTIFY_SVG if n == 'Spotify' else POD_SVG, e(n)) for n, u in LISTEN)
-    if compact:
-        return '<div class="listen">%s</div>' % btns
+    if compact:  # study pages: one quiet line of small app logos (Jimmy, Nov 18: big buttons too heavy)
+        icons = ''.join('<a href="%s" target="_blank" rel="noopener" aria-label="Koute sou %s" title="Koute sou %s">%s</a>' % (u, e(n), e(n), APP_ICON.get(n, '')) for n, u in LISTEN)
+        return '<div class="follow"><span>Swiv nou sou:</span>%s</div>' % icons
     return ('<div class="listen-box"><b>Koute nou nan aplikasyon podcast ou</b><p>Tout etid yo disponib sou %s. Abòne pou w resevwa chak nouvo etid.</p>'
             '<div class="listen">%s</div></div>' % ((', '.join(n for n, _ in LISTEN[:-1]) + ' ak ' + LISTEN[-1][0]) if len(LISTEN) > 1 else LISTEN[0][0], btns))
 
