@@ -323,10 +323,22 @@ async function delMany(me, b) {
 async function subscribers(me) {
   allow(me, 'email_list');
   return {
-    subscribers: await rows(`SELECT * FROM (SELECT DISTINCT ON (lower(email)) email, unsubscribed, status, created_at FROM submissions
-                             WHERE kind = 'newsletter' AND email <> '' ORDER BY lower(email), unsubscribed DESC, created_at DESC) d ORDER BY created_at DESC`),
+    subscribers: await rows(`SELECT d.*,
+        COALESCE((SELECT x.name FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.name, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1), '') AS name,
+        COALESCE((SELECT x.phone FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.phone, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1), '') AS phone
+      FROM (SELECT DISTINCT ON (lower(email)) email, unsubscribed, status, created_at FROM submissions
+            WHERE kind = 'newsletter' AND email <> '' ORDER BY lower(email), unsubscribed DESC, created_at DESC) d ORDER BY created_at DESC`),
     broadcasts: await rows('SELECT id, subject, body, sent_by, recipient_count, sent_count, sent_at FROM broadcasts ORDER BY sent_at DESC'),
   };
+}
+async function subEdit(me, b) {
+  allow(me, 'email_list');
+  const email = str(b.email, 200), name = str(b.name, 120), phone = str(b.phone, 40);
+  need(email, 400, 'Missing email.');
+  const r = await q(`UPDATE submissions SET name = $2, phone = $3, edited_by = $4, updated_at = now()
+    WHERE kind = 'newsletter' AND lower(email) = lower($1) RETURNING id`, [email, name, phone, me.email]);
+  need(r.length, 404, 'That email is not on the list.');
+  return { ok: true, email, name, phone };
 }
 async function broadcast(me, b) {
   allow(me, 'email_list');
@@ -723,7 +735,7 @@ async function projectBudget(me, b) {
 // ---------- router ----------
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
-  'POST /admin/broadcast': broadcast, 'POST /admin/content/save': contentSave,
+  'POST /admin/broadcast': broadcast, 'POST /admin/subscribers/edit': subEdit, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,

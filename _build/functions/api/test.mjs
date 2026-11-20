@@ -191,6 +191,10 @@ r = await call('POST', '/admin/content/save', { token: O, body: { key: 'admins',
 r = await call('POST', '/admin/content/save', { token: O, body: { key: 'posts', value: { a: 1 } } }); ok(r.status === 400, 'wrong content shape refused');
 r = await call('GET', '/admin/content', { token: O }); ok(r.j.content.find((c) => c.key === 'posts').updated_by === 'owner@x.org' && Array.isArray(r.j.content.find((c) => c.key === 'posts').value), 'admin content rows', r.j);
 r = await call('GET', '/admin/subscribers', { token: O }); ok(r.j.subscribers.length === 1 && r.j.subscribers[0].unsubscribed === false, 'one subscriber', r.j);
+r = await call('POST', '/admin/subscribers/edit', { token: O, body: { email: 'NEWS@x.org', name: 'Marie Paul', phone: '817 555 0100' } }); ok(r.status === 200, 'edit subscriber name and phone', r.j);
+r = await call('GET', '/admin/subscribers', { token: O }); ok(r.j.subscribers[0].name === 'Marie Paul' && r.j.subscribers[0].phone === '817 555 0100', 'subscriber shows name and phone', r.j);
+r = await call('POST', '/admin/subscribers/edit', { token: O, body: { email: 'nobody@x.org', name: 'X' } }); ok(r.status === 404, 'unknown subscriber refused');
+for (const w of Object.keys(T)) { r = await call('POST', '/admin/subscribers/edit', { token: T[w], body: { email: 'news@x.org', name: 'Hack' } }); if (r.status !== 403) { ok(false, w + ' cannot edit subscribers', r.j); break; } }
 mails.length = 0;
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News', body: 'Hello', test: true } }); ok(r.status === 200 && mails.length === 1 && mails[0].to === 'owner@x.org' && mails[0].unsub === true, 'test broadcast goes to me only', mails);
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News', body: 'Hello', test: false } }); ok(r.status === 200 && r.j.sent === 1 && r.j.total === 1 && mails[1].to === 'news@x.org', 'broadcast', r.j);
