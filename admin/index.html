@@ -425,12 +425,13 @@ body[data-t=team]{--tc:#8A6420;--tc1:#C9962F;--tcb:#FCEFC7}
 body[data-t=team] #tkpis{display:none!important}
 #tadd+.err:empty{display:none}
 .pj-info{display:flex;align-items:center;gap:16px;padding:16px 20px}.pj-info .ic{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none}.pj-info .ic svg{width:24px;height:24px}.pj-info b{display:block;font-weight:800;font-size:17px;color:#0E1B3D}.pj-info span{color:#33415C;font-weight:600}
-.pj-addp{display:grid;grid-template-columns:2fr 1fr auto auto;gap:14px;align-items:end}.pj-addp label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#33415C;min-width:0}
-.pj-addp input[type=email],.pj-addp select{height:48px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 12px;font-size:16px;background:#fff;width:100%;min-width:0}
+.pj-addp{display:grid;grid-template-columns:1.6fr 1.8fr 1fr auto auto;gap:14px;align-items:end}.pj-addp label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#33415C;min-width:0}
+.pj-addp input[type=email],.pj-addp input[type=text],.pj-addp select{height:48px;border:1.5px solid #D3DBE8;border-radius:12px;padding:0 12px;font-size:16px;background:#fff;width:100%;min-width:0}
 .pj-addp label.chk{flex-direction:row;align-items:center;gap:8px;height:48px;white-space:nowrap}.pj-addp label.chk input{width:20px;height:20px;accent-color:#1D5FE0}.pj-addp .pj-add{margin:0;height:48px}
 .pj-note{margin:0 0 14px;color:#33415C;font-weight:500;line-height:1.55}
 .pj-roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}.pj-role{border:1px solid #E6EBF3;border-radius:14px;padding:12px 14px;background:#F8FAFD}.pj-role p{margin:8px 0 0;color:#33415C;font-weight:500;font-size:14.5px;line-height:1.5}
 .pj-tag{display:inline-block;background:#E3EDFF;color:#1D5FE0;border-radius:8px;padding:1px 8px;font-size:12px;font-weight:800;vertical-align:middle}
+.tm-nm{border:0;background:none;color:#1D5FE0;font-weight:800;font-size:13px;cursor:pointer;padding:0 4px;vertical-align:middle}.tm-nm:hover{text-decoration:underline}.tm-noname{color:#8A94A6}
 .pj-tm{overflow:visible}.tm-h,.tm-row{display:grid;grid-template-columns:minmax(220px,2.2fr) minmax(150px,1.1fr) minmax(130px,1fr) minmax(130px,1fr) 190px;gap:12px;align-items:center}
 .tm-h{background:#0B2152;color:#fff;font-weight:800;font-size:15px;padding:16px 20px;border-radius:18px 18px 0 0}
 .tm-r{border-bottom:1px solid #EEF1F6;padding:14px 20px}.tm-r:last-child{border-bottom:0}
@@ -441,7 +442,7 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-when{color:#33415C;font-weight:600}
 .pj-act .tm-cz{width:auto;padding:0 14px;font-weight:800;font-size:14px}
 .tm-cz-p{margin:12px 0 2px;padding:14px 16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.tm-cz-p>div{display:flex;flex-direction:column;gap:7px}.tm-cz-p b{font-size:14px;color:#0E1B3D}
-@media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label:first-child,.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
+@media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
 @media (max-width:560px){.pj-roles{grid-template-columns:1fr}}
 
 /* One look for every admin page (Jimmy, Nov 16): same as the Projects page */
@@ -541,7 +542,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
           <div class="pj-kpis" id="tkpi"></div>
           <div class="pj-card">
             <h3>Add a person</h3>
-            <form id="tadd" class="pj-addp"><label>Email<input id="temail" type="email" placeholder="New person's email" required></label><label>Role<select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select></label><label class="chk"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pj-add" type="submit"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Person</button></form>
+            <form id="tadd" class="pj-addp"><label>Full name<input id="tname" type="text" placeholder="First and last name" autocomplete="off" required></label><label>Email<input id="temail" type="email" placeholder="New person's email" required></label><label>Role<select id="trole"><option value="volunteer">Volunteer</option><option value="staff">Staff</option><option value="admin">Admin</option></select></label><label class="chk"><input type="checkbox" id="tpriv"> Can see private prayer requests</label><button class="pj-add" type="submit"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Person</button></form>
             <div class="err" id="terr"></div>
           </div>
           <div class="pj-table pj-tm"><div class="tm-h"><span>Person</span><span>Role</span><span>Private prayers</span><span>Last sign in</span><span>Actions</span></div><div id="tlist"></div></div>
@@ -940,7 +941,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     api('/calendar/event/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){
       CAL.events=CAL.events.filter(function(x){return String(x.id)!==String(id);});CAL.tasks.forEach(function(t){if(String(t.event_id)===String(id))t.event_id=null;});
       $('calform').innerHTML='';renderCal();toast('Event deleted');}).catch(function(err){alert('Could not delete: '+err.message);});}
-  function nameOf(email){if(!email)return '';if(email===me)return 'You';var n=firstName(email);return n||email;}
+  function nameOf(email){if(!email)return '';if(email===me)return 'You';var f=(window.__tnames||{})[email]||(((window.__team||{}).admins||[]).filter(function(x){return x.email===email;})[0]||{}).full_name;if(f)return f;var n=firstName(email);return n||email;}
   function renderTasks(){var t=ymd(new Date());
     var tabs=[['open','Open'],['mine','Mine'],['done','Done']];
     $('tktabs').innerHTML=tabs.map(function(x){var n=CAL.tasks.filter(function(k){return x[0]==='done'?k.done:x[0]==='mine'?(!k.done&&k.assigned_to===me):!k.done;}).length;
@@ -1014,7 +1015,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   // ---------- data ----------
   function load(){
     $('list').innerHTML='<div class="empty">Loading...</div>';
-    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});admins=(r[1].admins||[]).filter(function(a){return a.role!=='volunteer';}).map(function(a){return a.email;});me=r[1].me||me;refreshAll();}).catch(function(e){
+    return Promise.all([api('/admin/list'),api('/admin/admins')]).then(function(r){var j=r[0];items=j.items||[];replies={};(j.replies||[]).forEach(function(x){(replies[x.submission_id]=replies[x.submission_id]||[]).push(x);});window.__tnames={};(r[1].admins||[]).forEach(function(a){if(a.full_name)window.__tnames[a.email]=a.full_name;});admins=(r[1].admins||[]).filter(function(a){return a.role!=='volunteer';}).map(function(a){return a.email;});me=r[1].me||me;refreshAll();}).catch(function(e){
       if(e.status===401){logout('Your session ended. Please sign in again.');}
       else $('list').innerHTML='<div class="empty">Could not load messages. '+esc(e.message)+'</div>';
     });
@@ -1541,7 +1542,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var AV=['#1D5FE0','#7C3AED','#157A2F','#D9437A','#0E7C86','#8A5A00'];
     $('tlist').innerHTML=A.length?A.map(function(a,i){var mine=a.email===list.me, t=tl(a), adm=t==='admin', pr=a.perms||{}, ar=a.areas||[];
       return '<div class="tm-r" data-em="'+esc(a.email)+'"><div class="tm-row">'+
-        '<div class="tm-p"><span class="tm-av" style="background:'+AV[i%AV.length]+'">'+esc((a.email[0]||'?').toUpperCase())+'</span><div style="min-width:0"><b>'+esc(firstName(a.email))+(mine?' <span class="pj-tag">You</span>':'')+(a.custom?' <span class="pj-tag">Custom</span>':'')+'</b><span>'+esc(a.email)+'</span></div></div>'+
+        '<div class="tm-p"><span class="tm-av" style="background:'+AV[i%AV.length]+'">'+esc(((a.full_name||a.email)[0]||'?').toUpperCase())+'</span><div style="min-width:0"><b>'+(a.full_name?esc(a.full_name):'<span class="tm-noname">'+esc(firstName(a.email))+'</span>')+' <button type="button" class="tm-nm" data-nm="'+esc(a.email)+'" title="'+(a.full_name?'Edit name':'Add full name')+'" aria-label="Edit name">'+(a.full_name?'&#9998;':'+ Add name')+'</button>'+(mine?' <span class="pj-tag">You</span>':'')+(a.custom?' <span class="pj-tag">Custom</span>':'')+'</b><span>'+esc(a.email)+'</span></div></div>'+
         '<div data-l="Role">'+roleSel(t,mine,list)+'</div>'+
         '<div data-l="Private prayers"><label class="tm-sw"><input type="checkbox" data-tr="priv"'+(a.can_see_private?' checked':'')+(mine?' disabled':'')+'><span>'+(a.can_see_private?'Can see':'Hidden')+'</span></label></div>'+
         '<div data-l="Last sign in" class="tm-when">'+(a.last_login?esc(when(a.last_login)):'Not yet')+'</div>'+
@@ -1554,8 +1555,10 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     if(e.target.hasAttribute('data-pm')||e.target.hasAttribute('data-ar')){body.perms={};row.querySelectorAll('[data-pm]').forEach(function(c){body.perms[c.getAttribute('data-pm')]=c.checked;});body.areas=[];row.querySelectorAll('[data-ar]').forEach(function(c){if(c.checked)body.areas.push(c.getAttribute('data-ar'));});}
     else if(!e.target.matches('[data-tr=role]')){var pan=row.querySelector('[data-czp]');if(pan){body.perms={};pan.querySelectorAll('[data-pm]').forEach(function(c){body.perms[c.getAttribute('data-pm')]=c.checked;});body.areas=[];pan.querySelectorAll('[data-ar]').forEach(function(c){if(c.checked)body.areas.push(c.getAttribute('data-ar'));});}else{var cur=((window.__team||{}).admins||[]).filter(function(a){return a.email===body.email;})[0];if(cur&&cur.custom){body.perms=cur.perms;body.areas=cur.areas;}}}
     teamSave(body);});
-  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:$('temail').value,title:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('temail').value='';$('tpriv').checked=false;team(j);$('terr').style.color='var(--green)';$('terr').textContent='Added. We emailed them how to sign in.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},4000);}).catch(function(e){$('terr').style.color='';$('terr').textContent=e.message;});});
-  $('tlist').addEventListener('click',function(e){var cz=(e.target.closest('[data-cz]')||{getAttribute:function(){return null;}}).getAttribute('data-cz');if(cz){teamOpen=teamOpen===cz?'':cz;team(window.__team);return;}
+  $('tadd').addEventListener('submit',function(e){e.preventDefault();$('terr').textContent='';api('/admin/admins/add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({full_name:$('tname').value,email:$('temail').value,title:$('trole').value,can_see_private:$('tpriv').checked})}).then(function(j){$('tname').value='';$('temail').value='';$('tpriv').checked=false;team(j);$('terr').style.color='var(--green)';$('terr').textContent='Added. We emailed them how to sign in.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},4000);}).catch(function(e){$('terr').style.color='';$('terr').textContent=e.message;});});
+  $('tlist').addEventListener('click',function(e){var nb=e.target.closest('[data-nm]');if(nb){var em0=nb.getAttribute('data-nm'),cur0=(((window.__team||{}).admins||[]).filter(function(x){return x.email===em0;})[0]||{}).full_name||'';var nn=prompt('Full name for '+em0,cur0);if(nn===null||!nn.trim()||nn.trim()===cur0)return;
+      api('/admin/admins/name',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em0,full_name:nn.trim()})}).then(function(j){team(j);$('terr').style.color='var(--green)';$('terr').textContent='Name saved.';setTimeout(function(){$('terr').textContent='';$('terr').style.color='';},2000);}).catch(function(e3){$('terr').style.color='';$('terr').textContent=e3.message;});return;}
+    var cz=(e.target.closest('[data-cz]')||{getAttribute:function(){return null;}}).getAttribute('data-cz');if(cz){teamOpen=teamOpen===cz?'':cz;team(window.__team);return;}
     var rb=e.target.closest('[data-rm]'),em=rb&&rb.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' from the team? They will be signed out right away.'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   // ---- Members (same server and sign in) ----
   var MAPI=API;

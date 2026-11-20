@@ -125,11 +125,12 @@ const ROLE_TEXT={
   leader:'Follow up with first time visitors, questions and Bible study requests.',
   volunteer:'Read and help answer messages that come in through the website.',
 };
-function inviteMail({ label, title, custom }) {
+function inviteMail({ label, title, custom, name }) {
+  const hi = name ? 'Hello ' + String(name).split(' ')[0].replace(/[<>&"']/g, '') + ',' : 'Hello,';
   const what = custom ? 'Your access has been set up for the work you will be helping with.' : ROLE_TEXT[title];
   const url = SITE + '/admin/';
   const subject = 'Welcome to the Shekinah church admin team';
-  const text = `Hello,
+  const text = `${hi}
 
 You have been added to the Shekinah Haitian Seventh-day Adventist Church admin team as ${label}. Thank you for serving our church family.
 
@@ -156,7 +157,7 @@ ${INV_ADDRESS}`;
   <div style="background:#13294B;padding:22px 24px;text-align:center"><img src="${SITE}/assets/logo-dark.png" width="280" alt="Shekinah Haitian Seventh-day Adventist Church" style="width:280px;max-width:100%;height:auto;border:0"></div>
   <div style="padding:30px 32px 8px;font-size:16px;line-height:1.65;color:#2C3443">
    <h1 style="font-family:${INV_S};font-size:24px;line-height:1.3;color:#13294B;margin:0 0 18px;font-weight:700">Welcome to the admin team</h1>
-   ${p('Hello,')}
+   ${p(hi)}
    ${p(`You have been added to the Shekinah Haitian Seventh-day Adventist Church admin team as <b style="color:#13294B">${label}</b>. Thank you for serving our church family.`)}
    <div style="background:#F4F7FB;border-left:4px solid #D9A72B;border-radius:8px;padding:14px 16px;margin:0 0 22px"><div style="font-size:13px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#5B6270;margin-bottom:4px">What you can do</div>${what}</div>
    <div style="text-align:center;margin:0 0 24px"><a href="${url}" style="display:inline-block;background:#0E4A36;color:#FFFFFF;text-decoration:none;font-weight:700;padding:14px 28px;border-radius:10px">Sign in to the church admin</a></div>
@@ -375,14 +376,14 @@ async function publicContent() {
 
 // ---------- team ----------
 async function team(me) {
-  const all = await rows('SELECT email, role, title, perms, can_see_private, last_login, added_by FROM admins ORDER BY created_at, email');
+  const all = await rows('SELECT email, full_name, role, title, perms, can_see_private, last_login, added_by FROM admins ORDER BY created_at, email');
   const people = all.filter((a) => a.added_by !== 'automation');
-  if (!me.perms.team_manage) return { me: me.email, admins: people.map((a) => ({ email: a.email, role: access(a).role })) }; // just enough for the assign menu
+  if (!me.perms.team_manage) return { me: me.email, admins: people.map((a) => ({ email: a.email, full_name: a.full_name || '', role: access(a).role })) }; // just enough for the assign menu
   return {
     me: me.email,
     titles: Object.entries(TITLES).map(([id, t]) => ({ id, label: t.label, perms: t.perms, areas: t.areas })),
     perm_list: PERMS, area_list: AREAS,
-    admins: people.map((a) => { const x = access(a); return { email: a.email, role: x.role, title: x.title, perms: x.perms, areas: x.areas, can_see_private: x.can_see_private, last_login: a.last_login, custom: !!a.perms }; }),
+    admins: people.map((a) => { const x = access(a); return { email: a.email, full_name: a.full_name || '', role: x.role, title: x.title, perms: x.perms, areas: x.areas, can_see_private: x.can_see_private, last_login: a.last_login, custom: !!a.perms }; }),
   };
 }
 // Accepts the old shape {email, role, can_see_private} and the new one {email, title, can_see_private, perms, areas}.
@@ -401,11 +402,12 @@ function teamInput(b) {
 const adminCount = async (except) => Number((await q("SELECT count(*) AS n FROM admins WHERE coalesce(title, role) = 'admin' AND email <> $1", [except]))[0].n);
 async function teamAdd(me, b) {
   allow(me, 'team_manage');
-  const email = lower(b.email), t = teamInput(b);
+  const email = lower(b.email), t = teamInput(b), name = str(b.full_name, 80);
+  need(name.length >= 2, 400, "Please enter the person's full name.");
   need(EMAIL_RE.test(email), 400, 'Please enter a valid email address.');
   need(!(await one('SELECT 1 AS x FROM admins WHERE lower(email) = $1', [email])), 400, 'That person is already on the team.');
-  await q('INSERT INTO admins (email, added_by, created_at, role, title, perms, can_see_private) VALUES ($1, $2, now(), $3, $4, $5::jsonb, $6)', [email, me.email, t.role, t.title, t.perms ? JSON.stringify(t.perms) : null, t.priv]);
-  const inv = inviteMail({ label: TITLES[t.title].label, title: t.title, custom: !!t.perms });
+  await q('INSERT INTO admins (email, added_by, created_at, role, title, perms, can_see_private, full_name) VALUES ($1, $2, now(), $3, $4, $5::jsonb, $6, $7)', [email, me.email, t.role, t.title, t.perms ? JSON.stringify(t.perms) : null, t.priv, name]);
+  const inv = inviteMail({ label: TITLES[t.title].label, title: t.title, custom: !!t.perms, name });
   await mail({ to: email, subject: inv.subject, text: inv.text, html: inv.html, noreply: true, tag: 'team-invite' });
   return team(me);
 }
@@ -417,6 +419,15 @@ async function teamUpdate(me, b) {
   need(a.email !== me.email, 400, 'You cannot change your own access. Ask another admin.');
   if (t.title !== 'admin') need((await adminCount(a.email)) > 0, 400, 'There must be at least one admin.');
   await q('UPDATE admins SET role = $1, title = $2, perms = $3::jsonb, can_see_private = $4 WHERE email = $5', [t.role, t.title, t.perms ? JSON.stringify(t.perms) : null, t.priv, a.email]);
+  return team(me);
+}
+async function teamName(me, b) {
+  const email = lower(b.email), name = str(b.full_name, 80);
+  if (email !== lower(me.email)) allow(me, 'team_manage'); // anyone can fix their own name
+  need(name.length >= 2, 400, "Please enter the person's full name.");
+  const a = await one('SELECT email FROM admins WHERE lower(email) = $1', [email]);
+  need(a, 404, 'That person is not on the team.');
+  await q('UPDATE admins SET full_name = $1 WHERE email = $2', [name, a.email]);
   return team(me);
 }
 async function teamRemove(me, b) {
@@ -704,7 +715,7 @@ async function projectBudget(me, b) {
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/content/save': contentSave,
-  'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove,
+  'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,

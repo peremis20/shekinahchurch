@@ -108,12 +108,15 @@ await db.query("DELETE FROM submissions WHERE email = 'f@x.org'");
 
 // ---- team: old and new shapes ----
 const O = owner.token;
-r = await call('POST', '/admin/admins/add', { token: O, body: { email: ' Vol@X.org ', role: 'volunteer', can_see_private: false } }); ok(r.status === 200 && r.j.admins.some((a) => a.email === 'vol@x.org' && a.title === 'volunteer') && !r.j.admins.some((a) => a.email === 'bot@x.org'), 'add (old shape), bot hidden', r.j);
+r = await call('POST', '/admin/admins/add', { token: O, body: { email: ' Vol@X.org ', full_name: 'Val Volunteer', role: 'volunteer', can_see_private: false } }); ok(r.status === 200 && r.j.admins.some((a) => a.email === 'vol@x.org' && a.title === 'volunteer') && !r.j.admins.some((a) => a.email === 'bot@x.org'), 'add (old shape), bot hidden', r.j);
 ok(mails.some((m) => m.tag === 'team-invite' && m.to === 'vol@x.org'), 'invite mail');
 for (const [e, t, priv] of [['pastor@x.org', 'pastor', true], ['elder@x.org', 'elder', false], ['clerk@x.org', 'clerk', false], ['editor@x.org', 'editor', false], ['leader@x.org', 'leader', false]]) {
-  r = await call('POST', '/admin/admins/add', { token: O, body: { email: e, title: t, can_see_private: priv } }); ok(r.status === 200, 'add ' + t, r);
+  r = await call('POST', '/admin/admins/add', { token: O, body: { email: e, full_name: 'Person ' + t, title: t, can_see_private: priv } }); ok(r.status === 200, 'add ' + t, r);
 }
-r = await call('POST', '/admin/admins/add', { token: O, body: { email: 'vol@x.org', role: 'staff' } }); ok(r.status === 400, 'no duplicates');
+r = await call('POST', '/admin/admins/add', { token: O, body: { email: 'vol@x.org', full_name: 'Val Again', role: 'staff' } }); ok(r.status === 400, 'no duplicates');
+r = await call('POST', '/admin/admins/add', { token: O, body: { email: 'noname@x.org', role: 'staff' } }); ok(r.status === 400 && /full name/.test(r.j.error || ''), 'full name required', r.j);
+r = await call('GET', '/admin/admins', { token: O }); ok(r.j.admins.some((a) => a.email === 'vol@x.org' && a.full_name === 'Val Volunteer'), 'full name listed', r.j);
+r = await call('POST', '/admin/admins/name', { token: O, body: { email: 'vol@x.org', full_name: '  Valerie Joseph ' } }); ok(r.status === 200 && r.j.admins.some((a) => a.email === 'vol@x.org' && a.full_name === 'Valerie Joseph'), 'rename', r.j);
 r = await call('POST', '/admin/admins/update', { token: O, body: { email: 'owner@x.org', role: 'volunteer', can_see_private: false } }); ok(r.status === 400, 'cannot change yourself');
 r = await call('POST', '/admin/admins/remove', { token: O, body: { email: 'owner@x.org' } }); ok(r.status === 400, 'cannot remove yourself');
 const roles = (await db.query("SELECT email, role, title FROM admins WHERE added_by <> 'automation' ORDER BY email")).rows;
@@ -164,7 +167,7 @@ r = await P('pastor', '/admin/update', { id: '1; DROP TABLE admins', status: 'do
 
 // ---- team page, email list, website ----
 for (const w of ['vol', 'pastor', 'elder', 'clerk', 'editor', 'leader', 'old-staff']) {
-  r = await call('GET', '/admin/admins', { token: T[w] }); ok(r.status === 200 && r.j.me === w + '@x.org' && r.j.admins.every((a) => Object.keys(a).sort().join() === 'email,role'), w + ' gets only email and role of the team', r.j);
+  r = await call('GET', '/admin/admins', { token: T[w] }); ok(r.status === 200 && r.j.me === w + '@x.org' && r.j.admins.every((a) => Object.keys(a).sort().join() === 'email,full_name,role'), w + ' gets only email, name and role of the team', r.j);
   r = await P(w, '/admin/admins/add', { email: 'evil@x.org', title: 'admin' }); ok(r.status === 403, w + ' cannot add people');
   r = await P(w, '/admin/admins/update', { email: 'vol@x.org', title: 'admin' }); ok(r.status === 403, w + ' cannot change roles');
   r = await P(w, '/admin/admins/remove', { email: 'vol@x.org' }); ok(r.status === 403, w + ' cannot remove people');
