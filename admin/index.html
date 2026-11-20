@@ -1168,11 +1168,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var opt=function(list,v){return list.map(function(o){return '<option value="'+o[0]+'"'+(o[0]===v?' selected':'')+'>'+o[1]+'</option>';}).join('');};
     return '<div class="card" style="margin-bottom:12px;border-color:#9DBCF0" data-id="'+esc(i.id||'')+'"><div class="top"><span class="who">'+(i.id?'Edit entry':'Add a new entry')+'</span></div>'+
       '<div class="ef">'+
+      '<label>Name<input name="name" placeholder="Full name" value="'+esc(i.name||'')+'"></label>'+
+      '<label>Email<input name="email" type="email" value="'+esc(i.email||'')+'"></label>'+
+      '<label>Phone<input name="phone" type="tel" placeholder="Phone number" value="'+esc(i.phone||'')+'"></label>'+
       '<label>Type<select name="kind">'+opt([['prayer','Prayer request'],['contact','Question or contact'],['visit','Visit request'],['newsletter','Email sign up']],i.kind)+'</select></label>'+
       '<label>Status<select name="status">'+opt([['new','New'],['in_progress','In progress'],['done','Done'],['archived','Archived']],i.status)+'</select></label>'+
-      '<label>Name<input name="name" value="'+esc(i.name||'')+'"></label>'+
-      '<label>Email<input name="email" type="email" value="'+esc(i.email||'')+'"></label>'+
-      '<label>Phone<input name="phone" value="'+esc(i.phone||'')+'"></label>'+
       '<label>Topic<input name="topic" value="'+esc(i.topic||'')+'"></label>'+
       '<label class="wide">Message or request<textarea name="message" rows="4">'+esc(i.message||'')+'</textarea></label>'+
       '<label class="wide">Private note for the team<textarea name="admin_note" rows="2">'+esc(i.admin_note||'')+'</textarea></label>'+
