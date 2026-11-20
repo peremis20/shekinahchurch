@@ -594,7 +594,16 @@ async function submit(req) {
     await mail({ to: STAFF_INBOX, subject: 'New ' + what + ' on the website', tag: 'staff-alert',
       text: 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\nSign in to read it and follow up:\n' + SITE + '/admin/' });
   }
+  await sendThanksNow();
   return { ok: true };
+}
+// Ask the welcome function to send the thank you or welcome email right away (it skips anything already sent).
+async function sendThanksNow() {
+  try {
+    if (!mailKey) { const r = await q("SELECT value FROM automation_status WHERE key = 'mail_relay_key'"); mailKey = r[0] ? r[0].value : ''; }
+    if (!mailKey) return;
+    await fetch(MAIL_URL + '/run', { method: 'POST', headers: { 'x-mail-key': mailKey }, signal: AbortSignal.timeout(25000) });
+  } catch (e) { console.log('thanks now failed', String(e.message || e).slice(0, 200)); }
 }
 
 // ---------- daily reports (Google Analytics + Search Console) ----------

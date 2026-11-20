@@ -27,7 +27,7 @@ try { await db.query('SELECT gen_random_bytes(4)'); } catch { mig = mig.replace(
 await db.exec(mig); await db.exec(mig); // twice: must be safe to run again
 await db.exec(`INSERT INTO admins (email, added_by, role, can_see_private) VALUES ('owner@x.org','seed','admin',true), ('old-staff@x.org','seed','staff',false), ('bot@x.org','automation','staff',false);`);
 
-const mails = []; let mailOk = true;
+const mails = []; let mailOk = true; const runs = [];
 const realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt = {}) => {
   url = String(url);
@@ -40,6 +40,7 @@ globalThis.fetch = async (url, opt = {}) => {
     } catch (e) { return new Response(JSON.stringify({ message: String(e.message) }), { status: 400 }); }
   }
   if (url === 'http://mail.local/send') { const m = JSON.parse(opt.body); m._key = opt.headers['x-mail-key']; mails.push(m); return new Response(JSON.stringify({ ok: mailOk }), { status: mailOk ? 200 : 502 }); }
+  if (url === 'http://mail.local/run') { runs.push(opt.headers['x-mail-key']); return new Response(JSON.stringify({ sent: 0 }), { status: 200 }); }
   if (url.endsWith('/content-defaults.json')) return new Response(JSON.stringify({ posts: [{ id: 'p1', title: 'Old', slug: 'old-slug', seoTitle: 'SEO Old', metaDesc: 'md', keywords: ['k'], lang: 'ht' }] }), { status: 200 });
   throw new Error('unexpected fetch ' + url);
 };
@@ -245,6 +246,9 @@ r = await call('POST', '/projects/budget', { token: T.leader, body: { budget: 5 
 r = await call('POST', '/projects/budget', { token: O, body: { budget: '20,000' } }); ok(r.status === 200 && r.j.budget === 20000, 'set budget', r.j);
 r = await call('GET', '/projects', { token: T.leader }); ok(r.j.budget === 20000 && r.j.statuses.length === 4, 'budget shows for everyone', r.j.budget);
 r = await call('POST', '/projects/delete', { token: T.leader, body: { id: PJ.id } }); ok(r.status === 200, 'delete own project');
+
+// ---- thank you emails go out right after a form ----
+{ const n = runs.length; r = await call('POST', '/submit', { body: { kind: 'newsletter', email: 'runnow@x.org' }, ip: '7.7.7.7' }); ok(r.status === 200 && runs.length === n + 1 && runs[n], 'form asks welcome to send now', runs); }
 
 // ---- likes ----
 r = await call('GET', '/likes?p=/kreyol/batem-kijan-pou-m-batize/'); ok(r.status === 200 && r.j.n === 0 && r.headers.get('access-control-allow-origin') === '*', 'likes start at 0', r.j);

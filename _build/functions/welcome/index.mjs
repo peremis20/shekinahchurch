@@ -331,6 +331,15 @@ export default {
     if (req.method === 'POST' && url.pathname.replace(/\/$/, '') === '/send') {
       try { return await relay(req); } catch (e) { console.error(e); return Response.json({ ok: false, error: 'failed' }, { status: 500 }); }
     }
+    // The api calls this right after a form is saved, so thank you emails go out at once
+    // instead of waiting for the daily trigger (keeps the database asleep; Jimmy, Nov 19, 2026).
+    if (req.method === 'POST' && url.pathname.replace(/\/$/, '') === '/run') {
+      if (!relayKey) { const r = await sql`SELECT value FROM automation_status WHERE key = 'mail_relay_key'`; relayKey = r.length ? r[0].value : ''; }
+      const got = req.headers.get('x-mail-key') || '';
+      if (!relayKey || got.length !== relayKey.length || !timingSafeEqual(Buffer.from(got), Buffer.from(relayKey))) return Response.json({ ok: false, error: 'not allowed' }, { status: 403 });
+      try { return Response.json(await run()); }
+      catch (e) { console.error(e); try { await status('error ' + String(e.message || e).slice(0, 200)); } catch {} return Response.json({ error: 'failed' }, { status: 500 }); }
+    }
     if (req.method === 'POST' && url.pathname === '/') {
       if (!req.headers.get('x-neon-trigger-invocation-id')) return Response.json({ error: 'not a trigger call' }, { status: 403 });
       try { return Response.json(await run()); }
