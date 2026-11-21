@@ -32,98 +32,14 @@
   "eight laws of health": "eight-laws-of-health",
   "haitian epis recipe": "haitian-epis-recipe",
   "kisa bib la di sou batèm": "kisa-bib-la-di-sou-batem",
-  "what do seventh day adventists eat": "what-do-seventh-day-adventists-eat"
+  "what do seventh day adventists eat": "what-do-seventh-day-adventists-eat",
+  "clean and unclean foods in the bible": "clean-and-unclean-foods-in-the-bible",
+  "daniel 7 explained": "daniel-7-explained",
+  "is the bible accurate today": "is-the-bible-accurate-today",
+  "kisa bib la di sou maryaj": "kisa-bib-la-di-sou-maryaj",
+  "who decided which books are in the bible": "who-decided-which-books-are-in-the-bible"
  },
  "planned": [
-  {
-   "keyword": "who decided which books are in the bible",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "How the Old and New Testament books were recognized over time, the early lists and councils, and why the 66 books are trusted. Link to Constantine and Enoch articles.",
-   "secondary": [
-    "how was the bible canon formed",
-    "who chose the books of the bible",
-    "biblical canon",
-    "when was the bible put together",
-    "did constantine write the bible"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: queries 'did constantine write the bible' and 'constantine wrote the bible' at position 11; same readers as the Constantine article",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "daniel 7 explained",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "Daniel 7 verse by verse in the historicist reading, building on Daniel 2: the four beasts, the ten horns, the little horn, the judgment scene and the Son of man. Calm, not sensational. Link to Daniel 2 article.",
-   "secondary": [
-    "daniel 7 four beasts",
-    "daniel 7 meaning",
-    "little horn daniel 7",
-    "daniel 2 and daniel 7",
-    "ten horns daniel 7"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: Daniel 2 article 215 impressions at position 6, queries '10 divided kingdoms in daniel 2' and 'daniel 2 kingdoms'",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "clean and unclean foods in the bible",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "Leviticus 11 and Deuteronomy 14 explained, the clean and unclean distinction before Moses (Genesis 7:2), common questions about Acts 10 and Mark 7, and health as stewardship. Link to what do adventists eat and eight laws of health.",
-   "secondary": [
-    "is it a sin to eat pork",
-    "leviticus 11 explained",
-    "what does the bible say about eating pork",
-    "can christians eat pork",
-    "acts 10 vision meaning"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: queries 'can seventh day adventists eat meat', 'can adventist eat beef', 'can 7 day adventist eat meat' at positions 8 to 10",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "kisa bib la di sou maryaj",
-   "cat": "Bible Answers",
-   "lang": "ht",
-   "intent": "informational",
-   "angle": "Kreyòl: plan Bondye pou maryaj (Jenèz 2, Efezyen 5), lanmou, respè, priyè ansanm, kijan pou ranfòse yon maryaj. Link to /kreyol/kisa-bib-la-di-sou-divos-ak-remaryaj/.",
-   "secondary": [
-    "maryaj kretyen",
-    "plan Bondye pou maryaj",
-    "vèsè biblik sou maryaj",
-    "kijan pou ranfòse maryaj",
-    "lanmou nan maryaj"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl divorce page ranks at position 4 with 23 impressions; Kreyòl Bible pages rank 4 to 7 with little competition",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "is the bible accurate today",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "How we know the Bible we read today matches what was written: manuscripts, the Dead Sea Scrolls and the Isaiah scroll, careful copying. Sourced, honest about variants. Link to Constantine and canon articles.",
-   "secondary": [
-    "dead sea scrolls bible",
-    "has the bible been changed",
-    "bible manuscripts evidence",
-    "isaiah scroll dead sea",
-    "is the bible reliable"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: Constantine cluster: 342 impressions, readers asking whether the Bible was changed",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
   {
    "keyword": "70 weeks of daniel 9",
    "cat": "Bible Answers",
