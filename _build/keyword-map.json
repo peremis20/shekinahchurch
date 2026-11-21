@@ -36,6 +36,165 @@
  },
  "planned": [
   {
+   "keyword": "what happened at the council of nicaea",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "Plain history of the council of Nicaea in 325: what it decided, what it did not decide (it did not choose the books of the Bible), with primary sources. Link to the Constantine article.",
+   "secondary": [
+    "council of nicaea",
+    "did the council of nicaea edit the bible",
+    "council of nicaea 325",
+    "nicene creed meaning",
+    "constantine council of nicea"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: site already at position 4 for 'council of nicaea' and 6 for 'did the council of nicaea edit the bible'; the Constantine article (342 impressions) is the top page",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "who decided which books are in the bible",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "How the Old and New Testament books were recognized over time, the early lists and councils, and why the 66 books are trusted. Link to Constantine and Enoch articles.",
+   "secondary": [
+    "how was the bible canon formed",
+    "who chose the books of the bible",
+    "biblical canon",
+    "when was the bible put together",
+    "did constantine write the bible"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: queries 'did constantine write the bible' and 'constantine wrote the bible' at position 11; same readers as the Constantine article",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "daniel 7 explained",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "Daniel 7 verse by verse in the historicist reading, building on Daniel 2: the four beasts, the ten horns, the little horn, the judgment scene and the Son of man. Calm, not sensational. Link to Daniel 2 article.",
+   "secondary": [
+    "daniel 7 four beasts",
+    "daniel 7 meaning",
+    "little horn daniel 7",
+    "daniel 2 and daniel 7",
+    "ten horns daniel 7"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: Daniel 2 article 215 impressions at position 6, queries '10 divided kingdoms in daniel 2' and 'daniel 2 kingdoms'",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "clean and unclean foods in the bible",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "Leviticus 11 and Deuteronomy 14 explained, the clean and unclean distinction before Moses (Genesis 7:2), common questions about Acts 10 and Mark 7, and health as stewardship. Link to what do adventists eat and eight laws of health.",
+   "secondary": [
+    "is it a sin to eat pork",
+    "leviticus 11 explained",
+    "what does the bible say about eating pork",
+    "can christians eat pork",
+    "acts 10 vision meaning"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: queries 'can seventh day adventists eat meat', 'can adventist eat beef', 'can 7 day adventist eat meat' at positions 8 to 10",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "kisa bib la di sou maryaj",
+   "cat": "Bible Answers",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Kreyòl: plan Bondye pou maryaj (Jenèz 2, Efezyen 5), lanmou, respè, priyè ansanm, kijan pou ranfòse yon maryaj. Link to /kreyol/kisa-bib-la-di-sou-divos-ak-remaryaj/.",
+   "secondary": [
+    "maryaj kretyen",
+    "plan Bondye pou maryaj",
+    "vèsè biblik sou maryaj",
+    "kijan pou ranfòse maryaj",
+    "lanmou nan maryaj"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl divorce page ranks at position 4 with 23 impressions; Kreyòl Bible pages rank 4 to 7 with little competition",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "is the bible accurate today",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "How we know the Bible we read today matches what was written: manuscripts, the Dead Sea Scrolls and the Isaiah scroll, careful copying. Sourced, honest about variants. Link to Constantine and canon articles.",
+   "secondary": [
+    "dead sea scrolls bible",
+    "has the bible been changed",
+    "bible manuscripts evidence",
+    "isaiah scroll dead sea",
+    "is the bible reliable"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: Constantine cluster: 342 impressions, readers asking whether the Bible was changed",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "70 weeks of daniel 9",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "Daniel 9:24 to 27 explained: the decree of Artaxerxes in 457 BC, the Messiah, the cross, and how it ties to Daniel 8. Historicist reading, careful with dates. Link to Daniel 2 and Daniel 7.",
+   "secondary": [
+    "daniel 9 prophecy",
+    "seventy weeks prophecy",
+    "daniel 9 24 27 meaning",
+    "457 bc decree",
+    "messiah prophecy daniel"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: prophecy cluster: Daniel 2 article is the second strongest page",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "kisa bib la di sou dim",
+   "cat": "Bible Answers",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Kreyòl: dim ak ofrann nan Bib la (Malachi 3, Lik 11:42, 2 Korentyen 9:7), jesyon kòm adorasyon, san presyon. Warm and practical.",
+   "secondary": [
+    "dim ak ofrann",
+    "eske kretyen dwe bay dim",
+    "Malachi 3 dim",
+    "jesyon kretyen",
+    "ofrann nan legliz"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl Bible pages rank 4 to 7; little Adventist Kreyòl content on giving",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
+   "keyword": "kisa bib la di sou fen dimonn",
+   "cat": "Bible Answers",
+   "lang": "ht",
+   "intent": "informational",
+   "angle": "Kreyòl: siy fen dimonn yo (Matye 24), espwa pou kretyen, kijan pou nou pare san laperèz. Different angle from the Dezyèm vini Jezi study; link to /kreyol/dezyem-vini-jezi/.",
+   "secondary": [
+    "siy fen dimonn",
+    "Matye 24 eksplike",
+    "fen dimonn nan Bib la",
+    "kijan pou m pare",
+    "dezyèm vini Jezi"
+   ],
+   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl Bible pages rank 4 to 7; most played Kreyòl audios are core belief topics",
+   "priority": "top",
+   "added": "2026-11-20"
+  },
+  {
    "keyword": "who are seventh day adventists",
    "cat": "Bible Answers",
    "lang": "en",
@@ -241,19 +400,6 @@
     "is tithing biblical",
     "tithe meaning",
     "how much is a tithe"
-   ]
-  },
-  {
-   "keyword": "is it a sin to eat pork",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "angle": "Leviticus 11, Acts 10 in context, health and faithfulness",
-   "priority": "medium",
-   "secondary": [
-    "clean and unclean foods",
-    "why adventists dont eat pork",
-    "bible food laws"
    ]
   },
   {
