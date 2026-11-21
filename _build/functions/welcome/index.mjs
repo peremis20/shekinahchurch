@@ -85,7 +85,7 @@ export function welcomeEmail(name, email) {
     subject: 'Welcome to the Shekinah family', preheader: 'Thank you for joining us. We are so glad you are here.',
     kicker: 'BYENVENI · WELCOME', title: 'Welcome to the Shekinah family', name,
     paras: ['Thank you for joining our newsletter. You matter to us, and we are so glad you are here.',
-      'Twice a month we will share Bible answers, words of encouragement, healthy recipes, and news from our church family. We would love to worship with you soon.'],
+      'Twice a month we will send you hope for hard days, Bible answers, help for your family, and news from our church family. We would love to worship with you soon.'],
     boxLabel: 'JOIN US THIS SATURDAY', boxLines: [VISIT_TIMES, ADDRESS],
     verse: '"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV',
     sign: 'With joy and love,', reason: 'subscribed to our newsletter', unsub: unsubUrl(email),
