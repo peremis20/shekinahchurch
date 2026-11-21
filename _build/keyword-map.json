@@ -36,24 +36,6 @@
  },
  "planned": [
   {
-   "keyword": "what happened at the council of nicaea",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "Plain history of the council of Nicaea in 325: what it decided, what it did not decide (it did not choose the books of the Bible), with primary sources. Link to the Constantine article.",
-   "secondary": [
-    "council of nicaea",
-    "did the council of nicaea edit the bible",
-    "council of nicaea 325",
-    "nicene creed meaning",
-    "constantine council of nicea"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: site already at position 4 for 'council of nicaea' and 6 for 'did the council of nicaea edit the bible'; the Constantine article (342 impressions) is the top page",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
    "keyword": "who decided which books are in the bible",
    "cat": "Bible Answers",
    "lang": "en",
