@@ -750,7 +750,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   var NAVG={com:'Communications',ppl:'People',mng:'Manage'}, navShut={};
   try{navShut=JSON.parse(localStorage.getItem('shk_navgrp')||'{}')||{};}catch(x){}
   function navCount(n){var nw=items.filter(function(i){return i.status==='new';});
-    if(n.k==='messages')return nw.length;var kd=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[n.k];
+    if(n.k==='messages')return nw.filter(function(i){return i.kind!=='newsletter';}).length;var kd=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[n.k];
     return kd?nw.filter(function(i){return i.kind===kd;}).length:0;}
   function renderNav(){
     var list=NAV.filter(function(n){if(n.area&&!n.area.some(sees)&&!(n.orPerm&&can(n.orPerm)))return false;return !n.need||can(n.need);});
