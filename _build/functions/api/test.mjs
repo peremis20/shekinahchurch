@@ -215,6 +215,15 @@ r = await call('POST', '/admin/admins/update', { token: O, body: { email: 'leade
 L = r.j.admins.find((a) => a.email === 'leader@x.org'); ok(L.custom === false && L.perms.site_edit === false, 'back to the preset', L);
 r = await call('POST', '/admin/admins/update', { token: O, body: { email: 'vol@x.org', title: 'admin', can_see_private: true, perms: { team_manage: false } } }); ok(r.j.admins.find((a) => a.email === 'vol@x.org').perms.team_manage === true, 'an admin cannot be cut down by overrides');
 r = await call('POST', '/admin/admins/update', { token: O, body: { email: 'vol@x.org', role: 'volunteer', can_see_private: false } }); ok(r.status === 200, 'demote second admin');
+// ---- suspend ----
+r = await call('POST', '/admin/admins/suspend', { token: O, body: { email: 'leader@x.org', suspended: true } }); ok(r.status === 200 && r.j.admins.find((a) => a.email === 'leader@x.org').suspended === true, 'suspend a person', r.j);
+r = await call('GET', '/admin/check', { token: T.leader }); ok(r.status === 401, 'suspended person is signed out at once');
+await db.query('DELETE FROM rate_events'); mails.length = 0; r = await call('POST', '/admin/login/start', { body: { email: 'leader@x.org' } }); ok(r.status === 200 && mails.length === 0, 'suspended person gets no sign in code');
+r = await call('GET', '/admin/admins', { token: T.elder }); ok(r.status === 200 && !(r.j.admins || []).some((a) => a.email === 'leader@x.org'), 'suspended person is left out of the assign menu', r.j);
+r = await call('POST', '/admin/admins/suspend', { token: O, body: { email: 'owner@x.org', suspended: true } }); ok(r.status === 400, 'cannot suspend yourself');
+r = await call('POST', '/admin/admins/suspend', { token: T.elder, body: { email: 'leader@x.org', suspended: false } }); ok(r.status === 403, 'only team managers can suspend');
+r = await call('POST', '/admin/admins/suspend', { token: O, body: { email: 'leader@x.org', suspended: false } }); ok(r.status === 200 && r.j.admins.find((a) => a.email === 'leader@x.org').suspended === false, 'reactivate a person');
+await db.query('DELETE FROM admin_codes'); await db.query('DELETE FROM rate_events'); { const s = await signIn('leader@x.org'); T.leader = s.token; ok(!!s.token, 'reactivated person can sign in again', s.v || s); }
 r = await call('POST', '/admin/admins/remove', { token: O, body: { email: 'pastor@x.org' } }); ok(r.status === 200 && !r.j.admins.some((a) => a.email === 'pastor@x.org'), 'remove a person');
 r = await call('GET', '/admin/check', { token: T.pastor }); ok(r.status === 401, 'removed person is signed out at once', r);
 r = await call('POST', '/admin/logout', { token: T.elder }); r = await call('GET', '/admin/check', { token: T.elder }); ok(r.status === 401, 'logout ends the session');

@@ -21,3 +21,4 @@ CREATE TABLE IF NOT EXISTS page_likes (page text PRIMARY KEY, n integer NOT NULL
 
 -- full name shown on the Team page and used in the invite (Nov 19, 2026)
 ALTER TABLE admins ADD COLUMN IF NOT EXISTS full_name text;
+ALTER TABLE admins ADD COLUMN IF NOT EXISTS suspended_at timestamptz; -- set while someone is suspended: no sign in, no sessions

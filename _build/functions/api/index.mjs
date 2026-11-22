@@ -188,7 +188,7 @@ async function who(req) {
   const m = /^Bearer\s+(\S+)$/.exec(req.headers.get('authorization') || '');
   need(m, 401, 'Please sign in again.');
   const a = await one(`SELECT a.email, a.role, a.title, a.perms, a.can_see_private FROM admin_sessions s JOIN admins a ON a.email = s.email
-                       WHERE s.token_hash = $1 AND s.expires_at > now()`, [sha(m[1])]);
+                       WHERE s.token_hash = $1 AND s.expires_at > now() AND a.suspended_at IS NULL`, [sha(m[1])]);
   need(a, 401, 'Please sign in again.');
   return { email: a.email, token: m[1], ...access(a) };
 }
@@ -198,7 +198,7 @@ async function loginStart(req) {
   const b = await body(req), email = lower(b.email);
   need(EMAIL_RE.test(email), 400, 'Please enter your email address.');
   if (!(await limit('login-ip:' + ip(req), 20, 15)) || !(await limit('login:' + email, 5, 15))) throw new Fail(429, 'Too many tries. Please wait 15 minutes and try again.');
-  const a = await one('SELECT email FROM admins WHERE lower(email) = $1', [email]);
+  const a = await one('SELECT email FROM admins WHERE lower(email) = $1 AND suspended_at IS NULL', [email]);
   if (a) {
     const code = String(randomInt(1000000)).padStart(6, '0');
     await q(`INSERT INTO admin_codes (email, code_hash, expires_at, attempts) VALUES ($1, $2, now() + interval '10 minutes', 0)
@@ -213,7 +213,7 @@ async function loginVerify(req) {
   const b = await body(req), email = lower(b.email), code = str(b.code, 12).replace(/\D/g, '');
   const bad = new Fail(401, 'That code is not right or has expired. Ask for a new one.');
   if (!(await limit('verify-ip:' + ip(req), 30, 15))) throw new Fail(429, 'Too many tries. Please wait 15 minutes and try again.');
-  const c = await one('SELECT c.email, c.code_hash, c.attempts, (c.expires_at > now()) AS live FROM admin_codes c WHERE lower(c.email) = $1', [email]);
+  const c = await one('SELECT c.email, c.code_hash, c.attempts, (c.expires_at > now()) AS live FROM admin_codes c JOIN admins a ON a.email = c.email WHERE lower(c.email) = $1 AND a.suspended_at IS NULL', [email]);
   if (!c || !c.live || c.attempts >= 5 || code.length !== 6) throw bad;
   if (c.code_hash !== sha(c.email.toLowerCase() + ':' + code)) { await q('UPDATE admin_codes SET attempts = attempts + 1 WHERE email = $1', [c.email]); throw bad; }
   await q('DELETE FROM admin_codes WHERE email = $1', [c.email]);
@@ -388,14 +388,14 @@ async function publicContent() {
 
 // ---------- team ----------
 async function team(me) {
-  const all = await rows('SELECT email, full_name, role, title, perms, can_see_private, last_login, added_by FROM admins ORDER BY created_at, email');
+  const all = await rows('SELECT email, full_name, role, title, perms, can_see_private, last_login, added_by, suspended_at FROM admins ORDER BY created_at, email');
   const people = all.filter((a) => a.added_by !== 'automation');
-  if (!me.perms.team_manage) return { me: me.email, admins: people.map((a) => ({ email: a.email, full_name: a.full_name || '', role: access(a).role })) }; // just enough for the assign menu
+  if (!me.perms.team_manage) return { me: me.email, admins: people.filter((a) => !a.suspended_at).map((a) => ({ email: a.email, full_name: a.full_name || '', role: access(a).role })) }; // just enough for the assign menu
   return {
     me: me.email,
     titles: Object.entries(TITLES).map(([id, t]) => ({ id, label: t.label, perms: t.perms, areas: t.areas })),
     perm_list: PERMS, area_list: AREAS,
-    admins: people.map((a) => { const x = access(a); return { email: a.email, full_name: a.full_name || '', role: x.role, title: x.title, perms: x.perms, areas: x.areas, can_see_private: x.can_see_private, last_login: a.last_login, custom: !!a.perms }; }),
+    admins: people.map((a) => { const x = access(a); return { email: a.email, full_name: a.full_name || '', role: x.role, title: x.title, perms: x.perms, areas: x.areas, can_see_private: x.can_see_private, last_login: a.last_login, custom: !!a.perms, suspended: !!a.suspended_at, suspended_at: a.suspended_at }; }),
   };
 }
 // Accepts the old shape {email, role, can_see_private} and the new one {email, title, can_see_private, perms, areas}.
@@ -411,7 +411,7 @@ function teamInput(b) {
   }
   return { title, role: TITLES[title].role, perms, priv: b.can_see_private === true };
 }
-const adminCount = async (except) => Number((await q("SELECT count(*) AS n FROM admins WHERE coalesce(title, role) = 'admin' AND email <> $1", [except]))[0].n);
+const adminCount = async (except) => Number((await q("SELECT count(*) AS n FROM admins WHERE coalesce(title, role) = 'admin' AND suspended_at IS NULL AND email <> $1", [except]))[0].n);
 async function teamAdd(me, b) {
   allow(me, 'team_manage');
   const email = lower(b.email), t = teamInput(b), name = str(b.full_name, 80);
@@ -440,6 +440,19 @@ async function teamName(me, b) {
   const a = await one('SELECT email FROM admins WHERE lower(email) = $1', [email]);
   need(a, 404, 'That person is not on the team.');
   await q('UPDATE admins SET full_name = $1 WHERE email = $2', [name, a.email]);
+  return team(me);
+}
+async function teamSuspend(me, b) {
+  allow(me, 'team_manage');
+  const a = await one('SELECT email FROM admins WHERE lower(email) = $1', [lower(b.email)]);
+  need(a, 404, 'That person is not on the team.');
+  need(a.email !== me.email, 400, 'You cannot suspend yourself.');
+  if (b.suspended === true) {
+    need((await adminCount(a.email)) > 0, 400, 'There must be at least one admin.');
+    await q('UPDATE admins SET suspended_at = coalesce(suspended_at, now()) WHERE email = $1', [a.email]);
+    await q('DELETE FROM admin_sessions WHERE email = $1', [a.email]); // signed out right away
+    await q('DELETE FROM admin_codes WHERE email = $1', [a.email]);
+  } else await q('UPDATE admins SET suspended_at = NULL WHERE email = $1', [a.email]);
   return team(me);
 }
 async function teamRemove(me, b) {
@@ -746,7 +759,7 @@ async function projectBudget(me, b) {
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/subscribers/edit': subEdit, 'POST /admin/content/save': contentSave,
-  'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName,
+  'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
