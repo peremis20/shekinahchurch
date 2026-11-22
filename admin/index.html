@@ -498,6 +498,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .sb-none{color:var(--muted,#9ca3af);font-style:italic}.sb-when{color:var(--muted,#6b7280);font-size:13px}.sb-act{text-align:right;justify-self:end}.tag.sb-on{background:#e7f6ec;color:#166534}
 .sb-in{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;font:inherit;box-sizing:border-box}.sb-edit .sb-act2{grid-column:span 3;white-space:nowrap}
 @media(max-width:720px){.sb-head{display:none}.sb-row{grid-template-columns:1fr auto;gap:2px 10px}.sb-name{grid-column:1}.sb-act{grid-column:2;grid-row:1}.sb-mail,.sb-ph{grid-column:1/-1}.sb-st,.sb-when{grid-column:auto;display:inline-block}.sb-edit .sb-c{grid-column:1/-1}.sb-edit .sb-act2{grid-column:1/-1}}
+.sb-top{display:flex;gap:12px;align-items:center;margin-bottom:6px}.sb-search{max-width:340px}
 </style>
 </head>
 <body>
@@ -1038,7 +1039,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   }
 
   // ---------- message list ----------
-  function inKind(i){return kind==='all'||i.kind===kind;}
+  function inKind(i){return kind==='all'?i.kind!=='newsletter':i.kind===kind;}
   function tabMatch(i,t){
     if(t==='all')return i.status!=='archived';
     if(t==='new')return i.status==='new';
@@ -1459,10 +1460,22 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       '<div class="sb-c sb-when">'+esc(sbDate(s.created_at))+'</div>'+
       '<div class="sb-c sb-act"><button type="button" class="tm-nm" data-sbe="'+i+'" aria-label="Edit name and phone" title="Edit name and phone">'+(s.name?'&#9998;':'+ Add name')+'</button></div></div>';
   }
+  var subQ='', subShow=25;
   function renderSubs(){
-    $('nlist').innerHTML=subs.length?'<div class="sb-row sb-head"><div>Name</div><div>Email</div><div>Phone</div><div>Status</div><div>Joined</div><div></div></div>'+subs.map(subRow).join(''):'<div class="meta">Nobody has signed up yet.</div>';
+    if(!subs.length){$('nlist').innerHTML='<div class="meta">Nobody has signed up yet.</div>';return;}
+    var q=subQ.trim().toLowerCase(), list=[];
+    subs.forEach(function(s,i){if(!q||((s.name||'')+' '+(s.email||'')+' '+(s.phone||'')).toLowerCase().indexOf(q)>-1)list.push(i);});
+    var shown=list.slice(0,subShow);
+    var top='<div class="sb-top"><input id="sbq" class="sb-in sb-search" type="search" placeholder="Search name, email or phone" value="'+esc(subQ)+'"><span class="meta">'+(q?list.length+' found':subs.length+' people')+'</span></div>';
+    var rows=shown.length?'<div class="sb-row sb-head"><div>Name</div><div>Email</div><div>Phone</div><div>Status</div><div>Joined</div><div></div></div>'+shown.map(function(i){return subRow(subs[i],i);}).join(''):'<div class="meta" style="padding:12px 0">No one matches that search.</div>';
+    var more=list.length>shown.length?'<div style="text-align:center;padding-top:12px"><button type="button" class="lbtn" data-sbmore="1">Show more ('+(list.length-shown.length)+' left)</button></div>':'';
+    var box=$('nlist'), hadFocus=document.activeElement&&document.activeElement.id==='sbq', pos=hadFocus?document.activeElement.selectionStart:0;
+    box.innerHTML=top+'<div id="sbrows">'+rows+more+'</div>';
+    if(hadFocus){var f=$('sbq');f.focus();try{f.setSelectionRange(pos,pos);}catch(x){}}
   }
+  $('nlist').addEventListener('input',function(e){if(e.target.id==='sbq'){subQ=e.target.value;subShow=25;renderSubs();}});
   $('nlist').addEventListener('click',function(e){
+    if(e.target.closest('[data-sbmore]')){subShow+=50;renderSubs();return;}
     var b=e.target.closest('[data-sbe]');
     if(b){var i=+b.getAttribute('data-sbe'),s=subs[i],row=b.closest('.sb-row');
       row.outerHTML='<div class="sb-row sb-edit" data-i="'+i+'"><div class="sb-c"><input class="sb-in" id="sbn" placeholder="Full name" maxlength="120" value="'+esc(s.name||'')+'"></div><div class="sb-c sb-mail">'+esc(s.email)+'</div><div class="sb-c"><input class="sb-in" id="sbp" type="tel" placeholder="Phone" maxlength="40" value="'+esc(s.phone||'')+'"></div><div class="sb-c sb-act2"><button type="button" class="pbtn" data-sbs="'+i+'">Save</button> <button type="button" class="lbtn" data-sbc="1">Cancel</button></div></div>';
