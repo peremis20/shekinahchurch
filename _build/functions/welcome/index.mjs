@@ -83,7 +83,7 @@ Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}${unsub ? `<br><a hre
 export function welcomeEmail(name, email) {
   return shortEmail({
     subject: 'Welcome to the Shekinah family', preheader: 'Thank you for joining us. We are so glad you are here.',
-    kicker: 'BYENVENI · WELCOME', title: 'Welcome to the Shekinah family', name,
+    kicker: 'WELCOME', title: 'Welcome to the Shekinah family', name,
     paras: ['Thank you for joining our newsletter. You matter to us, and we are so glad you are here.',
       'Twice a month we will send you hope for hard days, Bible answers, help for your family, and news from our church family. We would love to worship with you soon.'],
     boxLabel: 'JOIN US THIS SATURDAY', boxLines: [VISIT_TIMES, ADDRESS],
@@ -134,7 +134,7 @@ export function membershipEmail(name, transfer, church, location) {
   });
   return shortEmail({ ...box,
     subject: 'Welcome to the Shekinah family!', preheader: 'We received your transfer request, and we cannot wait to see you.',
-    kicker: 'BYENVENI · WELCOME', title: 'Welcome to the Shekinah family',
+    kicker: 'WELCOME', title: 'Welcome to the Shekinah family',
     paras: ['We received your membership transfer request, and we are so glad to have you as a new member of our church family. You are important to us, and you belong here.',
       "Someone from our church will reach out soon to help complete your transfer. We can't wait to see you this Sabbath!"],
     verse: '"Behold, how good and how pleasant it is for brethren to dwell together in unity!" Psalm 133:1, KJV',
@@ -166,7 +166,7 @@ export function visitEmail(name, date, guests) {
   const g = /^(\d|6\+)$/.test(String(guests || '')) ? (guests === '1' ? '1 guest' : guests + ' guests') : '';
   return shortEmail({
     subject: "We can't wait to meet you", preheader: 'Thank you for planning a visit to Shekinah. Here are your Sabbath details.',
-    kicker: 'BYENVENI · WELCOME', title: "We can't wait to meet you", name,
+    kicker: 'WELCOME', title: "We can't wait to meet you", name,
     paras: ['Thank you for planning a visit to Shekinah. You are important to us, and we are so glad you are coming.',
       'Someone from our church family will reach out before your visit to answer any questions. Come as you are, and know that a warm seat is waiting for you.'],
     boxLabel: 'YOUR VISIT', boxLines: [[when, g].filter(Boolean).join(' · '), VISIT_TIMES, ADDRESS].filter(Boolean),
