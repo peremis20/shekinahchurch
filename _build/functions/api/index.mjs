@@ -603,11 +603,21 @@ async function submit(req) {
   if (e.kind !== 'newsletter') {
     // Tell the church office. No private details in the email: staff sign in to read them.
     const what = (row.is_private ? 'private ' : '') + areaLabel(row);
-    await mail({ to: STAFF_INBOX, subject: 'New ' + what + ' on the website', tag: 'staff-alert',
-      text: 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\nSign in to read it and follow up:\n' + SITE + '/admin/' });
+    const text = 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\nSign in to read it and follow up:\n' + SITE + '/admin/';
+    for (const to of await alertList()) await mail({ to, subject: 'New ' + what + ' on the website', tag: 'staff-alert', text });
   }
   await sendThanksNow();
   return { ok: true };
+}
+// Who gets the new message alert: automation_status key 'staff_alert_emails' (comma separated), plus the office inbox.
+async function alertList() {
+  let list = [STAFF_INBOX];
+  try {
+    const r = await q("SELECT value FROM automation_status WHERE key = 'staff_alert_emails'");
+    if (r[0] && r[0].value) list = list.concat(String(r[0].value).split(','));
+  } catch (e) {}
+  const seen = new Set();
+  return list.map(x => x.trim().toLowerCase()).filter(x => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x) && !seen.has(x) && seen.add(x)).slice(0, 10);
 }
 // Ask the welcome function to send the thank you or welcome email right away (it skips anything already sent).
 async function sendThanksNow() {
