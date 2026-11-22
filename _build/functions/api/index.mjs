@@ -600,8 +600,8 @@ async function submit(req) {
   const row = await wrote(`INSERT INTO submissions (kind, status, name, email, phone, topic, message, details, is_private, created_at, updated_at, unsubscribed)
     VALUES ($1, 'new', $2, $3, $4, $5, $6, $7::jsonb, $8, now(), now(), false) RETURNING id, kind, topic, is_private, name`,
     [e.kind, e.name, e.email, e.phone, e.topic || null, e.message, JSON.stringify(details), e.is_private]);
-  if (e.kind !== 'newsletter') {
-    // Tell the church office. No private details in the email: staff sign in to read them.
+  {
+    // Tell the team about every form, email sign ups included. No private details in the email: staff sign in to read them.
     const what = (row.is_private ? 'private ' : '') + areaLabel(row);
     const text = 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\nSign in to read it and follow up:\n' + SITE + '/admin/';
     for (const to of await alertList()) await mail({ to, subject: 'New ' + what + ' on the website', tag: 'staff-alert', text });
