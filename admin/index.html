@@ -623,6 +623,20 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .pj-dl+.pj-add{margin-left:0}.pj-tools .pj-search{flex:1 1 180px;min-width:0}@media (max-width:1400px){.pj-tools select{min-width:140px}}
 @media (max-width:1600px){.pj-main{grid-template-columns:minmax(0,1fr)}.pj-side{display:grid;grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.pj-side{grid-template-columns:1fr}.pj-dl{margin-left:0;flex:1;justify-content:center}}
+
+.pj-top{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.pj-top #pjkpis{flex:0 1 auto;grid-template-columns:repeat(4,minmax(180px,230px))!important}
+.pj-soonbar{flex:1 1 340px;min-width:0;padding:10px 16px!important;display:flex;align-items:center;gap:14px;border-radius:14px!important}
+.pj-soonbar h3{margin:0!important;font-size:15px!important;white-space:nowrap}
+.pj-soonbar #pjsoon{min-width:0;flex:1}
+.pj-soonbar .pj-soon{flex-direction:row;gap:6px;overflow-x:auto;scrollbar-width:thin}
+.pj-soonbar .pj-soon button{border-top:0;grid-template-columns:40px auto;column-gap:10px;padding:4px 10px 4px 4px;flex:none;max-width:260px}
+.pj-soonbar .pj-soon button+button{border-left:1px solid #EEF1F6;padding-left:10px;border-radius:0}
+.pj-soonbar .pj-soon .dt{height:40px}
+.pj-soonbar .pj-more{margin:0}
+@media (max-width:1600px){.pj-side{grid-template-columns:1fr!important}}
+@media (max-width:1100px){.pj-top #pjkpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;flex:1 1 100%}}
+@media (max-width:600px){.pj-soonbar{flex-direction:column;align-items:flex-start}}
 </style>
 </head>
 <body>
@@ -716,7 +730,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         </div></section>
 
         <section id="proj" class="hide"><div class="pj">
-          <div class="pj-kpis" id="pjkpis"></div>
+          <div class="pj-top"><div class="pj-kpis" id="pjkpis"></div><div class="pj-card pj-soonbar"><h3>Coming up</h3><div id="pjsoon"></div></div></div>
           <div class="pj-mid">
             <div class="pj-card"><h3>Project Status</h3><div id="pjstatus"></div></div>
             <div class="pj-card"><h3>Budget Overview</h3><div id="pjbudget"></div></div>
@@ -730,7 +744,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
             <button class="pj-add" id="pjnew"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Project</button>
           </div>
           <div class="pj-main"><div class="pj-table" id="pjlist"></div>
-            <aside class="pj-side"><div class="pj-card"><h3>Needs attention</h3><div id="pjneed"></div></div><div class="pj-card"><h3>Coming up</h3><div id="pjsoon"></div></div></aside></div>
+            <aside class="pj-side"><div class="pj-card"><h3>Needs attention</h3><div id="pjneed"></div></div></aside></div>
           <datalist id="pjdepts"></datalist>
           <div class="pj-modal hide" id="pjmodal"><div class="pj-dlg" role="dialog" aria-modal="true" aria-labelledby="pjmt">
             <h3 id="pjmt">Add Project</h3>
