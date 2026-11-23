@@ -1604,6 +1604,11 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   function placeChips(){var side=!window.matchMedia('(max-width:1000px)').matches,host=side?$('sideuser'):$('banner'),b=$('bell'),u=$('userchip');
     if(u.parentNode===host)return;if(side){host.appendChild(u);host.appendChild(b);}else{host.insertBefore(b,$('umenu'));host.insertBefore(u,$('umenu'));}}
   placeChips();window.addEventListener('resize',placeChips);
+  // End date pickers open on the start date's month: set min from the start date in the same form
+  function endMin(el){var box=el.closest('form,.pj-f,#calform,.pj-dlg,.evbox')||document,st=box.querySelector('[data-p="start_on"],[name="starts_on"]');if(!st||st===el)return;
+    var v=st.value;if(v){el.min=v;if(el.value&&el.value<v)el.value='';}else el.removeAttribute('min');}
+  document.addEventListener('focusin',function(e){var t=e.target;if(t.type==='date'&&t.matches('[data-p="end_on"],[name="ends_on"],[name="repeat_until"]'))endMin(t);});
+  document.addEventListener('change',function(e){var t=e.target;if(t.type==='date'&&t.matches('[data-p="start_on"],[name="starts_on"]')){var box=t.closest('form,.pj-f,#calform,.pj-dlg,.evbox')||document;box.querySelectorAll('[data-p="end_on"],[name="ends_on"],[name="repeat_until"]').forEach(endMin);}});
   $('userchip').onclick=function(e){e.stopPropagation();placeUmenu();$('umenu').classList.toggle('hide');};
   window.addEventListener('resize',function(){if(!$('umenu').classList.contains('hide'))placeUmenu();});
   window.addEventListener('scroll',function(){$('umenu').classList.add('hide');},true);
