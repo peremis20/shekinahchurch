@@ -4,7 +4,7 @@
   function pday(s){var a=String(s||'').split('-');return new Date(+a[0],+a[1]-1,+a[2]);}
   function nf(n){n=+n||0;return n>=10000?(n/1000).toFixed(1).replace('.0','')+'K':n.toLocaleString();}
   function chg(a,b){a=+a||0;b=+b||0;if(!b)return a?'<small class="up">New</small>':'<small class="flat">No change</small>';var p=Math.round((a-b)/b*100);
-    return '<small class="'+(p>0?'up':p<0?'down':'flat')+'">'+(p>0?'Up ':p<0?'Down ':'')+(p?Math.abs(p)+'%':'No change')+' vs previous 4 weeks</small>';}
+    return '<small class="'+(p>0?'up':p<0?'down':'flat')+'" title="Compared with the 4 weeks before">'+(p>0?'Up ':p<0?'Down ':'')+(p?Math.abs(p)+'%':'No change')+' vs last 4 wks</small>';}
   function gdate(s){s=String(s);return s.length===8?new Date(+s.slice(0,4),+s.slice(4,6)-1,+s.slice(6,8)):pday(s);}
   var CH=[];
   function drawOne(el){var c=CH[+el.getAttribute('data-ci')];if(!c)return;var W=Math.round(el.clientWidth);if(W<40||el._w===W)return;el._w=W;

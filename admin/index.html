@@ -228,7 +228,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .pj-btns{display:flex;align-items:center;gap:12px;margin-top:18px;justify-content:flex-end;flex-wrap:wrap}.pj-btns .pj-add{margin-left:0;height:46px}.pj-cancel{height:46px;padding:0 18px;border-radius:12px;border:1.5px solid #D3DBE8;background:#fff;font-weight:800;cursor:pointer}.pj-msg{margin-right:auto;color:#B42318;font-weight:700;font-size:14px}
 @media (max-width:1180px){.pj-kpis{grid-template-columns:1fr 1fr}.pj-mid{grid-template-columns:1fr}}
 .pj-chip{max-width:160px}
-@media (max-width:900px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
+@media (max-width:1180px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
 @media (max-width:560px){.pj-kpis{grid-template-columns:1fr 1fr;gap:10px}.pj-kpi.main{grid-column:1/-1}.pj-kpi{padding:14px;gap:10px;flex-direction:column;align-items:flex-start}.pj-kpi.main{flex-direction:row;align-items:center}.pj-kpi .ic{width:44px;height:44px}.pj-f{grid-template-columns:1fr 1fr}.pj-f label,.pj-f label.h{grid-column:span 1}.pj-f .w{grid-column:1/-1}.pj-tools select{flex:1 1 140px;min-width:0}.pj-add{margin-left:0;width:100%;justify-content:center}.pj-donut svg.d{width:120px;height:120px}.pj-dep .r b{min-width:84px}}
 .ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
@@ -649,7 +649,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 /* ===== One compact size for every control (Jimmy, Nov 23) ===== */
 #main .pbtn,#main .lbtn,#main .sbtn,#main .dbtn,#main .pj-add,#main .pj-dl,#main .pj-cancel,#main .tbtn,#main .tm-in button,#main .tm-cz,#main .pj-act .tm-cz{height:38px!important;min-height:38px;padding:0 14px!important;font-size:14px!important;border-radius:10px!important;display:inline-flex;align-items:center;justify-content:center;gap:7px;line-height:1;white-space:nowrap;width:auto}
 #main .pbtn svg,#main .lbtn svg,#main .sbtn svg,#main .pj-add svg,#main .pj-dl svg{width:16px!important;height:16px!important}
-#main .lbtn[data-csv],#main .tm-nm{height:auto!important;min-height:0}
+#main .tm-nm{height:auto!important;min-height:0}
 #main input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),#main select{height:38px!important;min-height:38px;font-size:14px!important;padding-top:0!important;padding-bottom:0!important;border-radius:10px!important}
 #main .pj-search{height:38px!important}#main .pj-search input{height:34px!important;border:0}#main .pj-search svg{width:18px;height:18px}
 #main textarea{font-size:14px!important;border-radius:10px!important}
@@ -702,6 +702,85 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
 #main .tabs button:not(:last-child):after{top:8px;bottom:8px}
 /* big side buttons like Add Entry, Add Prayer Request, Add Visit */
 #addentry,#main .rail>.pbtn,#main .rail>button.pbtn{height:40px!important;font-size:14.5px!important;border-radius:11px!important}
+
+/* ===== Expert review fixes (Nov 23) ===== */
+/* sidebar: menu scrolls on its own, profile block never covers it */
+@media (min-width:1001px){
+#side{overflow:hidden!important}
+#side>.nav{flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+#sidefoot{position:static!important;margin:0 -14px -24px!important;flex:none}
+body.navmini #sidefoot{margin:0 -10px -24px!important}
+#side .nav>button,#side .navg-b>button{padding:7px 14px!important;font-size:15px!important;min-height:36px}#side .navg-h{padding-top:8px!important;padding-bottom:4px!important}.brand{padding-bottom:12px!important}
+#side .nav button svg{width:20px;height:20px}
+}
+@media (min-width:1001px) and (max-height:820px){#side .nav>button,#side .navg-b>button{padding:6px 14px!important;min-height:34px}.brand{padding-bottom:10px!important}#sidefoot{gap:6px!important;padding-top:8px!important}}
+@media (max-width:1000px){#sidefoot{display:none!important}}
+body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:has(#calform:not(:empty)) #side,body:has(#tkform:not(:empty)) #side{z-index:0!important}
+#umenu button{min-height:38px;padding:0 12px!important;font-size:14px!important;display:flex;align-items:center}
+/* squashed buttons */
+#main .lbtn.tbtn{height:38px!important;width:100%}
+#main .wr-grid .lbtn[data-csv],#main .lbtn[data-csv]{height:28px!important;min-height:28px!important;padding:0 10px!important;font-size:12.5px!important;border-radius:8px!important}
+#main .lbtn.tbtn[data-csv]{height:38px!important;font-size:14px!important;padding:0 14px!important}
+/* summary cards: never leave one card alone, never cut a number */
+@media (min-width:701px){#stats:not(.hide),#tkpis:not(.hide),.pj-kpis:not(#pjkpis),.calkpis{display:flex!important;flex-wrap:wrap;gap:10px!important}
+#stats>.stat,#tkpis>.tk,.pj-kpis:not(#pjkpis)>.pj-kpi,.calkpis>*{flex:1 1 128px;max-width:205px;min-width:0}}
+@media (max-width:700px){#tkpis,#tkpis.many,body[data-t=mem] #tkpis,.pj-kpis,.calkpis,#stats{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+#main .tk>div,#main .pj-kpi>div,#main .stat>div{min-width:0;flex:1}
+#main .pj-kpi b,#main .tk b,#main .stat b{white-space:nowrap;overflow:visible!important;text-overflow:clip!important}
+#main .tk span,#main .pj-kpi span{white-space:normal!important;display:-webkit-box!important;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.15!important}
+#main .pj>.pj-kpis,#main .pj-top>.pj-kpis{margin-bottom:0!important}
+/* reports top cards match */
+#reports .wr-k{display:flex!important;flex-wrap:wrap;gap:10px!important}
+#reports .wr-k .kpi{flex:1 1 128px;max-width:205px;height:64px!important;padding:9px 14px!important;border-radius:14px!important;overflow:hidden;box-sizing:border-box}
+#reports .wr-k .kpi b{font-size:20px!important;line-height:1.1}
+#reports .wr-k .kpi span{display:block;font-size:12.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#reports .wr-k .kpi small{font-size:11px!important;margin-top:1px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wr-grid{align-items:start}.pj-top #pjkpis{flex:1 1 auto!important}body[data-t=mem] #tkpis>.tk{flex-basis:112px!important}#sbrows,#sbrows .sb-row{column-gap:18px!important}
+@media (max-width:1500px){.wr-p.c4{grid-column:span 6}}
+/* one height for tabs, arrows and pills */
+#main .tabs button,#main .tktabs button{height:36px!important;padding:0 14px!important;border-radius:10px!important;font-size:14px!important;display:inline-flex;align-items:center}
+#main .cnav,#main .arrow,#main .pg button{width:36px!important;height:36px!important;min-height:36px}
+#main .pj-ap,#main .pj-st{height:30px!important;min-height:30px;padding:0 12px!important;border-radius:999px!important;font-size:13px!important;display:inline-flex;align-items:center}
+#main .pj-st svg{width:15px;height:15px}
+#main label.search{height:38px!important;max-width:420px;border-radius:10px!important;min-width:200px}
+#main label.search input{height:34px!important;border:0}
+/* one heading size and one panel padding */
+#main .pj-card h3,#main .sec-h,#main .wr-p .sec-h,#main .rail h3,#main .pj-side h3,#main .pj-mid2 h3{font-size:17px!important;font-weight:800}
+#main .panel.page,#main .pj-card:not(.pj-tools):not(.pj-soonbar),#main .wr-p{padding:16px 18px!important}
+#calttl{font-size:22px!important}
+/* team page */
+@media (min-width:1301px){#team .pj-addp{grid-template-columns:minmax(150px,240px) minmax(180px,280px) 150px max-content max-content!important}}
+.tm-h,.tm-row{grid-template-columns:minmax(200px,300px) 130px 100px minmax(150px,175px) auto}
+@media (max-width:1300px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.pj-tm{width:auto!important}#team .pj-addp{grid-template-columns:1fr 1fr!important}#team .pj-addp label.chk,#team .pj-addp .pj-add{grid-column:1/-1}.pj-card:has(.pj-addp){width:auto!important}}
+#main input[type=checkbox]{width:18px;height:18px;flex:none}
+/* projects: three across only on very wide screens, actions always visible */
+@media (min-width:1601px) and (max-width:2099px){.pj-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}.pj-main>.pj-table{grid-column:1/-1;width:100%!important}.pj-main #pjlist{width:100%!important}}
+.pj-table th:last-child,.pj-table td.ac{position:sticky;right:0;z-index:1}
+.pj-table td.ac{background:#fff;box-shadow:-8px 0 8px -8px rgba(14,27,61,.2)}.pj-table th:last-child{background:#0B2152}
+.pj-bud .two{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:12px}.pj-bud .two>div>div{min-width:0}
+@media (min-width:1181px) and (max-width:1400px){.pj-mid{grid-template-columns:1fr 1fr!important}.pj-mid>:last-child{grid-column:1/-1}}
+#pjdsel{min-width:150px}
+#pjbedit{padding:6px 4px;min-height:32px}
+/* message rows adapt to the list width */
+#list{container-type:inline-size}
+@container (max-width:820px){.rhead{grid-template-columns:22px 12px 44px minmax(0,1fr) auto!important}.rsubj{grid-column:4/6}.rright{grid-row:1;grid-column:5}}
+.rname small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal!important}
+/* calendar: side panels under the month below 1600 so events stay readable */
+@media (max-width:1600px) and (min-width:1001px){.calgrid{grid-template-columns:minmax(0,1fr)!important}.calgrid>.wrap{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;align-items:start}}
+/* email sign ups */
+@media (max-width:1100px){#sbrows{display:block!important}#sbrows .sb-row{grid-template-columns:1fr auto!important;gap:2px 10px}#sbrows .sb-head{display:none}#sbrows .sb-c{max-width:none}#nlist,.panel.page:has(#nlist){width:auto!important;min-width:0!important}}
+#sbrows .tm-nm{min-width:34px;height:34px!important;display:inline-flex;align-items:center;justify-content:center;border-radius:8px}#sbrows .tm-nm:hover{background:#EEF3FD}
+.sb-new{background:#157A2F!important;font-size:11.5px!important}
+/* members birthdays, dashboard quick actions */
+#mbday{width:max-content;min-width:min(420px,100%);max-width:100%}
+.qa{grid-template-columns:repeat(auto-fit,minmax(min(96px,100%),1fr))!important}.qa button{min-width:0;font-size:13px}
+/* project form header like the event form */
+.pj-dlg #pjmt{margin:-24px -24px 16px!important;padding:16px 24px;background:#0B2152;color:#fff;border-radius:18px 18px 0 0;font-size:19px!important}
+/* focus rings */
+#main button:focus-visible,#main [tabindex]:focus-visible,#main select:focus-visible,#main input:focus-visible,#side button:focus-visible{outline:2px solid #1D5FE0;outline-offset:2px}
+.pj-search:focus-within,#main label.search:focus-within{border-color:#1D5FE0!important;box-shadow:0 0 0 3px rgba(29,95,224,.15)}
+#siteed input[type=checkbox]{width:18px!important;height:18px!important;margin:0 8px 0 0}
+#addentry,#main .rail>.pbtn{height:38px!important;font-size:14px!important}
 </style>
 </head>
 <body>
@@ -816,7 +895,7 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
             <h3 id="pjmt">Add Project</h3>
             <div class="pj-f" id="pjform">
               <label class="w">Project name<input data-p="name" type="text" maxlength="200" placeholder="Example: New carpet"></label>
-              <label>Department<select id="pjdsel"></select><input data-p="dept" id="pjdnew" class="hide" type="text" maxlength="100" placeholder="Type your own category"></label>
+              <label>Department<select id="pjdsel"></select><input data-p="dept" id="pjdnew" aria-label="New department name" class="hide" type="text" maxlength="100" placeholder="Type your own category"></label>
               <label>Status<select data-p="status"></select></label>
               <label>Progress (%)<input data-p="progress" type="number" min="0" max="100" step="5" placeholder="0"></label>
               <label class="h">Start date<input data-p="start_on" type="date"></label>
@@ -826,7 +905,7 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
             </div>
             <div class="pj-btns"><span class="pj-msg" id="pjmsg"></span><button class="pj-cancel" id="pjcancel">Cancel</button><button class="pj-add" id="pjsave">Save Project</button></div>
           </div></div>
-          <div class="pj-modal hide" id="pjbmodal"><div class="pj-dlg sm" role="dialog" aria-modal="true">
+          <div class="pj-modal hide" id="pjbmodal"><div class="pj-dlg sm" role="dialog" aria-modal="true" aria-label="Church project budget">
             <h3>Church project budget</h3>
             <div class="pj-f"><label class="w">Total budget for projects ($)<input id="pjbval" type="text" inputmode="decimal" placeholder="20,000"></label></div>
             <div class="pj-btns"><span class="pj-msg" id="pjbmsg"></span><button class="pj-cancel" id="pjbcancel">Cancel</button><button class="pj-add" id="pjbsave">Save</button></div>
@@ -871,7 +950,7 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   </div>
 </div>
 <div id="toast" class="hide"></div>
-<script src="/assets/webreport.js?v=4"></script>
+<script src="/assets/webreport.js?v=5"></script>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
@@ -975,9 +1054,9 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   $('nav').addEventListener('click',function(e){var g=e.target.closest('[data-grp]');if(!g)return;var k=g.getAttribute('data-grp');navShut[k]=!navShut[k];try{localStorage.setItem('shk_navgrp',JSON.stringify(navShut));}catch(x){}renderNav();});
   function setMini(on){document.body.classList.toggle('navmini',on);var b=$('navmini');b.title=on?'Open the menu':'Collapse the menu';b.querySelector('span').textContent=on?'Open menu':'Collapse menu';try{localStorage.setItem('shk_navmini',on?'1':'');}catch(x){}}
   $('navmini').onclick=function(){setMini(!document.body.classList.contains('navmini'));};
-  try{if(localStorage.getItem('shk_navmini'))setMini(true);}catch(x){}
+  try{var nmv=localStorage.getItem('shk_navmini');if(nmv)setMini(true);else if(nmv===null&&window.matchMedia('(min-width:1001px) and (max-width:1279px)').matches)setMini(true);}catch(x){}
   function go(k,forceApp){
-    cur=k;var n=navItem(k);document.body.classList.remove('menu');
+    cur=k;var n=navItem(k);document.body.classList.remove('menu');closeModals();
     $('bt').textContent=n.title;$('bs').textContent=n.sub;
     var sec='app';
     if(k==='newsletter'&&can('email_list')&&!forceApp)sec='news';
@@ -1353,8 +1432,8 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
       if(isUpcoming(i))tags+='<span class="tag t-visit" style="background:#FDE7D2;color:#C25E0C">Upcoming</span>';}
     if((replies[i.id]||[]).length)tags+='<span class="tag t-done">Replied</span>';
     var h='<div class="row rwrap'+(isOpen?' sel':'')+'" data-id="'+esc(i.id)+'">'+
-      '<div class="rhead" data-a="toggle">'+
-        (bulkOK()?'<input type="checkbox" class="rck" data-ck="'+esc(i.id)+'"'+(picked[String(i.id)]?' checked':'')+' aria-label="Select">':'<span></span>')+
+      '<div class="rhead" data-a="toggle" tabindex="0" role="button" aria-expanded="'+(isOpen?'true':'false')+'">'+
+        (bulkOK()?'<input type="checkbox" class="rck" data-ck="'+esc(i.id)+'"'+(picked[String(i.id)]?' checked':'')+' aria-label="Select message from '+esc(i.name||'this person')+'">':'<span></span>')+
         '<span class="rdot'+(i.status==='new'?'':' no')+'"></span>'+avatar(name)+
         '<div class="rname"><b>'+esc(name)+'</b>'+(i.name&&i.email?'<small>'+esc(i.email)+'</small>':'')+'<div class="tags">'+tags+'</div></div>'+
         '<div class="rsubj"><time class="mdate">'+esc(when(i.created_at))+'</time><b>'+esc(subj)+'</b><p>'+esc(prev)+'</p></div>'+
@@ -1629,12 +1708,21 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   function placeChips(){var side=!window.matchMedia('(max-width:1000px)').matches,host=side?$('sideuser'):$('banner'),b=$('bell'),u=$('userchip');
     if(u.parentNode===host)return;if(side){host.appendChild(u);host.appendChild(b);}else{host.insertBefore(b,$('umenu'));host.insertBefore(u,$('umenu'));}}
   placeChips();window.addEventListener('resize',placeChips);
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.rhead[data-a=toggle]')){e.preventDefault();e.target.click();}});
+  function closeModals(){['pjmodal','pjbmodal'].forEach(function(id){var m=$(id);if(m)m.classList.add('hide');});['calform','tkform'].forEach(function(id){var m=$(id);if(m)m.innerHTML='';});
+    var u=$('umenu');if(u)u.classList.add('hide');$('userchip').setAttribute('aria-expanded','false');if(typeof menuId!=='undefined'&&menuId!==null){menuId=null;}}
+  $('userchip').setAttribute('aria-haspopup','menu');$('userchip').setAttribute('aria-expanded','false');
+  document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
+    if(!$('umenu').classList.contains('hide')){$('umenu').classList.add('hide');$('userchip').setAttribute('aria-expanded','false');$('userchip').focus();return;}
+    if(typeof menuId!=='undefined'&&menuId!==null){var kb=document.querySelector('.kmenu');kb=kb&&kb.closest('.row')?kb.closest('.row').querySelector('.kebab'):null;menuId=null;show();if(kb)kb.focus();return;}
+    if(document.body.classList.contains('menu')){document.body.classList.remove('menu');return;}
+    if($('mform').innerHTML&&$('mform').contains(document.activeElement)){$('mform').innerHTML='';return;}});
   // End date pickers open on the start date's month: set min from the start date in the same form
   function endMin(el){var box=el.closest('form,.pj-f,#calform,.pj-dlg,.evbox')||document,st=box.querySelector('[data-p="start_on"],[name="starts_on"]');if(!st||st===el)return;
-    var v=st.value;if(v){el.min=v;if(el.value&&el.value<v)el.value='';}else el.removeAttribute('min');}
+    var v=st.value;if(v){el.min=v;}else el.removeAttribute('min');}
   document.addEventListener('focusin',function(e){var t=e.target;if(t.type==='date'&&t.matches('[data-p="end_on"],[name="ends_on"],[name="repeat_until"]'))endMin(t);});
   document.addEventListener('change',function(e){var t=e.target;if(t.type==='date'&&t.matches('[data-p="start_on"],[name="starts_on"]')){var box=t.closest('form,.pj-f,#calform,.pj-dlg,.evbox')||document;box.querySelectorAll('[data-p="end_on"],[name="ends_on"],[name="repeat_until"]').forEach(endMin);}});
-  $('userchip').onclick=function(e){e.stopPropagation();placeUmenu();$('umenu').classList.toggle('hide');};
+  $('userchip').onclick=function(e){e.stopPropagation();placeUmenu();var m=$('umenu'),o=m.classList.toggle('hide');this.setAttribute('aria-expanded',o?'false':'true');if(!o){var f=m.querySelector('button');if(f)f.focus();}};
   window.addEventListener('resize',function(){if(!$('umenu').classList.contains('hide'))placeUmenu();});
   window.addEventListener('scroll',function(){$('umenu').classList.add('hide');},true);
   document.addEventListener('click',function(e){if(!e.target.closest('#umenu'))$('umenu').classList.add('hide');
@@ -1743,15 +1831,15 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   $('nlist').addEventListener('click',function(e){
     if(e.target.closest('[data-sbmore]')){subShow+=50;renderSubs();return;}
     var b=e.target.closest('[data-sbe]');
-    if(b){var i=+b.getAttribute('data-sbe'),s=subs[i],row=b.closest('.sb-row');
-      row.outerHTML='<div class="sb-row sb-edit" data-i="'+i+'"><div class="sb-c"><input class="sb-in" id="sbn" placeholder="Full name" maxlength="120" value="'+esc(s.name||'')+'"></div><div class="sb-c sb-mail">'+esc(s.email)+'</div><div class="sb-c"><input class="sb-in" id="sbp" type="tel" placeholder="Phone" maxlength="40" value="'+esc(s.phone||'')+'"></div><div class="sb-c sb-act2"><button type="button" class="pbtn" data-sbs="'+i+'">Save</button> <button type="button" class="lbtn" data-sbc="1">Cancel</button></div></div>';
+    if(b){var i=+b.getAttribute('data-sbe'),s=subs[i];if($('nlist').querySelector('.sb-edit')){renderSubs();}var row=$('nlist').querySelector('.sb-row[data-i="'+i+'"]');if(!row)return;
+      row.outerHTML='<div class="sb-row sb-edit" data-i="'+i+'"><div class="sb-c"><input class="sb-in sb-ed" id="sbn" aria-label="Full name" placeholder="Full name" maxlength="120" value="'+esc(s.name||'')+'"></div><div class="sb-c sb-mail">'+esc(s.email)+'</div><div class="sb-c"><input class="sb-in sb-ed" id="sbp" aria-label="Phone" type="tel" placeholder="Phone" maxlength="40" value="'+esc(s.phone||'')+'"></div><div class="sb-c sb-act2"><button type="button" class="pbtn" data-sbs="'+i+'">Save</button> <button type="button" class="lbtn" data-sbc="1">Cancel</button></div></div>';
       var n=$('sbn');if(n)n.focus();return;}
     if(e.target.closest('[data-sbc]')){renderSubs();return;}
     var sv=e.target.closest('[data-sbs]');
-    if(sv){var k=+sv.getAttribute('data-sbs'),s2=subs[k],nm=$('sbn').value.trim(),ph=$('sbp').value.trim();sv.disabled=true;sv.textContent='Saving...';
+    if(sv){var k=+sv.getAttribute('data-sbs'),s2=subs[k],er=sv.closest('.sb-row'),nm=er.querySelector('#sbn').value.trim(),ph=er.querySelector('#sbp').value.trim();sv.disabled=true;sv.textContent='Saving...';
       api('/admin/subscribers/edit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:s2.email,name:nm,phone:ph})}).then(function(){s2.name=nm;s2.phone=ph;renderSubs();toast('Saved');}).catch(function(err){sv.disabled=false;sv.textContent='Save';toast(err.message);});}
   });
-  $('nlist').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.classList.contains('sb-in')){var b=$('nlist').querySelector('[data-sbs]');if(b)b.click();}if(e.key==='Escape'&&e.target.classList.contains('sb-in'))renderSubs();});
+  $('nlist').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.classList.contains('sb-ed')){var b=e.target.closest('.sb-row').querySelector('[data-sbs]');if(b)b.click();}if(e.key==='Escape'&&e.target.classList.contains('sb-ed'))renderSubs();});
   function sendNews(test){
     var subject=$('nsub').value.trim(), body=$('nbody').value.trim();
     if(!subject||!body){$('nmsg').textContent='Write a subject and a message first.';return;}
@@ -2095,18 +2183,18 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   $('pjlist').addEventListener('change',function(e){var sl=e.target.closest('[data-ap]');if(!sl)return;var id=sl.getAttribute('data-ap'),v=sl.value;sl.disabled=true;
     pjPost('/projects/approve',{id:id,approval:v}).then(function(j){var i=PJ.list.findIndex(function(x){return String(x.id)===String(id);});if(i>=0)PJ.list[i]=j.project;renderProj();})
       .catch(function(err){alert(err.message);renderProj();});});
-  document.querySelector('.pj-side').addEventListener('click',function(e){var b=e.target.closest('[data-pjo]');if(!b)return;var p=PJ.list.filter(function(x){return String(x.id)===b.getAttribute('data-pjo');})[0];if(p&&pjMine(p))pjForm(p);});
+  document.querySelector('.pj-main').addEventListener('click',function(e){var b=e.target.closest('[data-pjo]');if(!b)return;var p=PJ.list.filter(function(x){return String(x.id)===b.getAttribute('data-pjo');})[0];if(p&&pjMine(p))pjForm(p);});
   function pjDay(d){var t=fmtDate(d),y=', '+new Date().getFullYear();return t.slice(-y.length)===y?t.slice(0,-y.length):t;}
-  function pjForm(p){pjEdit=p?p.id:0;$('pjmt').textContent=p?'Edit Project':'Add Project';
+  function pjForm(p){pjOpener=document.activeElement;pjEdit=p?p.id:0;$('pjmt').textContent=p?'Edit Project':'Add Project';
     $('pjform').querySelector('[data-p="status"]').innerHTML=PJ.statuses.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
     $('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');
       el.value=p?((k==='cost'||k==='actual_cost')?Number(p[k]||0).toFixed(2):(p[k]==null?'':p[k])):(k==='status'?'Planned':'');});
     pjDeptSel(p?p.dept||'':'');$('pjmsg').textContent='';$('pjmodal').classList.remove('hide');$('pjform').querySelector('[data-p="name"]').focus();}
   function pjDeptSel(v){var all=pjDepts(),sl=$('pjdsel'),ni=$('pjdnew');if(v&&all.indexOf(v)<0)all.push(v);all.sort(function(x,y){if(x==='Other')return 1;if(y==='Other')return -1;return x.localeCompare(y,undefined,{sensitivity:'base'});});
-    sl.innerHTML='<option value="">Choose a department</option>'+all.map(function(d){return '<option'+(d===v?' selected':'')+'>'+esc(d)+'</option>';}).join('')+'<option value="__new">+ Add your own</option>';
+    sl.innerHTML='<option value="">Choose one</option>'+all.map(function(d){return '<option'+(d===v?' selected':'')+'>'+esc(d)+'</option>';}).join('')+'<option value="__new">+ Add your own</option>';
     ni.value=v;ni.classList.add('hide');}
   $('pjdsel').addEventListener('change',function(){var ni=$('pjdnew');if(this.value==='__new'){ni.value='';ni.classList.remove('hide');ni.focus();}else{ni.value=this.value;ni.classList.add('hide');}});
-  function pjClose(){$('pjmodal').classList.add('hide');pjEdit=0;}
+  function pjClose(){$('pjmodal').classList.add('hide');pjEdit=0;if(pjOpener&&pjOpener.focus){try{pjOpener.focus();}catch(x){}}pjOpener=null;}var pjOpener=null;
   $('pjnew').onclick=function(){pjForm(null);};$('pjcancel').onclick=pjClose;
   $('pjmodal').addEventListener('click',function(e){if(e.target===$('pjmodal'))pjClose();});
   $('pjbmodal').addEventListener('click',function(e){if(e.target===$('pjbmodal'))$('pjbmodal').classList.add('hide');});
@@ -2115,8 +2203,9 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
   $('pjsave').onclick=function(){var o={id:pjEdit||undefined};$('pjform').querySelectorAll('[data-p]').forEach(function(el){o[el.getAttribute('data-p')]=el.value.trim();});
     if(!o.name){$('pjmsg').textContent='Please add the project name.';return;}
     var ok=function(v){var n=Number(String(v||'0').replace(/[$,\s]/g,''));return isFinite(n)&&n>=0;};
-    if(o.cost===''||!ok(o.cost)){$('pjmsg').textContent='Please enter the cost as a number.';return;}
-    o.actual_cost=o.cost;if(!o.dept&&$('pjdsel').value==='__new'){$('pjmsg').textContent='Please type the new department name.';return;}
+    if(!o.dept&&$('pjdsel').value==='__new'){$('pjmsg').textContent='Please type the new department name.';return;}
+    if(o.cost==='')o.cost='0';if(!ok(o.cost)){$('pjmsg').textContent='Please enter the cost as a number.';return;}
+    o.actual_cost=o.cost;
     if(o.start_on&&o.end_on&&o.end_on<o.start_on){$('pjmsg').textContent='The end date cannot be before the start date.';return;}
     $('pjmsg').textContent='Saving...';
     pjPost('/projects/save',{project:o}).then(function(j){var p=j.project,i=PJ.list.findIndex(function(x){return x.id==p.id;});
