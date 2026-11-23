@@ -29,3 +29,6 @@ ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS remind boolean NOT NULL DEFAULT 
 CREATE TABLE IF NOT EXISTS cal_reminders (event_id bigint NOT NULL REFERENCES cal_events(id) ON DELETE CASCADE, occurs_on date NOT NULL, minutes integer NOT NULL, send_at timestamptz NOT NULL, resend_id text, status text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (event_id, occurs_on, minutes));
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS start_on date; -- project start and end dates (Jimmy, Nov 23, 2026)
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS end_on date;
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval text NOT NULL DEFAULT 'Waiting'; -- board approval: Waiting, Approved, Not approved (Jimmy, Nov 23, 2026)
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_by text;
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_on date;

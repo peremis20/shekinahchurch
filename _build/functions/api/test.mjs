@@ -294,6 +294,14 @@ await db.query("DELETE FROM submissions WHERE email IN ('elder@x.org', 'mia-sub@
 r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Carpet', cost: '100', start_on: '2026-12-01', end_on: '2026-12-15' } } });
 ok(r.status === 200 && r.j.project.start_on === '2026-12-01' && r.j.project.end_on === '2026-12-15', 'project start and end dates are saved', r.j);
 r = await call('POST', '/projects/save', { token: O, body: { project: { id: r.j.project.id, name: 'Carpet', cost: '100', start_on: '2026-12-15', end_on: '2026-12-01' } } }); ok(r.status === 400, 'end date before start is refused', r.j);
+r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Carpet', cost: '100' } } }); const CP = r.j.project;
+ok(CP.approval === 'Waiting' && !CP.approval_on, 'new projects wait for board approval', CP);
+r = await call('POST', '/projects/approve', { token: T.leader, body: { id: CP.id, approval: 'Approved' } }); ok(r.status === 403, 'only admins approve projects', r.status);
+r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, approval: 'Maybe' } }); ok(r.status === 400, 'approval value is checked', r.j);
+r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, approval: 'Approved' } });
+ok(r.status === 200 && r.j.project.approval === 'Approved' && /^\d{4}-\d{2}-\d{2}$/.test(r.j.project.approval_on) && r.j.project.approval_by, 'admin approves a project with the date', r.j);
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', cost: '150' } } }); ok(r.j.project.approval === 'Approved', 'editing keeps the approval', r.j);
+r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, approval: 'Waiting' } }); ok(r.j.project.approval === 'Waiting' && !r.j.project.approval_on && !r.j.project.approval_by, 'back to waiting clears who and when', r.j);
 await db.query("DELETE FROM projects WHERE name = 'Carpet'");
 
 // ---- import a member list ----

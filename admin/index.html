@@ -604,6 +604,25 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .wr-grid .lbtn[data-csv]{padding:3px 10px!important;font-size:12px!important;border-radius:8px!important}.wr-grid .rtable td{white-space:nowrap}
 @media (max-width:520px){.wr-grid .rtable td.t{max-width:150px}.wr-grid .rtable th,.wr-grid .rtable td{padding-left:7px!important;padding-right:7px!important}}
 @media (max-width:860px){.wr-p.c6,.wr-p.c4,.wr-p.c3,.wr-p.c7,.wr-p.c5{grid-column:span 12}}
+
+.pj-main{display:grid;grid-template-columns:minmax(0,1fr) 290px;gap:16px;align-items:start}
+.pj-main .pj-table{width:100%;max-width:100%}.pj-main .pj-table table{width:100%}.pj-main .pj-table th,.pj-main .pj-table td{padding-left:9px;padding-right:9px}.pj-main .pj-table td.nm span{font-size:13px}
+.pj-side{display:flex;flex-direction:column;gap:16px;min-width:0}.pj-side .pj-card{padding:16px 18px}.pj-side h3{font-size:16.5px!important;margin:0 0 10px!important}
+.pj-need,.pj-soon{display:flex;flex-direction:column}
+.pj-need button,.pj-soon button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;border-top:1px solid #EEF1F6;padding:9px 4px;border-radius:8px}.pj-need button:first-child,.pj-soon button:first-child{border-top:0}
+.pj-need button:hover,.pj-soon button:hover{background:#F6F8FC}
+.pj-need button{grid-template-columns:10px minmax(0,1fr);column-gap:10px;align-items:center}.pj-need i{width:8px;height:8px;border-radius:50%;grid-row:span 2}
+.pj-need b{font-size:14px;color:#0E1B3D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pj-need span{font-size:12.5px;font-weight:700}
+.pj-soon button{grid-template-columns:44px minmax(0,1fr);column-gap:12px;align-items:center}
+.pj-soon .dt{display:flex;flex-direction:column;align-items:center;justify-content:center;height:44px;border-radius:10px;background:#EEF3FD;color:#0B2152;font:900 17px/1 Mulish,system-ui,sans-serif}.pj-soon .dt small{font-size:10.5px;font-weight:800;text-transform:uppercase;color:#1D5FE0;margin-bottom:2px}
+.pj-soon .tx b{display:block;font-size:14px;color:#0E1B3D;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pj-soon .tx span{font-size:12.5px;color:#5D6A80;font-weight:700}
+.pj-ok{display:flex;align-items:center;gap:8px;margin:0;color:#157A2F;font-weight:800}.pj-ok svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4}
+.pj-more{margin:8px 4px 0;font-size:12.5px;color:#5D6A80;font-weight:700}
+.pj-ap{display:inline-block;border:0;border-radius:999px;padding:5px 10px;font:800 12.5px Mulish,system-ui,sans-serif;white-space:nowrap}select.pj-ap{cursor:pointer;padding-right:6px}
+.pj-dl{display:inline-flex;align-items:center;gap:8px;height:50px;padding:0 16px;border:1.5px solid #D3DBE8;border-radius:12px;background:#fff;color:#1F2A44;font-weight:800;font-size:15px;cursor:pointer;margin-left:auto}.pj-dl svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}.pj-dl:hover{border-color:#1D5FE0;color:#1D5FE0}
+.pj-dl+.pj-add{margin-left:0}.pj-tools .pj-search{flex:1 1 180px;min-width:0}@media (max-width:1400px){.pj-tools select{min-width:140px}}
+@media (max-width:1600px){.pj-main{grid-template-columns:minmax(0,1fr)}.pj-side{display:grid;grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.pj-side{grid-template-columns:1fr}.pj-dl{margin-left:0;flex:1;justify-content:center}}
 </style>
 </head>
 <body>
@@ -707,10 +726,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
             <label class="pj-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="pjq" type="search" placeholder="Search projects..."></label>
             <select id="pjdept"><option value="">All Departments</option></select>
             <select id="pjst"><option value="">All Statuses</option></select>
+            <button class="pj-dl" id="pjcsv" type="button" title="Download all projects as a spreadsheet"><svg viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 20h14"/></svg>Download</button>
             <button class="pj-add" id="pjnew"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Project</button>
           </div>
-          <div class="pj-table" id="pjlist"></div>
-          <p class="pj-foot"><button class="pj-link" id="pjcsv">Download as spreadsheet (CSV)</button></p>
+          <div class="pj-main"><div class="pj-table" id="pjlist"></div>
+            <aside class="pj-side"><div class="pj-card"><h3>Needs attention</h3><div id="pjneed"></div></div><div class="pj-card"><h3>Coming up</h3><div id="pjsoon"></div></div></aside></div>
           <datalist id="pjdepts"></datalist>
           <div class="pj-modal hide" id="pjmodal"><div class="pj-dlg" role="dialog" aria-modal="true" aria-labelledby="pjmt">
             <h3 id="pjmt">Add Project</h3>
@@ -1895,7 +1915,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 
   // ---- Projects and costs (any team member can add; the person who added it or an admin can change it) ----
   var PJ={list:[],depts:[],statuses:['Not Started','Planned','In Progress','Completed'],budget:0,me:'',manage:false}, pjEdit=0;
-  var PJI={layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12.5 9 5 9-5M3 17l9 5 9-5"/>',clip:'<rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M8.5 13l2.5 2.5 4.5-5"/>',
+  var PJI={alert:'<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/>',dl:'<path d="M12 4v11M7 10l5 5 5-5"/><path d="M5 20h14"/>',gavel:'<path d="M9 12 4 17l2 2 5-5"/><path d="m12 4 6 6M10 6l6-2 4 4-2 6"/><path d="M13 21h8"/>',layers:'<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 12.5 9 5 9-5M3 17l9 5 9-5"/>',clip:'<rect x="5" y="4.5" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5M8.5 13l2.5 2.5 4.5-5"/>',
     music:'<path d="M9 18V5l11-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="17.5" cy="16" r="2.5"/>',building:'<path d="M4 21V9l5-3v15M9 21V4h11v17M3 21h18M12.5 8h1M16 8h1M12.5 12h1M16 12h1M12.5 16h1M16 16h1M6 12h1M6 16h1"/>',
     target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/><path d="M15.5 8.5 20 4M17 4h3v3"/>',coins:'<ellipse cx="12" cy="6" rx="6" ry="2.5"/><path d="M6 6v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V6M6 10v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4M6 14v4c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5v-4"/>',
     kids:'<circle cx="12" cy="6" r="3"/><path d="M6 21v-5a6 6 0 0 1 12 0v5"/>',heart:'<path d="M12 20s-7.5-4.5-7.5-10A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 7.5 3c0 5.5-7.5 10-7.5 10z"/>',
@@ -1952,17 +1972,42 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var ss=$('pjst'),cs=ss.value;ss.innerHTML='<option value="">All Statuses</option>'+PJ.statuses.map(function(x){return '<option'+(x===cs?' selected':'')+'>'+esc(x)+'</option>';}).join('');
     var q=$('pjq').value.trim().toLowerCase(),dv=sd.value,sv=ss.value;
     var list=L.filter(function(p){return (!dv||(p.dept||'Other')===dv)&&(!sv||p.status===sv)&&(!q||[p.name,p.dept,p.purpose,p.status].join(' ').toLowerCase().indexOf(q)>=0);});
-    $('pjlist').innerHTML=list.length?'<table><thead><tr><th>Project Name</th><th>Department</th><th>Estimated Cost</th><th>Actual Cost</th><th>Status</th><th>Progress</th><th>Dates</th><th>Actions</th></tr></thead><tbody>'+list.map(function(p){
+    $('pjlist').innerHTML=list.length?'<table><thead><tr><th>Project Name</th><th>Department</th><th>Estimated Cost</th><th>Actual Cost</th><th>Status</th><th>Board</th><th>Progress</th><th>Dates</th><th>Actions</th></tr></thead><tbody>'+list.map(function(p){
       var m=pjDep(p.dept||'Other'),st=PJ_ST[p.status]||PJ_ST.Planned,pr=Math.max(0,Math.min(100,+p.progress||0));
       return '<tr><td class="nm"><b>'+esc(p.name)+'</b>'+(p.purpose?'<span>'+esc(p.purpose)+'</span>':'')+'</td>'+
         '<td data-l="Department">'+(p.dept?'<span class="pj-chip" style="background:'+m[2]+';color:'+m[1]+'">'+pjI(m[0])+'<span>'+esc(p.dept)+'</span></span>':'')+'</td>'+
         '<td class="m" data-l="Estimated Cost">'+usd(p.cost)+'</td><td class="m" data-l="Actual Cost">'+usd(p.actual_cost)+'</td>'+
         '<td data-l="Status"><span class="pj-st" style="background:'+st[2]+';color:'+st[3]+'"><span style="color:'+st[1]+';display:grid">'+pjI(st[0])+'</span>'+esc(p.status)+'</span></td>'+
+        '<td data-l="Board">'+pjAppr(p)+'</td>'+
         '<td class="pr pj-pr" data-l="Progress"><b>'+pr+'%</b><div class="pj-track"><i style="width:'+pr+'%;background:'+(pr>=100?'#1E9B3B':'#1D5FE0')+'"></i></div></td>'+
         '<td class="m pj-dt" data-l="Dates">'+(p.start_on||p.end_on?esc(p.start_on?pjDay(p.start_on):'Start not set')+'<small>to '+esc(p.end_on?pjDay(p.end_on):'not set')+'</small>':'<span>Added '+esc(fmtDate(p.added_on))+'</span>')+
           (p.end_on&&p.status!=='Completed'&&p.end_on<new Date().toISOString().slice(0,10)?'<em class="pj-late">Past due</em>':'')+'</td>'+
         '<td class="ac">'+(pjMine(p)?'<div class="pj-act"><button class="e" data-pj="edit" data-id="'+p.id+'" aria-label="Edit '+esc(p.name)+'">'+pjI('pen')+'</button><button class="x" data-pj="del" data-id="'+p.id+'" aria-label="Delete '+esc(p.name)+'">'+pjI('trash')+'</button></div>':'')+'</td></tr>';}).join('')+'</tbody></table>'
-      :'<div class="pj-empty">'+(L.length?'No projects match.':'No projects yet. Click Add Project to start.')+'</div>';}
+      :'<div class="pj-empty">'+(L.length?'No projects match.':'No projects yet. Click Add Project to start.')+'</div>';
+    pjSide();}
+  var PJ_AP={'Waiting':['#FFF4DA','#8A5A00'],'Approved':['#E3F6E8','#157A2F'],'Not approved':['#FDE7EA','#B4232F']};
+  function pjAppr(p){var a=p.approval||'Waiting',c=PJ_AP[a]||PJ_AP.Waiting,t=p.approval_on?' title="'+esc(a+' on '+fmtDate(p.approval_on)+(p.approval_by?' by '+p.approval_by:''))+'"':'';
+    if(!PJ.manage)return '<span class="pj-ap" style="background:'+c[0]+';color:'+c[1]+'"'+t+'>'+esc(a)+'</span>';
+    return '<select class="pj-ap" data-ap="'+p.id+'" style="background:'+c[0]+';color:'+c[1]+'"'+t+' aria-label="Board approval for '+esc(p.name)+'">'+Object.keys(PJ_AP).map(function(x){return '<option'+(x===a?' selected':'')+'>'+x+'</option>';}).join('')+'</select>';}
+  function pjSide(){var L=PJ.list,today=new Date().toISOString().slice(0,10),lim=new Date(Date.now()+60*864e5).toISOString().slice(0,10),need=[];
+    L.forEach(function(p){if(p.status==='Completed')return;
+      if(p.end_on&&p.end_on<today)need.push([0,p,'Past due since '+pjDay(p.end_on),'#B4232F']);
+      if(Number(p.actual_cost)>Number(p.cost)&&Number(p.cost)>0)need.push([1,p,'Over the estimate by '+usd(p.actual_cost-p.cost),'#B4232F']);
+      if(!Number(p.cost))need.push([2,p,'No estimated cost yet','#8A5A00']);
+      if((p.approval||'Waiting')==='Waiting')need.push([3,p,'Waiting for board approval','#8A5A00']);
+      if(!p.start_on&&!p.end_on)need.push([4,p,'No start or end date','#5D6A80']);});
+    need.sort(function(a,b){return a[0]-b[0];});
+    $('pjneed').innerHTML=need.length?'<div class="pj-need">'+need.slice(0,7).map(function(n){return '<button type="button" data-pjo="'+n[1].id+'"><i style="background:'+n[3]+'"></i><b>'+esc(n[1].name)+'</b><span style="color:'+n[3]+'">'+esc(n[2])+'</span></button>';}).join('')+'</div>'+(need.length>7?'<p class="pj-more">And '+(need.length-7)+' more</p>':'')
+      :'<p class="pj-ok">'+pjI('check')+'Everything is on track.</p>';
+    var soon=[];L.forEach(function(p){if(p.status==='Completed')return;if(p.start_on&&p.start_on>=today&&p.start_on<=lim)soon.push([p.start_on,'Starts',p]);if(p.end_on&&p.end_on>=today&&p.end_on<=lim)soon.push([p.end_on,'Due',p]);});
+    soon.sort(function(a,b){return a[0]<b[0]?-1:a[0]>b[0]?1:0;});
+    $('pjsoon').innerHTML=soon.length?'<div class="pj-soon">'+soon.slice(0,6).map(function(x){var d=new Date(x[0]+'T12:00:00'),days=Math.round((new Date(x[0]+'T12:00:00')-new Date(today+'T12:00:00'))/864e5);
+      return '<button type="button" data-pjo="'+x[2].id+'"><span class="dt"><small>'+d.toLocaleDateString('en-US',{month:'short'})+'</small>'+d.getDate()+'</span><span class="tx"><b>'+esc(x[2].name)+'</b><span>'+x[1]+(days===0?' today':days===1?' tomorrow':' in '+days+' days')+'</span></span></button>';}).join('')+'</div>'
+      :'<p class="pj-more" style="margin:0">No start or due dates in the next 60 days.</p>';}
+  $('pjlist').addEventListener('change',function(e){var sl=e.target.closest('[data-ap]');if(!sl)return;var id=sl.getAttribute('data-ap'),v=sl.value;sl.disabled=true;
+    pjPost('/projects/approve',{id:id,approval:v}).then(function(j){var i=PJ.list.findIndex(function(x){return String(x.id)===String(id);});if(i>=0)PJ.list[i]=j.project;renderProj();})
+      .catch(function(err){alert(err.message);renderProj();});});
+  document.querySelector('.pj-side').addEventListener('click',function(e){var b=e.target.closest('[data-pjo]');if(!b)return;var p=PJ.list.filter(function(x){return String(x.id)===b.getAttribute('data-pjo');})[0];if(p&&pjMine(p))pjForm(p);});
   function pjDay(d){var t=fmtDate(d),y=', '+new Date().getFullYear();return t.slice(-y.length)===y?t.slice(0,-y.length):t;}
   function pjForm(p){pjEdit=p?p.id:0;$('pjmt').textContent=p?'Edit Project':'Add Project';
     $('pjform').querySelector('[data-p="status"]').innerHTML=PJ.statuses.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
@@ -1990,9 +2035,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       .then(function(){PJ.list=PJ.list.filter(function(x){return String(x.id)!==id;});renderProj();}).catch(function(err){alert(err.message);});});
   $('pjq').addEventListener('input',renderProj);$('pjdept').addEventListener('change',renderProj);$('pjst').addEventListener('change',renderProj);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'){pjClose();$('pjbmodal').classList.add('hide');}});
-  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','actual_cost','status','progress','added_on','created_by'],head=['Project','Department','Purpose','Estimated cost','Actual cost','Status','Progress %','Added on','Added by'];
+  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','actual_cost','status','approval','approval_on','progress','start_on','end_on','added_on','created_by'],head=['Project','Department','Purpose','Estimated cost','Actual cost','Status','Board','Board decision on','Progress %','Start','End','Added on','Added by'];
     var t=function(k){return PJ.list.reduce(function(a,p){return a+Number(p[k]||0);},0).toFixed(2);};
-    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+t('cost')+','+t('actual_cost')+',"","","",""']).join('\r\n');
+    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+t('cost')+','+t('actual_cost')+',"","","","","","","",""']).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};

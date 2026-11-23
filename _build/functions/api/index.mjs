@@ -867,7 +867,8 @@ async function shareOff(me) { allow(me, 'team_manage'); await q("DELETE FROM aut
 // ---------- projects (church projects and costs; Jimmy, Nov 16, 2026) ----------
 // Every team member can see the list and add a project. Changing or deleting: the person who added it, or anyone who can manage the team.
 // cost = estimated cost. The overall budget is in automation_status 'projects_budget' (set by team managers).
-const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, actual_cost::float8 AS actual_cost, status, progress, to_char(start_on, 'YYYY-MM-DD') AS start_on, to_char(end_on, 'YYYY-MM-DD') AS end_on, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by";
+const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, actual_cost::float8 AS actual_cost, status, progress, to_char(start_on, 'YYYY-MM-DD') AS start_on, to_char(end_on, 'YYYY-MM-DD') AS end_on, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by, approval, approval_by, to_char(approval_on, 'YYYY-MM-DD') AS approval_on";
+const PJ_APPROVAL = ['Waiting', 'Approved', 'Not approved'];
 const PJ_DEPTS = ['Building Development', 'Children', 'Community Services', 'Deacons', 'Education', 'Health', 'Music', 'Outreach', 'Pathfinders', 'Sabbath School', 'Women', 'Men', 'Youth', 'Other'];
 const PJ_STATUS = ['Not Started', 'Planned', 'In Progress', 'Completed'];
 const pjMine = (me, p) => me.perms.team_manage || lower(p.created_by) === lower(me.email);
@@ -904,6 +905,15 @@ async function projectSave(me, b) {
   }
   return { project: row };
 }
+async function projectApprove(me, b) {
+  allow(me, 'team_manage');
+  const a = PJ_APPROVAL.includes(b.approval) ? b.approval : null;
+  need(a, 400, 'Please pick Waiting, Approved or Not approved.');
+  const old = await one('SELECT id FROM projects WHERE id = $1', [idOf(b.id)]);
+  need(old, 404, 'That project was not found.');
+  const row = await wrote("UPDATE projects SET approval = $1, approval_by = CASE WHEN $1 = 'Waiting' THEN NULL ELSE $2 END, approval_on = CASE WHEN $1 = 'Waiting' THEN NULL ELSE (now() AT TIME ZONE 'America/Chicago')::date END, updated_at = now() WHERE id = $3 RETURNING *", [a, me.email, old.id], PJ_COLS);
+  return { project: row };
+}
 async function projectDelete(me, b) {
   const old = await one('SELECT id, created_by FROM projects WHERE id = $1', [idOf(b.id)]);
   need(old, 404, 'That project was not found.');
@@ -927,7 +937,7 @@ const ROUTES = {
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
-  'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/budget': projectBudget,
+  'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
   'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects,
