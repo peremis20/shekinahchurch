@@ -757,13 +757,12 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
             <h3 id="pjmt">Add Project</h3>
             <div class="pj-f" id="pjform">
               <label class="w">Project name<input data-p="name" type="text" maxlength="200" placeholder="Example: New carpet"></label>
-              <label>Department<input data-p="dept" type="text" maxlength="100" list="pjdepts" placeholder="Choose or type"></label>
+              <label>Department<select id="pjdsel"></select><input data-p="dept" id="pjdnew" class="hide" type="text" maxlength="100" placeholder="Type your own category"></label>
               <label>Status<select data-p="status"></select></label>
               <label>Progress (%)<input data-p="progress" type="number" min="0" max="100" step="5" placeholder="0"></label>
               <label class="h">Start date<input data-p="start_on" type="date"></label>
               <label class="h">End date<input data-p="end_on" type="date"></label>
-              <label class="h">Estimated cost ($)<input data-p="cost" type="text" inputmode="decimal" placeholder="0.00"></label>
-              <label class="h">Actual cost ($)<input data-p="actual_cost" type="text" inputmode="decimal" placeholder="0.00"></label>
+              <label class="h">Cost ($)<input data-p="cost" type="text" inputmode="decimal" placeholder="0.00"></label>
               <label class="w">Purpose of the project<textarea data-p="purpose" rows="3" maxlength="2000" placeholder="What is it for?"></textarea></label>
             </div>
             <div class="pj-btns"><span class="pj-msg" id="pjmsg"></span><button class="pj-cancel" id="pjcancel">Cancel</button><button class="pj-add" id="pjsave">Save Project</button></div>
@@ -1993,11 +1992,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var ss=$('pjst'),cs=ss.value;ss.innerHTML='<option value="">All Statuses</option>'+PJ.statuses.map(function(x){return '<option'+(x===cs?' selected':'')+'>'+esc(x)+'</option>';}).join('');
     var q=$('pjq').value.trim().toLowerCase(),dv=sd.value,sv=ss.value;
     var list=L.filter(function(p){return (!dv||(p.dept||'Other')===dv)&&(!sv||p.status===sv)&&(!q||[p.name,p.dept,p.purpose,p.status].join(' ').toLowerCase().indexOf(q)>=0);});
-    $('pjlist').innerHTML=list.length?'<table><thead><tr><th>Project Name</th><th>Department</th><th>Estimated Cost</th><th>Actual Cost</th><th>Status</th><th>Board</th><th>Progress</th><th>Dates</th><th>Actions</th></tr></thead><tbody>'+list.map(function(p){
+    $('pjlist').innerHTML=list.length?'<table><thead><tr><th>Project Name</th><th>Department</th><th>Cost</th><th>Status</th><th>Board</th><th>Progress</th><th>Dates</th><th>Actions</th></tr></thead><tbody>'+list.map(function(p){
       var m=pjDep(p.dept||'Other'),st=PJ_ST[p.status]||PJ_ST.Planned,pr=Math.max(0,Math.min(100,+p.progress||0));
       return '<tr><td class="nm"><b>'+esc(p.name)+'</b>'+(p.purpose?'<span>'+esc(p.purpose)+'</span>':'')+'</td>'+
         '<td data-l="Department">'+(p.dept?'<span class="pj-chip" style="background:'+m[2]+';color:'+m[1]+'">'+pjI(m[0])+'<span>'+esc(p.dept)+'</span></span>':'')+'</td>'+
-        '<td class="m" data-l="Estimated Cost">'+usd(p.cost)+'</td><td class="m" data-l="Actual Cost">'+usd(p.actual_cost)+'</td>'+
+        '<td class="m" data-l="Cost">'+usd(p.cost)+'</td>'+
         '<td data-l="Status"><span class="pj-st" style="background:'+st[2]+';color:'+st[3]+'"><span style="color:'+st[1]+';display:grid">'+pjI(st[0])+'</span>'+esc(p.status)+'</span></td>'+
         '<td data-l="Board">'+pjAppr(p)+'</td>'+
         '<td class="pr pj-pr" data-l="Progress"><b>'+pr+'%</b><div class="pj-track"><i style="width:'+pr+'%;background:'+(pr>=100?'#1E9B3B':'#1D5FE0')+'"></i></div></td>'+
@@ -2013,8 +2012,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   function pjSide(){var L=PJ.list,today=new Date().toISOString().slice(0,10),lim=new Date(Date.now()+60*864e5).toISOString().slice(0,10),need=[];
     L.forEach(function(p){if(p.status==='Completed')return;
       if(p.end_on&&p.end_on<today)need.push([0,p,'Past due since '+pjDay(p.end_on),'#B4232F']);
-      if(Number(p.actual_cost)>Number(p.cost)&&Number(p.cost)>0)need.push([1,p,'Over the estimate by '+usd(p.actual_cost-p.cost),'#B4232F']);
-      if(!Number(p.cost))need.push([2,p,'No estimated cost yet','#8A5A00']);
+      if(!Number(p.cost))need.push([2,p,'No cost yet','#8A5A00']);
       if((p.approval||'Waiting')==='Waiting')need.push([3,p,'Waiting for board approval','#8A5A00']);
       if(!p.start_on&&!p.end_on)need.push([4,p,'No start or end date','#5D6A80']);});
     need.sort(function(a,b){return a[0]-b[0];});
@@ -2034,7 +2032,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     $('pjform').querySelector('[data-p="status"]').innerHTML=PJ.statuses.map(function(x){return '<option>'+esc(x)+'</option>';}).join('');
     $('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');
       el.value=p?((k==='cost'||k==='actual_cost')?Number(p[k]||0).toFixed(2):(p[k]==null?'':p[k])):(k==='status'?'Planned':'');});
-    $('pjmsg').textContent='';$('pjmodal').classList.remove('hide');$('pjform').querySelector('[data-p="name"]').focus();}
+    pjDeptSel(p?p.dept||'':'');$('pjmsg').textContent='';$('pjmodal').classList.remove('hide');$('pjform').querySelector('[data-p="name"]').focus();}
+  function pjDeptSel(v){var all=pjDepts(),sl=$('pjdsel'),ni=$('pjdnew');if(v&&all.indexOf(v)<0)all.push(v);
+    sl.innerHTML='<option value="">Choose a department</option>'+all.map(function(d){return '<option'+(d===v?' selected':'')+'>'+esc(d)+'</option>';}).join('')+'<option value="__new">+ Add your own</option>';
+    ni.value=v;ni.classList.add('hide');}
+  $('pjdsel').addEventListener('change',function(){var ni=$('pjdnew');if(this.value==='__new'){ni.value='';ni.classList.remove('hide');ni.focus();}else{ni.value=this.value;ni.classList.add('hide');}});
   function pjClose(){$('pjmodal').classList.add('hide');pjEdit=0;}
   $('pjnew').onclick=function(){pjForm(null);};$('pjcancel').onclick=pjClose;
   $('pjmodal').addEventListener('click',function(e){if(e.target===$('pjmodal'))pjClose();});
@@ -2044,8 +2046,8 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   $('pjsave').onclick=function(){var o={id:pjEdit||undefined};$('pjform').querySelectorAll('[data-p]').forEach(function(el){o[el.getAttribute('data-p')]=el.value.trim();});
     if(!o.name){$('pjmsg').textContent='Please add the project name.';return;}
     var ok=function(v){var n=Number(String(v||'0').replace(/[$,\s]/g,''));return isFinite(n)&&n>=0;};
-    if(o.cost===''||!ok(o.cost)){$('pjmsg').textContent='Please enter the estimated cost as a number.';return;}
-    if(!ok(o.actual_cost)){$('pjmsg').textContent='Please enter the actual cost as a number.';return;}
+    if(o.cost===''||!ok(o.cost)){$('pjmsg').textContent='Please enter the cost as a number.';return;}
+    o.actual_cost=o.cost;if(!o.dept&&$('pjdsel').value==='__new'){$('pjmsg').textContent='Please type the new department name.';return;}
     if(o.start_on&&o.end_on&&o.end_on<o.start_on){$('pjmsg').textContent='The end date cannot be before the start date.';return;}
     $('pjmsg').textContent='Saving...';
     pjPost('/projects/save',{project:o}).then(function(j){var p=j.project,i=PJ.list.findIndex(function(x){return x.id==p.id;});
@@ -2056,9 +2058,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       .then(function(){PJ.list=PJ.list.filter(function(x){return String(x.id)!==id;});renderProj();}).catch(function(err){alert(err.message);});});
   $('pjq').addEventListener('input',renderProj);$('pjdept').addEventListener('change',renderProj);$('pjst').addEventListener('change',renderProj);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'){pjClose();$('pjbmodal').classList.add('hide');}});
-  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','actual_cost','status','approval','approval_on','progress','start_on','end_on','added_on','created_by'],head=['Project','Department','Purpose','Estimated cost','Actual cost','Status','Board','Board decision on','Progress %','Start','End','Added on','Added by'];
+  $('pjcsv').onclick=function(){var cols=['name','dept','purpose','cost','status','approval','approval_on','progress','start_on','end_on','added_on','created_by'],head=['Project','Department','Purpose','Cost','Status','Board','Board decision on','Progress %','Start','End','Added on','Added by'];
     var t=function(k){return PJ.list.reduce(function(a,p){return a+Number(p[k]||0);},0).toFixed(2);};
-    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+t('cost')+','+t('actual_cost')+',"","","","","","","",""']).join('\r\n');
+    var csv=[head.join(',')].concat(PJ.list.map(function(p){return cols.map(function(c){return '"'+String(p[c]==null?'':p[c]).replace(/"/g,'""')+'"';}).join(',');})).concat(['"Total","","",'+t('cost')+',"","","","","","","",""']).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};
