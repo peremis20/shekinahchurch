@@ -37,97 +37,14 @@
   "daniel 7 explained": "daniel-7-explained",
   "is the bible accurate today": "is-the-bible-accurate-today",
   "kisa bib la di sou maryaj": "kisa-bib-la-di-sou-maryaj",
-  "who decided which books are in the bible": "who-decided-which-books-are-in-the-bible"
+  "who decided which books are in the bible": "who-decided-which-books-are-in-the-bible",
+  "daniel 8 explained": "daniel-8-explained",
+  "kisa bib la di sou dim": "kisa-bib-la-di-sou-dim",
+  "kisa bib la di sou fen dimonn": "kisa-bib-la-di-sou-fen-dimonn",
+  "who wrote the bible": "who-wrote-the-bible",
+  "70 weeks of daniel 9": "70-weeks-of-daniel-9"
  },
  "planned": [
-  {
-   "keyword": "who wrote the bible",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "The next question readers of the Constantine page ask: who actually wrote the Bible. About 40 writers over roughly 1,500 years (Moses, David, prophets, apostles), inspired by God (2 Timothy 3:16, 2 Peter 1:21), with a simple book by book table. Respectful of scholarly views, no attacks on any church. Link to /blog/did-constantine-change-the-bible/, /blog/who-decided-which-books-are-in-the-bible/ and /blog/is-the-bible-accurate-today/. Give about 40 writers and about 1,500 years, and Moses for the first five books, as the traditional view, not proven fact. Do not retell the canon story; link to the canon page for that.",
-   "secondary": [
-    "who wrote the books of the bible",
-    "how many authors wrote the bible",
-    "who wrote the old testament",
-    "who wrote the new testament",
-    "was the bible written by god or man"
-   ],
-   "evidence": "Search Console last 28 days (to Nov 21, 2026): Did Constantine Change the Bible is the top article, 478 impressions, 8 clicks, position 8. Live Google results for who wrote the bible show History.com, Bible Gateway, Ligonier, Bible Society UK and JW pages, so real demand; no Shekinah page targets it.",
-   "priority": "top",
-   "added": "2026-11-22"
-  },
-  {
-   "keyword": "daniel 8 explained",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "Next chapter for Daniel 2 readers: the ram (Media and Persia, Daniel 8:20), the goat (Greece, Daniel 8:21), the little horn and the 2,300 days of Daniel 8:14 and the cleansing of the sanctuary, read the historicist way, careful with dates and calm in tone. Stay on Daniel 8 and point to the 70 weeks page for Daniel 9. Link to /blog/daniel-2-prophecy-explained/ and /blog/daniel-7-explained/. This page owns the 2,300 days, Daniel 8:14 and 1844; give only a short note on 457 BC and link to the 70 weeks page. Go deeper than the judgment section of the Daniel 7 post and link both ways. Describe the little horn as a historic system; never attack Catholic people or any church.",
-   "secondary": [
-    "daniel 8 meaning",
-    "ram and goat daniel 8",
-    "2300 days prophecy",
-    "little horn daniel 8",
-    "daniel 8 14 cleansing of the sanctuary"
-   ],
-   "evidence": "Search Console last 28 days (to Nov 21, 2026): Daniel 2 Prophecy Explained 294 impressions, position 6.5, 2 clicks; Google Analytics last 28 days: 12 views by 9 users with 3,222 seconds of engagement, the deepest reading of any article. Live Google results for daniel 8 explained show Bible Hub, UCG, Gill commentary and JW pages.",
-   "priority": "top",
-   "added": "2026-11-22"
-  },
-  {
-   "keyword": "70 weeks of daniel 9",
-   "cat": "Bible Answers",
-   "lang": "en",
-   "intent": "informational",
-   "neutral": true,
-   "angle": "Daniel 9:24 to 27 explained: the decree of Artaxerxes in 457 BC, the Messiah, the cross, and how it ties to Daniel 8. Historicist reading, careful with dates. Link to Daniel 2 and Daniel 7. This page owns the 70 weeks, the Messiah and the cross; give only a brief recap of the 2,300 days and link to /blog/daniel-8-explained/ once it exists.",
-   "secondary": [
-    "daniel 9 prophecy",
-    "seventy weeks prophecy",
-    "daniel 9 24 27 meaning",
-    "457 bc decree",
-    "messiah prophecy daniel"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: prophecy cluster: Daniel 2 article is the second strongest page",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "kisa bib la di sou dim",
-   "cat": "Bible Answers",
-   "lang": "ht",
-   "intent": "informational",
-   "angle": "Kreyòl: dim ak ofrann nan Bib la (Malachi 3, Lik 11:42, 2 Korentyen 9:7), jesyon kòm adorasyon, san presyon. Warm and practical.",
-   "secondary": [
-    "dim ak ofrann",
-    "eske kretyen dwe bay dim",
-    "Malachi 3 dim",
-    "jesyon kretyen",
-    "ofrann nan legliz"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl Bible pages rank 4 to 7; little Adventist Kreyòl content on giving",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
-  {
-   "keyword": "kisa bib la di sou fen dimonn",
-   "cat": "Bible Answers",
-   "lang": "ht",
-   "intent": "informational",
-   "angle": "Kreyòl: siy fen dimonn yo (Matye 24), espwa pou kretyen, kijan pou nou pare san laperèz. Different angle from the Dezyèm vini Jezi study; link to /kreyol/dezyem-vini-jezi/.",
-   "secondary": [
-    "siy fen dimonn",
-    "Matye 24 eksplike",
-    "fen dimonn nan Bib la",
-    "kijan pou m pare",
-    "dezyèm vini Jezi"
-   ],
-   "evidence": "Search Console Oct 23 to Nov 19, 2026: Kreyòl Bible pages rank 4 to 7; most played Kreyòl audios are core belief topics",
-   "priority": "top",
-   "added": "2026-11-20"
-  },
   {
    "keyword": "who are seventh day adventists",
    "cat": "Bible Answers",
