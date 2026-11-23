@@ -18,7 +18,7 @@ header{background:var(--navy);color:#fff;padding:14px 16px}
 header .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
 header img{height:52px;width:auto;display:block}
 header span{font-weight:800;color:#E8D6A6;font-size:14px;letter-spacing:.4px}
-main{max-width:1180px;margin:0 auto;padding:22px 16px 40px;display:flex;flex-direction:column;gap:18px}
+main{max-width:1500px;margin:0 auto;padding:22px 16px 40px;display:flex;flex-direction:column;gap:18px}
 h1{font-family:"Libre Baskerville",Georgia,serif;font-size:26px;margin:0}
 .lead{margin:4px 0 0;color:var(--muted)}
 .panel{background:var(--card);border-radius:16px;box-shadow:var(--shadow);border:1px solid var(--line)}
@@ -31,7 +31,7 @@ h1{font-family:"Libre Baskerville",Georgia,serif;font-size:26px;margin:0}
 .kpi span{color:var(--muted);font-weight:600}
 .wr-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:6px}
 .wr-k .kpi small{display:block;margin-top:4px;font-weight:800;font-size:13px}.up{color:#1D6A34}.down{color:#B42318}.flat{color:var(--muted)}
-.wr-chart{width:100%;max-width:760px;height:auto;max-height:260px;display:block}.wr-chart text{font:600 12px Mulish,system-ui,sans-serif;fill:#6B7487;stroke:none}.wr-charts{margin-bottom:18px}.wr-charts>.panel{margin-bottom:0;min-width:0}
+
 .wr-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--muted);margin:4px 0 6px}.wr-leg i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .wr-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:18px}
 .wr-bar{position:relative}.wr-bar span{position:absolute;left:0;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;background:#E6EEFB;z-index:0}.wr-bar b,.wr-bar em{position:relative;z-index:1}
@@ -43,6 +43,21 @@ h1{font-family:"Libre Baskerville",Georgia,serif;font-size:26px;margin:0}
 #rep{display:flex;flex-direction:column;gap:18px}
 @media (max-width:520px){.wr-k{grid-template-columns:1fr 1fr}.kpi b{font-size:24px}}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
+
+.wr-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
+.wr-grid>.panel{margin:0;min-width:0}.wr-p.c12{grid-column:span 12}.wr-p.c6{grid-column:span 6}.wr-p.c4{grid-column:span 4}.wr-p.c3{grid-column:span 3}.wr-p.c7{grid-column:span 7}.wr-p.c5{grid-column:span 5}
+.wr-p.page{padding:14px 16px}.wr-p .sec-h{font-size:15.5px!important;margin:0 0 8px}
+.wr-cv{width:100%;min-height:190px}.wr-chart{display:block;max-width:none;max-height:none}.wr-chart text{font:600 11.5px Mulish,system-ui,sans-serif;fill:#6B7487;stroke:none}
+.wr-leg{margin:0 0 4px!important;font-size:12.5px!important}.wr-note{margin-left:auto;font-weight:600;font-size:12px}
+.wr-tw{overflow-x:auto}.wr-grid .rtable{width:100%;font-size:13.5px}.wr-grid .rtable th{padding:8px 10px!important;font-size:12.5px!important}.wr-grid .rtable td{padding:6px 10px}.wr-grid .rtable td.t{max-width:220px}.wr-grid .wr-bar span{height:18px}
+.wr-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.wr-mini>div{border:1px solid #E6EBF3;border-radius:12px;padding:10px 12px;background:#F8FAFD}.wr-mini b{display:block;font:900 21px Mulish,system-ui,sans-serif;color:#0E1B3D}.wr-mini span{display:block;font-size:12.5px;font-weight:700;color:#5D6A80;line-height:1.25}
+.wr-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}.wr-top .sec-h{margin:0}.wr-top .meta{margin:0;font-size:13px}
+.wr-k{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))!important;gap:10px!important;margin:0!important}.wr-k .kpi{padding:10px 14px!important}.wr-k .kpi b{font-size:22px!important}.wr-k .kpi span{font-size:13px}.wr-k .kpi small{font-size:11.5px!important}
+.wr-upd{margin:8px 2px 0!important;font-size:12.5px}
+@media (max-width:1400px){.wr-p.c4,.wr-p.c3{grid-column:span 6}.wr-p.c7,.wr-p.c5{grid-column:span 12}}
+.wr-grid .lbtn[data-csv]{padding:3px 10px!important;font-size:12px!important;border-radius:8px!important}.wr-grid .rtable td{white-space:nowrap}
+@media (max-width:520px){.wr-grid .rtable td.t{max-width:150px}.wr-grid .rtable th,.wr-grid .rtable td{padding-left:7px!important;padding-right:7px!important}}
+@media (max-width:860px){.wr-p.c6,.wr-p.c4,.wr-p.c3,.wr-p.c7,.wr-p.c5{grid-column:span 12}}
 </style>
 </head>
 <body>
@@ -52,7 +67,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:0 16px 30px}
   <div id="rep"><div class="panel page"><p class="meta">Loading the numbers...</p></div></div>
 </main>
 <footer>Shekinah Haitian Seventh-day Adventist Church · Alvarado, Texas</footer>
-<script src="/assets/webreport.js?v=3"></script>
+<script src="/assets/webreport.js?v=4"></script>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';

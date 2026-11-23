@@ -299,7 +299,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .page{padding:20px}
 .wr-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:6px}
 .wr-k .kpi small{display:block;margin-top:4px;font-weight:800;font-size:13px}.up{color:#1D6A34}.down{color:#B42318}.flat{color:var(--muted)}
-.wr-chart{width:100%;max-width:760px;height:auto;max-height:260px;display:block}.wr-chart text{font:600 12px Mulish,system-ui,sans-serif;fill:#6B7487;stroke:none}.wr-charts{margin-bottom:18px}.wr-charts>.panel{margin-bottom:0;min-width:0}
+
 .wr-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--muted);margin:4px 0 6px}.wr-leg i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .wr-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:18px}
 .wr-bar{position:relative}.wr-bar span{position:absolute;left:0;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;background:#E6EEFB;z-index:0}.wr-bar b,.wr-bar em{position:relative;z-index:1}
@@ -589,6 +589,21 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 #mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:12px}
 @media(max-width:1000px){.tm-row{grid-template-columns:1fr 1fr}.pj-tm{width:auto}}
 @media(max-width:720px){#nlist,.panel.page:has(#nlist){width:auto;min-width:0}#sbrows{display:block}#sbrows .sb-row{grid-template-columns:1fr auto;gap:2px 10px}#sbrows .sb-c{max-width:none}}
+
+.wr-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px;margin-top:14px}
+.wr-grid>.panel{margin:0;min-width:0}.wr-p.c12{grid-column:span 12}.wr-p.c6{grid-column:span 6}.wr-p.c4{grid-column:span 4}.wr-p.c3{grid-column:span 3}.wr-p.c7{grid-column:span 7}.wr-p.c5{grid-column:span 5}
+.wr-p.page{padding:14px 16px}.wr-p .sec-h{font-size:15.5px!important;margin:0 0 8px}
+.wr-cv{width:100%;min-height:190px}.wr-chart{display:block;max-width:none;max-height:none}.wr-chart text{font:600 11.5px Mulish,system-ui,sans-serif;fill:#6B7487;stroke:none}
+.wr-leg{margin:0 0 4px!important;font-size:12.5px!important}.wr-note{margin-left:auto;font-weight:600;font-size:12px}
+.wr-tw{overflow-x:auto}.wr-grid .rtable{width:100%;font-size:13.5px}.wr-grid .rtable th{padding:8px 10px!important;font-size:12.5px!important}.wr-grid .rtable td{padding:6px 10px}.wr-grid .rtable td.t{max-width:220px}.wr-grid .wr-bar span{height:18px}
+.wr-mini{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}.wr-mini>div{border:1px solid #E6EBF3;border-radius:12px;padding:10px 12px;background:#F8FAFD}.wr-mini b{display:block;font:900 21px Mulish,system-ui,sans-serif;color:#0E1B3D}.wr-mini span{display:block;font-size:12.5px;font-weight:700;color:#5D6A80;line-height:1.25}
+.wr-top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}.wr-top .sec-h{margin:0}.wr-top .meta{margin:0;font-size:13px}
+.wr-k{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))!important;gap:10px!important;margin:0!important}.wr-k .kpi{padding:10px 14px!important}.wr-k .kpi b{font-size:22px!important}.wr-k .kpi span{font-size:13px}.wr-k .kpi small{font-size:11.5px!important}
+.wr-upd{margin:8px 2px 0!important;font-size:12.5px}
+@media (max-width:1400px){.wr-p.c4,.wr-p.c3{grid-column:span 6}.wr-p.c7,.wr-p.c5{grid-column:span 12}}
+.wr-grid .lbtn[data-csv]{padding:3px 10px!important;font-size:12px!important;border-radius:8px!important}.wr-grid .rtable td{white-space:nowrap}
+@media (max-width:520px){.wr-grid .rtable td.t{max-width:150px}.wr-grid .rtable th,.wr-grid .rtable td{padding-left:7px!important;padding-right:7px!important}}
+@media (max-width:860px){.wr-p.c6,.wr-p.c4,.wr-p.c3,.wr-p.c7,.wr-p.c5{grid-column:span 12}}
 </style>
 </head>
 <body>
@@ -757,7 +772,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   </div>
 </div>
 <div id="toast" class="hide"></div>
-<script src="/assets/webreport.js?v=3"></script>
+<script src="/assets/webreport.js?v=4"></script>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
@@ -1494,11 +1509,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var kp=function(ic,bg,fg,n,l,main){return '<div class="pj-kpi'+(main?' main':'')+'"><div class="ic"'+(main?'':' style="background:'+bg+';color:'+fg+'"')+'>'+pjI(ic)+'</div><div style="min-width:0"><b>'+n+'</b><span>'+l+'</span></div></div>';};
     var html='<div class="sec-h" style="margin:8px 0 0">Website forms at a glance</div><div class="pj-kpis">'+kp('inbox','','',c.all.t,'All messages',1)+kp('mail','#FFF1D6','#8A5A00',c.all.n,'Waiting for a first look')+
       kp('cal','#E3EDFF','#1D5FE0',d30,'Received in last 30 days')+kp('reply','#E3F6E8','#157A2F',replied,'Answered by email')+'</div><p class="meta" style="margin:-6px 0 0">These numbers count website form entries only. They are not attendance.</p>';
-    html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">By type and status</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Type</th>'+S.map(function(s){return '<th class="n">'+s[1]+'</th>';}).join('')+'<th class="n">Total</th><th></th></tr>'+
+    html+='<div class="wr-grid"><div class="panel page wr-p c7"><div class="sec-h">By type and status</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Type</th>'+S.map(function(s){return '<th class="n">'+s[1]+'</th>';}).join('')+'<th class="n">Total</th><th></th></tr>'+
       K.map(function(k){var rs=items.filter(function(i){return i.kind===k;});return '<tr><td><b>'+LABEL[k]+'</b></td>'+S.map(function(s){return '<td class="n">'+rs.filter(function(i){return i.status===s[0];}).length+'</td>';}).join('')+'<td class="n"><b>'+rs.length+'</b></td><td class="n">'+(can('messages_manage')?'<button class="lbtn" data-csv="'+k+'" style="padding:5px 10px;font-size:13px">CSV</button>':'')+'</td></tr>';}).join('')+'</table></div></div>';
-    html+='<div class="panel page"><div class="sec-h" style="margin-bottom:8px">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
+    html+='<div class="panel page wr-p c5"><div class="sec-h">Last six months</div><div style="overflow-x:auto"><table class="rtable"><tr><th>Month</th>'+K.map(function(k){return '<th class="n">'+LABEL[k]+'</th>';}).join('')+'</tr>'+
       months.map(function(mm){var lab=new Date(mm[0],mm[1],1).toLocaleString([], {month:'long',year:'numeric'});var rs=items.filter(function(i){var d=pdate(i.created_at);return d.getFullYear()===mm[0]&&d.getMonth()===mm[1];});
-        return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div>';
+        return '<tr><td>'+lab+'</td>'+K.map(function(k){return '<td class="n">'+rs.filter(function(i){return i.kind===k;}).length+'</td>';}).join('')+'</tr>';}).join('')+'</table></div></div></div>';
     $('rep').innerHTML='<div id="webrep"></div>'+shareTop()+html+shareBox();webReport();loadShare();
   }
   $('rep').addEventListener('click',function(e){var b=e.target.closest('[data-csv]');if(b)csv(b.getAttribute('data-csv'));});
