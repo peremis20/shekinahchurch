@@ -554,7 +554,7 @@ async function memberDelete(me, b) {
 }
 
 // ---------- calendar (church events and tasks, inside the admin only) ----------
-const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Health', 'Other'];
+const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Health', 'Project', 'Other'];
 const CAL_COLORS = ['blue', 'navy', 'purple', 'pink', 'red', 'orange', 'gold', 'green', 'teal', 'brown', 'gray'];
 const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category, color";
 const EV_COLS = EV_PUB + ", is_public, created_by, updated_by, updated_at, repeat, to_char(repeat_until, 'YYYY-MM-DD') AS repeat_until, invitees, remind";
@@ -903,7 +903,27 @@ async function projectSave(me, b) {
   } else {
     row = await wrote('INSERT INTO projects (name, dept, purpose, cost, actual_cost, status, progress, created_by, updated_by, start_on, end_on) VALUES ($1, $2, $3, $4::numeric, $5::numeric, $6, $7::int, $8, $8, $9::date, $10::date) RETURNING *', v, PJ_COLS);
   }
+  await pjCal(row.id, me);
   return { project: row };
+}
+// A project with dates gets a private entry on the church calendar, kept in step with the project.
+async function pjCal(id, me) {
+  const p = await one("SELECT id, name, purpose, dept, cal_event_id, to_char(start_on, 'YYYY-MM-DD') AS s, to_char(end_on, 'YYYY-MM-DD') AS e FROM projects WHERE id = $1", [id]);
+  if (!p) return;
+  if (!p.s && !p.e) {
+    if (p.cal_event_id) { await q('UPDATE projects SET cal_event_id = NULL WHERE id = $1', [p.id]); await q('DELETE FROM cal_events WHERE id = $1', [p.cal_event_id]); }
+    return;
+  }
+  const start = p.s || p.e, end = p.s && p.e && p.e > p.s ? p.e : null;
+  const title = ('Project: ' + p.name).slice(0, 200);
+  const details = [p.purpose, p.dept ? 'Department: ' + p.dept : '', 'Added from the Projects page. Change the dates there.'].filter(Boolean).join('\n');
+  const ev = p.cal_event_id ? await one('SELECT id FROM cal_events WHERE id = $1', [p.cal_event_id]) : null;
+  if (ev) {
+    await q("UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, details = $4, category = 'Project', is_public = false, updated_by = $5, updated_at = now() WHERE id = $6", [title, start, end, details, me.email, ev.id]);
+  } else {
+    const n = await wrote("INSERT INTO cal_events (title, starts_on, ends_on, details, category, is_public, created_by, updated_by) VALUES ($1, $2::date, $3::date, $4, 'Project', false, $5, $5) RETURNING *", [title, start, end, details, me.email], 'id');
+    await q('UPDATE projects SET cal_event_id = $1 WHERE id = $2', [n.id, p.id]);
+  }
 }
 async function projectApprove(me, b) {
   allow(me, 'team_manage');
@@ -915,10 +935,11 @@ async function projectApprove(me, b) {
   return { project: row };
 }
 async function projectDelete(me, b) {
-  const old = await one('SELECT id, created_by FROM projects WHERE id = $1', [idOf(b.id)]);
+  const old = await one('SELECT id, created_by, cal_event_id FROM projects WHERE id = $1', [idOf(b.id)]);
   need(old, 404, 'That project was not found.');
   need(pjMine(me, old), 403, 'Only the person who added this project or an admin can delete it.');
   await q('DELETE FROM projects WHERE id = $1', [old.id]);
+  if (old.cal_event_id) await q('DELETE FROM cal_events WHERE id = $1', [old.cal_event_id]);
   return { ok: true };
 }
 async function projectBudget(me, b) {

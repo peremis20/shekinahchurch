@@ -32,3 +32,4 @@ ALTER TABLE projects ADD COLUMN IF NOT EXISTS end_on date;
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval text NOT NULL DEFAULT 'Waiting'; -- board approval: Waiting, Approved, Not approved (Jimmy, Nov 23, 2026)
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_by text;
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_on date;
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS cal_event_id bigint REFERENCES cal_events(id) ON DELETE SET NULL; -- private calendar entry for the project dates

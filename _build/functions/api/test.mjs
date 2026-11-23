@@ -301,6 +301,21 @@ r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, appro
 r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, approval: 'Approved' } });
 ok(r.status === 200 && r.j.project.approval === 'Approved' && /^\d{4}-\d{2}-\d{2}$/.test(r.j.project.approval_on) && r.j.project.approval_by, 'admin approves a project with the date', r.j);
 r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', cost: '150' } } }); ok(r.j.project.approval === 'Approved', 'editing keeps the approval', r.j);
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', purpose: 'Replace it', cost: '150', start_on: '2026-12-14', end_on: '2026-12-15' } } });
+let ce = (await db.query("SELECT e.title, to_char(e.starts_on,'YYYY-MM-DD') s, to_char(e.ends_on,'YYYY-MM-DD') e, e.is_public, e.category FROM projects p JOIN cal_events e ON e.id = p.cal_event_id WHERE p.id = $1", [CP.id])).rows[0];
+ok(ce && ce.title === 'Project: Carpet' && ce.s === '2026-12-14' && ce.e === '2026-12-15' && ce.is_public === false && ce.category === 'Project', 'project dates go on the calendar privately', ce);
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', cost: '150', start_on: '2026-12-20', end_on: '' } } });
+ce = (await db.query("SELECT to_char(e.starts_on,'YYYY-MM-DD') s, e.ends_on FROM projects p JOIN cal_events e ON e.id = p.cal_event_id WHERE p.id = $1", [CP.id])).rows[0];
+ok(ce && ce.s === '2026-12-20' && ce.ends_on === null, 'changing project dates moves the calendar entry', ce);
+r = await call('GET', '/calendar', { token: O }); ok(r.j.kinds.includes('Project'), 'Project is a calendar type', r.j.kinds);
+const evid = (await db.query('SELECT cal_event_id FROM projects WHERE id = $1', [CP.id])).rows[0].cal_event_id;
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', cost: '150' } } });
+ok(!(await db.query('SELECT 1 FROM cal_events WHERE id = $1', [evid])).rows.length, 'removing the dates removes the calendar entry');
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: CP.id, name: 'Carpet', cost: '150', end_on: '2026-12-31' } } });
+const evid2 = (await db.query('SELECT cal_event_id FROM projects WHERE id = $1', [CP.id])).rows[0].cal_event_id; ok(evid2, 'a due date alone also goes on the calendar');
+r = await call('POST', '/projects/delete', { token: O, body: { id: CP.id } });
+ok(!(await db.query('SELECT 1 FROM cal_events WHERE id = $1', [evid2])).rows.length, 'deleting a project removes its calendar entry');
+r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Carpet', cost: '100' } } }); CP.id = r.j.project.id;
 r = await call('POST', '/projects/approve', { token: O, body: { id: CP.id, approval: 'Waiting' } }); ok(r.j.project.approval === 'Waiting' && !r.j.project.approval_on && !r.j.project.approval_by, 'back to waiting clears who and when', r.j);
 await db.query("DELETE FROM projects WHERE name = 'Carpet'");
 
