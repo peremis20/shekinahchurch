@@ -641,7 +641,8 @@ const dayLongS = (k) => new Date(k + 'T12:00:00Z').toLocaleDateString('en-US', {
 const repeatText = (e) => e.repeat === 'weekly' ? 'Every week on ' + new Date(e.starts_on + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long' })
   : e.repeat === 'monthly' ? 'Every month on day ' + Number(e.starts_on.slice(8)) : e.repeat === 'yearly' ? 'Every year on ' + new Date(e.starts_on + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' }) : '';
 const inviteesOf = (e) => { let v = e.invitees; if (typeof v === 'string') { try { v = JSON.parse(v); } catch { v = []; } } return Array.isArray(v) ? v.filter((x) => EMAIL_RE.test(x)) : []; };
-const meetingPeople = (e) => [...new Set([lower(e.created_by), ...inviteesOf(e).map(lower)].filter((x) => EMAIL_RE.test(x)))];
+// Nobody invited means no emails at all, not even reminders to the person who made it (Jimmy, Nov 23, 2026).
+const meetingPeople = (e) => inviteesOf(e).length ? [...new Set([lower(e.created_by), ...inviteesOf(e).map(lower)].filter((x) => EMAIL_RE.test(x)))] : [];
 const GAP = Number(process.env.MAIL_GAP_MS || 600); // Resend allows a few calls a second
 const sleep = (ms) => new Promise((ok) => setTimeout(ok, Math.min(ms, GAP)));
 async function mailCancel(ids) {

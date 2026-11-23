@@ -389,6 +389,9 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   r = await call('GET', '/events'); const occ = r.j.events.filter((e) => e.title === 'Board meeting');
   ok(occ.length >= 20 && occ[1].starts_on > occ[0].starts_on && !('invitees' in occ[0]) && !('repeat' in occ[0]), 'public page shows each week, without the invite list', occ.length);
   r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Bad', starts_on: day, invitees: 'not an email' } } }); ok(r.status === 400, 'bad invite email refused', r.j);
+  mails.length = 0;
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Nobody invited', starts_on: day, start_time: time, category: 'Meeting', invitees: '', remind: true } } });
+  ok(r.status === 200 && r.j.invited === 0 && mails.length === 0, 'no emails at all when nobody is invited', mails.map((m) => [m.tag, m.to]));
   r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Choir', starts_on: '2026-01-31', repeat: 'monthly' } } });
   r = await call('GET', '/events'); ok(!r.j.events.some((e) => e.title === 'Choir' && /-(02|04|06|09|11)-31$/.test(e.starts_on)), 'monthly skips months without that day');
   cancels.length = 0;
