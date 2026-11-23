@@ -918,6 +918,12 @@ async function submit(req) {
     const text = 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\n' + (who ? who + '\n\n' : '') + 'Sign in to read it and follow up:\n' + SITE + '/admin/';
     for (const to of await alertList()) await mail({ to, subject: 'New ' + what + ' on the website', tag: 'staff-alert', text });
   }
+  // "Email me the newsletter" box on the prayer, Bible study, contact and visit forms (Nov 23, 2026). No second team alert.
+  if (b.subscribe === true && e.kind !== 'newsletter' && EMAIL_RE.test(e.email)) {
+    const have = await one("SELECT id FROM submissions WHERE kind = 'newsletter' AND lower(email) = $1 AND unsubscribed = false LIMIT 1", [e.email.toLowerCase()]);
+    if (!have) await q(`INSERT INTO submissions (kind, status, name, email, phone, details, is_private, created_at, updated_at, unsubscribed)
+      VALUES ('newsletter', 'new', $1, $2, $3, $4::jsonb, false, now(), now(), false)`, [e.is_private ? '' : e.name, e.email, e.is_private ? '' : e.phone, JSON.stringify({ source: e.kind + ' form' })]);
+  }
   await sendThanksNow();
   return { ok: true };
 }

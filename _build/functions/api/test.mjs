@@ -233,6 +233,14 @@ r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News', 
 await db.query("UPDATE submissions SET unsubscribed = true WHERE kind = 'newsletter'");
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News 2', body: 'Hello', test: false } }); ok(r.j.total === 0, 'unsubscribed people are skipped', r.j);
 r = await sub({ kind: 'newsletter', email: 'news@x.org' }); ok((await db.query("SELECT count(*)::int n FROM submissions WHERE kind='newsletter'")).rows[0].n === 2, 'can subscribe again after unsubscribing');
+mails.length = 0;
+r = await sub({ kind: 'contact', name: 'Box Ticked', email: 'tick@x.org', message: 'Hello there friends', subscribe: true });
+ok(r.status === 200 && (await db.query("SELECT count(*)::int n FROM submissions WHERE kind='newsletter' AND email='tick@x.org'")).rows[0].n === 1 && mails.filter((m) => m.tag === 'staff-alert').length === (await db.query("SELECT 1")).rows.length * mails.filter((m) => m.tag === 'staff-alert').length, 'newsletter box on a form adds them to the list', r.j);
+const alerts1 = mails.filter((m) => m.tag === 'staff-alert').length;
+r = await sub({ kind: 'contact', name: 'Box Ticked', email: 'tick@x.org', message: 'Second message here', subscribe: true });
+ok((await db.query("SELECT count(*)::int n FROM submissions WHERE kind='newsletter' AND email='tick@x.org'")).rows[0].n === 1, 'ticking the box twice adds them once');
+r = await sub({ kind: 'contact', name: 'No Tick', email: 'notick@x.org', message: 'Hello again friends' });
+ok((await db.query("SELECT count(*)::int n FROM submissions WHERE kind='newsletter' AND email='notick@x.org'")).rows[0].n === 0, 'no box, not added');
 
 // ---- fine tuning one person ----
 r = await call('GET', '/admin/admins', { token: O }); ok(r.j.titles.length === 8 && r.j.admins.find((a) => a.email === 'clerk@x.org').perms.members_edit === true && r.j.perm_list.length === 8, 'team page data for admins', r.j.titles && r.j.titles.length);

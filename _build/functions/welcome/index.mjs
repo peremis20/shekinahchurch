@@ -46,7 +46,7 @@ const ADDRESS = '205 E Carver St, Alvarado, TX 76009';
 // Use the first name only when the person typed one. Never guess or make up a name.
 const firstName = (name) => { const f = String(name || '').trim().split(/\s+/)[0] || ''; return /[@\d]/.test(f) ? '' : f; };
 
-function shortEmail({ subject, preheader, kicker, title, name, paras, boxLabel, boxLines, verse, sign, reason, unsub }) {
+function shortEmail({ subject, preheader, kicker, title, name, paras, boxLabel, boxLines, verse, sign, reason, unsub, button }) {
   const first = firstName(name);
   const hi = first ? `Hi ${esc(first)},` : 'Hi,';
   const box = boxLines && boxLines.length ? `<tr><td style="padding:4px 28px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F4EDDE;border-radius:12px;border-left:5px solid #E2B85C"><tr><td style="padding:14px 18px;font-family:${F};font-size:15px;line-height:1.55;color:#13294B"><span style="font-size:11px;font-weight:800;letter-spacing:1.2px;color:#8A6420">${esc(boxLabel)}</span><br><strong>${boxLines.map(esc).join('</strong><br><strong>')}</strong></td></tr></table></td></tr>` : '';
@@ -65,6 +65,7 @@ function shortEmail({ subject, preheader, kicker, title, name, paras, boxLabel, 
 <tr><td style="padding:26px 28px 8px;font-family:${F};font-size:17px;line-height:1.65;color:#2C3443">
 <p style="margin:0 0 14px">${hi}</p>
 ${paras.map((t) => `<p style="margin:0 0 14px">${esc(t)}</p>`).join('\n')}
+${button ? `<p style="margin:6px 0 18px"><a href="${button.url}" target="_blank" style="display:inline-block;background:#13294B;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:16px;border-radius:10px;padding:13px 24px">${esc(button.label)}</a></p>` : ''}
 </td></tr>
 ${box}
 <tr><td style="padding:18px 28px 26px;font-family:${F};font-size:16px;line-height:1.65;color:#2C3443">
@@ -75,7 +76,7 @@ ${box}
 You are receiving this because you ${esc(reason)} at shekinahsda.org. Have a question? Just reply to this email.<br>
 Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}${unsub ? `<br><a href="${unsub}" target="_blank" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>` : ''}
 </td></tr></table></td></tr></table></body></html>`;
-  const text = [hi, ...paras, boxLines && boxLines.length ? boxLabel + ': ' + boxLines.join(', ') : '', verse, (sign || 'With love,') + '\nYour church family at Shekinah',
+  const text = [hi, ...paras, button ? button.label + ': ' + button.url : '', boxLines && boxLines.length ? boxLabel + ': ' + boxLines.join(', ') : '', verse, (sign || 'With love,') + '\nYour church family at Shekinah',
     unsub ? 'Unsubscribe: ' + unsub : '', 'Shekinah Haitian Seventh-day Adventist Church, ' + ADDRESS].filter(Boolean).join('\n\n');
   return { subject, html, text, unsub };
 }
@@ -85,7 +86,9 @@ export function welcomeEmail(name, email) {
     subject: 'Welcome to the Shekinah family', preheader: 'Thank you for joining us. We are so glad you are here.',
     kicker: 'WELCOME', title: 'Welcome to the Shekinah family', name,
     paras: ['Thank you for joining our newsletter. You matter to us, and we are so glad you are here.',
+      'Here is your free gift: 7 Days of Hope, a short devotional for each day of the week. Read one a day, or all of them at once.',
       'Twice a month we will send you hope for hard days, Bible answers, help for your family, and news from our church family. We would love to worship with you soon.'],
+    button: { label: 'Open 7 Days of Hope', url: SITE + '/7-days-of-hope/' },
     boxLabel: 'JOIN US THIS SATURDAY', boxLines: [VISIT_TIMES, ADDRESS],
     verse: '"The LORD bless thee, and keep thee: The LORD make his face shine upon thee, and be gracious unto thee." Numbers 6:24 to 25, KJV',
     sign: 'With joy and love,', reason: 'subscribed to our newsletter', unsub: unsubUrl(email),

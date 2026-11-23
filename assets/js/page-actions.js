@@ -92,3 +92,96 @@
   run();
   new MutationObserver(function () { clearTimeout(run.t); run.t = setTimeout(run, 150); }).observe(document.body, { childList: true, subtree: true });
 })();
+
+/* Email sign up prompt (Jimmy, Nov 23, 2026: "what we need is to be able to collect email addresses").
+   On articles and Kreyol studies only. Appears once, after someone finishes an audio or reads most of the page.
+   Never covers the page, closes with X or Escape, and stays away for 3 weeks after it is closed. */
+(function () {
+  var API = 'https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/submit';
+  var WAIT_DAYS = 21;
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function okPage() {
+    var p = location.pathname;
+    return /^\/(blog|kreyol)\/[a-z0-9-]+\/?$/.test(p) && !/^\/kreyol\/(planifye-vizit|etid)\/?$/.test(p);
+  }
+  function allowed() {
+    if (get('shk_nl_done')) return false;
+    var c = +get('shk_nl_closed') || 0;
+    if (c && Date.now() - c < WAIT_DAYS * 864e5) return false;
+    try { if (sessionStorage.getItem('shk_nl_seen')) return false; } catch (e) {}
+    return true;
+  }
+  var shown = false, t0 = Date.now();
+  var css = '.nlp{position:fixed;right:20px;bottom:20px;z-index:9999;width:360px;max-width:calc(100vw - 24px);background:#fff;border:1px solid #E3DAC6;border-radius:18px;box-shadow:0 14px 40px rgba(19,41,75,.22);font-family:Mulish,system-ui,sans-serif;color:#13294B;overflow:hidden;transform:translateY(20px);opacity:0;transition:transform .35s ease,opacity .35s ease}'
+    + '.nlp.in{transform:none;opacity:1}.nlp-top{background:#13294B;color:#fff;padding:16px 46px 14px 18px}.nlp-k{display:inline-block;background:#E2B85C;color:#13294B;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:3px 10px}'
+    + '.nlp h2{font-family:"Libre Baskerville",Georgia,serif;font-size:21px;line-height:1.25;margin:8px 0 0;color:#fff}.nlp-b{padding:14px 18px 16px}.nlp p{margin:0 0 12px;font-size:15px;line-height:1.5;color:#3D4554}'
+    + '.nlp form{display:flex;gap:8px}.nlp input[type=email]{flex:1;min-width:0;height:44px;border:1px solid #D9CFB8;border-radius:10px;padding:0 12px;font:inherit;font-size:16px;color:#13294B}'
+    + '.nlp button.go{height:44px;border:0;border-radius:10px;background:#13294B;color:#fff;font:800 15px Mulish,system-ui,sans-serif;padding:0 16px;cursor:pointer;white-space:nowrap}.nlp button.go:disabled{opacity:.6}'
+    + '.nlp .x{position:absolute;top:10px;right:10px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:20px;line-height:1;cursor:pointer}.nlp .x:hover{background:rgba(255,255,255,.25)}'
+    + '.nlp small{display:block;margin-top:8px;font-size:12.5px;color:#6B7280}.nlp .err{color:#B42318;font-size:13.5px;margin-top:8px}.nlp .hp{position:absolute;left:-9999px}'
+    + '@media(max-width:520px){.nlp{right:12px;left:12px;bottom:12px;width:auto}}';
+  function close(saveIt) {
+    var el = document.querySelector('.nlp'); if (!el) return;
+    el.classList.remove('in'); setTimeout(function () { if (el.parentNode) el.parentNode.removeChild(el); }, 350);
+    if (saveIt) set('shk_nl_closed', String(Date.now()));
+    document.removeEventListener('keydown', esc);
+  }
+  function esc(e) { if (e.key === 'Escape') close(true); }
+  function show() {
+    if (shown || !okPage() || !allowed()) return;
+    shown = true;
+    try { sessionStorage.setItem('shk_nl_seen', '1'); } catch (e) {}
+    if (!document.getElementById('nlp-css')) { var st = document.createElement('style'); st.id = 'nlp-css'; st.textContent = css; document.head.appendChild(st); }
+    var el = document.createElement('aside');
+    el.className = 'nlp'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Free devotional sign up');
+    el.innerHTML = '<button class="x" type="button" aria-label="Close">&times;</button>'
+      + '<div class="nlp-top"><span class="nlp-k">Free gift</span><h2>7 Days of Hope</h2></div>'
+      + '<div class="nlp-b"><p>Get our free devotional, plus hope for hard days and Bible answers twice a month.</p>'
+      + '<form novalidate><input type="email" name="email" placeholder="Your email address" aria-label="Your email address" autocomplete="email" required>'
+      + '<input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"><button class="go" type="submit">Send it to me</button></form>'
+      + '<small>Free. Unsubscribe anytime with one click.</small></div>';
+    document.body.appendChild(el);
+    requestAnimationFrame(function () { el.classList.add('in'); });
+    el.querySelector('.x').addEventListener('click', function () { close(true); });
+    document.addEventListener('keydown', esc);
+    var f = el.querySelector('form'), inp = f.querySelector('input[type=email]'), btn = f.querySelector('.go');
+    if (window.gtag) gtag('event', 'newsletter_prompt_shown');
+    f.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      var old = el.querySelector('.err'); if (old) old.parentNode.removeChild(old);
+      var v = (inp.value || '').trim();
+      function err(m) { var d = document.createElement('div'); d.className = 'err'; d.textContent = m; f.parentNode.insertBefore(d, f.nextSibling); inp.focus(); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { err('Please enter a valid email address.'); return; }
+      if (f.querySelector('.hp').value) { done(); return; }
+      btn.disabled = true; btn.textContent = 'Sending...';
+      fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ kind: 'newsletter', email: v, details: { source: 'prompt', page: location.pathname.slice(0, 120) } }) })
+        .then(function (r) { if (!r.ok) throw 0; if (window.gtag) gtag('event', 'newsletter_signup', { method: 'prompt' }); done(); })
+        .catch(function () { btn.disabled = false; btn.textContent = 'Send it to me'; err('Sorry, that did not go through. Please try again.'); });
+    });
+    function done() {
+      set('shk_nl_done', '1');
+      el.querySelector('.nlp-b').innerHTML = '<p><b>Thank you!</b> Check your inbox for your free devotional. If you do not see it in a few minutes, look in your spam folder.</p>';
+      setTimeout(function () { close(false); }, 9000);
+    }
+  }
+  // When to ask: an audio has finished or played 2 minutes, or most of the page has been read after 20 seconds.
+  document.addEventListener('ended', function (e) { if (e.target && e.target.tagName === 'AUDIO') show(); }, true);
+  document.addEventListener('timeupdate', function (e) { if (e.target && e.target.tagName === 'AUDIO' && e.target.currentTime > 120) show(); }, true);
+  window.addEventListener('scroll', function () {
+    if (shown || Date.now() - t0 < 20000) return;
+    var h = document.documentElement, seen = (h.scrollTop || document.body.scrollTop) + h.clientHeight;
+    if (seen / h.scrollHeight > 0.6) show();
+  }, { passive: true });
+  // The site app changes pages without reloading: start the clock again on a new page.
+  var lastPath = location.pathname;
+  setInterval(function () { if (location.pathname !== lastPath) { lastPath = location.pathname; t0 = Date.now(); } }, 1000);
+})();
+
+/* The "Email me the newsletter" box starts ticked on the Bible study, contact and visit forms (the site app does not keep a default tick). */
+(function () {
+  function tick() { document.querySelectorAll('input[type=checkbox][data-on="1"]:not([data-done])').forEach(function (c) { c.checked = true; c.setAttribute('data-done', '1'); }); }
+  // Watch the whole page (the site app can replace <body>), and check a few times while the page settles.
+  tick(); new MutationObserver(tick).observe(document.documentElement, { childList: true, subtree: true });
+  var n = 0, iv = setInterval(function () { tick(); if (++n > 20) clearInterval(iv); }, 500);
+})();
