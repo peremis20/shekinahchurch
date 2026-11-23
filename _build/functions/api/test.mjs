@@ -281,6 +281,12 @@ r = await call('POST', '/likes', { body: { p: '/admin/x/' } }); ok(r.status === 
 r = await call('GET', '/likes?p=javascript:alert(1)'); ok(r.status === 400, 'bad page rejected');
 r = await call('POST', '/likes', { body: { p: '/blog/x-y/', on: false }, ip: '9.9.9.4' }); ok(r.j.n === 0, 'never below zero', r.j);
 
+// ---- project dates ----
+r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Carpet', cost: '100', start_on: '2026-12-01', end_on: '2026-12-15' } } });
+ok(r.status === 200 && r.j.project.start_on === '2026-12-01' && r.j.project.end_on === '2026-12-15', 'project start and end dates are saved', r.j);
+r = await call('POST', '/projects/save', { token: O, body: { project: { id: r.j.project.id, name: 'Carpet', cost: '100', start_on: '2026-12-15', end_on: '2026-12-01' } } }); ok(r.status === 400, 'end date before start is refused', r.j);
+await db.query("DELETE FROM projects WHERE name = 'Carpet'");
+
 // ---- import a member list ----
 r = await call('POST', '/members/read', { token: O, body: { media_type: 'image/png', data: 'x'.repeat(200) } }); ok(r.status === 503 && /CSV and Excel/.test(r.j.error), 'photo reading needs the AI key', r.j);
 process.env.ANTHROPIC_API_KEY = 'test-key';

@@ -861,7 +861,7 @@ async function shareOff(me) { allow(me, 'team_manage'); await q("DELETE FROM aut
 // ---------- projects (church projects and costs; Jimmy, Nov 16, 2026) ----------
 // Every team member can see the list and add a project. Changing or deleting: the person who added it, or anyone who can manage the team.
 // cost = estimated cost. The overall budget is in automation_status 'projects_budget' (set by team managers).
-const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, actual_cost::float8 AS actual_cost, status, progress, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by";
+const PJ_COLS = "id, name, dept, purpose, cost::float8 AS cost, actual_cost::float8 AS actual_cost, status, progress, to_char(start_on, 'YYYY-MM-DD') AS start_on, to_char(end_on, 'YYYY-MM-DD') AS end_on, to_char(created_at AT TIME ZONE 'America/Chicago', 'YYYY-MM-DD') AS added_on, created_by, updated_by";
 const PJ_DEPTS = ['Building Development', 'Children', 'Community Services', 'Deacons', 'Education', 'Health', 'Music', 'Outreach', 'Pathfinders', 'Sabbath School', 'Women', 'Men', 'Youth', 'Other'];
 const PJ_STATUS = ['Not Started', 'Planned', 'In Progress', 'Completed'];
 const pjMine = (me, p) => me.perms.team_manage || lower(p.created_by) === lower(me.email);
@@ -883,15 +883,18 @@ async function projectSave(me, b) {
   need(name, 400, 'Please add the project name.');
   need(cost !== null, 400, 'Please enter the estimated cost as a number, like 250 or 1200.50.');
   need(actual !== null, 400, 'Please enter the actual cost as a number, or leave it empty.');
-  const v = [name, dept, purpose, cost, actual, status, progress, me.email];
+  const day = (x) => { const t = String(x || '').trim(); if (!t) return null; need(/^\d{4}-\d{2}-\d{2}$/.test(t) && !isNaN(Date.parse(t)), 400, 'Please pick the start and end dates from the calendar.'); return t; };
+  const startOn = day(p.start_on), endOn = day(p.end_on);
+  need(!startOn || !endOn || endOn >= startOn, 400, 'The end date cannot be before the start date.');
+  const v = [name, dept, purpose, cost, actual, status, progress, me.email, startOn, endOn];
   let row;
   if (p.id != null && p.id !== '') {
     const old = await one('SELECT id, created_by FROM projects WHERE id = $1', [idOf(p.id)]);
     need(old, 404, 'That project was not found.');
     need(pjMine(me, old), 403, 'Only the person who added this project or an admin can change it.');
-    row = await wrote('UPDATE projects SET name = $1, dept = $2, purpose = $3, cost = $4::numeric, actual_cost = $5::numeric, status = $6, progress = $7::int, updated_by = $8, updated_at = now() WHERE id = $9 RETURNING *', [...v, old.id], PJ_COLS);
+    row = await wrote('UPDATE projects SET name = $1, dept = $2, purpose = $3, cost = $4::numeric, actual_cost = $5::numeric, status = $6, progress = $7::int, updated_by = $8, start_on = $9::date, end_on = $10::date, updated_at = now() WHERE id = $11 RETURNING *', [...v, old.id], PJ_COLS);
   } else {
-    row = await wrote('INSERT INTO projects (name, dept, purpose, cost, actual_cost, status, progress, created_by, updated_by) VALUES ($1, $2, $3, $4::numeric, $5::numeric, $6, $7::int, $8, $8) RETURNING *', v, PJ_COLS);
+    row = await wrote('INSERT INTO projects (name, dept, purpose, cost, actual_cost, status, progress, created_by, updated_by, start_on, end_on) VALUES ($1, $2, $3, $4::numeric, $5::numeric, $6, $7::int, $8, $8, $9::date, $10::date) RETURNING *', v, PJ_COLS);
   }
   return { project: row };
 }
