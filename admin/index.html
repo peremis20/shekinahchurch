@@ -228,7 +228,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .pj-btns{display:flex;align-items:center;gap:12px;margin-top:18px;justify-content:flex-end;flex-wrap:wrap}.pj-btns .pj-add{margin-left:0;height:46px}.pj-cancel{height:46px;padding:0 18px;border-radius:12px;border:1.5px solid #D3DBE8;background:#fff;font-weight:800;cursor:pointer}.pj-msg{margin-right:auto;color:#B42318;font-weight:700;font-size:14px}
 @media (max-width:1179px){.pj-kpis{grid-template-columns:1fr 1fr}.pj-mid{grid-template-columns:1fr}}
 .pj-chip{max-width:160px}
-@media (max-width:1179px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
+@media (max-width:1300px){.pj-table table{min-width:0}.pj-table td:first-child{padding-left:0}.pj-table table,.pj-table tbody,.pj-table tr,.pj-table td{display:block}.pj-table thead{display:none}.pj-table tr{padding:14px 16px;border-bottom:1px solid #EEF1F6;display:grid;grid-template-columns:1fr 1fr;gap:8px 12px}.pj-table td{border:0;padding:0}.pj-table td.nm,.pj-table td.pr,.pj-table td.ac{grid-column:1/-1}.pj-table td[data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:2px}.pj-pr .pj-track{width:100%}}
 @media (max-width:560px){.pj-kpis{grid-template-columns:1fr 1fr;gap:10px}.pj-kpi.main{grid-column:1/-1}.pj-kpi{padding:14px;gap:10px;flex-direction:column;align-items:flex-start}.pj-kpi.main{flex-direction:row;align-items:center}.pj-kpi .ic{width:44px;height:44px}.pj-f{grid-template-columns:1fr 1fr}.pj-f label,.pj-f label.h{grid-column:span 1}.pj-f .w{grid-column:1/-1}.pj-tools select{flex:1 1 140px;min-width:0}.pj-add{margin-left:0;width:100%;justify-content:center}.pj-donut svg.d{width:120px;height:120px}.pj-dep .r b{min-width:84px}}
 .ef{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:12px}
 .ef label{display:flex;flex-direction:column;gap:5px;font-size:13.5px;font-weight:700;color:var(--muted)}
@@ -736,7 +736,7 @@ body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:ha
 #reports .wr-k .kpi span{display:block;font-size:12.5px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #reports .wr-k .kpi small{font-size:11px!important;margin-top:1px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .wr-grid{align-items:start}.pj-top #pjkpis{flex:1 1 auto!important}body[data-t=mem] #tkpis>.tk{flex-basis:112px!important}#sbrows,#sbrows .sb-row{column-gap:18px!important}
-@media (max-width:1500px){.wr-p.c4{grid-column:span 6}}
+@media (min-width:861px) and (max-width:1500px){.wr-p.c4{grid-column:span 6}}
 /* one height for tabs, arrows and pills */
 #main .tabs button,#main .tktabs button{height:36px!important;padding:0 14px!important;border-radius:10px!important;font-size:14px!important;display:inline-flex;align-items:center}
 #main .cnav,#main .arrow,#main .pg button{width:36px!important;height:36px!important;min-height:36px}
@@ -788,10 +788,16 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
 #main .pj-kpi>.ic,#main .tk>.ic,#main .stat>.ic{flex:0 0 38px!important;width:38px!important;display:grid;place-items:center}
 #main .pj-kpi span,#main .tk span{display:block!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
 #reports .wr-k .kpi{padding:7px 12px!important}#reports .wr-k .kpi b{font-size:19px!important;line-height:1.05!important}#reports .wr-k .kpi small{font-size:10.5px!important;line-height:1.2}
-@media (max-width:1500px){.wr-p.c3{grid-column:span 6}}
+@media (min-width:861px) and (max-width:1500px){.wr-p.c3{grid-column:span 6}}
 #main .tabs button,#main .tktabs button,#main .cnav,#main .arrow,#main .pg button{height:38px!important;min-height:38px}#main .cnav,#main .arrow,#main .pg button{width:38px!important}
 #main .info h4{font-size:17px!important}#main .info h4+h4,#main .info h4~h4{font-size:15px!important}
 .pj-dlg #pjmt{font-size:20px!important}
+
+@media (max-width:560px){#main .pj-kpi{flex-direction:row!important;align-items:center!important}#main .pj-kpi .ic{width:34px!important;height:34px!important;flex:0 0 34px!important}#rep .wr-k .kpi,#reports .wr-k .kpi{height:auto!important;min-height:64px}}
+@media (min-width:1800px){#news .wrap:has(#nlist){display:grid;grid-template-columns:max-content minmax(420px,1fr);gap:16px;align-items:start}#news .wrap:has(#nlist)>#ncompose{grid-column:1/-1}}
+#siteed .items>.card{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:end}
+#siteed .items>.card>*:not(.act){grid-column:1}#siteed .items>.card>.act{grid-column:2;grid-row:1/span 9;margin:0;align-self:end;flex-wrap:nowrap}
+#site .pj-info{width:max-content;max-width:100%}
 </style>
 </head>
 <body>
