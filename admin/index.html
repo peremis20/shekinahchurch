@@ -561,6 +561,15 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .sb-in{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;font:inherit;box-sizing:border-box}.sb-edit .sb-act2{grid-column:span 3;white-space:nowrap}
 @media(max-width:720px){.sb-head{display:none}.sb-row{grid-template-columns:1fr auto;gap:2px 10px}.sb-name{grid-column:1}.sb-act{grid-column:2;grid-row:1}.sb-mail,.sb-ph{grid-column:1/-1}.sb-st,.sb-when{grid-column:auto;display:inline-block}.sb-edit .sb-c{grid-column:1/-1}.sb-edit .sb-act2{grid-column:1/-1}}
 .sb-top{display:flex;gap:12px;align-items:center;margin-bottom:6px}.sb-search{max-width:340px}
+
+/* Compact summary cards (Jimmy, Nov 23, 2026: they were too big and too wide) */
+#tkpis,#tkpis.many,body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(150px,230px));gap:12px;margin-bottom:18px}
+#tkpis .tk,#tkpis.many .tk,body[data-t=mem] .tk{padding:11px 14px;gap:11px;border-radius:14px;min-height:0}
+#tkpis .tk .ic,#tkpis.many .tk .ic,body[data-t=mem] .tk .ic{width:38px;height:38px}#tkpis .tk .ic svg{width:20px;height:20px}
+#tkpis .tk b,#tkpis.many .tk b,body[data-t=mem] .tk b{font-size:21px;line-height:1.1}#tkpis .tk span,#tkpis.many .tk span{font-size:13px}
+.pj-kpis,.calkpis{grid-template-columns:repeat(auto-fit,minmax(190px,270px))!important;gap:12px}.pj-kpi{padding:12px 16px;gap:12px;border-radius:14px}.pj-kpi .ic{width:40px;height:40px}.pj-kpi .ic svg{width:21px;height:21px}.pj-kpi b{font-size:20px}
+.nhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+@media (max-width:700px){#tkpis,#tkpis.many,body[data-t=mem] #tkpis,.pj-kpis,.calkpis{grid-template-columns:1fr 1fr!important}.tk:first-child,.pj-kpi.main{grid-column:auto}}
 </style>
 </head>
 <body>
@@ -623,17 +632,17 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         </div></section>
 
         <section id="news" class="hide"><div class="wrap">
-          <div class="panel page">
+          <div class="panel page"><div class="nhead"><div class="sec-h" style="margin:0">People on the list</div><button class="pbtn" id="nwrite">&#9993; Write an email to everyone</button></div><div id="nlist"></div></div>
+          <div class="panel page hide" id="ncompose">
             <div class="top"><span class="who">Send an email to the email list</span><span class="when" id="ncount"></span></div>
             <p class="meta" style="margin-top:6px">Goes from info@shekinahsda.org to everyone who signed up on the website. Each person gets their own copy with a link to unsubscribe.</p>
             <div class="ef">
               <label class="wide">Subject<input id="nsub" maxlength="200" placeholder="For example: This Sabbath at Shekinah"></label>
               <label class="wide">Message<textarea id="nbody" rows="9" placeholder="Write your message here."></textarea></label>
             </div>
-            <div class="act"><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
+            <div class="act"><button class="lbtn" id="nclose">Close</button><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
           </div>
           <div class="panel page"><div class="sec-h" style="margin-bottom:10px">Past emails</div><div class="wrap" id="nhist"></div></div>
-          <div class="panel page"><div class="sec-h" style="margin-bottom:6px">People on the list</div><div id="nlist"></div></div>
         </div></section>
 
         <section id="mem" class="hide"><div class="wrap">
@@ -1947,6 +1956,8 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};
+  $('nwrite').onclick=function(){var c=$('ncompose');c.classList.remove('hide');c.scrollIntoView({behavior:'smooth',block:'start'});var f=$('nsub');if(f)setTimeout(function(){f.focus();},300);};
+  $('nclose').onclick=function(){$('ncompose').classList.add('hide');};
   $('mimp').onclick=function(){impForm();impStatus();impRender();};
   $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
     var csv=[cols.join(',')].concat(members.map(function(m){return cols.map(function(c){var v=m[c]==null?'':String(m[c]);if(/^\d{4}-\d{2}-\d{2}/.test(v))v=v.slice(0,10);return '"'+v.replace(/"/g,'""')+'"';}).join(',');})).join('\r\n');
