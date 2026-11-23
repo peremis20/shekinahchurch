@@ -312,7 +312,11 @@ function brandMail({ tag, subject, text, unsub }) {
     // Lines starting with "- " or "* " become a list.
     const lines = b.split('\n'), isLi = (l) => /^\s*[-*\u2022]\s+/.test(l);
     const ul = (ls) => `<ul style="margin:0 0 16px;padding-left:22px">${ls.map((l) => `<li style="margin:0 0 6px">${link(esc(l.replace(/^\s*[-*\u2022]\s+/, '')))}</li>`).join('')}</ul>`;
-    if (lines.length > 2 && !isLi(lines[0]) && lines.slice(1).every(isLi)) return `<h2 style="font-family:${S};font-size:19px;line-height:1.3;color:#13294B;margin:22px 0 8px;font-weight:700">${esc(lines[0].replace(/:$/, ''))}</h2>` + ul(lines.slice(1));
+    if (lines.length > 2 && !isLi(lines[0]) && lines.slice(1).every(isLi)) {
+      // A short title line above a list is a heading; a sentence above a list stays a sentence.
+      const t = lines[0].trim(), head = t.length <= 50 && !/[.!?,;]$/.test(t);
+      return (head ? `<h2 style="font-family:${S};font-size:19px;line-height:1.3;color:#13294B;margin:22px 0 8px;font-weight:700">${esc(t.replace(/:$/, ''))}</h2>` : `<p style="margin:0 0 8px">${link(esc(t))}</p>`) + ul(lines.slice(1));
+    }
     // Lines like "Name: Jimmy" become a clean details box, like the meeting invite.
     if (lines.length > 1 && lines.every((l) => /^[A-Za-z][A-Za-z ]{0,24}:\s+\S/.test(l))) return `<div style="background:#F4F7FB;border-left:4px solid #D9A72B;border-radius:10px;padding:8px 18px;margin:0 0 18px"><table role="presentation" style="border-collapse:collapse;width:100%">${lines.map((l) => { const k = l.indexOf(':'); return `<tr><td style="padding:7px 0;width:96px;vertical-align:top;font-size:13px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7280">${esc(l.slice(0, k))}</td><td style="padding:7px 0;font-size:16px;color:#13294B;font-weight:600">${link(esc(l.slice(k + 1).trim()))}</td></tr>`; }).join('')}</table></div>`;
     if (lines.length > 1 && lines.every(isLi)) return `<ul style="margin:0 0 16px;padding-left:22px">${lines.map((l) => `<li style="margin:0 0 6px">${link(esc(l.replace(/^\s*[-*\u2022]\s+/, '')))}</li>`).join('')}</ul>`;
