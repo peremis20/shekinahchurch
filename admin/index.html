@@ -663,6 +663,20 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 #q,#mq,#sbq{max-width:360px}
 #siteed input:not([type=checkbox]),#siteed textarea,#siteed select{max-width:860px}
 .pj-tools,.pj-addp{gap:10px!important;padding-top:12px!important;padding-bottom:12px!important}
+
+/* profile and bell at the bottom of the side menu (Jimmy, Nov 23) */
+#sidefoot{margin:auto -14px -24px;display:flex;flex-direction:column;gap:10px;padding:12px 14px 14px;position:sticky;bottom:-24px;background:var(--side2);z-index:2}body.navmini #sidefoot{margin-left:-10px;margin-right:-10px;padding-left:10px;padding-right:10px}
+#sidefoot .navmini-btn{margin-top:0}
+#sideuser{display:flex;align-items:center;gap:8px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
+#sideuser #userchip{flex:1;min-width:0;height:50px!important;padding:4px 10px 4px 4px!important;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;color:#fff;cursor:pointer}
+#sideuser #userchip .av{width:40px;height:40px;font-size:18px;flex:none}
+#sideuser #userchip b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#sideuser #userchip small{font-size:12.5px}
+#sideuser #userchip>span:nth-child(2){min-width:0;flex:1;overflow:hidden}
+#sideuser #ucaret{transform:rotate(180deg)}
+#sideuser #bell{width:44px!important;height:44px!important;flex:none;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;color:#fff;cursor:pointer}
+body.navmini #sideuser{flex-direction:column;gap:8px}
+body.navmini #sideuser #userchip{width:50px;flex:none;padding:4px!important;justify-content:center}
+body.navmini #sideuser #userchip>span:not(.av){display:none}
 </style>
 </head>
 <body>
@@ -681,7 +695,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   <aside id="side">
     <div class="brand"><img class="brand-logo" src="assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church"><img class="brand-mini" src="assets/logo-mark.png?v=4" alt="Shekinah"></div>
     <nav class="nav" id="nav"></nav>
-    <button class="navmini-btn" id="navmini" type="button" title="Collapse the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5M19 5v14"/></svg><span>Collapse menu</span></button>
+    <div id="sidefoot"><button class="navmini-btn" id="navmini" type="button" title="Collapse the menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 7-5 5 5 5M19 5v14"/></svg><span>Collapse menu</span></button><div id="sideuser"></div></div>
   </aside>
   <div id="scrim"></div>
   <div id="main">
@@ -1584,7 +1598,12 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   $('burger').onclick=function(){document.body.classList.toggle('menu');};
   $('scrim').onclick=function(){document.body.classList.remove('menu');};
   $('bell').onclick=function(){tab='new';go('messages');};
-  function placeUmenu(){var r=$('userchip').getBoundingClientRect(),m=$('umenu');m.style.top=Math.round(r.bottom+8)+'px';m.style.right=Math.max(8,Math.round(window.innerWidth-r.right))+'px';}
+  function placeUmenu(){var r=$('userchip').getBoundingClientRect(),m=$('umenu');
+    if($('userchip').closest('#side')){m.style.top='auto';m.style.right='auto';m.style.left=Math.max(8,Math.round(r.left))+'px';m.style.bottom=Math.round(window.innerHeight-r.top+8)+'px';}
+    else{m.style.bottom='auto';m.style.left='auto';m.style.top=Math.round(r.bottom+8)+'px';m.style.right=Math.max(8,Math.round(window.innerWidth-r.right))+'px';}}
+  function placeChips(){var side=!window.matchMedia('(max-width:1000px)').matches,host=side?$('sideuser'):$('banner'),b=$('bell'),u=$('userchip');
+    if(u.parentNode===host)return;if(side){host.appendChild(u);host.appendChild(b);}else{host.insertBefore(b,$('umenu'));host.insertBefore(u,$('umenu'));}}
+  placeChips();window.addEventListener('resize',placeChips);
   $('userchip').onclick=function(e){e.stopPropagation();placeUmenu();$('umenu').classList.toggle('hide');};
   window.addEventListener('resize',function(){if(!$('umenu').classList.contains('hide'))placeUmenu();});
   window.addEventListener('scroll',function(){$('umenu').classList.add('hide');},true);
