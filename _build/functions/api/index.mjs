@@ -779,6 +779,18 @@ async function eventSave(me, b) {
   if (row.remind) await planReminders(row.id);
   return { event: row, invited: fresh.length, updated };
 }
+// One click "Send invite again": everyone invited (or one person) gets the current invitation with the calendar file.
+async function eventResend(me, b) {
+  need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  const row = await one(`SELECT ${EV_COLS} FROM cal_events WHERE id = $1`, [idOf(b.id)]);
+  need(row, 404, 'That event was not found.');
+  const all = inviteesOf(row).map(lower).filter((x) => x !== lower(me.email));
+  const who = b.email ? lower(b.email) : null;
+  const list = who ? all.filter((x) => x === who) : all;
+  need(list.length, 400, who ? 'That person is not invited to this meeting.' : 'Nobody else is invited to this meeting yet.');
+  await sendInvites(row, list, me);
+  return { sent: list.length };
+}
 async function eventDelete(me, b) {
   need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
   await dropReminders([idOf(b.id)]);
@@ -1029,7 +1041,7 @@ const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
   'POST /admin/broadcast': broadcast, 'POST /admin/subscribers/edit': subEdit, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
-  'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
+  'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,

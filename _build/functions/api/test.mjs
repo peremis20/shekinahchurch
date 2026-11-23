@@ -355,6 +355,12 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', location: 'Fellowship hall', repeat: 'weekly', invitees: ['a@x.org', 'b@x.org'], remind: true } } });
   r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting' } } });
   ok(r.j.event.repeat === 'weekly' && r.j.event.invitees.length === 2 && r.j.event.remind === true, 'a move keeps repeat, invites and reminders', r.j.event);
+  mails.length = 0;
+  r = await call('POST', '/calendar/event/resend', { token: O, body: { id: M.id } });
+  ok(r.status === 200 && r.j.sent === 2 && mails.filter((m) => m.tag === 'meeting-invite' && m.attachments.length === 1).length === 2, 'resend invite emails everyone again in one click', r.j);
+  mails.length = 0;
+  r = await call('POST', '/calendar/event/resend', { token: O, body: { id: M.id, email: 'B@x.org' } });
+  ok(r.status === 200 && r.j.sent === 1 && mails.length === 1 && mails[0].to === 'b@x.org', 'resend to one person', r.j);
   r = await call('POST', '/cron/reminders', {}); ok(r.status === 200 && r.j.scheduled === 0, 'daily run skips what is planned', r.j);
   r = await call('GET', '/events'); const occ = r.j.events.filter((e) => e.title === 'Board meeting');
   ok(occ.length >= 20 && occ[1].starts_on > occ[0].starts_on && !('invitees' in occ[0]) && !('repeat' in occ[0]), 'public page shows each week, without the invite list', occ.length);

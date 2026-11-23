@@ -1271,7 +1271,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
       '<details class="evmore"'+(more?' open':'')+'><summary>Add details or an end date</summary><div class="ef evef2">'+
         fld('Details','note','<textarea name="details" rows="2" maxlength="4000" placeholder="Anything people should know">'+esc(e.details||'')+'</textarea>')+fld('Ends on another day','cal','<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'">')+'</div></details>'+
       (e.id&&!isRep(e)?'<div class="mvrow"><b>Move</b><button class="lbtn" data-mv="-1">&minus;1 day</button><button class="lbtn" data-mv="1">+1 day</button><button class="lbtn" data-mv="-7">&minus;1 week</button><button class="lbtn" data-mv="7">+1 week</button><button class="lbtn" data-mv="sat">Next Saturday</button></div>':'')+
-      '</div><div class="evft">'+(e.id?'<button class="dbtn" data-c="delev">Delete</button>':'')+'<span class="saved" id="evmsg"></span><span style="flex:1"></span><button class="lbtn" data-c="close">Cancel</button><button class="pbtn" data-c="saveev">'+(e.id?'Save':'Add event')+'</button></div></div>';
+      '</div><div class="evft">'+(e.id?'<button class="dbtn" data-c="delev">Delete</button>':'')+(e.id&&(e.invitees||[]).filter(function(m){return m!==me;}).length?'<button class="lbtn" data-c="resendev" title="Email the invitation again to everyone invited">Resend invite</button>':'')+'<span class="saved" id="evmsg"></span><span style="flex:1"></span><button class="lbtn" data-c="close">Cancel</button><button class="pbtn" data-c="saveev">'+(e.id?'Save':'Add event')+'</button></div></div>';
     var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
     box.querySelectorAll('[name]').forEach(function(x){if(x.type==='radio'){if(x.checked)ev[x.name]=x.value;return;}ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
@@ -1290,6 +1290,10 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
   ['calform','tkform'].forEach(function(id){$(id).addEventListener('mousedown',function(e){if(e.target===$(id))$(id).innerHTML='';});});
   document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('calform').innerHTML)$('calform').innerHTML='';else if($('tkform').innerHTML)$('tkform').innerHTML='';}});
   $('calform').addEventListener('change',function(e){if(e.target.name==='repeat'){var u=$('calform').querySelector('.evrep');if(u)u.classList.toggle('hide',e.target.value==='none');}});
+  function resendEv(btn){var id=$('calform').querySelector('.evbox').getAttribute('data-id');btn.disabled=true;$('evmsg').textContent='Sending...';
+    api('/calendar/event/resend',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(j){
+      $('evmsg').textContent='';btn.disabled=false;toast('Invitation sent to '+j.sent+(j.sent>1?' people':' person'));
+    }).catch(function(err){btn.disabled=false;$('evmsg').textContent='Not sent: '+err.message;});}
   function delEv(){var id=$('calform').querySelector('.evbox').getAttribute('data-id'), e=evById(id);
     if(!confirm('Delete "'+(e?e.title:'this event')+'"? This cannot be undone.'))return;
     api('/calendar/event/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){
@@ -1335,7 +1339,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
       else if(a==='addon')evForm(null,c.getAttribute('data-day'));
       else if(a==='close')$('calform').innerHTML='';
       else if(a==='saveev')saveEv();
-      else if(a==='delev')delEv();
+      else if(a==='delev')delEv();else if(a==='resendev')resendEv(c);
       return;}
     var mv=e.target.closest('[data-mv]');if(mv){var bx=$('calform').querySelector('.evbox'), me=bx&&evById(bx.getAttribute('data-id'));if(me){var a2=mv.getAttribute('data-mv');moveEv(me.id,a2==='sat'?nextSatOf(me.starts_on):addDays(me.starts_on,+a2));}return;}
     if(dragJustEnded){dragJustEnded=false;return;}
