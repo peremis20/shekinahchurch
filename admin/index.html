@@ -460,6 +460,7 @@ body[data-t=team] #tkpis{display:none!important}
 #cal .upi{border-radius:12px;padding:12px 8px;transition:background .15s}#cal .upi:hover{background:#F5F8FD}
 #cal .tktabs button.on{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}
 @media (max-width:700px){#cal .calbar h2{font-size:20px}#cal .calhead{padding:8px 2px}#cal .calhead span{font-size:11px;letter-spacing:0}#cal .cday{border-radius:10px;padding:4px}}
+.evtop{display:flex;align-items:center;justify-content:space-between;gap:10px}.evtop h3{margin:0}.evx{border:1.5px solid #D3DBE8;background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;color:#33415C;cursor:pointer}.evx:hover{border-color:#C0283A;color:#C0283A}
 .bdsel{display:flex;gap:8px}.bdsel select{flex:1;min-width:0}
 .impdrop{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px dashed #C9D3E3;border-radius:14px;padding:26px 16px;background:#F8FAFD;cursor:pointer;text-align:center}.impdrop.over{border-color:#1D5FE0;background:#EEF4FF}.impdrop input{display:none}.impdrop b{color:#1D5FE0;font-size:16px}.impdrop span{color:#5D6A80;font-size:14px}
 .imptbl{overflow-x:auto;border:1px solid #E6EBF3;border-radius:12px}.imptbl table{border-collapse:collapse;width:100%;min-width:900px;font-size:14px}.imptbl th{background:#F3F6FB;text-align:left;padding:8px;font-size:13px;color:#33415C;white-space:nowrap}.imptbl td{padding:4px 6px;border-top:1px solid #EEF1F6}.imptbl td input:not([type=checkbox]){width:100%;min-width:90px;height:34px;border:1px solid #D3DBE8;border-radius:8px;padding:0 8px;font:inherit}.imptbl td input[type=checkbox]{width:18px;height:18px;accent-color:#1F8A3E}
@@ -966,7 +967,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       ((e.invitees||[]).length?'<p><b>Invited:</b> '+esc((e.invitees||[]).map(nameOf).join(', '))+'</p>':'')+
       '<div class="act"><button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
     var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';};
-    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><div class="ef evef">'+
+    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><div class="evtop"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><button type="button" class="evx" data-c="close" aria-label="Cancel" title="Cancel">&times; Cancel</button></div><div class="ef evef">'+
       '<label class="wide">Event name<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="For example: Youth Sabbath"></label>'+
       '<label>Date<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'"></label>'+
       '<label>End date (optional)<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label>'+
