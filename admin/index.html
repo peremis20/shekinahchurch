@@ -637,6 +637,12 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 @media (max-width:1600px){.pj-side{grid-template-columns:1fr!important}}
 @media (max-width:1100px){.pj-top #pjkpis{grid-template-columns:repeat(2,minmax(0,1fr))!important;flex:1 1 100%}}
 @media (max-width:600px){.pj-soonbar{flex-direction:column;align-items:flex-start}}
+
+.pj-main{grid-template-columns:minmax(0,max-content) minmax(260px,1fr) 290px!important}
+.pj-main .pj-table,.pj-main #pjlist{width:auto!important;max-width:100%}
+.pj-mid2{padding:16px 18px!important;min-width:0}.pj-mid2 h3{font-size:16.5px!important;margin:0 0 10px!important}
+@media (max-width:1600px){.pj-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}.pj-main>.pj-table{grid-column:1/-1;width:100%!important}.pj-main #pjlist{width:100%!important}}
+@media (max-width:760px){.pj-main{grid-template-columns:minmax(0,1fr)!important}}
 </style>
 </head>
 <body>
@@ -730,7 +736,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         </div></section>
 
         <section id="proj" class="hide"><div class="pj">
-          <div class="pj-top"><div class="pj-kpis" id="pjkpis"></div><div class="pj-card pj-soonbar"><h3>Coming up</h3><div id="pjsoon"></div></div></div>
+          <div class="pj-top"><div class="pj-kpis" id="pjkpis"></div></div>
           <div class="pj-mid">
             <div class="pj-card"><h3>Project Status</h3><div id="pjstatus"></div></div>
             <div class="pj-card"><h3>Budget Overview</h3><div id="pjbudget"></div></div>
@@ -744,6 +750,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
             <button class="pj-add" id="pjnew"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>Add Project</button>
           </div>
           <div class="pj-main"><div class="pj-table" id="pjlist"></div>
+            <div class="pj-card pj-mid2"><h3>Coming up</h3><div id="pjsoon"></div></div>
             <aside class="pj-side"><div class="pj-card"><h3>Needs attention</h3><div id="pjneed"></div></div></aside></div>
           <datalist id="pjdepts"></datalist>
           <div class="pj-modal hide" id="pjmodal"><div class="pj-dlg" role="dialog" aria-modal="true" aria-labelledby="pjmt">
