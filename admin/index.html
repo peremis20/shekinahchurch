@@ -677,6 +677,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 body.navmini #sideuser{flex-direction:column;gap:8px}
 body.navmini #sideuser #userchip{width:50px;flex:none;padding:4px!important;justify-content:center}
 body.navmini #sideuser #userchip>span:not(.av){display:none}
+
+@media (min-width:1001px){.pj-addp{grid-template-columns:minmax(180px,280px) minmax(200px,320px) 180px auto auto!important;justify-content:start}}
+@media (min-width:1001px){.pj-card:has(.pj-addp){width:max-content;max-width:100%}}.pj-addp label.chk{height:38px!important}
 </style>
 </head>
 <body>
