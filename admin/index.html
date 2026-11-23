@@ -570,6 +570,8 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .pj-kpis,.calkpis{grid-template-columns:repeat(auto-fit,minmax(190px,270px))!important;gap:12px}.pj-kpi{padding:12px 16px;gap:12px;border-radius:14px}.pj-kpi .ic{width:40px;height:40px}.pj-kpi .ic svg{width:21px;height:21px}.pj-kpi b{font-size:20px}
 .nhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 @media (max-width:700px){#tkpis,#tkpis.many,body[data-t=mem] #tkpis,.pj-kpis,.calkpis{grid-template-columns:1fr 1fr!important}.tk:first-child,.pj-kpi.main{grid-column:auto}}
+.nav .badge.nb-new{background:linear-gradient(135deg,#22A04B,#16823A);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;box-shadow:0 2px 8px rgba(22,130,58,.45)}
+.sb-new{display:inline-block;margin-left:6px;background:#22A04B;color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:2px 8px;vertical-align:1px}
 /* compact lists: columns size to their content */
 #nlist{width:max-content;max-width:100%}
 #sbrows{display:grid;grid-template-columns:repeat(5,max-content) minmax(70px,max-content);column-gap:28px;overflow-x:auto}
@@ -845,7 +847,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     return kd?nw.filter(function(i){return i.kind===kd;}).length:0;}
   function renderNav(){
     var list=NAV.filter(function(n){if(n.area&&!n.area.some(sees)&&!(n.orPerm&&can(n.orPerm)))return false;return !n.need||can(n.need);});
-    var btn=function(n){var c=navCount(n);return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'" title="'+esc(n.label)+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(c?'<span class="badge">'+c+'</span>':'')+'</button>';};
+    var btn=function(n){var c=navCount(n);return '<button data-nav="'+n.k+'" class="'+(n.k===cur?'on':'')+'" title="'+esc(n.label)+'">'+I(n.icon)+'<span>'+n.label+'</span>'+(c?(n.k==='newsletter'?'<span class="badge nb-new">'+(c>1?c+' New':'New')+'</span>':'<span class="badge">'+c+'</span>'):'')+'</button>';};
     var h='',done={};
     list.forEach(function(n){
       if(!n.grp){h+=btn(n);return;}
@@ -1574,7 +1576,12 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   function loadNews(){
     $('nlist').innerHTML='<div class="meta">Loading...</div>';
     api('/admin/subscribers').then(function(j){
-      subs=j.subscribers||[];window.__bc=(j.broadcasts||[]).length;setTimeout(renderTK,0);
+      subs=j.subscribers||[];window.__bc=(j.broadcasts||[]).length;
+      var fresh=items.filter(function(i){return i.kind==='newsletter'&&i.status==='new';});
+      fresh.forEach(function(i){sbNew[(i.email||'').toLowerCase()]=1;i.status='done';
+        api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:i.id,status:'done'})}).catch(function(){});});
+      if(fresh.length)renderNav();
+      setTimeout(renderTK,0);
       var active=subs.filter(function(s){return !s.unsubscribed&&s.status!=='archived';});
       $('ncount').textContent=active.length+(active.length===1?' person':' people')+' on the list';
       renderSubs();
@@ -1583,10 +1590,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     }).catch(function(e){$('nlist').innerHTML='<div class="err">'+esc(e.message)+'</div>';});
   }
   function sbDate(d){try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(x){return '';}}
+  var sbNew={};
   function subRow(s,i){
     var st=s.unsubscribed?'<span class="tag priv">Unsubscribed</span>':s.status==='archived'?'<span class="tag">Archived</span>':'<span class="tag sb-on">Subscribed</span>';
     return '<div class="sb-row" data-i="'+i+'">'+
-      '<div class="sb-c sb-name">'+(s.name?'<b>'+esc(s.name)+'</b>':'<span class="sb-none">No name yet</span>')+'</div>'+
+      '<div class="sb-c sb-name">'+(s.name?'<b>'+esc(s.name)+'</b>':'<span class="sb-none">No name yet</span>')+(sbNew[(s.email||'').toLowerCase()]?' <span class="sb-new">New</span>':'')+'</div>'+
       '<div class="sb-c sb-mail"><a href="mailto:'+esc(s.email)+'">'+esc(s.email)+'</a></div>'+
       '<div class="sb-c sb-ph">'+(s.phone?'<a href="tel:'+esc(s.phone.replace(/[^0-9+]/g,''))+'">'+esc(s.phone)+'</a>':'<span class="sb-none">No phone</span>')+'</div>'+
       '<div class="sb-c sb-st">'+st+'</div>'+
