@@ -44,6 +44,8 @@ globalThis.fetch = async (url, opt = {}) => {
   if (url === 'http://mail.local/send') { const m = JSON.parse(opt.body); m._key = opt.headers['x-mail-key']; mails.push(m); return new Response(JSON.stringify({ ok: mailOk, id: m.scheduled_at ? 'aaaaaaaa-0000-0000-0000-' + String(++mailN).padStart(12, '0') : undefined }), { status: mailOk ? 200 : 502 }); }
   if (url === 'http://mail.local/cancel') { cancels.push(...JSON.parse(opt.body).ids); return new Response(JSON.stringify({ ok: true }), { status: 200 }); }
   if (url === 'http://mail.local/run') { runs.push(opt.headers['x-mail-key']); return new Response(JSON.stringify({ sent: 0 }), { status: 200 }); }
+  if (url === 'https://api.anthropic.com/v1/messages') { const b = JSON.parse(opt.body); if (opt.headers['x-api-key'] !== 'test-key' || b.messages[0].content[0].type !== 'image') return new Response('{}', { status: 401 });
+    return new Response(JSON.stringify({ content: [{ type: 'text', text: 'Here: [{"first_name":"Marie","last_name":"Joseph","phone":"817-555-0101"},{"first_name":"Jean","last_name":"Pierre","birthday":"May 3","unsure":true}]' }] }), { status: 200 }); }
   if (url.endsWith('/content-defaults.json')) return new Response(JSON.stringify({ posts: [{ id: 'p1', title: 'Old', slug: 'old-slug', seoTitle: 'SEO Old', metaDesc: 'md', keywords: ['k'], lang: 'ht' }] }), { status: 200 });
   throw new Error('unexpected fetch ' + url);
 };
@@ -278,6 +280,16 @@ for (let i = 0; i < 6; i++) r = await call('POST', '/likes', { body: { p: '/blog
 r = await call('POST', '/likes', { body: { p: '/admin/x/' } }); ok(r.status === 400, 'only study and blog pages');
 r = await call('GET', '/likes?p=javascript:alert(1)'); ok(r.status === 400, 'bad page rejected');
 r = await call('POST', '/likes', { body: { p: '/blog/x-y/', on: false }, ip: '9.9.9.4' }); ok(r.j.n === 0, 'never below zero', r.j);
+
+// ---- import a member list ----
+r = await call('POST', '/members/read', { token: O, body: { media_type: 'image/png', data: 'x'.repeat(200) } }); ok(r.status === 503 && /CSV and Excel/.test(r.j.error), 'photo reading needs the AI key', r.j);
+process.env.ANTHROPIC_API_KEY = 'test-key';
+r = await call('POST', '/members/read', { token: O, body: { media_type: 'image/png', data: 'iVBORw0KGgo' + 'A'.repeat(200) } });
+ok(r.status === 200 && r.j.people.length === 2 && r.j.people[0].first_name === 'Marie' && r.j.people[1].unsure === true && r.j.people[1].birthday === '', 'a photo is read into people', r.j);
+delete process.env.ANTHROPIC_API_KEY;
+r = await P('vol', '/members/import', { members: [{ first_name: 'X' }] }); ok(r.status === 403, 'only member editors can import');
+r = await call('POST', '/members/import', { token: O, body: { status: 'Visitor', members: [{ first_name: 'Marie', last_name: 'Joseph', phone: '817 555 0101', birthday: '1980-04-02' }, { first_name: '', last_name: 'Pierre' }, { last_name: '' }] } });
+ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' && r.j.members[0].birthday === '1980-04-02' && r.j.members[1].first_name === 'Pierre', 'import adds the list at once', r.j);
 
 // ---- meetings: repeat, invites, reminders ----
 {

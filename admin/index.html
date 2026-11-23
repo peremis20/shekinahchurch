@@ -441,6 +441,9 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-sw{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1F2A44}.tm-sw input{width:20px;height:20px;accent-color:#1D5FE0}
 .tm-when{color:#33415C;font-weight:600}
 .pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.evinv{display:flex;flex-direction:column;gap:6px}.evinv>b{font-size:14px;color:var(--ink)}.evppl{display:flex;flex-wrap:wrap;gap:6px 14px}.evp{display:flex !important;flex-direction:row !important;align-items:center;gap:6px;font-size:14.5px;color:var(--ink)}.evp input{width:18px;height:18px;accent-color:#1D5FE0}
+.impdrop{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px dashed #C9D3E3;border-radius:14px;padding:26px 16px;background:#F8FAFD;cursor:pointer;text-align:center}.impdrop.over{border-color:#1D5FE0;background:#EEF4FF}.impdrop input{display:none}.impdrop b{color:#1D5FE0;font-size:16px}.impdrop span{color:#5D6A80;font-size:14px}
+.imptbl{overflow-x:auto;border:1px solid #E6EBF3;border-radius:12px}.imptbl table{border-collapse:collapse;width:100%;min-width:900px;font-size:14px}.imptbl th{background:#F3F6FB;text-align:left;padding:8px;font-size:13px;color:#33415C;white-space:nowrap}.imptbl td{padding:4px 6px;border-top:1px solid #EEF1F6}.imptbl td input:not([type=checkbox]){width:100%;min-width:90px;height:34px;border:1px solid #D3DBE8;border-radius:8px;padding:0 8px;font:inherit}.imptbl td input[type=checkbox]{width:18px;height:18px;accent-color:#1F8A3E}
+.imptbl tr.off td input:not([type=checkbox]){opacity:.5}.imptbl tr.uns td input:not([type=checkbox]){border-color:#E2A33B;background:#FFF9EC}.impfl{white-space:nowrap}.impfl .fl{display:block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 6px;margin:2px 0}.fl.dup{background:#EEF1F6;color:#5D6A80}.fl.uns{background:#FFF1D6;color:#8A5A00}
 .tm-in .e{border:1.5px solid #1D5FE0;color:#1D5FE0;background:#fff}.tm-del{border:1.5px solid #F3C2C8;background:#fff;color:#B4232F;display:inline-flex;align-items:center;gap:6px}.tm-del svg{width:16px;height:16px}.tm-mg .tm-cz-p{margin:0;background:#fff}
 .tm-cz-p{margin:12px 0 2px;padding:14px 16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.tm-cz-p>div{display:flex;flex-direction:column;gap:7px}.tm-cz-p b{font-size:14px;color:#0E1B3D}
 @media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
@@ -582,6 +585,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
               <input id="mq" type="search" placeholder="Search name, phone, email, family">
               <select id="mst"><option value="">All statuses</option></select>
               <button class="pbtn" id="madd">+ Add member</button>
+              <button class="sbtn" id="mimp">Import a list</button>
               <button class="sbtn" id="mcsv">Download CSV</button>
             </div>
             <p class="meta" id="mcount" style="margin:12px 0 12px"></p>
@@ -1446,7 +1450,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   function post(path,body){return fetch(API+path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Error');return j;});});}
   function signedIn(){return api('/admin/check').then(function(j){try{localStorage.setItem('shk_internal','1');}catch(x){}me=j.email||'';myRole=j.role||'volunteer';myPriv=!!j.can_see_private;PM=j.perms||{};myAreas=j.areas||myAreas;myTitle=j.title_label||'';
     $('login').classList.add('hide');$('shell').classList.remove('hide');
-    $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=myTitle||ROLE_LABEL[myRole]||myRole;var ma=$('madd');if(ma)ma.classList.toggle('hide',!can('members_edit'));$('uemail').textContent=me;
+    $('uav').textContent=(firstName(me)[0]||'?');$('uname').textContent=firstName(me)||me;$('urole').textContent=myTitle||ROLE_LABEL[myRole]||myRole;var ma=$('madd');if(ma)ma.classList.toggle('hide',!can('members_edit'));var mi=$('mimp');if(mi)mi.classList.toggle('hide',!can('members_edit'));$('uemail').textContent=me;
     renderRail();go('dash');return load();});}
   $('lf').addEventListener('submit',function(e){e.preventDefault();$('lerr').textContent='';var em=$('em').value.trim();$('lbtn').disabled=true;
     post('/admin/login/start',{email:em}).then(function(){$('lf').classList.add('hide');$('cf').classList.remove('hide');$('lmsg').textContent='If '+em+' is an admin, a 6 digit code is on its way. Check that inbox.';$('code').focus();})
@@ -1685,6 +1689,72 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         members.sort(function(a,b){return (a.last_name+a.first_name).localeCompare(b.last_name+b.first_name);});$('mform').innerHTML='';renderMembers();})
       .catch(function(err){$('msave').textContent='Not saved: '+err.message;});}}
   $('mform').addEventListener('click',onMem);$('mlist').addEventListener('click',onMem);
+  // ---- Import a list: photo or handwritten list (read by AI on the server), CSV or Excel (read here). A preview comes first; nothing is saved until "Add". ----
+  var imp=[], impBusy=0, impMsgs=[];
+  function impForm(){$('mform').innerHTML='<div class="card imp" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">Import a list</span></div>'+
+      '<p class="meta" style="margin:6px 0 12px">Add a photo of a written list, or a CSV or Excel file. You will see everyone first and can fix or untick anyone before they are added.</p>'+
+      '<label class="impdrop" id="impdrop"><input type="file" id="impfile" multiple accept="image/*,.csv,.txt,.xlsx,.xls"><b>Choose photos or files</b><span>or drag them here. Photos (JPG, PNG), CSV or Excel.</span></label>'+
+      '<div id="impst" class="meta" style="margin:10px 0"></div><div id="impprev"></div></div>';
+    $('mform').scrollIntoView({behavior:'smooth',block:'start'});}
+  var IMPK=['first_name','last_name','phone','email','address','city','state','zip','birthday','household','notes'];
+  function digits(p){return String(p||'').replace(/\D/g,'').slice(-10);}
+  function impDup(o){var e=String(o.email||'').trim().toLowerCase(), ph=digits(o.phone), nm=(String(o.first_name||'')+' '+String(o.last_name||'')).trim().toLowerCase();
+    var m=members.filter(function(x){return (e&&String(x.email||'').toLowerCase()===e)||(ph.length>=7&&digits(x.phone)===ph)||(nm.length>2&&(x.first_name+' '+x.last_name).trim().toLowerCase()===nm);})[0];
+    return m?m.first_name+' '+m.last_name:'';}
+  function splitName(n){n=String(n||'').trim().replace(/\s+/g,' ');if(!n)return ['',''];if(n.indexOf(',')>0){var a=n.split(',');return [a.slice(1).join(' ').trim(),a[0].trim()];}var i=n.lastIndexOf(' ');return i<0?[n,'']:[n.slice(0,i),n.slice(i+1)];}
+  function toDay(v){if(v==null||v==='')return '';if(typeof v==='number'&&v>20000&&v<80000){var d=new Date(Math.round((v-25569)*864e5));return d.toISOString().slice(0,10);}
+    var s2=String(v).trim();if(/^\d{4}-\d{2}-\d{2}$/.test(s2))return s2;var m=/^(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{2,4})$/.exec(s2);if(m){var y=+m[3];if(y<100)y+=y>30?1900:2000;return y+'-'+String(m[1]).padStart(2,'0')+'-'+String(m[2]).padStart(2,'0');}
+    var t=Date.parse(s2);return isNaN(t)||!/\d{4}/.test(s2)?'':new Date(t).toISOString().slice(0,10);}
+  var HDR=[['first_name',/^(first|given|pr[eé]non|pr[eé]nom)/i],['last_name',/^(last|surname|family name|non fanmi|nom de famille)/i],['_name',/^(full ?name|name|non|nom|member|person)$/i],['phone',/phone|cell|mobile|t[eé]l/i],['email',/e-?mail|im[eè]l/i],
+    ['address',/addr|street|adr/i],['city',/city|vil/i],['state',/^state|^st$|eta/i],['zip',/zip|postal/i],['birthday',/birth|dob|f[eè]t|anniv/i],['household',/household|family|fanmi|famille/i],['notes',/note|comment|remark/i]];
+  function mapRows(rows){rows=rows.filter(function(r){return r&&r.some(function(c){return String(c==null?'':c).trim();});});if(!rows.length)return [];
+    var head=rows[0].map(function(c){var t=String(c==null?'':c).trim();for(var i=0;i<HDR.length;i++)if(HDR[i][1].test(t))return HDR[i][0];return '';});
+    var hasHead=head.filter(Boolean).length>=1&&!rows[0].some(function(c){return /@|\d{3}.?\d{3}.?\d{4}/.test(String(c));});
+    var body=hasHead?rows.slice(1):rows;
+    return body.map(function(r){var o={};if(hasHead){r.forEach(function(c,i){var k=head[i];if(!k)return;var v=c==null?'':c;if(k==='_name'){var nm=splitName(v);o.first_name=o.first_name||nm[0];o.last_name=o.last_name||nm[1];}else if(k==='birthday')o.birthday=toDay(v);else o[k]=String(v).trim();});}
+      else{r.forEach(function(c){var v=String(c==null?'':c).trim();if(!v)return;if(/@/.test(v)&&!o.email)o.email=v;else if(/^[+()\d][\d\s().+-]{6,}$/.test(v)&&!o.phone)o.phone=v;else if(!o.first_name){var nm=splitName(v);o.first_name=nm[0];o.last_name=nm[1];}else o.notes=(o.notes?o.notes+'; ':'')+v;});}
+      return o;}).filter(function(o){return o.first_name||o.last_name;});}
+  function parseCSV(t){var out=[],row=[],f='',q=false;t=String(t).replace(/^\uFEFF/,'');var sep=(t.split('\n')[0].split('\t').length>t.split('\n')[0].split(',').length)?'\t':',';
+    for(var i=0;i<t.length;i++){var c=t[i];if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++;}else q=false;}else f+=c;}
+      else if(c==='"')q=true;else if(c===sep){row.push(f);f='';}else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;row.push(f);out.push(row);row=[];f='';}else f+=c;}
+    if(f||row.length){row.push(f);out.push(row);}return out;}
+  var xlsxP=null;function loadXLSX(){return xlsxP||(xlsxP=new Promise(function(ok,no){var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=function(){ok(window.XLSX);};s.onerror=function(){xlsxP=null;no(new Error('Could not load the Excel reader. Save the file as CSV and try again.'));};document.head.appendChild(s);}));}
+  function shrink(file){return new Promise(function(ok,no){var u=URL.createObjectURL(file),im=new Image();im.onload=function(){var k=Math.min(1,2000/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);
+      var g=c.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,c.width,c.height);g.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',0.85));};im.onerror=function(){URL.revokeObjectURL(u);no(new Error('This photo type could not be opened. Try a JPG or PNG.'));};im.src=u;});}
+  function impAdd(list,src){list.forEach(function(o){var x={keep:true,src:src};IMPK.forEach(function(k){x[k]=o[k]==null?'':String(o[k]);});x.unsure=!!o.unsure;x.dup=impDup(x);
+      if(!x.dup&&imp.some(function(y){return (y.first_name+' '+y.last_name).toLowerCase()===(x.first_name+' '+x.last_name).toLowerCase()&&digits(y.phone)===digits(x.phone);}))x.dup='another row in this import';
+      if(x.dup)x.keep=false;imp.push(x);});}
+  function impStatus(){$('impst').innerHTML=(impBusy?'<b>Reading '+impBusy+' file'+(impBusy>1?'s':'')+'...</b> Photos can take up to a minute. ':'')+impMsgs.map(esc).join(' ');}
+  function impFiles(files){[].forEach.call(files,function(file){var n=file.name, low=n.toLowerCase();impBusy++;impStatus();
+      var done=function(list){impBusy--;impAdd(list,n);impMsgs.push(n+': '+list.length+' '+(list.length===1?'person':'people')+'.');impStatus();impRender();};
+      var fail=function(e){impBusy--;impMsgs.push(n+': '+e.message);impStatus();};
+      if(/\.(csv|txt)$/.test(low))file.text().then(function(t){done(mapRows(parseCSV(t)));}).catch(fail);
+      else if(/\.xlsx?$/.test(low))loadXLSX().then(function(X){return file.arrayBuffer().then(function(b){var wb=X.read(b,{type:'array'}),out=[];wb.SheetNames.forEach(function(sn){out=out.concat(mapRows(X.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:true})));});done(out);});}).catch(fail);
+      else if(/^image\//.test(file.type)||/\.(jpe?g|png|webp|heic|gif)$/.test(low))shrink(file).then(function(d){return mapi('/members/read',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({media_type:'image/jpeg',data:d})});}).then(function(j){done(j.people||[]);}).catch(fail);
+      else if(/\.pdf$/.test(low))fail(new Error('PDF is not supported yet. Take a photo or a screenshot of the page instead.'));
+      else fail(new Error('This file type is not supported. Use a photo, CSV or Excel file.'));});}
+  function impRender(){var box=$('impprev');if(!box)return;if(!imp.length){box.innerHTML='';return;}
+    var n=imp.filter(function(x){return x.keep;}).length, cols=[['first_name','First name'],['last_name','Last name'],['phone','Phone'],['email','Email'],['address','Address'],['city','City'],['birthday','Birthday']];
+    box.innerHTML='<div class="imptbl"><table><thead><tr><th>Add</th>'+cols.map(function(c){return '<th>'+c[1]+'</th>';}).join('')+'<th></th></tr></thead><tbody>'+imp.map(function(x,i){
+        return '<tr class="'+(x.keep?'':'off')+(x.unsure?' uns':'')+'"><td><input type="checkbox" data-ikeep="'+i+'"'+(x.keep?' checked':'')+'></td>'+cols.map(function(c){return '<td><input data-ik="'+c[0]+'" data-i="'+i+'" value="'+esc(x[c[0]])+'"'+(c[0]==='birthday'?' placeholder="YYYY-MM-DD"':'')+'></td>';}).join('')+
+          '<td class="impfl">'+(x.dup?'<span class="fl dup">Already on the list: '+esc(x.dup)+'</span>':'')+(x.unsure?'<span class="fl uns">Check this, hard to read</span>':'')+'</td></tr>';}).join('')+'</tbody></table></div>'+
+      '<div class="act" style="margin-top:12px;flex-wrap:wrap"><label class="meta" style="display:flex;gap:8px;align-items:center">Add them as<select id="impstat">'+mStatuses.map(function(s){return '<option'+(s==='Member'?' selected':'')+'>'+esc(s)+'</option>';}).join('')+'</select></label>'+
+      '<button class="pbtn" data-m="impsave"'+(n?'':' disabled')+'>Add '+n+' '+(n===1?'person':'people')+'</button><button class="lbtn" data-m="impclear">Start over</button><button class="lbtn" data-m="cancel">Cancel</button><span class="saved" id="impmsg"></span></div>'+
+      '<p class="meta" style="margin-top:8px">People already on your list are unticked so they are not added twice. Rows marked "Check this" were hard to read, so please look at them before adding.</p>';}
+  $('mform').addEventListener('change',function(e){if(e.target.id==='impfile'){impFiles(e.target.files);e.target.value='';return;}
+    var k=e.target.getAttribute('data-ikeep');if(k!=null){imp[+k].keep=e.target.checked;impRender();return;}
+    var ik=e.target.getAttribute('data-ik');if(ik){var x=imp[+e.target.getAttribute('data-i')];x[ik]=e.target.value;if(ik==='birthday')x.birthday=toDay(e.target.value)||e.target.value;}});
+  $('mform').addEventListener('dragover',function(e){if(e.target.closest('#impdrop')){e.preventDefault();$('impdrop').classList.add('over');}});
+  $('mform').addEventListener('dragleave',function(e){var d=$('impdrop');if(d)d.classList.remove('over');});
+  $('mform').addEventListener('drop',function(e){if(!e.target.closest('#impdrop'))return;e.preventDefault();$('impdrop').classList.remove('over');impFiles(e.dataTransfer.files);});
+  $('mform').addEventListener('click',function(e){var b=e.target.closest('[data-m]');if(!b)return;var a=b.getAttribute('data-m');
+    if(a==='impclear'){imp=[];impMsgs=[];impStatus();impRender();}
+    else if(a==='impsave'){var list=imp.filter(function(x){return x.keep;}).map(function(x){var o={};IMPK.forEach(function(k){o[k]=String(x[k]||'').trim();});o.birthday=toDay(o.birthday);return o;});
+      if(list.some(function(o){return !o.first_name&&!o.last_name;})){$('impmsg').textContent='Every ticked row needs a name.';return;}
+      b.disabled=true;$('impmsg').textContent='Adding...';
+      mapi('/members/import',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({members:list,status:$('impstat').value})}).then(function(j){
+        members=members.concat(j.members||[]);members.sort(function(a,c){return (a.last_name+a.first_name).localeCompare(c.last_name+c.first_name);});imp=[];impMsgs=[];$('mform').innerHTML='';renderMembers();toast('Added '+j.added+' '+(j.added===1?'person':'people')+' to Members');})
+      .catch(function(err){b.disabled=false;$('impmsg').textContent='Not added: '+err.message;});}});
 
   // ---- Projects and costs (any team member can add; the person who added it or an admin can change it) ----
   var PJ={list:[],depts:[],statuses:['Not Started','Planned','In Progress','Completed'],budget:0,me:'',manage:false}, pjEdit=0;
@@ -1786,6 +1856,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-projects.csv';document.body.appendChild(a);a.click();a.remove();};
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};
+  $('mimp').onclick=function(){impForm();impStatus();impRender();};
   $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
     var csv=[cols.join(',')].concat(members.map(function(m){return cols.map(function(c){var v=m[c]==null?'':String(m[c]);if(/^\d{4}-\d{2}-\d{2}/.test(v))v=v.slice(0,10);return '"'+v.replace(/"/g,'""')+'"';}).join(',');})).join('\r\n');
     var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='shekinah-members.csv';document.body.appendChild(a);a.click();a.remove();};

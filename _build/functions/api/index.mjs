@@ -97,7 +97,7 @@ const str = (v, max = 300) => String(v == null ? '' : v).replace(/\u0000/g, '').
 const lower = (v) => str(v, 254).toLowerCase();
 async function body(req) {
   const t = await req.text();
-  need(t.length <= 400000, 413, 'That is too large to send.');
+  need(t.length <= 6000000, 413, 'That is too large to send.'); // room for one list photo
   try { const j = t ? JSON.parse(t) : {}; return j && typeof j === 'object' ? j : {}; } catch { throw new Fail(400, 'Could not read the request.'); }
 }
 
@@ -496,6 +496,53 @@ async function memberSave(me, b) {
   }
   return { member: row };
 }
+// ---- import a list (Jimmy, Nov 22, 2026): a photo or a handwritten list is read by Claude, a CSV or Excel file in the browser.
+// Nothing is saved here: the admin shows a preview, the person fixes it, then /members/import saves the rows they kept.
+const AI_MODEL = process.env.AI_MODEL || 'claude-sonnet-5-5';
+const READ_PROMPT = `This is a photo or scan of a church member or contact list (it may be handwritten). Read every person on it.
+Return ONLY a JSON array, no other words. One object per person with these keys (use "" when not on the list):
+first_name, last_name, phone, email, address, city, state, zip, birthday (YYYY-MM-DD only if a full date is written, else ""), household, notes,
+unsure (true when any part was hard to read, else false).
+Copy what is written; do not invent anything. Put a family or household name in household. Put anything else written about the person in notes.
+If the image is not a list of people, return [].`;
+async function memberRead(me, b) {
+  allow(me, 'members_edit');
+  const key = process.env.ANTHROPIC_API_KEY || '';
+  need(key, 503, 'Reading photos is not turned on yet. An admin needs to add the AI key in Neon (api function, environment ANTHROPIC_API_KEY). CSV and Excel files work now.');
+  const type = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'].includes(b.media_type) ? b.media_type : null;
+  const data = typeof b.data === 'string' ? b.data.replace(/^data:[^,]+,/, '') : '';
+  need(type && data.length > 100 && data.length < 5500000 && /^[A-Za-z0-9+/=\s]+$/.test(data.slice(0, 2000)), 400, 'Please choose a photo (JPG or PNG).');
+  if (!(await limit('read-list:' + me.email, 40, 60))) throw new Fail(429, 'That is a lot of photos for one hour. Please wait a bit and try again.');
+  const r = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST', headers: { 'x-api-key': key, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' },
+    body: JSON.stringify({ model: AI_MODEL, max_tokens: 8000, messages: [{ role: 'user', content: [{ type: 'image', source: { type: 'base64', media_type: type, data } }, { type: 'text', text: READ_PROMPT }] }] }),
+    signal: AbortSignal.timeout(90000),
+  });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { console.log('read list failed', r.status, JSON.stringify(j).slice(0, 300)); throw new Fail(502, 'The photo could not be read right now' + (r.status === 400 && /credit/i.test(JSON.stringify(j)) ? ' (the AI account is out of credit)' : '') + '. Please try again.'); }
+  const text = (j.content || []).map((c) => c.text || '').join('');
+  let list = [];
+  try { list = JSON.parse(text.slice(text.indexOf('['), text.lastIndexOf(']') + 1)); } catch { list = []; }
+  if (!Array.isArray(list)) list = [];
+  return { people: list.slice(0, 300).map((p) => { const o = {}; for (const k of M_TEXT) o[k] = str(p && p[k], k === 'notes' ? 1000 : 200); o.birthday = /^\d{4}-\d{2}-\d{2}$/.test(String(p && p.birthday)) ? p.birthday : ''; o.unsure = !!(p && p.unsure); return o; }).filter((o) => o.first_name || o.last_name) };
+}
+async function memberImport(me, b) {
+  allow(me, 'members_edit');
+  const list = Array.isArray(b.members) ? b.members.slice(0, 1000) : [];
+  need(list.length, 400, 'There is no one to add.');
+  const status = M_STATUSES.includes(b.status) ? b.status : 'Member';
+  const clean = list.map((m) => { const o = { status: M_STATUSES.includes(m && m.status) ? m.status : status, updated_by: me.email };
+    for (const k of M_TEXT) o[k] = str(m && m[k], k === 'notes' ? 4000 : 300);
+    for (const k of M_DATES) o[k] = /^\d{4}-\d{2}-\d{2}$/.test(String(m && m[k] || '')) && !isNaN(Date.parse(m[k])) ? m[k] : null;
+    if (!o.first_name && o.last_name) { o.first_name = o.last_name; o.last_name = ''; }
+    return o; }).filter((o) => o.first_name);
+  need(clean.length, 400, 'Each person needs at least a first name.');
+  const cols = [...M_TEXT, ...M_DATES, 'status', 'updated_by'];
+  const r = await q(`WITH x AS (INSERT INTO members (${cols.join(', ')}) SELECT ${cols.join(', ')} FROM jsonb_to_recordset($1::jsonb) AS y(${M_TEXT.map((k) => k + ' text').join(', ')}, ${M_DATES.map((k) => k + ' date').join(', ')}, status text, updated_by text) RETURNING *)
+    SELECT coalesce(json_agg(t), '[]'::json) AS j FROM (SELECT ${M_COLS} FROM x) t`, [JSON.stringify(clean)]);
+  const added = r[0] ? (typeof r[0].j === 'string' ? JSON.parse(r[0].j) : r[0].j) : [];
+  return { added: added.length, members: added };
+}
 async function memberDelete(me, b) {
   allow(me, 'members_delete');
   await q('DELETE FROM members WHERE id = $1', [idOf(b.id)]);
@@ -870,7 +917,7 @@ const ROUTES = {
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
-  'POST /members/save': memberSave, 'POST /members/delete': memberDelete,
+  'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
