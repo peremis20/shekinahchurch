@@ -766,12 +766,14 @@ async function submit(req) {
     if (dup) return { ok: true }; // double click
   }
   const row = await wrote(`INSERT INTO submissions (kind, status, name, email, phone, topic, message, details, is_private, created_at, updated_at, unsubscribed)
-    VALUES ($1, 'new', $2, $3, $4, $5, $6, $7::jsonb, $8, now(), now(), false) RETURNING id, kind, topic, is_private, name`,
+    VALUES ($1, 'new', $2, $3, $4, $5, $6, $7::jsonb, $8, now(), now(), false) RETURNING id, kind, topic, is_private, name, email, phone`,
     [e.kind, e.name, e.email, e.phone, e.topic || null, e.message, JSON.stringify(details), e.is_private]);
   {
     // Tell the team about every form, email sign ups included. No private details in the email: staff sign in to read them.
     const what = (row.is_private ? 'private ' : '') + areaLabel(row);
-    const text = 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\nSign in to read it and follow up:\n' + SITE + '/admin/';
+    // Who it is (name, email, phone) is shown for everything except private requests (Jimmy, Nov 23, 2026). Messages stay in the admin.
+    const who = row.is_private ? '' : [row.name ? 'Name: ' + row.name : '', row.email ? 'Email: ' + row.email : '', row.phone ? 'Phone: ' + row.phone : ''].filter(Boolean).join('\n');
+    const text = 'A new ' + what + ' came in through shekinahsda.org' + (row.is_private || !row.name ? '' : ' from ' + row.name) + '.\n\n' + (who ? who + '\n\n' : '') + 'Sign in to read it and follow up:\n' + SITE + '/admin/';
     for (const to of await alertList()) await mail({ to, subject: 'New ' + what + ' on the website', tag: 'staff-alert', text });
   }
   await sendThanksNow();
