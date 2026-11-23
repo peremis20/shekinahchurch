@@ -680,6 +680,28 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
 
 @media (min-width:1001px){.pj-addp{grid-template-columns:minmax(180px,280px) minmax(200px,320px) 180px auto auto!important;justify-content:start}}
 @media (min-width:1001px){.pj-card:has(.pj-addp){width:max-content;max-width:100%}}.pj-addp label.chk{height:38px!important}
+
+/* ===== One size for every summary card, tab row and side button (Jimmy, Nov 23) ===== */
+@media (min-width:701px){
+#stats:not(.hide),#tkpis:not(.hide),.pj-kpis,.calkpis{grid-template-columns:repeat(auto-fill,minmax(165px,205px))!important;gap:10px!important;margin-bottom:16px!important}
+.pj-top #pjkpis{grid-template-columns:repeat(4,minmax(165px,205px))!important}
+}
+#main .stat,#main .tk,#main .tk.many,#tkpis.many .tk,#main .pj-kpi{height:64px!important;min-height:64px;padding:10px 14px!important;gap:12px!important;border-radius:14px!important;align-items:center!important;box-sizing:border-box}
+#main .tk{border-top-width:3px!important}
+#main .stat svg{width:30px!important;height:30px!important;margin:0!important;flex:none}
+#main .tk .ic,#tkpis.many .tk .ic,#main .pj-kpi .ic{width:38px!important;height:38px!important;border-radius:11px}
+#main .tk .ic svg,#tkpis.many .tk .ic svg,#main .pj-kpi .ic svg{width:20px!important;height:20px!important}
+#main .stat b,#main .tk b,#tkpis.many .tk b,#main .pj-kpi b{font-size:20px!important;line-height:1.1!important}
+#main .stat span,#main .tk span,#tkpis.many .tk span,#main .pj-kpi span{font-size:12.5px!important;margin:1px 0 0!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.25}
+#main .stat>div,#main .stat>span:not(:first-child){min-width:0}
+#main .stat{display:flex!important;flex-direction:row}
+#main .stat{position:relative}#main .stat em{position:absolute;top:8px;right:9px;font-size:10.5px!important;padding:1px 7px!important;margin:0!important}#main .stat>div{padding-right:0;min-width:0;flex:1}#main .stat b{padding-right:46px}
+#main .stat .stx{display:flex;align-items:baseline;gap:2px;flex-wrap:nowrap}
+/* tabs */
+#main .tabs button{font-size:14px!important;padding:6px 12px!important;border-radius:9px}
+#main .tabs button:not(:last-child):after{top:8px;bottom:8px}
+/* big side buttons like Add Entry, Add Prayer Request, Add Visit */
+#addentry,#main .rail>.pbtn,#main .rail>button.pbtn{height:40px!important;font-size:14.5px!important;border-radius:11px!important}
 </style>
 </head>
 <body>
