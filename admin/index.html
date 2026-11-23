@@ -570,6 +570,22 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 .pj-kpis,.calkpis{grid-template-columns:repeat(auto-fit,minmax(190px,270px))!important;gap:12px}.pj-kpi{padding:12px 16px;gap:12px;border-radius:14px}.pj-kpi .ic{width:40px;height:40px}.pj-kpi .ic svg{width:21px;height:21px}.pj-kpi b{font-size:20px}
 .nhead{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 @media (max-width:700px){#tkpis,#tkpis.many,body[data-t=mem] #tkpis,.pj-kpis,.calkpis{grid-template-columns:1fr 1fr!important}.tk:first-child,.pj-kpi.main{grid-column:auto}}
+/* compact lists: columns size to their content */
+#nlist{width:max-content;max-width:100%}
+#sbrows{display:grid;grid-template-columns:repeat(5,max-content) minmax(70px,max-content);column-gap:28px;overflow-x:auto}
+#sbrows .sb-row{grid-template-columns:subgrid;grid-column:1/-1;gap:0;column-gap:28px}
+#sbrows>div:not(.sb-row){grid-column:1/-1}
+#sbrows .sb-c{max-width:340px}
+.panel.page:has(#nlist){width:max-content;max-width:100%;min-width:min(560px,100%)}
+.panel.page:has(#nhist),#ncompose{max-width:980px}
+.pj-tm{width:max-content;max-width:100%}
+.tm-h,.tm-row{grid-template-columns:minmax(240px,320px) 160px 110px 175px 190px}
+.pj-table:has(#pjlist),#pjlist{width:max-content;max-width:100%}
+.pj-table table{width:auto;min-width:0}.pj-table th,.pj-table td{padding-left:12px;padding-right:12px}
+.rtable{width:auto}
+#mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:12px}
+@media(max-width:1000px){.tm-row{grid-template-columns:1fr 1fr}.pj-tm{width:auto}}
+@media(max-width:720px){#nlist,.panel.page:has(#nlist){width:auto;min-width:0}#sbrows{display:block}#sbrows .sb-row{grid-template-columns:1fr auto;gap:2px 10px}#sbrows .sb-c{max-width:none}}
 </style>
 </head>
 <body>
