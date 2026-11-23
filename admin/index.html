@@ -440,7 +440,8 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-row select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;width:100%;max-width:200px}
 .tm-sw{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1F2A44}.tm-sw input{width:20px;height:20px;accent-color:#1D5FE0}
 .tm-when{color:#33415C;font-weight:600}
-.pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.tm-in .e{border:1.5px solid #1D5FE0;color:#1D5FE0;background:#fff}.tm-del{border:1.5px solid #F3C2C8;background:#fff;color:#B4232F;display:inline-flex;align-items:center;gap:6px}.tm-del svg{width:16px;height:16px}.tm-mg .tm-cz-p{margin:0;background:#fff}
+.pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.evinv{display:flex;flex-direction:column;gap:6px}.evinv>b{font-size:14px;color:var(--ink)}.evppl{display:flex;flex-wrap:wrap;gap:6px 14px}.evp{display:flex !important;flex-direction:row !important;align-items:center;gap:6px;font-size:14.5px;color:var(--ink)}.evp input{width:18px;height:18px;accent-color:#1D5FE0}
+.tm-in .e{border:1.5px solid #1D5FE0;color:#1D5FE0;background:#fff}.tm-del{border:1.5px solid #F3C2C8;background:#fff;color:#B4232F;display:inline-flex;align-items:center;gap:6px}.tm-del svg{width:16px;height:16px}.tm-mg .tm-cz-p{margin:0;background:#fff}
 .tm-cz-p{margin:12px 0 2px;padding:14px 16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.tm-cz-p>div{display:flex;flex-direction:column;gap:7px}.tm-cz-p b{font-size:14px;color:#0E1B3D}
 @media (max-width:1000px){.tm-h{display:none}.tm-row{grid-template-columns:1fr 1fr}.tm-p,.tm-row .pj-act{grid-column:1/-1}.tm-row [data-l]:before{content:attr(data-l);display:block;font-size:12.5px;color:#5D6A80;font-weight:700;margin-bottom:4px}.pj-addp{grid-template-columns:1fr 1fr}.pj-addp label.chk,.pj-addp .pj-add{grid-column:1/-1}}
 @media (max-width:560px){.pj-roles{grid-template-columns:1fr}}
@@ -834,17 +835,29 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       if($('calform').querySelector('.evbox[data-id="'+id+'"]'))evForm(evById(id));
     }).catch(function(err){e.starts_on=old.starts_on;e.ends_on=old.ends_on;renderCal();toast('Not moved: '+err.message);});}
   function evById(id){return CAL.events.filter(function(e){return String(e.id)===String(id);})[0];}
+  var REP={none:'Does not repeat',weekly:'Every week',monthly:'Every month',yearly:'Every year'};
+  function isRep(e){return e&&e.repeat&&e.repeat!=='none';}
+  function repTxt(e){if(!isRep(e))return '';var d=pday(e.starts_on);return (e.repeat==='weekly'?'Every '+d.toLocaleDateString([], {weekday:'long'}):e.repeat==='monthly'?'Every month on the '+d.getDate()+(['th','st','nd','rd'][(d.getDate()%100-20)%10]||['th','st','nd','rd'][d.getDate()%100]||'th'):'Every year on '+d.toLocaleDateString([], {month:'long',day:'numeric'}))+(e.repeat_until?' until '+pday(e.repeat_until).toLocaleDateString([], {month:'short',day:'numeric',year:'numeric'}):'');}
+  // Repeating events are saved once; every date they happen on is worked out here for the calendar views.
+  function occOf(e,from,to){if(!isRep(e))return [e];var out=[],s=pday(e.starts_on),until=e.repeat_until&&e.repeat_until<to?e.repeat_until:to;
+    for(var i=0;i<2000&&out.length<400;i++){var d;if(e.repeat==='weekly'){d=new Date(s);d.setDate(s.getDate()+7*i);}
+      else{d=new Date(s.getFullYear()+(e.repeat==='yearly'?i:0),s.getMonth()+(e.repeat==='monthly'?i:0),s.getDate());if(d.getDate()!==s.getDate())continue;}
+      var k=ymd(d);if(k>until)break;if(k>=from)out.push(k===e.starts_on?e:Object.assign({},e,{starts_on:k,ends_on:null,_occ:1}));}
+    return out;}
+  function calView2(){var t=new Date(), a=new Date(t), b=new Date(t);a.setDate(t.getDate()-400);b.setDate(t.getDate()+800);var f=ymd(a), to=ymd(b), out=[];
+    CAL.events.forEach(function(e){occOf(e,f,to).forEach(function(x){out.push(x);});});
+    return out.sort(function(x,y){return (x.starts_on+(x.start_time||'')).localeCompare(y.starts_on+(y.start_time||''));});}
   function loadCal(){if(!calM){calM=new Date();calM.setHours(0,0,0,0);}
     $('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Loading...</div>';
     api('/calendar').then(function(j){CAL={events:j.events||[],tasks:j.tasks||[],kinds:j.kinds||[],team:j.team||[],can:!!j.can_edit};renderCal();})
       .catch(function(e){$('caldays').innerHTML='<div class="empty" style="grid-column:1/-1">Could not load the calendar. '+esc(e.message)+'</div>';});}
-  function renderCal(){autoColors();
+  function renderCal(){autoColors();CAL.view=calView2();
     $('caladd').classList.toggle('hide',!CAL.can);$('tkadd').classList.toggle('hide',!CAL.can);$('calro').classList.toggle('hide',CAL.can);
     document.querySelector('[data-c="prev"]').innerHTML=I('prev');document.querySelector('[data-c="next"]').innerHTML=I('next');
     document.querySelectorAll('#calv [data-cv]').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-cv')===calView);});
     $('calhead').classList.toggle('hide',calView!=='month');$('caldays').className=calView==='year'?'yeargrid':calView==='week'?'cal7 weekv':calView==='sat'?'satv':'cal7';
     var today=ymd(new Date()), cells=[];
-    var dayEvs=function(k){return CAL.events.filter(function(e){var r=evDays(e);return k>=r[0]&&k<=r[1];}).sort(function(a,b){return String(a.start_time||'').localeCompare(String(b.start_time||''));});};
+    var dayEvs=function(k){return CAL.view.filter(function(e){var r=evDays(e);return k>=r[0]&&k<=r[1];}).sort(function(a,b){return String(a.start_time||'').localeCompare(String(b.start_time||''));});};
     if(calView==='year'){
       var y=calM.getFullYear();$('calttl').textContent=String(y);
       for(var mo=0;mo<12;mo++){var f=new Date(y,mo,1), st=new Date(f);st.setDate(1-f.getDay());var mini=[];
@@ -895,7 +908,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   function dragEnd(ok){if(!drag)return;clearTimeout(drag.timer);var d=drag;drag=null;if(!d.on)return;
     d.src.classList.remove('dragging');if(d.g)d.g.remove();if(d.t)d.t.el.classList.remove('dropok');dragJustEnded=true;setTimeout(function(){dragJustEnded=false;},350);
     if(ok&&d.t&&d.t.day)moveEv(d.id,d.t.day);}
-  $('caldays').addEventListener('pointerdown',function(e){if(!CAL.can||e.button>0)return;var s=e.target.closest('[data-ev]');if(!s)return;
+  $('caldays').addEventListener('pointerdown',function(e){if(!CAL.can||e.button>0)return;var s=e.target.closest('[data-ev]');if(!s||isRep(evById(s.getAttribute('data-ev'))))return;
     drag={id:s.getAttribute('data-ev'),src:s,x:e.clientX,y:e.clientY,on:false,touch:e.pointerType!=='mouse'};
     if(drag.touch)drag.timer=setTimeout(function(){if(drag)dragStart();},380);});
   document.addEventListener('pointermove',function(e){if(!drag)return;
@@ -909,15 +922,16 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   document.addEventListener('keydown',function(e){if(e.key==='Escape')dragEnd(false);});
   $('caldays').addEventListener('dragstart',function(e){e.preventDefault();});
   function renderUp(){var t=ymd(new Date());
-    var up=CAL.events.filter(function(e){return evDays(e)[1]>=t;}).slice(0,8);
+    var seen={}, up=(CAL.view||CAL.events).filter(function(e){if(evDays(e)[1]<t||seen[e.id])return false;seen[e.id]=1;return true;}).slice(0,8); // a repeating event shows once, on its next date
     $('calup').innerHTML=up.length?up.map(function(e){var d=pday(e.starts_on);
       return '<button class="upi" data-ev="'+esc(e.id)+'"><span class="upd"><small>'+d.toLocaleDateString([], {month:'short'})+'</small><b>'+d.getDate()+'</b></span><span style="min-width:0"><span class="t">'+esc(e.title)+'</span>'+
-        '<div class="m">'+(e.is_public===false?'<b style="color:#8A6420">Team only</b> · ':'')+esc(d.toLocaleDateString([], {weekday:'long'}))+(e.ends_on?' to '+esc(pday(e.ends_on).toLocaleDateString([], {month:'short',day:'numeric'})):'')+' · '+esc(evTime(e))+(e.location?' · '+esc(e.location):'')+'</div>'+
+        '<div class="m">'+(e.is_public===false?'<b style="color:#8A6420">Team only</b> · ':'')+(isRep(e)?'<b style="color:#1D5FE0">&#8635; '+esc(REP[e.repeat])+'</b> · ':'')+esc(d.toLocaleDateString([], {weekday:'long'}))+(e.ends_on?' to '+esc(pday(e.ends_on).toLocaleDateString([], {month:'short',day:'numeric'})):'')+' · '+esc(evTime(e))+(e.location?' · '+esc(e.location):'')+'</div>'+
         '<span class="chip '+kc(e)+'" style="display:inline-block;width:auto;margin-top:6px;cursor:pointer">'+esc(e.category||'Other')+'</span></span></button>';}).join('')
       :'<p class="meta">No upcoming events yet.'+(CAL.can?' Click a day on the calendar or "Add event" to add one.':'')+'</p>';}
   function evForm(e,day){e=e||{starts_on:day||ymd(new Date()),category:'Worship'};var ro=!CAL.can;
     if(ro){$('calform').innerHTML='<div class="evbox evview"><span class="chip '+kc(e)+'" style="display:inline-block;width:auto">'+esc(e.category||'Other')+'</span><h3 style="margin-top:8px">'+esc(e.title)+'</h3>'+
-      (e.is_public===false?'<p><b style="color:#8A6420">Team only</b></p>':'')+'<p><b>'+esc(dayLong(e.starts_on))+(e.ends_on?' to '+esc(dayLong(e.ends_on)):'')+'</b> · '+esc(evTime(e))+'</p>'+(e.location?'<p>'+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
+      (e.is_public===false?'<p><b style="color:#8A6420">Team only</b></p>':'')+'<p><b>'+esc(dayLong(e.starts_on))+(e.ends_on?' to '+esc(dayLong(e.ends_on)):'')+'</b> · '+esc(evTime(e))+'</p>'+(isRep(e)?'<p><b style="color:#1D5FE0">&#8635; '+esc(repTxt(e))+'</b></p>':'')+(e.location?'<p>'+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
+      ((e.invitees||[]).length?'<p><b>Invited:</b> '+esc((e.invitees||[]).map(nameOf).join(', '))+'</p>':'')+
       '<div class="act"><button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
     var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';};
     $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><div class="ef evef">'+
@@ -929,20 +943,31 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
       '<label class="loc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
       '<label class="wide">Details<textarea name="details" rows="3" maxlength="4000">'+esc(e.details||'')+'</textarea></label>'+
+      '<label>Repeats<select name="repeat">'+Object.keys(REP).map(function(k){return '<option value="'+k+'"'+((e.repeat||'none')===k?' selected':'')+'>'+REP[k]+'</option>';}).join('')+'</select></label>'+
+      '<label class="evrep'+(isRep(e)?'':' hide')+'">Repeat until (optional)<input type="date" name="repeat_until" value="'+esc(e.repeat_until||'')+'"></label>'+
+      '<div class="wide evinv"><b>Invite people</b><span class="meta">They get an email invitation with the date, time and place.</span><div class="evppl">'+
+        CAL.team.map(function(m){var on=(e.invitees||[]).indexOf(m)>=0;return '<label class="evp"><input type="checkbox" data-inv="'+esc(m)+'"'+(on?' checked':'')+'> '+esc(nameOf(m)==='You'?'You':nameOf(m))+'</label>';}).join('')+'</div>'+
+        '<label style="margin-top:8px">Other emails (separate with commas)<input name="inv_other" maxlength="2000" value="'+esc((e.invitees||[]).filter(function(m){return CAL.team.indexOf(m)<0;}).join(', '))+'" placeholder="name@example.com, other@example.com"></label></div>'+
+      '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="remind" style="width:20px;height:20px;flex:none;accent-color:#1D5FE0"'+(e.id?(e.remind?' checked':''):' checked')+'> Email reminders to everyone 30, 15, 5 and 1 minute before it starts (needs a start time).</label>'+
       '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;flex:none;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
       (e.id?'<div class="mvrow"><b>Reschedule</b><button class="lbtn" data-mv="-1">1 day earlier</button><button class="lbtn" data-mv="1">1 day later</button><button class="lbtn" data-mv="-7">1 week earlier</button><button class="lbtn" data-mv="7">1 week later</button><button class="lbtn" data-mv="sat">Next Saturday</button></div>':'')+
       '<div class="act"><button class="pbtn" data-c="saveev">'+(e.id?'Save changes':'Add event')+'</button><button class="lbtn" data-c="close">Cancel</button>'+(e.id?'<button class="dbtn" data-c="delev">Delete event</button>':'')+'<span class="saved" id="evmsg"></span></div></div>';
     $('calform').scrollIntoView({behavior:'smooth',block:'nearest'});var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
     box.querySelectorAll('[name]').forEach(function(x){if(x.type==='radio'){if(x.checked)ev[x.name]=x.value;return;}ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
+    var inv=[];box.querySelectorAll('[data-inv]').forEach(function(c){if(c.checked)inv.push(c.getAttribute('data-inv'));});
+    String(ev.inv_other||'').split(/[\s,;]+/).forEach(function(m){m=m.trim().toLowerCase();if(m&&inv.indexOf(m)<0)inv.push(m);});delete ev.inv_other;ev.invitees=inv;
+    var badm=inv.filter(function(m){return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m);})[0];if(badm){$('evmsg').textContent='"'+badm+'" is not a valid email address.';return;}
+    if(ev.remind&&!ev.start_time&&inv.length){$('evmsg').textContent='Pick a start time so the reminders know when to go out, or untick reminders.';return;}
     var dupe=CAL.events.filter(function(x){return String(x.id)!==String(ev.id||'')&&x.starts_on===ev.starts_on&&nkey(x.title)===nkey(ev.title);})[0];
     if(dupe){$('evmsg').textContent='"'+dupe.title+'" is already on the calendar that day. Open that event to change it instead.';return;}
     ev.color='';$('evmsg').textContent='Saving...';
     api('/calendar/event',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({event:ev})}).then(function(j){
       var e=j.event;CAL.events=CAL.events.filter(function(x){return String(x.id)!==String(e.id);});CAL.events.push(e);
       CAL.events.sort(function(a,b){return (a.starts_on+(a.start_time||'')).localeCompare(b.starts_on+(b.start_time||''));});
-      $('calform').innerHTML='';var d=pday(e.starts_on);calM=pday(e.starts_on);renderCal();toast(ev.id?'Event saved':'Event added');
+      $('calform').innerHTML='';var d=pday(e.starts_on);calM=pday(e.starts_on);renderCal();toast((ev.id?'Event saved':'Event added')+(j.invited?'. Invitation sent to '+j.invited+(j.invited>1?' people':' person'):''));
     }).catch(function(err){$('evmsg').textContent='Not saved: '+err.message;});}
+  $('calform').addEventListener('change',function(e){if(e.target.name==='repeat'){var u=$('calform').querySelector('.evrep');if(u)u.classList.toggle('hide',e.target.value==='none');}});
   function delEv(){var id=$('calform').querySelector('.evbox').getAttribute('data-id'), e=evById(id);
     if(!confirm('Delete "'+(e?e.title:'this event')+'"? This cannot be undone.'))return;
     api('/calendar/event/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){

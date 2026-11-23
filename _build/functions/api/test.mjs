@@ -5,6 +5,8 @@ const API_SRC = process.argv[2];
 process.env.DATABASE_URL = 'postgres://u:p@ep-x.c-7.us-east-2.aws.neon.tech/neondb';
 process.env.SQL_URL = 'http://sql.local/sql';
 process.env.MAIL_URL = 'http://mail.local';
+process.env.MAIL_GAP_MS = '1';
+const cancels = []; let mailN = 0;
 
 const db = new PGlite();
 await db.exec(`
@@ -39,7 +41,8 @@ globalThis.fetch = async (url, opt = {}) => {
       return new Response(JSON.stringify({ rows }), { status: 200 });
     } catch (e) { return new Response(JSON.stringify({ message: String(e.message) }), { status: 400 }); }
   }
-  if (url === 'http://mail.local/send') { const m = JSON.parse(opt.body); m._key = opt.headers['x-mail-key']; mails.push(m); return new Response(JSON.stringify({ ok: mailOk }), { status: mailOk ? 200 : 502 }); }
+  if (url === 'http://mail.local/send') { const m = JSON.parse(opt.body); m._key = opt.headers['x-mail-key']; mails.push(m); return new Response(JSON.stringify({ ok: mailOk, id: m.scheduled_at ? 'aaaaaaaa-0000-0000-0000-' + String(++mailN).padStart(12, '0') : undefined }), { status: mailOk ? 200 : 502 }); }
+  if (url === 'http://mail.local/cancel') { cancels.push(...JSON.parse(opt.body).ids); return new Response(JSON.stringify({ ok: true }), { status: 200 }); }
   if (url === 'http://mail.local/run') { runs.push(opt.headers['x-mail-key']); return new Response(JSON.stringify({ sent: 0 }), { status: 200 }); }
   if (url.endsWith('/content-defaults.json')) return new Response(JSON.stringify({ posts: [{ id: 'p1', title: 'Old', slug: 'old-slug', seoTitle: 'SEO Old', metaDesc: 'md', keywords: ['k'], lang: 'ht' }] }), { status: 200 });
   throw new Error('unexpected fetch ' + url);
@@ -275,6 +278,35 @@ for (let i = 0; i < 6; i++) r = await call('POST', '/likes', { body: { p: '/blog
 r = await call('POST', '/likes', { body: { p: '/admin/x/' } }); ok(r.status === 400, 'only study and blog pages');
 r = await call('GET', '/likes?p=javascript:alert(1)'); ok(r.status === 400, 'bad page rejected');
 r = await call('POST', '/likes', { body: { p: '/blog/x-y/', on: false }, ip: '9.9.9.4' }); ok(r.j.n === 0, 'never below zero', r.j);
+
+// ---- meetings: repeat, invites, reminders ----
+{
+  const fmt = (ms) => Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(ms)).map((x) => [x.type, x.value]));
+  const p = fmt(Date.now() + 90 * 60e3), day = `${p.year}-${p.month}-${p.day}`, time = `${p.hour}:${p.minute}`;
+  mails.length = 0;
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', is_public: true, repeat: 'weekly', invitees: 'a@x.org, B@x.org', remind: true } } });
+  const M = r.j.event; ok(r.status === 200 && M.repeat === 'weekly' && M.invitees.length === 2 && M.remind === true && r.j.invited === 2, 'save a weekly meeting with invites', r.j);
+  const inv = mails.filter((m) => m.tag === 'meeting-invite'), rem = mails.filter((m) => m.tag === 'meeting-reminder');
+  ok(inv.length === 2 && inv.map((m) => m.to).sort().join() === 'a@x.org,b@x.org', 'invitations go to each person', inv.map((m) => m.to));
+  ok(rem.length === 4 && rem.every((m) => m.to === 'owner@x.org' && m.bcc.join() === 'a@x.org,b@x.org' && m.scheduled_at), 'four reminders scheduled for everyone', rem.map((m) => [m.to, m.bcc, m.subject]));
+  const gaps = rem.map((m) => Math.round(Date.parse(m.scheduled_at) / 60e3)).sort((x, y) => x - y);
+  ok(gaps.map((g) => g - gaps[0]).join() === '0,15,25,29', '30, 15, 5 and 1 minute before', gaps.map((g) => g - gaps[0]));
+  ok(rem.some((m) => /in 30 minutes/.test(m.subject)) && rem.some((m) => /in 1 minute:/.test(m.subject)), 'reminder subjects', rem.map((m) => m.subject));
+  ok(Number((await db.query('SELECT count(*)::int n FROM cal_reminders')).rows[0].n) === 4, 'only the next meeting is planned now');
+  mails.length = 0; cancels.length = 0;
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', repeat: 'weekly', invitees: ['a@x.org', 'b@x.org'], remind: true } } });
+  ok(r.status === 200 && r.j.invited === 0 && cancels.length === 4 && mails.filter((m) => m.tag === 'meeting-reminder').length === 4, 'editing replans reminders and does not invite again', { c: cancels.length, m: mails.map((m) => m.tag) });
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting' } } });
+  ok(r.j.event.repeat === 'weekly' && r.j.event.invitees.length === 2 && r.j.event.remind === true, 'a move keeps repeat, invites and reminders', r.j.event);
+  r = await call('POST', '/cron/reminders', {}); ok(r.status === 200 && r.j.scheduled === 0, 'daily run skips what is planned', r.j);
+  r = await call('GET', '/events'); const occ = r.j.events.filter((e) => e.title === 'Board meeting');
+  ok(occ.length >= 20 && occ[1].starts_on > occ[0].starts_on && !('invitees' in occ[0]) && !('repeat' in occ[0]), 'public page shows each week, without the invite list', occ.length);
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Bad', starts_on: day, invitees: 'not an email' } } }); ok(r.status === 400, 'bad invite email refused', r.j);
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { title: 'Choir', starts_on: '2026-01-31', repeat: 'monthly' } } });
+  r = await call('GET', '/events'); ok(!r.j.events.some((e) => e.title === 'Choir' && /-(02|04|06|09|11)-31$/.test(e.starts_on)), 'monthly skips months without that day');
+  cancels.length = 0;
+  r = await call('POST', '/calendar/event/delete', { token: O, body: { id: M.id } }); ok(r.status === 200 && cancels.length >= 3, 'deleting cancels the reminders not sent', cancels.length);
+}
 
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);

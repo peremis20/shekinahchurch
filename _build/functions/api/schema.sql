@@ -22,3 +22,8 @@ CREATE TABLE IF NOT EXISTS page_likes (page text PRIMARY KEY, n integer NOT NULL
 -- full name shown on the Team page and used in the invite (Nov 19, 2026)
 ALTER TABLE admins ADD COLUMN IF NOT EXISTS full_name text;
 ALTER TABLE admins ADD COLUMN IF NOT EXISTS suspended_at timestamptz; -- set while someone is suspended: no sign in, no sessions
+ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS repeat text NOT NULL DEFAULT 'none';   -- none, weekly, monthly, yearly
+ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS repeat_until date;
+ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS invitees jsonb NOT NULL DEFAULT '[]'::jsonb;  -- emails invited to the meeting
+ALTER TABLE cal_events ADD COLUMN IF NOT EXISTS remind boolean NOT NULL DEFAULT false;        -- reminder emails 30, 15, 5 and 1 minute before
+CREATE TABLE IF NOT EXISTS cal_reminders (event_id bigint NOT NULL REFERENCES cal_events(id) ON DELETE CASCADE, occurs_on date NOT NULL, minutes integer NOT NULL, send_at timestamptz NOT NULL, resend_id text, status text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), PRIMARY KEY (event_id, occurs_on, minutes));

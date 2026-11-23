@@ -109,7 +109,7 @@ async function mail(m) {
     if (!mailKey) return { ok: false, detail: 'mail is not set up' };
     const r = await fetch(MAIL_URL + '/send', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-mail-key': mailKey }, body: JSON.stringify(m), signal: AbortSignal.timeout(20000) });
     const j = await r.json().catch(() => ({}));
-    return { ok: r.ok && j.ok !== false, detail: String(j.detail || j.error || r.status).slice(0, 300) };
+    return { ok: r.ok && j.ok !== false, id: j.id || null, detail: String(j.detail || j.error || r.status).slice(0, 300) };
   } catch (e) { return { ok: false, detail: String(e.message || e).slice(0, 300) }; }
 }
 
@@ -506,20 +506,114 @@ async function memberDelete(me, b) {
 const CAL_KINDS = ['Worship', 'Youth', 'Outreach', 'Meeting', 'Fellowship', 'Health', 'Other'];
 const CAL_COLORS = ['blue', 'navy', 'purple', 'pink', 'red', 'orange', 'gold', 'green', 'teal', 'brown', 'gray'];
 const EV_PUB = "id, title, to_char(starts_on, 'YYYY-MM-DD') AS starts_on, to_char(ends_on, 'YYYY-MM-DD') AS ends_on, start_time, end_time, location, details, category, color";
-const EV_COLS = EV_PUB + ', is_public, created_by, updated_by, updated_at';
+const EV_COLS = EV_PUB + ", is_public, created_by, updated_by, updated_at, repeat, to_char(repeat_until, 'YYYY-MM-DD') AS repeat_until, invitees, remind";
+const REPEATS = ['none', 'weekly', 'monthly', 'yearly'];
+const REMIND_MIN = [30, 15, 5, 1]; // Jimmy, Nov 22, 2026: reminder emails 30, 15, 5 and 1 minute before, to everyone in the meeting
+const TZ = 'America/Chicago';
+const ymdUTC = (d) => d.toISOString().slice(0, 10);
+const addDaysStr = (k, n) => { const d = new Date(k + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() + n); return ymdUTC(d); };
+// Dates (YYYY-MM-DD) an event happens on between from and to (inclusive). Monthly and yearly skip months without that day.
+function occurrences(e, from, to, max = 400) {
+  const start = e.starts_on, rep = REPEATS.includes(e.repeat) ? e.repeat : 'none', until = e.repeat_until && e.repeat_until < to ? e.repeat_until : to, out = [];
+  if (rep === 'none') return start >= from && start <= to ? [start] : (e.ends_on && start < from && e.ends_on >= from ? [start] : []);
+  const [y0, m0, d0] = start.split('-').map(Number);
+  for (let i = 0; out.length < max && i < 5000; i++) {
+    let k;
+    if (rep === 'weekly') k = addDaysStr(start, 7 * i);
+    else { const d = new Date(Date.UTC(y0 + (rep === 'yearly' ? i : 0), m0 - 1 + (rep === 'monthly' ? i : 0), d0)); if (d.getUTCDate() !== d0) continue; k = ymdUTC(d); }
+    if (k > until) break;
+    if (k >= from) out.push(k);
+  }
+  return out;
+}
+// A Central time wall clock (date + HH:MM) as a real moment.
+function chicago(day, time) {
+  const [y, mo, d] = day.split('-').map(Number), [h, mi] = String(time).split(':').map(Number);
+  const guess = Date.UTC(y, mo - 1, d, h, mi);
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-US', { timeZone: TZ, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }).formatToParts(new Date(guess)).map((x) => [x.type, x.value]));
+  const shown = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute);
+  return new Date(guess + (guess - shown));
+}
+const t12s = (t) => { if (!t) return 'All day'; const [h, m] = t.split(':').map(Number); return ((h + 11) % 12 + 1) + ':' + String(m).padStart(2, '0') + ' ' + (h < 12 ? 'AM' : 'PM'); };
+const dayLongS = (k) => new Date(k + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+const repeatText = (e) => e.repeat === 'weekly' ? 'Every week on ' + new Date(e.starts_on + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long' })
+  : e.repeat === 'monthly' ? 'Every month on day ' + Number(e.starts_on.slice(8)) : e.repeat === 'yearly' ? 'Every year on ' + new Date(e.starts_on + 'T12:00:00Z').toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', day: 'numeric' }) : '';
+const inviteesOf = (e) => { let v = e.invitees; if (typeof v === 'string') { try { v = JSON.parse(v); } catch { v = []; } } return Array.isArray(v) ? v.filter((x) => EMAIL_RE.test(x)) : []; };
+const meetingPeople = (e) => [...new Set([lower(e.created_by), ...inviteesOf(e).map(lower)].filter((x) => EMAIL_RE.test(x)))];
+const GAP = Number(process.env.MAIL_GAP_MS || 600); // Resend allows a few calls a second
+const sleep = (ms) => new Promise((ok) => setTimeout(ok, Math.min(ms, GAP)));
+async function mailCancel(ids) {
+  if (!ids.length) return;
+  try {
+    if (!mailKey) { const r = await q("SELECT value FROM automation_status WHERE key = 'mail_relay_key'"); mailKey = r[0] ? r[0].value : ''; }
+    await fetch(MAIL_URL + '/cancel', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-mail-key': mailKey }, body: JSON.stringify({ ids }), signal: AbortSignal.timeout(30000) });
+  } catch (e) { console.log('cancel failed', String(e.message || e)); }
+}
+// Cancel the reminders not sent yet for one event (or a list of events).
+async function dropReminders(ids) {
+  const r = await q('DELETE FROM cal_reminders WHERE event_id = ANY($1::bigint[]) AND send_at > now() RETURNING resend_id', ['{' + ids.join(',') + '}']);
+  await mailCancel(r.map((x) => x.resend_id).filter(Boolean));
+}
+// Schedule reminder emails (with Resend's scheduled sending) for the meetings that start in the next 50 hours.
+// Runs when a meeting is saved and once a day from the Neon trigger, so the database is not woken every minute.
+async function planReminders(only) {
+  const now = Date.now(), horizon = now + 50 * 3600e3, today = new Date(now - 24 * 3600e3).toISOString().slice(0, 10), last = new Date(horizon + 24 * 3600e3).toISOString().slice(0, 10);
+  const evs = await rows(`SELECT ${EV_COLS} FROM cal_events WHERE remind AND start_time IS NOT NULL AND start_time <> '' AND (repeat <> 'none' OR starts_on >= $1::date - 1)` + (only ? ' AND id = $2' : ''), only ? [today, only] : [today]);
+  let made = 0;
+  for (const e of evs) {
+    const who = meetingPeople(e);
+    if (!who.length) continue;
+    for (const day of occurrences(e, today, last, 10)) {
+      const at = chicago(day, e.start_time).getTime();
+      if (at > horizon) continue;
+      for (const m of REMIND_MIN) {
+        const send = at - m * 60e3;
+        if (send < now + 60e3) continue;
+        const have = await one('SELECT 1 AS x FROM cal_reminders WHERE event_id = $1 AND occurs_on = $2::date AND minutes = $3', [e.id, day, m]);
+        if (have) continue;
+        const when = m === 1 ? 'in 1 minute' : 'in ' + m + ' minutes';
+        const text = `Reminder: ${e.title} starts ${when}.\n\nWhen: ${dayLongS(day)}, ${t12s(e.start_time)}${e.end_time ? ' to ' + t12s(e.end_time) : ''} (Central time)` + (e.location ? '\nWhere: ' + e.location : '') + (repeatText(e) ? '\nRepeats: ' + repeatText(e) : '') + (e.details ? '\n\n' + e.details : '') + '\n\nSee it on the church calendar: ' + SITE + '/admin/';
+        const r = await mail({ to: who[0], bcc: who.slice(1), subject: `Starts ${when}: ${e.title}`, tag: 'meeting-reminder', text, scheduled_at: new Date(send).toISOString() });
+        await q('INSERT INTO cal_reminders (event_id, occurs_on, minutes, send_at, resend_id, status) VALUES ($1, $2::date, $3, $4::timestamptz, $5, $6) ON CONFLICT DO NOTHING',
+          [e.id, day, m, new Date(send).toISOString(), r.id || null, r.ok ? 'scheduled' : 'failed ' + r.detail]);
+        if (r.ok) made++;
+        await sleep(600); // Resend allows a few calls a second
+      }
+    }
+  }
+  await q("DELETE FROM cal_reminders WHERE send_at < now() - interval '30 days'");
+  return { ok: true, scheduled: made };
+}
+async function sendInvites(e, list, me) {
+  for (const to of list) {
+    const text = `Hello,\n\n${me.email} invited you to a meeting at Shekinah Haitian Seventh-day Adventist Church.\n\n${e.title}\nWhen: ${dayLongS(e.starts_on)}, ${e.start_time ? t12s(e.start_time) + (e.end_time ? ' to ' + t12s(e.end_time) : '') + ' (Central time)' : 'All day'}`
+      + (repeatText(e) ? '\nRepeats: ' + repeatText(e) + (e.repeat_until ? ' until ' + dayLongS(e.repeat_until) : '') : '') + (e.location ? '\nWhere: ' + e.location : '') + (e.details ? '\n\n' + e.details : '')
+      + (e.remind && e.start_time ? '\n\nYou will get a reminder email 30, 15, 5 and 1 minute before it starts.' : '') + '\n\nShekinah SDA Church, ' + INV_ADDRESS;
+    await mail({ to, subject: 'Meeting invitation: ' + e.title, tag: 'meeting-invite', text, reply_to: me.email });
+    await sleep(600);
+  }
+}
 const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
 const calEdit = (me) => !!me.perms.calendar_edit; // Jimmy, Nov 11, 2026: the whole team can view; only people with "Edit the calendar" can add, edit or delete
 const dayOf = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(Date.parse(String(v))) ? String(v) : null);
 const timeOf = (v) => { const m = /^([01]?\d|2[0-3]):([0-5]\d)(:\d\d)?$/.exec(String(v || '').trim()); return m ? m[1].padStart(2, '0') + ':' + m[2] : null; };
 // Public: events marked "Show on the website", from today on, for the /events/ page.
 async function publicEvents() {
-  return { events: await rows(`SELECT ${EV_PUB} FROM cal_events WHERE is_public AND coalesce(ends_on, starts_on) >= (now() AT TIME ZONE 'America/Chicago')::date - 1
-    AND starts_on <= (now() AT TIME ZONE 'America/Chicago')::date + 400 ORDER BY starts_on, start_time NULLS FIRST, id LIMIT 300`) };
+  const list = await rows(`SELECT ${EV_PUB}, repeat, to_char(repeat_until, 'YYYY-MM-DD') AS repeat_until FROM cal_events WHERE is_public AND (coalesce(ends_on, starts_on) >= (now() AT TIME ZONE 'America/Chicago')::date - 1 OR repeat <> 'none')
+    AND starts_on <= (now() AT TIME ZONE 'America/Chicago')::date + 400 ORDER BY starts_on, start_time NULLS FIRST, id LIMIT 300`);
+  const from = addDaysStr(new Date().toISOString().slice(0, 10), -1), to = addDaysStr(from, 180), out = [];
+  for (const e of list) {
+    const { repeat, repeat_until, ...pub } = e;
+    if (!repeat || repeat === 'none') { out.push(pub); continue; }
+    for (const k of occurrences(e, from, to, 60)) out.push({ ...pub, id: k === e.starts_on ? e.id : e.id + '_' + k, starts_on: k, ends_on: null });
+  }
+  out.sort((a, b) => (a.starts_on + (a.start_time || '')).localeCompare(b.starts_on + (b.start_time || '')));
+  return { events: out.slice(0, 300) };
 }
 async function calendar(me) {
   const team = (await rows('SELECT email FROM admins ORDER BY lower(email)')).map((a) => a.email);
   return {
-    events: await rows(`SELECT ${EV_COLS} FROM cal_events WHERE coalesce(ends_on, starts_on) >= current_date - 400 ORDER BY starts_on, start_time NULLS FIRST, id`),
+    events: await rows(`SELECT ${EV_COLS} FROM cal_events WHERE coalesce(ends_on, starts_on) >= current_date - 400 OR repeat <> 'none' ORDER BY starts_on, start_time NULLS FIRST, id`),
     tasks: await rows(`SELECT ${TK_COLS} FROM cal_tasks WHERE NOT done OR updated_at > now() - interval '30 days' ORDER BY done, due_on NULLS LAST, id`),
     kinds: CAL_KINDS, can_edit: calEdit(me), team, me: me.email,
   };
@@ -533,22 +627,36 @@ async function eventSave(me, b) {
   let end = dayOf(e.ends_on); if (end && end < start) end = null; if (end === start) end = null;
   const v = [title, start, end, timeOf(e.start_time), timeOf(e.end_time), str(e.location, 300), str(e.details, 4000), CAL_KINDS.includes(e.category) ? e.category : 'Other', me.email, e.is_public !== false, CAL_COLORS.includes(e.color) ? e.color : null];
   const isEdit = e.id != null && e.id !== '';
+  const old = isEdit ? await one(`SELECT ${EV_COLS} FROM cal_events WHERE id = $1`, [idOf(e.id)]) : null;
+  // Repeat, invitees and reminders keep their saved value when the screen does not send them (for example a drag to another day).
+  const repeat = 'repeat' in e ? (REPEATS.includes(e.repeat) ? e.repeat : 'none') : old ? old.repeat || 'none' : 'none';
+  let until = 'repeat_until' in e ? dayOf(e.repeat_until) : old ? old.repeat_until : null; if (repeat === 'none' || (until && until < start)) until = null;
+  let inv = 'invitees' in e ? (Array.isArray(e.invitees) ? e.invitees : String(e.invitees || '').split(/[\s,;]+/)).map(lower).filter(Boolean) : old ? inviteesOf(old) : [];
+  const badInv = inv.find((x) => !EMAIL_RE.test(x)); need(!badInv, 400, '"' + badInv + '" is not a valid email address.');
+  inv = [...new Set(inv)].slice(0, 50);
+  const remind = 'remind' in e ? e.remind === true : old ? old.remind === true : false;
   const dup = await rows(`SELECT id FROM cal_events WHERE lower(regexp_replace(trim(title), '\\s+', ' ', 'g')) = lower(regexp_replace(trim($1), '\\s+', ' ', 'g'))
     AND starts_on = $2::date AND id <> $3 LIMIT 1`, [title, start, isEdit ? idOf(e.id) : -1]);
   need(!dup.length, 409, 'There is already an event called "' + title + '" on that day. Open that event to change it instead of adding it again.');
   let row;
   if (isEdit) {
-    row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, color = $11, updated_at = now()
-      WHERE id = $12 RETURNING *`, [...v, idOf(e.id)], EV_COLS);
+    row = await wrote(`UPDATE cal_events SET title = $1, starts_on = $2::date, ends_on = $3::date, start_time = $4, end_time = $5, location = $6, details = $7, category = $8, updated_by = $9, is_public = $10::boolean, color = $11,
+      repeat = $13, repeat_until = $14::date, invitees = $15::jsonb, remind = $16::boolean, updated_at = now() WHERE id = $12 RETURNING *`, [...v, idOf(e.id), repeat, until, JSON.stringify(inv), remind], EV_COLS);
     need(row, 404, 'That event was not found.');
   } else {
-    row = await wrote(`INSERT INTO cal_events (title, starts_on, ends_on, start_time, end_time, location, details, category, created_by, updated_by, is_public, color)
-      VALUES ($1, $2::date, $3::date, $4, $5, $6, $7, $8, $9, $9, $10::boolean, $11) RETURNING *`, v, EV_COLS);
+    row = await wrote(`INSERT INTO cal_events (title, starts_on, ends_on, start_time, end_time, location, details, category, created_by, updated_by, is_public, color, repeat, repeat_until, invitees, remind)
+      VALUES ($1, $2::date, $3::date, $4, $5, $6, $7, $8, $9, $9, $10::boolean, $11, $12, $13::date, $14::jsonb, $15::boolean) RETURNING *`, [...v, repeat, until, JSON.stringify(inv), remind], EV_COLS);
   }
-  return { event: row };
+  const fresh = inv.filter((x) => x !== lower(me.email) && !(old ? inviteesOf(old).map(lower) : []).includes(x));
+  if (fresh.length) await sendInvites(row, fresh, me);
+  // Any change can move the time, so the reminders not sent yet are planned again.
+  if (old) await dropReminders([row.id]);
+  if (row.remind) await planReminders(row.id);
+  return { event: row, invited: fresh.length };
 }
 async function eventDelete(me, b) {
   need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');
+  await dropReminders([idOf(b.id)]);
   await q('DELETE FROM cal_events WHERE id = $1', [idOf(b.id)]); // its tasks stay, unlinked
   return { ok: true };
 }
@@ -802,6 +910,8 @@ async function route(req, path) {
   if (key === 'GET /likes') return likesGet(req);
   if (key === 'POST /likes') return likesPost(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
+  // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
+  if (key === 'POST /cron/reminders') return planReminders();
   if (key === 'GET /reports/view') return reportsView();
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);

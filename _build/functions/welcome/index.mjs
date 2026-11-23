@@ -313,21 +313,43 @@ async function relay(req) {
     + (unsub ? `<br>You are receiving this because you signed up on shekinahsda.org. <a href="${unsub}" style="color:#5B6270">Unsubscribe</a>` : '') + '</p></div></div>';
   if (unsub) text += '\n\nShekinah Haitian Seventh-day Adventist Church, ' + ADDRESS + '\nUnsubscribe: ' + unsub;
   const headers = unsub ? { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : undefined;
+  // Meeting reminders: other people in the meeting go in bcc, and Resend sends it at scheduled_at (up to 30 days ahead).
+  const bcc = Array.isArray(m.bcc) ? m.bcc.map((x) => String(x).trim()).filter((x) => EMAIL_RE.test(x) && x.toLowerCase() !== to.toLowerCase()).slice(0, 49) : [];
+  const at = typeof m.scheduled_at === 'string' && !isNaN(Date.parse(m.scheduled_at)) ? new Date(m.scheduled_at).toISOString() : '';
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: m.noreply ? FROM_NOREPLY : FROM, to: [to], ...(m.noreply ? {} : { reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO }), subject, html, text, headers, tags: [{ name: 'type', value: tag }] }),
+    body: JSON.stringify({ from: m.noreply ? FROM_NOREPLY : FROM, to: [to], ...(m.noreply ? {} : { reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO }), subject, html, text, headers, ...(bcc.length ? { bcc } : {}), ...(at ? { scheduled_at: at } : {}), tags: [{ name: 'type', value: tag }] }),
     signal: AbortSignal.timeout(15000),
   });
   const detail = (await r.text()).slice(0, 300);
   if (!r.ok) console.log('relay send failed', tag, r.status, detail);
-  return Response.json({ ok: r.ok, detail: r.ok ? 'sent' : r.status + ' ' + detail }, { status: r.ok ? 200 : 502 });
+  let id = null; try { id = JSON.parse(detail).id || null; } catch {}
+  return Response.json({ ok: r.ok, id, detail: r.ok ? (at ? 'scheduled' : 'sent') : r.status + ' ' + detail }, { status: r.ok ? 200 : 502 });
+}
+// POST /cancel {ids: [...]}: cancel scheduled emails (a meeting was changed or deleted).
+async function cancelMail(req) {
+  if (!relayKey) { const r = await sql`SELECT value FROM automation_status WHERE key = 'mail_relay_key'`; relayKey = r.length ? r[0].value : ''; }
+  const got = req.headers.get('x-mail-key') || '';
+  if (!relayKey || got.length !== relayKey.length || !timingSafeEqual(Buffer.from(got), Buffer.from(relayKey))) return Response.json({ ok: false, error: 'not allowed' }, { status: 403 });
+  const m = await req.json().catch(() => ({}));
+  const ids = (Array.isArray(m.ids) ? m.ids : []).map(String).filter((x) => /^[0-9a-f-]{10,60}$/i.test(x)).slice(0, 200);
+  let done = 0;
+  for (const id of ids) {
+    const r = await fetch('https://api.resend.com/emails/' + id + '/cancel', { method: 'POST', headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}` }, signal: AbortSignal.timeout(15000) }).catch(() => null);
+    if (r && r.ok) done++; else console.log('cancel failed', id, r && r.status);
+    await new Promise((ok) => setTimeout(ok, 550));
+  }
+  return Response.json({ ok: true, cancelled: done });
 }
 
 export default {
   async fetch(req) {
     const url = new URL(req.url);
     if (url.pathname.replace(/\/$/, '') === '/unsubscribe') return unsubscribe(url);
+    if (req.method === 'POST' && url.pathname.replace(/\/$/, '') === '/cancel') {
+      try { return await cancelMail(req); } catch (e) { console.error(e); return Response.json({ ok: false, error: 'failed' }, { status: 500 }); }
+    }
     if (req.method === 'POST' && url.pathname.replace(/\/$/, '') === '/send') {
       try { return await relay(req); } catch (e) { console.error(e); return Response.json({ ok: false, error: 'failed' }, { status: 500 }); }
     }
