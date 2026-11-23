@@ -645,6 +645,24 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 @media (max-width:760px){.pj-main{grid-template-columns:minmax(0,1fr)!important}}
 
 .pj-tools .pj-search{flex:0 1 240px!important;max-width:240px;min-width:150px}.pj-tools .pj-add{padding:0 16px;font-size:15px}.pj-tools .pj-dl{padding:0 14px}.pj-tools select{min-width:0!important;width:auto!important;max-width:190px}.pj-tools{gap:10px!important}@media (max-width:760px){.pj-tools .pj-search{flex:1 1 100%!important;max-width:none}}
+
+/* ===== One compact size for every control (Jimmy, Nov 23) ===== */
+#main .pbtn,#main .lbtn,#main .sbtn,#main .dbtn,#main .pj-add,#main .pj-dl,#main .pj-cancel,#main .tbtn,#main .tm-in button,#main .tm-cz,#main .pj-act .tm-cz{height:38px!important;min-height:38px;padding:0 14px!important;font-size:14px!important;border-radius:10px!important;display:inline-flex;align-items:center;justify-content:center;gap:7px;line-height:1;white-space:nowrap;width:auto}
+#main .pbtn svg,#main .lbtn svg,#main .sbtn svg,#main .pj-add svg,#main .pj-dl svg{width:16px!important;height:16px!important}
+#main .lbtn[data-csv],#main .tm-nm{height:auto!important;min-height:0}
+#main input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),#main select{height:38px!important;min-height:38px;font-size:14px!important;padding-top:0!important;padding-bottom:0!important;border-radius:10px!important}
+#main .pj-search{height:38px!important}#main .pj-search input{height:34px!important;border:0}#main .pj-search svg{width:18px;height:18px}
+#main textarea{font-size:14px!important;border-radius:10px!important}
+#main .sb-in,#main #sbq{height:36px!important}
+#addentry{height:42px!important;font-size:15px!important}
+#bell{width:44px!important;height:44px!important}#userchip{height:48px!important;padding-top:4px!important;padding-bottom:4px!important}
+#main .cnav{width:36px!important;height:36px!important;min-height:36px}
+#main .pj-act button:not(.tm-cz){width:34px!important;height:34px!important;padding:0!important}#main .pj-act button:not(.tm-cz) svg{width:16px;height:16px}#main .pj-act .tm-cz{width:auto!important}
+#main .pj-ap{height:28px!important;min-height:0}
+/* search boxes and long fields stay a sensible width */
+#q,#mq,#sbq{max-width:360px}
+#siteed input:not([type=checkbox]),#siteed textarea,#siteed select{max-width:860px}
+.pj-tools,.pj-addp{gap:10px!important;padding-top:12px!important;padding-bottom:12px!important}
 </style>
 </head>
 <body>
