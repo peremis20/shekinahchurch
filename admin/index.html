@@ -2072,7 +2072,7 @@ body.navmini #sideuser #userchip>span:not(.av){display:none}
     $('pjform').querySelectorAll('[data-p]').forEach(function(el){var k=el.getAttribute('data-p');
       el.value=p?((k==='cost'||k==='actual_cost')?Number(p[k]||0).toFixed(2):(p[k]==null?'':p[k])):(k==='status'?'Planned':'');});
     pjDeptSel(p?p.dept||'':'');$('pjmsg').textContent='';$('pjmodal').classList.remove('hide');$('pjform').querySelector('[data-p="name"]').focus();}
-  function pjDeptSel(v){var all=pjDepts(),sl=$('pjdsel'),ni=$('pjdnew');if(v&&all.indexOf(v)<0)all.push(v);
+  function pjDeptSel(v){var all=pjDepts(),sl=$('pjdsel'),ni=$('pjdnew');if(v&&all.indexOf(v)<0)all.push(v);all.sort(function(x,y){if(x==='Other')return 1;if(y==='Other')return -1;return x.localeCompare(y,undefined,{sensitivity:'base'});});
     sl.innerHTML='<option value="">Choose a department</option>'+all.map(function(d){return '<option'+(d===v?' selected':'')+'>'+esc(d)+'</option>';}).join('')+'<option value="__new">+ Add your own</option>';
     ni.value=v;ni.classList.add('hide');}
   $('pjdsel').addEventListener('change',function(){var ni=$('pjdnew');if(this.value==='__new'){ni.value='';ni.classList.remove('hide');ni.focus();}else{ni.value=this.value;ni.classList.add('hide');}});
