@@ -206,6 +206,30 @@ for (const w of Object.keys(T)) { r = await call('POST', '/admin/subscribers/edi
 mails.length = 0;
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News', body: 'Hello', test: true } }); ok(r.status === 200 && mails.length === 1 && mails[0].to === 'owner@x.org' && mails[0].unsub === true, 'test broadcast goes to me only', mails);
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News', body: 'Hello', test: false } }); ok(r.status === 200 && r.j.sent === 1 && r.j.total === 1 && mails[1].to === 'news@x.org', 'broadcast', r.j);
+// ---- scheduled newsletters ----
+{
+  const today = (await db.query("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') d")).rows[0].d;
+  const plus = (n) => (await_ => null, new Date(Date.parse(today + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10));
+  r = await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { subject: 'Due today', body: 'Hello today', send_on: today } } }); const nA = r.j.issue;
+  ok(r.status === 200 && nA.status === 'scheduled' && nA.send_on === today, 'schedule a newsletter', r.j);
+  r = await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { subject: 'In two days', body: 'Soon', send_on: plus(2) } } }); const nB = r.j.issue;
+  r = await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { subject: 'Later', body: 'Later', send_on: plus(20) } } }); const nC = r.j.issue;
+  r = await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { subject: 'Paused', body: 'x', send_on: today } } });
+  await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { id: r.j.issue.id, subject: 'Paused', body: 'x', send_on: today, status: 'paused' } } });
+  for (const w of Object.keys(T)) { r = await call('POST', '/admin/newsletters/save', { token: T[w], body: { issue: { subject: 'x', body: 'x', send_on: today } } }); if (r.status !== 403 && !(await db.query("SELECT 1 FROM admins WHERE email = $1 AND perms::text LIKE '%email_list%'", [w])).rows.length) { ok(false, w + ' cannot schedule newsletters', r.j); break; } }
+  mails.length = 0;
+  r = await call('POST', '/cron/reminders', {});
+  const pv = mails.filter((m) => m.tag === 'broadcast-test'), bc = mails.filter((m) => m.tag === 'broadcast');
+  ok(r.status === 200 && r.j.news.sent === 1 && r.j.news.previews === 1 && pv.length === 1 && pv[0].to === 'owner@x.org' && /Preview/.test(pv[0].subject) && /In two days/.test(pv[0].subject) && bc.length === 1 && bc[0].subject === 'Due today', 'daily run sends what is due and a preview two days ahead', { j: r.j, m: mails.map((m) => [m.to, m.subject]) });
+  mails.length = 0;
+  r = await call('POST', '/cron/reminders', {}); ok(r.j.news.sent === 0 && r.j.news.previews === 0 && mails.filter((m) => /broadcast/.test(m.tag)).length === 0, 'a second run sends nothing twice', r.j);
+  r = await call('GET', '/admin/newsletters', { token: O }); const qa = r.j.queue.find((x) => x.id === nA.id);
+  ok(qa.status === 'sent' && qa.sent_count === 1 && r.j.queue.some((x) => x.status === 'paused'), 'queue shows sent and paused', r.j.queue.map((x) => [x.subject, x.status]));
+  r = await call('POST', '/admin/newsletters/save', { token: O, body: { issue: { id: nA.id, subject: 'x', body: 'x', send_on: today } } }); ok(r.status === 409, 'a sent newsletter cannot be changed', r.j);
+  r = await call('POST', '/admin/newsletters/delete', { token: O, body: { id: nC.id } });
+  r = await call('GET', '/admin/newsletters', { token: O }); ok(!r.j.queue.some((x) => x.id === nC.id), 'cancel a scheduled newsletter', r.j.queue.length);
+  ok((await db.query("SELECT count(*)::int n FROM broadcasts WHERE subject = 'Due today'")).rows[0].n === 1, 'scheduled send shows in past emails');
+}
 await db.query("UPDATE submissions SET unsubscribed = true WHERE kind = 'newsletter'");
 r = await call('POST', '/admin/broadcast', { token: O, body: { subject: 'News 2', body: 'Hello', test: false } }); ok(r.j.total === 0, 'unsubscribed people are skipped', r.j);
 r = await sub({ kind: 'newsletter', email: 'news@x.org' }); ok((await db.query("SELECT count(*)::int n FROM submissions WHERE kind='newsletter'")).rows[0].n === 2, 'can subscribe again after unsubscribing');

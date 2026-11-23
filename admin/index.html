@@ -580,7 +580,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
 #sbrows>div:not(.sb-row){grid-column:1/-1}
 #sbrows .sb-c{max-width:340px}
 .panel.page:has(#nlist){width:max-content;max-width:100%;min-width:min(560px,100%)}
-.panel.page:has(#nhist),#ncompose{max-width:980px}
+.panel.page:has(#nhist),.panel.page:has(#nqueue),#ncompose{max-width:980px}
 .pj-tm{width:max-content;max-width:100%}
 .tm-h,.tm-row{grid-template-columns:minmax(240px,320px) 160px 110px 175px 190px}
 .pj-table:has(#pjlist),#pjlist{width:max-content;max-width:100%}
@@ -798,6 +798,19 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
 #siteed .items>.card{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:14px;align-items:end}
 #siteed .items>.card>*:not(.act){grid-column:1}#siteed .items>.card>.act{grid-column:2;grid-row:1/span 9;margin:0;align-self:end;flex-wrap:nowrap}
 #site .pj-info{width:max-content;max-width:100%}
+/* Scheduled newsletters (Nov 23, 2026) */
+.nq-or{color:#6B7280;font-size:13px;margin:0 2px}
+.nq-hint{white-space:normal;min-width:0;text-align:right}
+#nqueue{min-width:0}
+.nq-date{height:38px;padding:0 10px;border:1px solid #D9CFB8;border-radius:10px;font:inherit;font-size:14px;background:#fff;color:#13294B;max-width:160px}
+.nq-list{display:flex;flex-direction:column}
+.nq-row{display:grid;grid-template-columns:150px minmax(0,1fr) 96px auto;gap:12px;align-items:center;padding:8px 0;border-top:1px solid #EDE5D3;font-size:14px}
+.nq-row:first-child{border-top:0}
+.nq-d{font-weight:700;color:#13294B;white-space:nowrap}
+.nq-s{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nq-a{display:flex;gap:6px;justify-content:flex-end}
+.nq-a button{height:32px;padding:0 12px;font-size:13px}
+@media (max-width:760px){.nq-row{grid-template-columns:1fr auto;gap:4px 10px}.nq-s{grid-column:1/-1;white-space:normal}.nq-a{grid-column:1/-1;justify-content:flex-start}}
 </style>
 </head>
 <body>
@@ -868,8 +881,9 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
               <label class="wide">Subject<input id="nsub" maxlength="200" placeholder="For example: This Sabbath at Shekinah"></label>
               <label class="wide">Message<textarea id="nbody" rows="9" placeholder="Write your message here."></textarea></label>
             </div>
-            <div class="act"><button class="lbtn" id="nclose">Close</button><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="saved" id="nmsg"></span></div>
+            <div class="act"><button class="lbtn" id="nclose">Close</button><button class="lbtn" id="ntest">Send a test to me</button><button class="pbtn" id="nsend">Send to everyone</button><span class="nq-or">or</span><input type="date" id="nwhen" class="nq-date" aria-label="Day to send"><button class="lbtn" id="nsched">Schedule</button><span class="saved" id="nmsg"></span></div>
           </div>
+          <div class="panel page"><div class="nhead"><div class="sec-h" style="margin:0">Scheduled newsletters</div><span class="meta nq-hint">Sent about 5 AM on the day. You get a preview 2 days before.</span></div><div class="wrap" id="nqueue"></div></div>
           <div class="panel page"><div class="sec-h" style="margin-bottom:10px">Past emails</div><div class="wrap" id="nhist"></div></div>
         </div></section>
 
@@ -1815,7 +1829,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
   function loadNews(){
     $('nlist').innerHTML='<div class="meta">Loading...</div>';
     api('/admin/subscribers').then(function(j){
-      subs=j.subscribers||[];window.__bc=(j.broadcasts||[]).length;
+      subs=j.subscribers||[];window.__bc=(j.broadcasts||[]).length;loadQueue();
       var fresh=items.filter(function(i){return i.kind==='newsletter'&&i.status==='new';});
       fresh.forEach(function(i){sbNew[(i.email||'').toLowerCase()]=1;i.status='done';
         api('/admin/update',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:i.id,status:'done'})}).catch(function(){});});
@@ -1877,6 +1891,42 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
       if(!test){$('nsub').value='';$('nbody').value='';loadNews();}
     }).catch(function(e){$('nmsg').textContent='Not sent: '+e.message;}).then(function(){$('nsend').disabled=$('ntest').disabled=false;});
   }
+  // ---------- Scheduled newsletters (Nov 23, 2026) ----------
+  var NQ=[], nqEdit=null;
+  function nqDay(d){try{return new Date(d+'T12:00:00').toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});}catch(x){return d;}}
+  function loadQueue(){
+    api('/admin/newsletters').then(function(j){NQ=j.queue||[];renderQueue();}).catch(function(e){$('nqueue').innerHTML='<div class="err">'+esc(e.message)+'</div>';});
+  }
+  function renderQueue(){
+    var up=NQ.filter(function(n){return n.status!=='sent';});
+    if(!up.length){$('nqueue').innerHTML='<div class="meta">Nothing scheduled. Write an email, pick a day and press Schedule.</div>';return;}
+    $('nqueue').innerHTML='<div class="nq-list">'+up.map(function(n){
+      var tag=n.status==='paused'?'<span class="tag">Paused</span>':n.status==='sending'?'<span class="tag sb-on">Sending</span>':'<span class="tag sb-on">Scheduled</span>';
+      return '<div class="nq-row" data-nq="'+n.id+'"><div class="nq-d">'+esc(nqDay(n.send_on))+'</div><div class="nq-s"><b>'+esc(n.subject)+'</b>'+(n.preview_sent_at?'<span class="meta"> &middot; preview sent</span>':'')+'</div><div class="nq-t">'+tag+'</div>'+
+        (n.status==='sending'?'<div></div>':'<div class="nq-a"><button class="lbtn" data-nqe="'+n.id+'">Open</button><button class="lbtn" data-nqp="'+n.id+'">'+(n.status==='paused'?'Resume':'Pause')+'</button><button class="dbtn" data-nqx="'+n.id+'">Cancel</button></div>')+'</div>';
+    }).join('')+'</div>';
+  }
+  function nqById(id){return NQ.filter(function(n){return String(n.id)===String(id);})[0];}
+  function nqSave(n,msg){return api('/admin/newsletters/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:n})}).then(function(j){
+    NQ=NQ.filter(function(x){return x.id!==j.issue.id;});NQ.push(j.issue);NQ.sort(function(a,b){return a.send_on.localeCompare(b.send_on);});renderQueue();if(msg)toast(msg);return j.issue;});}
+  $('nqueue').addEventListener('click',function(e){
+    var b=e.target.closest('[data-nqe],[data-nqp],[data-nqx]');if(!b)return;
+    var n=nqById(b.getAttribute('data-nqe')||b.getAttribute('data-nqp')||b.getAttribute('data-nqx'));if(!n)return;
+    if(b.hasAttribute('data-nqe')){nqEdit=n.id;$('nsub').value=n.subject;$('nbody').value=n.body;$('nwhen').value=n.send_on;$('nsched').textContent='Save changes';
+      $('ncompose').classList.remove('hide');$('nmsg').textContent='Editing the newsletter for '+nqDay(n.send_on)+'.';$('ncompose').scrollIntoView({behavior:'smooth',block:'start'});return;}
+    if(b.hasAttribute('data-nqp')){nqSave({id:n.id,subject:n.subject,body:n.body,send_on:n.send_on,status:n.status==='paused'?'scheduled':'paused'},n.status==='paused'?'Back on schedule':'Paused').catch(function(err){toast(err.message);});return;}
+    if(!confirm('Cancel "'+n.subject+'"? It will not be sent.'))return;
+    api('/admin/newsletters/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:n.id})}).then(function(){NQ=NQ.filter(function(x){return x.id!==n.id;});renderQueue();toast('Cancelled');}).catch(function(err){toast(err.message);});
+  });
+  $('nsched').onclick=function(){
+    var subject=$('nsub').value.trim(), body=$('nbody').value.trim(), day=$('nwhen').value;
+    if(!subject||!body){$('nmsg').textContent='Write a subject and a message first.';return;}
+    if(!day){$('nmsg').textContent='Pick the day it should go out.';$('nwhen').focus();return;}
+    var old=nqEdit?nqById(nqEdit):null;
+    nqSave({id:nqEdit||undefined,subject:subject,body:body,send_on:day,status:old?old.status:undefined},nqEdit?'Changes saved':'Scheduled for '+nqDay(day)).then(function(){
+      nqEdit=null;$('nsched').textContent='Schedule';$('nsub').value='';$('nbody').value='';$('nwhen').value='';$('nmsg').textContent='';$('ncompose').classList.add('hide');
+    }).catch(function(err){$('nmsg').textContent='Not saved: '+err.message;});
+  };
   $('ntest').onclick=function(){sendNews(true);};
   $('nsend').onclick=function(){sendNews(false);};
 
@@ -2249,7 +2299,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
   $('mq').addEventListener('input',renderMembers);$('mst').addEventListener('change',renderMembers);
   $('madd').onclick=function(){memberForm(null);};
   $('nwrite').onclick=function(){var c=$('ncompose');c.classList.remove('hide');c.scrollIntoView({behavior:'smooth',block:'start'});var f=$('nsub');if(f)setTimeout(function(){f.focus();},300);};
-  $('nclose').onclick=function(){$('ncompose').classList.add('hide');};
+  $('nclose').onclick=function(){$('ncompose').classList.add('hide');if(nqEdit){nqEdit=null;$('nsched').textContent='Schedule';$('nsub').value='';$('nbody').value='';$('nwhen').value='';$('nmsg').textContent='';}};
   $('mimp').onclick=function(){impForm();impStatus();impRender();};
   $('mcsv').onclick=function(){var cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'];
     var csv=[cols.join(',')].concat(members.map(function(m){return cols.map(function(c){var v=m[c]==null?'':String(m[c]);if(/^\d{4}-\d{2}-\d{2}/.test(v))v=v.slice(0,10);return '"'+v.replace(/"/g,'""')+'"';}).join(',');})).join('\r\n');

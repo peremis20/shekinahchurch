@@ -33,3 +33,22 @@ ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval text NOT NULL DEFAULT 'Wa
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_by text;
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS approval_on date;
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS cal_event_id bigint REFERENCES cal_events(id) ON DELETE SET NULL; -- private calendar entry for the project dates
+
+-- Scheduled newsletters (Nov 23, 2026). The daily trigger sends what is due and a preview two days before.
+CREATE TABLE IF NOT EXISTS newsletter_queue (
+  id serial PRIMARY KEY,
+  send_on date NOT NULL,
+  subject text NOT NULL,
+  body text NOT NULL,
+  status text NOT NULL DEFAULT 'scheduled', -- scheduled, paused, sending, sent, deleted
+  preview_to text,
+  preview_sent_at timestamptz,
+  sent_at timestamptz,
+  sent_count int,
+  broadcast_id int,
+  created_by text,
+  updated_by text,
+  created_at timestamptz NOT NULL DEFAULT now(),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX IF NOT EXISTS newsletter_queue_due ON newsletter_queue (status, send_on);

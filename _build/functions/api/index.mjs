@@ -354,11 +354,62 @@ async function broadcast(me, b) {
     return { ok: true, sent: 1, total: 1 };
   }
   need(await limit('broadcast', 3, 60), 429, 'Three emails were already sent to the list this hour. Please wait before sending another.');
-  const list = (await subscribers(me)).subscribers.filter((s) => !s.unsubscribed && s.status !== 'archived' && EMAIL_RE.test(s.email));
+  return sendToList(subject, text, me.email);
+}
+async function sendToList(subject, text, by) {
+  const list = (await subscribers({ perms: { email_list: true }, role: 'admin' })).subscribers.filter((s) => !s.unsubscribed && s.status !== 'archived' && EMAIL_RE.test(s.email));
   let sent = 0;
   for (const s of list) { const r = await mail({ to: s.email, subject, text, tag: 'broadcast', unsub: true }); if (r.ok) sent++; }
-  await q('INSERT INTO broadcasts (subject, body, sent_by, recipient_count, sent_count, sent_at) VALUES ($1, $2, $3, $4, $5, now())', [subject, text, me.email, list.length, sent]);
-  return { sent, total: list.length };
+  const b = await wrote('INSERT INTO broadcasts (subject, body, sent_by, recipient_count, sent_count, sent_at) VALUES ($1, $2, $3, $4, $5, now()) RETURNING *', [subject, text, by, list.length, sent], 'id');
+  return { sent, total: list.length, id: b ? b.id : null };
+}
+
+// ---------- scheduled newsletters (Jimmy, Nov 23, 2026: "schedule them automatically") ----------
+// The daily trigger sends every issue whose day has come (5:11 AM Central) and emails a preview two days before.
+const NQ_COLS = "id, to_char(send_on, 'YYYY-MM-DD') AS send_on, subject, body, status, preview_to, preview_sent_at, sent_at, sent_count, created_by, updated_by, updated_at";
+async function newsQueue(me) {
+  allow(me, 'email_list');
+  return { queue: await rows(`SELECT ${NQ_COLS} FROM newsletter_queue WHERE status <> 'deleted' ORDER BY send_on, id`) };
+}
+async function newsQueueSave(me, b) {
+  allow(me, 'email_list');
+  const n = b.issue && typeof b.issue === 'object' ? b.issue : {};
+  const subject = str(n.subject, 200), body = str(n.body, 20000), day = dayOf(n.send_on);
+  need(subject && body, 400, 'Write a subject and a message first.');
+  need(day, 400, 'Choose the day it should go out.');
+  if (n.id != null && n.id !== '') {
+    const old = await one(`SELECT ${NQ_COLS} FROM newsletter_queue WHERE id = $1`, [idOf(n.id)]);
+    need(old, 404, 'That newsletter was not found.');
+    need(old.status === 'scheduled' || old.status === 'paused', 409, 'This newsletter was already sent, so it cannot be changed.');
+    const st = n.status === 'paused' ? 'paused' : n.status === 'scheduled' ? 'scheduled' : old.status;
+    return { issue: await wrote(`UPDATE newsletter_queue SET subject = $1, body = $2, send_on = $3::date, status = $4, updated_by = $5, updated_at = now(),
+      preview_sent_at = CASE WHEN send_on = $3::date THEN preview_sent_at ELSE NULL END WHERE id = $6 RETURNING *`, [subject, body, day, st, me.email, old.id], NQ_COLS) };
+  }
+  return { issue: await wrote(`INSERT INTO newsletter_queue (send_on, subject, body, status, preview_to, created_by, updated_by) VALUES ($1::date, $2, $3, 'scheduled', $4, $4, $4) RETURNING *`, [day, subject, body, me.email], NQ_COLS) };
+}
+async function newsQueueDelete(me, b) {
+  allow(me, 'email_list');
+  await q("UPDATE newsletter_queue SET status = 'deleted', updated_by = $2, updated_at = now() WHERE id = $1 AND status IN ('scheduled', 'paused')", [idOf(b.id), me.email]);
+  return { ok: true };
+}
+async function newsQueueRun() {
+  const today = (await one("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') AS d")).d;
+  let previews = 0, sent = 0;
+  // Preview to whoever scheduled it, two days ahead, so there is time to fix or pause it.
+  for (const n of await rows(`SELECT ${NQ_COLS} FROM newsletter_queue WHERE status = 'scheduled' AND preview_sent_at IS NULL AND send_on <= $1::date + 2 AND send_on > $1::date`, [today])) {
+    const to = EMAIL_RE.test(n.preview_to || '') ? n.preview_to : 'info@shekinahsda.org';
+    const r = await mail({ to, subject: '[Preview, goes out ' + n.send_on + '] ' + n.subject, text: n.body, tag: 'broadcast-test', unsub: true });
+    if (r.ok) { await q('UPDATE newsletter_queue SET preview_sent_at = now() WHERE id = $1', [n.id]); previews++; }
+  }
+  // Claim each due issue before sending so a second run can never send it twice.
+  for (const n of await rows(`SELECT ${NQ_COLS} FROM newsletter_queue WHERE status = 'scheduled' AND send_on <= $1::date ORDER BY send_on, id LIMIT 2`, [today])) {
+    const got = await wrote("UPDATE newsletter_queue SET status = 'sending', updated_at = now() WHERE id = $1 AND status = 'scheduled' RETURNING *", [n.id], 'id');
+    if (!got) continue;
+    const r = await sendToList(n.subject, n.body, 'Scheduled by ' + (n.created_by || 'the team'));
+    await q("UPDATE newsletter_queue SET status = 'sent', sent_at = now(), sent_count = $2, broadcast_id = $3, updated_at = now() WHERE id = $1", [n.id, r.sent, r.id]);
+    sent++;
+  }
+  return { previews, sent };
 }
 
 // ---------- website content ----------
@@ -1039,7 +1090,7 @@ async function projectBudget(me, b) {
 // ---------- router ----------
 const ROUTES = {
   'POST /admin/update': update, 'POST /admin/assign': assign, 'POST /admin/reply': reply, 'POST /admin/create': create, 'POST /admin/edit': edit, 'POST /admin/delete': del, 'POST /admin/delete-many': delMany,
-  'POST /admin/broadcast': broadcast, 'POST /admin/subscribers/edit': subEdit, 'POST /admin/content/save': contentSave,
+  'POST /admin/broadcast': broadcast, 'POST /admin/newsletters/save': newsQueueSave, 'POST /admin/newsletters/delete': newsQueueDelete, 'POST /admin/subscribers/edit': subEdit, 'POST /admin/content/save': contentSave,
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
@@ -1047,7 +1098,7 @@ const ROUTES = {
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
-  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects,
+  'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects, 'GET /admin/newsletters': newsQueue,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
 };
 // ---------- likes (public, Nov 17, 2026) ----------
@@ -1084,7 +1135,7 @@ async function route(req, path) {
   if (key === 'POST /likes') return likesPost(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
-  if (key === 'POST /cron/reminders') return planReminders();
+  if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news }; }
   if (key === 'GET /reports/view') return reportsView();
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
