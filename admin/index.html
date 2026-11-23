@@ -467,18 +467,33 @@ body[data-t=team] #tkpis{display:none!important}
 .evx{width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:24px;line-height:1;cursor:pointer;flex:none}.evx:hover{background:rgba(255,255,255,.28)}
 .evbd{padding:16px 20px}.evbd p{margin:8px 0 0;color:#33415C}
 #cal .evbox .ef{margin-top:0;gap:12px}#cal .evbox .evef{grid-template-columns:repeat(4,minmax(0,1fr))}#cal .evbox .evef .s3{grid-column:span 3}
-#cal .evbox .ef label{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80;font-weight:800}
-#cal .evbox .ef input:not([type=checkbox]),#cal .evbox .ef select{height:42px;font-size:15px;border-radius:12px}
-.evsec{display:flex;align-items:flex-start;gap:12px;margin-top:14px}.evsec>b{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80;padding-top:9px;flex:none;width:52px}
 .evppl{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0}
-.evp{display:inline-flex;align-items:center;cursor:pointer;margin:0}.evp input{position:absolute;opacity:0;width:0;height:0}.evp span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #D3DBE8;border-radius:999px;padding:7px 13px;font-weight:800;font-size:14px;color:#33415C;background:#fff;transition:all .12s}
-.evp span:before{content:'+';font-weight:900;color:#8A94A6}.evp input:checked+span{background:linear-gradient(135deg,#2F74F0,#1D5FE0);border-color:#1D5FE0;color:#fff}.evp input:checked+span:before{content:'\2713';color:#fff}.evp input:focus-visible+span{outline:2px solid #9DBCF0}
-.evmail{flex:1 1 180px;min-width:150px;height:36px;border:1.5px dashed #C9D3E3;border-radius:999px;padding:0 14px;font:inherit;font-size:14px}.evmail:focus{border-style:solid;outline:none;border-color:#9DBCF0}
-.evsw{display:flex;gap:8px;margin-top:12px;padding-left:64px;flex-wrap:wrap}.evp.sw span:before{content:'';width:28px;height:16px;border-radius:999px;background:#D3DBE8;box-shadow:inset -12px 0 0 2px #fff;transition:all .15s}.evp.sw input:checked+span{background:#EEF4FF;color:#1D5FE0;border-color:#9DBCF0}.evp.sw input:checked+span:before{content:'';background:#1D5FE0;box-shadow:inset 12px 0 0 2px #fff}
-#cal .evp input:checked+span:not(.x){color:#fff}#cal .evp.sw input:checked+span{color:#1D5FE0}#cal .evbox .evef .evloc:has(+ .evrep.hide){grid-column:1/-1}
-.evmore{margin-top:12px;border-top:1px solid #EEF1F6;padding-top:10px}.evmore summary{cursor:pointer;font-weight:800;color:#1D5FE0;font-size:14px}.evmore .ef{margin-top:10px!important}
+#cal .evbox .evef .evloc:has(+ .evrep.hide){grid-column:1/-1}
+.evf{display:flex;flex-direction:column;gap:6px;min-width:0}.evl{font-size:14px;font-weight:800;color:#0E1B3D;white-space:nowrap}
+.fi{position:relative;display:block}.fi>svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;fill:none;stroke:#6B7A93;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;z-index:1}
+#cal .evbox .fi input,#cal .evbox .fi select,#cal .evbox .fi textarea{width:100%;height:48px;padding:0 14px 0 42px;border:1.5px solid #D3DBE8;border-radius:12px;background:#fff;font:600 15px Mulish,system-ui,sans-serif;color:#0E1B3D;box-shadow:0 1px 2px rgba(20,33,61,.04);transition:border-color .15s,box-shadow .15s}
+#cal .evbox .fi textarea{height:auto;min-height:48px;padding:12px 14px 12px 42px;resize:vertical}#cal .evbox .fi:has(textarea)>svg{top:24px}
+#cal .evbox .fi select{-webkit-appearance:none;appearance:none;padding-right:38px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7A93' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") no-repeat right 12px center/18px;cursor:pointer}
+#cal .evbox .fi input:focus,#cal .evbox .fi select:focus,#cal .evbox .fi textarea:focus{outline:none;border-color:#1D5FE0;box-shadow:0 0 0 4px rgba(29,95,224,.12)}#cal .evbox .fi:focus-within>svg{stroke:#1D5FE0}
+#cal .evbox .fi input::placeholder,#cal .evbox .fi textarea::placeholder{color:#9AA5B8;font-weight:500}
+#cal .evbox .ef{gap:14px 12px}#cal .evbox .fi input[type=date]{padding-right:8px;font-size:14.5px}#cal .evbox{max-width:760px}#cal .evbox .evef2{grid-template-columns:minmax(0,1fr) 220px}
+.evcard{margin-top:16px;border:1px solid #E6EBF3;border-radius:16px;background:#F8FAFD;padding:14px}.evch{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}.evch small{color:#6B7A93;font-weight:600;font-size:13px}
+.evppl{display:flex;flex-wrap:wrap;gap:8px}
+.evp{display:inline-flex;cursor:pointer;margin:0}.evp input{position:absolute;opacity:0;width:0;height:0}
+.evp span{display:inline-flex;align-items:center;gap:8px;border:1.5px solid #D3DBE8;border-radius:999px;padding:5px 14px 5px 5px;font-weight:700;font-size:14px;color:#33415C;background:#fff;transition:all .12s}
+.evp span i{width:28px;height:28px;border-radius:50%;background:#EEF2F8;color:#33415C;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:13px}
+.evp:hover span{border-color:#9DBCF0}.evp input:checked+span{border-color:#1D5FE0;background:#EEF4FF;color:#0E1B3D;box-shadow:0 0 0 3px rgba(29,95,224,.1)}.evp input:checked+span i{background:#1D5FE0;color:#fff;font-size:0}.evp input:checked+span i:after{content:'\2713';font-size:14px}.evp input:focus-visible+span{outline:2px solid #1D5FE0}
+.evmailw{margin-top:10px}#cal .evbox .evmailw input{height:44px}
+.evtg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.tgl{position:relative;display:flex;align-items:center;gap:12px;border:1px solid #E6EBF3;border-radius:16px;padding:12px 14px;background:#fff;cursor:pointer;transition:border-color .15s,background .15s}.tgl:hover{border-color:#9DBCF0}.tgl input{position:absolute;opacity:0;width:0;height:0}
+.tgi{width:38px;height:38px;border-radius:12px;background:#EEF2F8;display:grid;place-items:center;flex:none}.tgi svg{width:20px;height:20px;fill:none;stroke:#6B7A93;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tgt{flex:1;min-width:0}.tgt b{display:block;font-size:14.5px;color:#0E1B3D}.tgt small{display:block;font-size:12.5px;color:#6B7A93;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tgl .sw{position:relative;width:44px;height:26px;border-radius:999px;background:#CBD3E1;flex:none;transition:background .18s}.tgl .sw:after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s}
+.tgl input:checked~.sw{background:#1F8A3E}.tgl input:checked~.sw:after{transform:translateX(18px)}.tgl input:checked~.tgi{background:#E3F6E8}.tgl input:checked~.tgi svg{stroke:#1F8A3E}.tgl:has(input:checked){border-color:#BFE3CA;background:#F7FCF8}.tgl input:focus-visible~.sw{outline:2px solid #1D5FE0;outline-offset:2px}
+@media (max-width:640px){.evtg{grid-template-columns:1fr}#cal .evbox .evef2{grid-template-columns:1fr}}
+.evmore{margin-top:12px;border-top:1px solid #EEF1F6;padding-top:10px}.evmore summary{cursor:pointer;font-weight:800;color:#1D5FE0;font-size:14px;list-style:none;display:inline-flex;align-items:center;gap:8px}.evmore summary::-webkit-details-marker{display:none}.evmore summary:before{content:'+';width:24px;height:24px;border-radius:50%;background:#EEF4FF;display:grid;place-items:center;font-weight:900}.evmore[open] summary:before{content:'\2212'}.evmore .ef{margin-top:10px!important}
 #cal .mvrow{margin-top:12px;border-top:1px solid #EEF1F6;padding-top:10px}#cal .mvrow b{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80}#cal .mvrow .lbtn{border-radius:999px;padding:6px 12px;font-size:13px}
-.evft{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #EEF1F6;background:#F8FAFD}.evft .pbtn,.evft .lbtn,.evft .dbtn{border-radius:12px;height:44px;padding:0 20px;font-weight:800}
+.evft{position:relative;z-index:3;display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #EEF1F6;background:#F8FAFD}.evft .pbtn,.evft .lbtn,.evft .dbtn{border-radius:12px;height:44px;padding:0 20px;font-weight:800}
 .evtags{display:flex;flex-wrap:wrap;gap:8px}.evtags .chip{display:inline-block;width:auto}.evtag{border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:800}.evtag.gold{background:#FFF1D6;color:#8A5A00}.evtag.blue{background:#E3EDFF;color:#1D5FE0}
 #cal .evbox .upi{padding:10px 6px}
 @media (max-width:640px){#calform:not(:empty),#tkform:not(:empty){padding:0;align-items:flex-end}#cal .evbox{border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}#cal .evbox .evef{grid-template-columns:1fr 1fr}#cal .evbox .evef .s3{grid-column:1/-1}.evsec{flex-direction:column;gap:6px}.evsec>b{padding:0}.evsw{padding-left:0}.evft{position:sticky;bottom:0}.evmore .ef{grid-template-columns:1fr!important}}
@@ -983,6 +998,12 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         '<span class="chip '+kc(e)+'" style="display:inline-block;width:auto;margin-top:6px;cursor:pointer">'+esc(e.category||'Other')+'</span></span></button>';}).join('')
       :'<p class="meta">No upcoming events yet.'+(CAL.can?' Click a day on the calendar or "Add event" to add one.':'')+'</p>';}
   // One popup style for every calendar form (Jimmy, Nov 23, 2026: same look as the rest of the admin, little scrolling, little text).
+  var EVI={cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',end:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12h4"/>',
+    rep:'<path d="M17 2.5 20.5 6 17 9.5"/><path d="M3.5 11V9.5A3.5 3.5 0 0 1 7 6h13.5M7 21.5 3.5 18 7 14.5"/><path d="M20.5 13v1.5A3.5 3.5 0 0 1 17 18H3.5"/>',pin:'<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0C18.5 15.4 12 21 12 21z"/><circle cx="12" cy="10" r="2.3"/>',
+    tag:'<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8" r="1.4"/>',pen:'<path d="M15.5 4.5 19.5 8.5 8.5 19.5H4.5v-4z"/>',bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/>',
+    mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6 8.5 7 8.5-7"/>',note:'<path d="M5 4h14v16H5z"/><path d="M8.5 9h7M8.5 13h7M8.5 17h4"/>'};
+  function evI(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+EVI[n]+'</svg>';}
+  function fld(lab,ic,ctl,cls){return '<label class="evf'+(cls?' '+cls:'')+'"><span class="evl">'+lab+'</span><span class="fi">'+evI(ic)+ctl+'</span></label>';}
   function mHead(t,sub,close){return '<div class="evhd"><span class="evhi">'+pjI('cal')+'</span><div style="min-width:0;flex:1"><h3>'+t+'</h3>'+(sub?'<small>'+sub+'</small>':'')+'</div><button type="button" class="evx" '+(close||'data-c="close"')+' aria-label="Close">&times;</button></div>';}
   function evForm(e,day){e=e||{starts_on:day||ymd(new Date()),category:'Worship'};var ro=!CAL.can;
     if(ro){$('calform').innerHTML='<div class="evbox evview">'+mHead(esc(e.title),esc(dayLong(e.starts_on))+' · '+esc(evTime(e)))+'<div class="evbd">'+
@@ -992,20 +1013,22 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       '<div class="evft"><button class="pbtn" data-c="close">Close</button></div></div>';return;}
     var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';}, more=!!(e.details||e.ends_on);
     $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'">'+mHead(e.id?'Edit event':'New event',e.id?esc(dayLong(e.starts_on)):'')+'<div class="evbd"><div class="ef evef">'+
-      '<label class="s3">Name<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="Youth Sabbath"></label>'+
-      '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
-      '<label>Date<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'"></label>'+
-      '<label>Starts<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select></label>'+
-      '<label>Ends<select name="end_time">'+timeOpts(e.end_time,'No end')+'</select></label>'+
-      '<label>Repeats<select name="repeat">'+Object.keys(REP).map(function(k){return '<option value="'+k+'"'+((e.repeat||'none')===k?' selected':'')+'>'+REP[k].replace('Does not repeat','Never')+'</option>';}).join('')+'</select></label>'+
-      '<label class="s3 evloc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="Fellowship hall"></label>'+
-      '<label class="evrep'+(isRep(e)?'':' hide')+'">Until<input type="date" name="repeat_until" value="'+esc(e.repeat_until||'')+'"></label></div>'+
-      '<div class="evsec"><b>Invite</b><div class="evppl">'+CAL.team.map(function(m){var on=(e.invitees||[]).indexOf(m)>=0;return '<label class="evp"><input type="checkbox" data-inv="'+esc(m)+'"'+(on?' checked':'')+'><span>'+esc(nameOf(m))+'</span></label>';}).join('')+
-        '<input class="evmail" name="inv_other" maxlength="2000" value="'+esc((e.invitees||[]).filter(function(m){return CAL.team.indexOf(m)<0;}).join(', '))+'" placeholder="+ other emails"></div></div>'+
-      '<div class="evsw"><label class="evp sw"><input type="checkbox" name="remind"'+(e.id?(e.remind?' checked':''):' checked')+'><span title="Emails everyone 30, 15, 5 and 1 minute before it starts">Reminders</span></label>'+
-        '<label class="evp sw"><input type="checkbox" name="is_public"'+(e.is_public===false?'':' checked')+'><span title="Shows on shekinahsda.org/events">On website</span></label></div>'+
-      '<details class="evmore"'+(more?' open':'')+'><summary>Details and end date</summary><div class="ef" style="grid-template-columns:minmax(0,1fr) 200px">'+
-        '<label>Details<textarea name="details" rows="2" maxlength="4000">'+esc(e.details||'')+'</textarea></label><label>Ends on another day<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label></div></details>'+
+      fld('Event name','pen','<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="Youth Sabbath">','s3')+
+      fld('Type','tag','<select name="category">'+CAL.kinds.map(opt).join('')+'</select>')+
+      fld('Date','cal','<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'">')+
+      fld('Starts','clock','<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select>')+
+      fld('Ends','end','<select name="end_time">'+timeOpts(e.end_time,'No end')+'</select>')+
+      fld('Repeats','rep','<select name="repeat">'+Object.keys(REP).map(function(k){return '<option value="'+k+'"'+((e.repeat||'none')===k?' selected':'')+'>'+({none:'Never',weekly:'Weekly',monthly:'Monthly',yearly:'Yearly'})[k]+'</option>';}).join('')+'</select>')+
+      fld('Location','pin','<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="Fellowship hall">','s3 evloc')+
+      fld('Repeat until','cal','<input type="date" name="repeat_until" value="'+esc(e.repeat_until||'')+'">','evrep'+(isRep(e)?'':' hide'))+'</div>'+
+      '<div class="evcard"><div class="evch"><span class="evl">Invite people</span><small>They get an email invitation</small></div><div class="evppl">'+CAL.team.map(function(m){var on=(e.invitees||[]).indexOf(m)>=0, nm=nameOf(m);
+          return '<label class="evp"><input type="checkbox" data-inv="'+esc(m)+'"'+(on?' checked':'')+'><span><i>'+esc((nm==='You'?(firstName(me)||'Y'):nm).charAt(0).toUpperCase())+'</i>'+esc(nm)+'</span></label>';}).join('')+'</div>'+
+        '<span class="fi evmailw">'+evI('mail')+'<input class="evmail" name="inv_other" maxlength="2000" value="'+esc((e.invitees||[]).filter(function(m){return CAL.team.indexOf(m)<0;}).join(', '))+'" placeholder="Add other emails, separated by commas"></span></div>'+
+      '<div class="evtg">'+
+        '<label class="tgl"><input type="checkbox" name="remind"'+(e.id?(e.remind?' checked':''):' checked')+'><span class="tgi">'+evI('bell')+'</span><span class="tgt"><b>Email reminders</b><small>30, 15, 5 and 1 min before</small></span><span class="sw"></span></label>'+
+        '<label class="tgl"><input type="checkbox" name="is_public"'+(e.is_public===false?'':' checked')+'><span class="tgi">'+evI('globe')+'</span><span class="tgt"><b>Show on website</b><small>shekinahsda.org/events</small></span><span class="sw"></span></label></div>'+
+      '<details class="evmore"'+(more?' open':'')+'><summary>Add details or an end date</summary><div class="ef evef2">'+
+        fld('Details','note','<textarea name="details" rows="2" maxlength="4000" placeholder="Anything people should know">'+esc(e.details||'')+'</textarea>')+fld('Ends on another day','cal','<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'">')+'</div></details>'+
       (e.id&&!isRep(e)?'<div class="mvrow"><b>Move</b><button class="lbtn" data-mv="-1">&minus;1 day</button><button class="lbtn" data-mv="1">+1 day</button><button class="lbtn" data-mv="-7">&minus;1 week</button><button class="lbtn" data-mv="7">+1 week</button><button class="lbtn" data-mv="sat">Next Saturday</button></div>':'')+
       '</div><div class="evft">'+(e.id?'<button class="dbtn" data-c="delev">Delete</button>':'')+'<span class="saved" id="evmsg"></span><span style="flex:1"></span><button class="lbtn" data-c="close">Cancel</button><button class="pbtn" data-c="saveev">'+(e.id?'Save':'Add event')+'</button></div></div>';
     var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
