@@ -763,7 +763,7 @@ body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:ha
 #pjbedit{padding:6px 4px;min-height:32px}
 /* message rows adapt to the list width */
 #list{container-type:inline-size}
-@container (max-width:820px){.rhead{grid-template-columns:22px 12px 44px minmax(0,1fr) auto!important}.rsubj{grid-column:4/6}.rright{grid-row:1;grid-column:5}}
+@container (max-width:820px){.rhead{grid-template-columns:22px 12px 40px minmax(120px,180px) minmax(0,1fr) auto!important}}@container (max-width:560px){.rhead{grid-template-columns:22px 12px 44px minmax(0,1fr) auto!important}.rsubj{grid-column:4/6}.rright{grid-row:1;grid-column:5}}
 .rname small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;word-break:normal!important}
 /* calendar: side panels under the month below 1600 so events stay readable */
 @media (max-width:1600px) and (min-width:1001px){.calgrid{grid-template-columns:minmax(0,1fr)!important}.calgrid>.wrap{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;align-items:start}}
@@ -773,7 +773,7 @@ body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:ha
 .sb-new{background:#157A2F!important;font-size:11.5px!important}
 /* members birthdays, dashboard quick actions */
 #mbday{width:max-content;min-width:min(420px,100%);max-width:100%}
-.qa{grid-template-columns:repeat(auto-fit,minmax(min(96px,100%),1fr))!important}.qa button{min-width:0;font-size:13px}
+.qa{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px}.qa button{min-width:0;font-size:12.5px;padding-left:4px;padding-right:4px}@media (max-width:520px){.qa{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
 /* project form header like the event form */
 .pj-dlg #pjmt{margin:-24px -24px 16px!important;padding:16px 24px;background:#0B2152;color:#fff;border-radius:18px 18px 0 0;font-size:19px!important}
 /* focus rings */
@@ -784,6 +784,14 @@ body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:ha
 
 body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10px!important;width:10px;height:10px;top:6px!important;right:14px!important;border-radius:50%!important}
 #caldays .chip{font-size:12px!important;padding:2px 6px!important;white-space:normal!important;-webkit-line-clamp:2;display:-webkit-box!important;-webkit-box-orient:vertical;overflow:hidden;line-height:1.2}
+
+#main .pj-kpi>.ic,#main .tk>.ic,#main .stat>.ic{flex:0 0 38px!important;width:38px!important;display:grid;place-items:center}
+#main .pj-kpi span,#main .tk span{display:block!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+#reports .wr-k .kpi{padding:7px 12px!important}#reports .wr-k .kpi b{font-size:19px!important;line-height:1.05!important}#reports .wr-k .kpi small{font-size:10.5px!important;line-height:1.2}
+@media (max-width:1500px){.wr-p.c3{grid-column:span 6}}
+#main .tabs button,#main .tktabs button,#main .cnav,#main .arrow,#main .pg button{height:38px!important;min-height:38px}#main .cnav,#main .arrow,#main .pg button{width:38px!important}
+#main .info h4{font-size:17px!important}#main .info h4+h4,#main .info h4~h4{font-size:15px!important}
+.pj-dlg #pjmt{font-size:20px!important}
 </style>
 </head>
 <body>
@@ -953,7 +961,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
   </div>
 </div>
 <div id="toast" class="hide"></div>
-<script src="/assets/webreport.js?v=5"></script>
+<script src="/assets/webreport.js?v=6"></script>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
@@ -1618,7 +1626,7 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
     if(T==='mem'){var ms=members||[],has=function(arr){return function(m){return arr.indexOf(m.status)>=0;};};
       var MS={'m:all':null,'m:mem':has(['Member','Baptized member']),'m:bap':function(m){return m.status==='Baptized member'||!!m.baptism_date;},'m:reg':has(['Regular attender']),'m:vis':has(['Visitor']),'m:ina':has(['Inactive','Transferred out']),'m:bday':function(m){var d=nextBday(m.birthday);return d!==null&&d<=30;}};
       window.__MS=MS;var cnt=function(k){return MS[k]?ms.filter(MS[k]).length:ms.length;};
-      K=[['m:all','group',cnt('m:all'),'People in records'],['m:mem','userplus',cnt('m:mem'),'Church members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regular attenders'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:ina','clock',cnt('m:ina'),'Inactive or moved'],['m:bday','cal',cnt('m:bday'),'Birthdays in 30 days']];}
+      K=[['m:all','group',cnt('m:all'),'All records'],['m:mem','userplus',cnt('m:mem'),'Members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regulars'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:ina','clock',cnt('m:ina'),'Inactive'],['m:bday','cal',cnt('m:bday'),'Birthdays soon']];}
     if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(rs){return tl.filter(function(a){return rs.indexOf(a.title||a.role)>=0;}).length;};
       K=[['x','team',tl.length,'People on the team'],['x','gear',rc(['admin']),'Admins'],['x','contacts',rc(['pastor','elder','clerk','staff','editor']),'Pastors, elders and staff'],['x','userplus',rc(['leader','volunteer']),'Leaders and volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
     $('tkpis').classList.toggle('many',K.length>5);
@@ -1711,13 +1719,13 @@ body.navmini .nav .nb-new{font-size:0!important;padding:0!important;min-width:10
   function placeChips(){var side=!window.matchMedia('(max-width:1000px)').matches,host=side?$('sideuser'):$('banner'),b=$('bell'),u=$('userchip');
     if(u.parentNode===host)return;if(side){host.appendChild(u);host.appendChild(b);}else{host.insertBefore(b,$('umenu'));host.insertBefore(u,$('umenu'));}}
   placeChips();window.addEventListener('resize',placeChips);
-  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.rhead[data-a=toggle]')){e.preventDefault();e.target.click();}});
+  document.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('.rhead[data-a=toggle]')){e.preventDefault();var rid=e.target.closest('.row').getAttribute('data-id');e.target.click();var h=document.querySelector('.row[data-id="'+CSS.escape(rid)+'"] .rhead');if(h)h.focus();}});
   function closeModals(){['pjmodal','pjbmodal'].forEach(function(id){var m=$(id);if(m)m.classList.add('hide');});['calform','tkform'].forEach(function(id){var m=$(id);if(m)m.innerHTML='';});
     var u=$('umenu');if(u)u.classList.add('hide');$('userchip').setAttribute('aria-expanded','false');if(typeof menuId!=='undefined'&&menuId!==null){menuId=null;}}
   $('userchip').setAttribute('aria-haspopup','menu');$('userchip').setAttribute('aria-expanded','false');
   document.addEventListener('keydown',function(e){if(e.key!=='Escape')return;
     if(!$('umenu').classList.contains('hide')){$('umenu').classList.add('hide');$('userchip').setAttribute('aria-expanded','false');$('userchip').focus();return;}
-    if(typeof menuId!=='undefined'&&menuId!==null){var kb=document.querySelector('.kmenu');kb=kb&&kb.closest('.row')?kb.closest('.row').querySelector('.kebab'):null;menuId=null;show();if(kb)kb.focus();return;}
+    if(typeof menuId!=='undefined'&&menuId!==null){var km=document.querySelector('.kmenu'),rid=km&&km.closest('.row')?km.closest('.row').getAttribute('data-id'):null;menuId=null;show();var kb=rid&&document.querySelector('.row[data-id="'+CSS.escape(rid)+'"] .kebab');if(kb)kb.focus();return;}
     if(document.body.classList.contains('menu')){document.body.classList.remove('menu');return;}
     if($('mform').innerHTML&&$('pjmodal').classList.contains('hide')&&!$('calform').innerHTML){$('mform').innerHTML='';return;}});
   // keep Tab inside an open popup

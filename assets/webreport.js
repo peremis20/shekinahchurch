@@ -28,9 +28,9 @@
         '<div class="kpi"><b>'+nf(a.engagedSessions)+'</b><span>Real visits</span>'+chg(a.engagedSessions,b.engagedSessions)+'</div>'+
         '<div class="kpi"><b>'+nf(a.activeUsers)+'</b><span>People who visited</span>'+chg(a.activeUsers,b.activeUsers)+'</div>'+
         '<div class="kpi"><b>'+nf(a.screenPageViews)+'</b><span>Pages viewed</span>'+chg(a.screenPageViews,b.screenPageViews)+'</div>'+
-        '<div class="kpi"><b>'+nf(sa.clicks)+'</b><span>Visits from Google search</span>'+chg(sa.clicks,sb.clicks)+'</div>'+
-        '<div class="kpi"><b>'+nf(sa.impressions)+'</b><span>Times shown on Google</span>'+chg(sa.impressions,sb.impressions)+'</div>'+
-        '<div class="kpi"><b>'+(sa.position?(+sa.position).toFixed(1):'None')+'</b><span>Average place on Google (lower is better)</span></div></div>'+
+        '<div class="kpi"><b>'+nf(sa.clicks)+'</b><span>Google visits</span>'+chg(sa.clicks,sb.clicks)+'</div>'+
+        '<div class="kpi"><b>'+nf(sa.impressions)+'</b><span>Times shown</span>'+chg(sa.impressions,sb.impressions)+'</div>'+
+        '<div class="kpi"><b>'+(sa.position?(+sa.position).toFixed(1):'None')+'</b><span title="Lower is better">Avg. Google place</span></div></div>'+
         '<p class="meta" style="margin:8px 0 0">Last 7 days: '+nf((g.last7||{}).engagedSessions)+' real visits from '+nf((g.last7||{}).activeUsers)+' people. Average visit: '+Math.round((+a.averageSessionDuration||0)/60*10)/10+' minutes.</p></div>';
       var P=function(cls,title,inner){return '<div class="panel page wr-p '+cls+'"><div class="sec-h">'+title+'</div>'+inner+'</div>';};
       var T=function(head,rows){return '<div class="wr-tw"><table class="rtable"><tr>'+head+'</tr>'+rows+'</table></div>';};
