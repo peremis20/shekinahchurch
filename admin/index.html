@@ -299,7 +299,7 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .page{padding:20px}
 .wr-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:6px}
 .wr-k .kpi small{display:block;margin-top:4px;font-weight:800;font-size:13px}.up{color:#1D6A34}.down{color:#B42318}.flat{color:var(--muted)}
-.wr-chart{width:100%;height:auto;display:block}.wr-chart text{font:12px Mulish,system-ui,sans-serif;fill:#6B7487}
+.wr-chart{width:100%;max-width:760px;height:auto;max-height:260px;display:block}.wr-chart text{font:600 12px Mulish,system-ui,sans-serif;fill:#6B7487;stroke:none}.wr-charts{margin-bottom:18px}.wr-charts>.panel{margin-bottom:0;min-width:0}
 .wr-leg{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;font-weight:700;color:var(--muted);margin:4px 0 6px}.wr-leg i{display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle}
 .wr-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:18px}
 .wr-bar{position:relative}.wr-bar span{position:absolute;left:0;top:50%;transform:translateY(-50%);height:22px;border-radius:6px;background:#E6EEFB;z-index:0}.wr-bar b,.wr-bar em{position:relative;z-index:1}
@@ -757,7 +757,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   </div>
 </div>
 <div id="toast" class="hide"></div>
-<script src="/assets/webreport.js?v=2"></script>
+<script src="/assets/webreport.js?v=3"></script>
 <script>
 (function(){
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech';
