@@ -41,12 +41,48 @@
  },
  "planned": [
   {
+   "keyword": "who wrote the bible",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "The next question readers of the Constantine page ask: who actually wrote the Bible. About 40 writers over roughly 1,500 years (Moses, David, prophets, apostles), inspired by God (2 Timothy 3:16, 2 Peter 1:21), with a simple book by book table. Respectful of scholarly views, no attacks on any church. Link to /blog/did-constantine-change-the-bible/, /blog/who-decided-which-books-are-in-the-bible/ and /blog/is-the-bible-accurate-today/. Give about 40 writers and about 1,500 years, and Moses for the first five books, as the traditional view, not proven fact. Do not retell the canon story; link to the canon page for that.",
+   "secondary": [
+    "who wrote the books of the bible",
+    "how many authors wrote the bible",
+    "who wrote the old testament",
+    "who wrote the new testament",
+    "was the bible written by god or man"
+   ],
+   "evidence": "Search Console last 28 days (to Nov 21, 2026): Did Constantine Change the Bible is the top article, 478 impressions, 8 clicks, position 8. Live Google results for who wrote the bible show History.com, Bible Gateway, Ligonier, Bible Society UK and JW pages, so real demand; no Shekinah page targets it.",
+   "priority": "top",
+   "added": "2026-11-22"
+  },
+  {
+   "keyword": "daniel 8 explained",
+   "cat": "Bible Answers",
+   "lang": "en",
+   "intent": "informational",
+   "neutral": true,
+   "angle": "Next chapter for Daniel 2 readers: the ram (Media and Persia, Daniel 8:20), the goat (Greece, Daniel 8:21), the little horn and the 2,300 days of Daniel 8:14 and the cleansing of the sanctuary, read the historicist way, careful with dates and calm in tone. Stay on Daniel 8 and point to the 70 weeks page for Daniel 9. Link to /blog/daniel-2-prophecy-explained/ and /blog/daniel-7-explained/. This page owns the 2,300 days, Daniel 8:14 and 1844; give only a short note on 457 BC and link to the 70 weeks page. Go deeper than the judgment section of the Daniel 7 post and link both ways. Describe the little horn as a historic system; never attack Catholic people or any church.",
+   "secondary": [
+    "daniel 8 meaning",
+    "ram and goat daniel 8",
+    "2300 days prophecy",
+    "little horn daniel 8",
+    "daniel 8 14 cleansing of the sanctuary"
+   ],
+   "evidence": "Search Console last 28 days (to Nov 21, 2026): Daniel 2 Prophecy Explained 294 impressions, position 6.5, 2 clicks; Google Analytics last 28 days: 12 views by 9 users with 3,222 seconds of engagement, the deepest reading of any article. Live Google results for daniel 8 explained show Bible Hub, UCG, Gill commentary and JW pages.",
+   "priority": "top",
+   "added": "2026-11-22"
+  },
+  {
    "keyword": "70 weeks of daniel 9",
    "cat": "Bible Answers",
    "lang": "en",
    "intent": "informational",
    "neutral": true,
-   "angle": "Daniel 9:24 to 27 explained: the decree of Artaxerxes in 457 BC, the Messiah, the cross, and how it ties to Daniel 8. Historicist reading, careful with dates. Link to Daniel 2 and Daniel 7.",
+   "angle": "Daniel 9:24 to 27 explained: the decree of Artaxerxes in 457 BC, the Messiah, the cross, and how it ties to Daniel 8. Historicist reading, careful with dates. Link to Daniel 2 and Daniel 7. This page owns the 70 weeks, the Messiah and the cross; give only a brief recap of the 2,300 days and link to /blog/daniel-8-explained/ once it exists.",
    "secondary": [
     "daniel 9 prophecy",
     "seventy weeks prophecy",
@@ -428,19 +464,6 @@
     "priyè pou moun malad",
     "vèsè sou gerizon",
     "lapriyè gerizon"
-   ]
-  },
-  {
-   "keyword": "lanmò dapre bib la",
-   "cat": "Bible Answers",
-   "lang": "ht",
-   "intent": "informational",
-   "angle": "Sa Bib la di sou lanmò ak rezirèksyon an kreyòl",
-   "priority": "medium",
-   "secondary": [
-    "kisa ki rive lè yon moun mouri",
-    "rezirèksyon",
-    "esperans apre lanmò"
    ]
   }
  ],
