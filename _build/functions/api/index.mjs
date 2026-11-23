@@ -324,8 +324,12 @@ async function subscribers(me) {
   allow(me, 'email_list');
   return {
     subscribers: await rows(`SELECT d.*,
-        COALESCE((SELECT x.name FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.name, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1), '') AS name,
-        COALESCE((SELECT x.phone FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.phone, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1), '') AS phone
+        COALESCE((SELECT x.name FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.name, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1),
+          -- no name on any form: use the team list or the member records with the same email (Jimmy, Nov 23, 2026)
+          (SELECT NULLIF(a.full_name, '') FROM admins a WHERE lower(a.email) = lower(d.email)),
+          (SELECT NULLIF(trim(m.first_name || ' ' || m.last_name), '') FROM members m WHERE lower(m.email) = lower(d.email) ORDER BY m.updated_at DESC NULLS LAST LIMIT 1), '') AS name,
+        COALESCE((SELECT x.phone FROM submissions x WHERE lower(x.email) = lower(d.email) AND COALESCE(x.phone, '') <> '' ORDER BY (x.kind = 'newsletter') DESC, x.updated_at DESC NULLS LAST LIMIT 1),
+          (SELECT NULLIF(m.phone, '') FROM members m WHERE lower(m.email) = lower(d.email) ORDER BY m.updated_at DESC NULLS LAST LIMIT 1), '') AS phone
       FROM (SELECT DISTINCT ON (lower(email)) email, unsubscribed, status, created_at FROM submissions
             WHERE kind = 'newsletter' AND email <> '' ORDER BY lower(email), unsubscribed DESC, created_at DESC) d ORDER BY created_at DESC`),
     broadcasts: await rows('SELECT id, subject, body, sent_by, recipient_count, sent_count, sent_at FROM broadcasts ORDER BY sent_at DESC'),

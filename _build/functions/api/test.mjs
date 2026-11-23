@@ -281,6 +281,15 @@ r = await call('POST', '/likes', { body: { p: '/admin/x/' } }); ok(r.status === 
 r = await call('GET', '/likes?p=javascript:alert(1)'); ok(r.status === 400, 'bad page rejected');
 r = await call('POST', '/likes', { body: { p: '/blog/x-y/', on: false }, ip: '9.9.9.4' }); ok(r.j.n === 0, 'never below zero', r.j);
 
+// ---- sign up names from the team list and member records ----
+await db.query("INSERT INTO submissions (kind, status, email, created_at, updated_at) VALUES ('newsletter', 'new', 'elder@x.org', now(), now())");
+await db.query("INSERT INTO members (first_name, last_name, email, phone, status) VALUES ('Mia', 'Paul', 'mia-sub@x.org', '817 555 0199', 'Member')");
+await db.query("INSERT INTO submissions (kind, status, email, created_at, updated_at) VALUES ('newsletter', 'new', 'mia-sub@x.org', now(), now())");
+r = await call('GET', '/admin/subscribers', { token: O });
+{ const el = r.j.subscribers.find((x) => x.email === 'elder@x.org'), mi = r.j.subscribers.find((x) => x.email === 'mia-sub@x.org');
+  ok(el && el.name !== '' && mi && mi.name === 'Mia Paul' && mi.phone === '817 555 0199', 'sign ups without a name use the team list or members', [el, mi]); }
+await db.query("DELETE FROM submissions WHERE email IN ('elder@x.org', 'mia-sub@x.org')"); await db.query("DELETE FROM members WHERE email = 'mia-sub@x.org'");
+
 // ---- project dates ----
 r = await call('POST', '/projects/save', { token: O, body: { project: { name: 'Carpet', cost: '100', start_on: '2026-12-01', end_on: '2026-12-15' } } });
 ok(r.status === 200 && r.j.project.start_on === '2026-12-01' && r.j.project.end_on === '2026-12-15', 'project start and end dates are saved', r.j);
