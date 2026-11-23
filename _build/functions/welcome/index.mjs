@@ -293,6 +293,47 @@ async function unsubscribe(url) {
 }
 
 // Mail relay for the "api" function (sign in codes, replies, staff alerts, newsletters to the list).
+// Jimmy, Nov 23, 2026: every email looks professional. Plain messages (newsletter, alerts, replies, codes, tasks) get the
+// same branded layout as the meeting invite: navy header with the logo, a label, clean paragraphs, verse box, button, footer.
+const BRAND_LABEL = { broadcast: 'Newsletter', 'broadcast-test': 'Newsletter preview', 'staff-alert': 'New on the website', reply: 'A note from Shekinah',
+  assigned: 'Assigned to you', task: 'Task', 'admin-code': 'Sign in code', 'meeting-reminder': 'Meeting reminder' };
+function brandMail({ tag, subject, text, unsub }) {
+  const news = tag === 'broadcast' || tag === 'broadcast-test';
+  const link = (t) => t.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#0E4A36;font-weight:600">$1</a>');
+  const blocks = text.replace(/\r/g, '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean);
+  const body = blocks.map((b, i) => {
+    const one = !b.includes('\n');
+    // A paragraph that is only a link becomes a button.
+    if (one && /^https?:\/\/\S+$/.test(b)) return `<p style="margin:6px 0 20px"><a href="${esc(b)}" style="display:inline-block;background:#13294B;color:#FFFFFF;text-decoration:none;font-weight:700;font-size:15px;border-radius:10px;padding:12px 22px">${/shekinahsda\.org\/?$/.test(b) ? 'Visit our website' : 'Read more'}</a></p>`;
+    // A Bible verse (quoted text with a reference) goes in the gold verse box.
+    if (/^["\u201C].+["\u201D]/s.test(b) && /\b\d?\s?[A-Z][a-z]+\.?\s\d+:\d+/.test(b)) return `<div style="background:#FBF6EA;border-left:4px solid #D9A72B;border-radius:10px;padding:14px 18px;margin:0 0 18px;font-family:${S};font-size:17px;line-height:1.55;color:#13294B;font-style:italic">${link(esc(b)).replace(/\n/g, '<br>')}</div>`;
+    // A short line with no ending punctuation, followed by more text, is a section heading.
+    if (one && i < blocks.length - 1 && b.length <= 60 && !/[.,!?;:]$/.test(b) && !/^https?:/.test(b)) return `<h2 style="font-family:${S};font-size:19px;line-height:1.3;color:#13294B;margin:22px 0 8px;font-weight:700">${esc(b)}</h2>`;
+    // Lines starting with "- " or "* " become a list.
+    const lines = b.split('\n'), isLi = (l) => /^\s*[-*\u2022]\s+/.test(l);
+    const ul = (ls) => `<ul style="margin:0 0 16px;padding-left:22px">${ls.map((l) => `<li style="margin:0 0 6px">${link(esc(l.replace(/^\s*[-*\u2022]\s+/, '')))}</li>`).join('')}</ul>`;
+    if (lines.length > 2 && !isLi(lines[0]) && lines.slice(1).every(isLi)) return `<h2 style="font-family:${S};font-size:19px;line-height:1.3;color:#13294B;margin:22px 0 8px;font-weight:700">${esc(lines[0].replace(/:$/, ''))}</h2>` + ul(lines.slice(1));
+    // Lines like "Name: Jimmy" become a clean details box, like the meeting invite.
+    if (lines.length > 1 && lines.every((l) => /^[A-Za-z][A-Za-z ]{0,24}:\s+\S/.test(l))) return `<div style="background:#F4F7FB;border-left:4px solid #D9A72B;border-radius:10px;padding:8px 18px;margin:0 0 18px"><table role="presentation" style="border-collapse:collapse;width:100%">${lines.map((l) => { const k = l.indexOf(':'); return `<tr><td style="padding:7px 0;width:96px;vertical-align:top;font-size:13px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7280">${esc(l.slice(0, k))}</td><td style="padding:7px 0;font-size:16px;color:#13294B;font-weight:600">${link(esc(l.slice(k + 1).trim()))}</td></tr>`; }).join('')}</table></div>`;
+    if (lines.length > 1 && lines.every(isLi)) return `<ul style="margin:0 0 16px;padding-left:22px">${lines.map((l) => `<li style="margin:0 0 6px">${link(esc(l.replace(/^\s*[-*\u2022]\s+/, '')))}</li>`).join('')}</ul>`;
+    return `<p style="margin:0 0 16px">${link(esc(b)).replace(/\n/g, '<br>')}</p>`;
+  }).join('');
+  const label = BRAND_LABEL[tag] || '';
+  const title = news ? subject.replace(/^\[Test\]\s*/, '') : '';
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only"><title>${esc(subject)}</title></head><body style="margin:0;background:#FAF6EE">
+<div style="background:#FAF6EE;padding:28px 12px;font-family:${F}">
+ <div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid #EDE5D3">
+  <div style="background:#13294B;padding:22px 24px;text-align:center"><a href="${SITE}/" style="text-decoration:none"><img src="${SITE}/assets/logo-dark.png" width="260" alt="Shekinah Haitian Seventh-day Adventist Church" style="width:260px;max-width:100%;height:auto;border:0"></a></div>
+  <div style="padding:28px 32px 10px;font-size:16px;line-height:1.65;color:#2C3443">
+   ${label ? `<div style="display:inline-block;background:#E3F6E8;color:#157A2F;font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-bottom:12px">${label}</div>` : ''}
+   ${title ? `<h1 style="font-family:${S};font-size:26px;line-height:1.3;color:#13294B;margin:0 0 16px;font-weight:700">${esc(title)}</h1>` : ''}
+   ${body}
+  </div>
+  ${news ? `<div style="background:#F4F7FB;padding:16px 32px;text-align:center;font-size:14px;line-height:1.6;color:#13294B"><b>Worship with us this Sabbath</b><br>${VISIT_TIMES}<br><a href="${SITE}/" style="color:#0E4A36;font-weight:700">shekinahsda.org</a></div>` : ''}
+  <div style="border-top:1px solid #EDE5D3;padding:16px 32px 22px;font-size:12.5px;line-height:1.6;color:#6B7280;text-align:center">Shekinah Haitian Seventh-day Adventist Church<br>${ADDRESS}${unsub ? `<br>You are receiving this because you signed up on shekinahsda.org. <a href="${unsub}" style="color:#6B7280;text-decoration:underline">Unsubscribe</a>` : ''}</div>
+ </div>
+</div></body></html>`;
+}
 // POST /send {to, subject, text, tag, reply_to?, unsub?} with header x-mail-key = automation_status.mail_relay_key.
 let relayKey = '';
 async function relay(req) {
@@ -307,10 +348,7 @@ async function relay(req) {
   const unsub = m.unsub ? unsubUrl(to) : '';
   const para = (t) => esc(t).replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" style="color:#0E4A36">$1</a>').replace(/\n/g, '<br>');
   const own = !m.unsub && typeof m.html === 'string' && m.html.length > 0 && m.html.length < 200000;
-  const html = own ? m.html : `<div style="background:#FAF6EE;padding:24px 12px"><div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;padding:28px;font-family:${F};font-size:16px;line-height:1.6;color:#2C3443">`
-    + text.split(/\n\s*\n/).map((p) => `<p style="margin:0 0 14px">${para(p)}</p>`).join('')
-    + `<p style="margin:22px 0 0;font-size:13px;color:#5B6270;border-top:1px solid #EDE5D3;padding-top:14px">Shekinah Haitian Seventh-day Adventist Church · ${ADDRESS}`
-    + (unsub ? `<br>You are receiving this because you signed up on shekinahsda.org. <a href="${unsub}" style="color:#5B6270">Unsubscribe</a>` : '') + '</p></div></div>';
+  const html = own ? m.html : brandMail({ tag, subject, text, unsub });
   if (unsub) text += '\n\nShekinah Haitian Seventh-day Adventist Church, ' + ADDRESS + '\nUnsubscribe: ' + unsub;
   const headers = unsub ? { 'List-Unsubscribe': `<${unsub}>`, 'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click' } : undefined;
   // Meeting reminders: other people in the meeting go in bcc, and Resend sends it at scheduled_at (up to 30 days ahead).
