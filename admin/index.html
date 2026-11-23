@@ -441,6 +441,26 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-sw{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1F2A44}.tm-sw input{width:20px;height:20px;accent-color:#1D5FE0}
 .tm-when{color:#33415C;font-weight:600}
 .pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.evinv{display:flex;flex-direction:column;gap:6px}.evinv>b{font-size:14px;color:var(--ink)}.evppl{display:flex;flex-wrap:wrap;gap:6px 14px}.evp{display:flex !important;flex-direction:row !important;align-items:center;gap:6px;font-size:14.5px;color:var(--ink)}.evp input{width:18px;height:18px;accent-color:#1D5FE0}
+.calkpis{margin-bottom:18px}#calkpi svg,.calsi svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+#cal .calmain{padding:22px}
+#cal .calbar h2{font:900 26px Mulish,system-ui,sans-serif;color:#0E1B3D;letter-spacing:-.3px}
+#cal .cnav{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;padding:0;border:1.5px solid #D3DBE8;background:#fff;color:#0E1B3D}#cal .cnav:hover{background:#0B2A6B;border-color:#0B2A6B;color:#fff}
+#cal [data-c=today]{border-radius:999px;font-weight:800}
+#calv{background:#EEF2F8;border-radius:999px;padding:4px;gap:2px!important}#calv button{border:none;background:none;border-radius:999px;padding:7px 14px;font-weight:800;color:#33415C}#calv button.on{background:linear-gradient(135deg,#0B2A6B,#0A1F52);color:#fff;box-shadow:0 3px 10px rgba(11,42,107,.3)}
+#cal .calhead{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-radius:14px 14px 0 0;padding:12px 6px;gap:6px;margin-bottom:6px}#cal .calhead span{color:#fff;font-size:13px;letter-spacing:1px}#cal .calhead span:last-child{color:#F3C76B}
+#cal .cday{border:1px solid #E6EBF3;border-radius:14px;box-shadow:0 2px 8px rgba(20,33,61,.04);transition:box-shadow .15s,transform .15s,border-color .15s;padding:8px}
+#cal .cday.can:hover{border-color:#9DBCF0;box-shadow:0 8px 22px rgba(20,33,61,.12);transform:translateY(-1px)}
+#cal .cday.sabb:not(.out){background:linear-gradient(180deg,#FFFBF0,#fff)}#cal .cday.out{background:#F6F8FB;box-shadow:none}
+#cal .cday b{font-size:15px;font-weight:900;color:#0E1B3D}#cal .cday.out b{color:#A0A9B8}
+#cal .cday.today{border-color:#1D5FE0;box-shadow:0 0 0 2px #1D5FE0,0 8px 22px rgba(29,95,224,.18)}#cal .cday.today b{background:linear-gradient(135deg,#2F74F0,#1D5FE0);color:#fff;width:30px;height:30px;box-shadow:0 3px 8px rgba(29,95,224,.35)}
+#cal .chip{border-left:3px solid var(--cfg);border-radius:7px;padding:4px 7px;box-shadow:0 1px 3px rgba(20,33,61,.06)}#cal .chip:hover{filter:brightness(.96)}
+#cal .wev{border-left:4px solid var(--cfg);box-shadow:0 2px 6px rgba(20,33,61,.06)}
+.calsh{display:flex;align-items:center;gap:12px;margin:0 0 6px}.calsi{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}.calsi svg{width:22px;height:22px}
+#cal .upd{background:linear-gradient(135deg,#0B2A6B,#0A1F52);color:#fff;border-radius:12px;min-width:56px;padding:8px 4px;box-shadow:0 4px 10px rgba(11,42,107,.25)}#cal .upd small{color:#F3C76B}#cal .upd b{color:#fff}
+#cal .upi{border-radius:12px;padding:12px 8px;transition:background .15s}#cal .upi:hover{background:#F5F8FD}
+#cal .tktabs button.on{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}
+@media (max-width:700px){#cal .calbar h2{font-size:20px}#cal .calhead{padding:8px 2px}#cal .calhead span{font-size:11px;letter-spacing:0}#cal .cday{border-radius:10px;padding:4px}}
+.bdsel{display:flex;gap:8px}.bdsel select{flex:1;min-width:0}
 .impdrop{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px dashed #C9D3E3;border-radius:14px;padding:26px 16px;background:#F8FAFD;cursor:pointer;text-align:center}.impdrop.over{border-color:#1D5FE0;background:#EEF4FF}.impdrop input{display:none}.impdrop b{color:#1D5FE0;font-size:16px}.impdrop span{color:#5D6A80;font-size:14px}
 .imptbl{overflow-x:auto;border:1px solid #E6EBF3;border-radius:12px}.imptbl table{border-collapse:collapse;width:100%;min-width:900px;font-size:14px}.imptbl th{background:#F3F6FB;text-align:left;padding:8px;font-size:13px;color:#33415C;white-space:nowrap}.imptbl td{padding:4px 6px;border-top:1px solid #EEF1F6}.imptbl td input:not([type=checkbox]){width:100%;min-width:90px;height:34px;border:1px solid #D3DBE8;border-radius:8px;padding:0 8px;font:inherit}.imptbl td input[type=checkbox]{width:18px;height:18px;accent-color:#1F8A3E}
 .imptbl tr.off td input:not([type=checkbox]){opacity:.5}.imptbl tr.uns td input:not([type=checkbox]){border-color:#E2A33B;background:#FFF9EC}.impfl{white-space:nowrap}.impfl .fl{display:block;font-size:12px;font-weight:800;border-radius:6px;padding:2px 6px;margin:2px 0}.fl.dup{background:#EEF1F6;color:#5D6A80}.fl.uns{background:#FFF1D6;color:#8A5A00}
@@ -636,7 +656,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
           <div class="wrap" id="siteed"></div>
         </div></section>
 
-        <section id="cal" class="hide"><div class="calgrid">
+        <section id="cal" class="hide"><div class="pj-kpis calkpis" id="calkpi"></div><div class="calgrid">
           <div class="panel page calmain">
             <div class="calbar"><button class="sbtn cnav" data-c="prev" aria-label="Previous month"></button><h2 id="calttl"></h2><button class="sbtn cnav" data-c="next" aria-label="Next month"></button><button class="lbtn" data-c="today">Today</button><span style="flex:1"></span><div class="tktabs" id="calv" style="margin:0"><button data-cv="week">Week</button><button data-cv="month">Month</button><button data-cv="sat">Saturdays</button><button data-cv="year">Year</button></div><button class="pbtn hide" data-c="addev" id="caladd">+ Add event</button></div>
             <p class="meta hide" id="calro" style="margin:-4px 0 12px">You can view the calendar. To add or change events and tasks, ask an admin to turn on "Edit the calendar" for you on the Team page.</p>
@@ -646,8 +666,8 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
             <div class="cal7" id="caldays"></div>
           </div>
           <div class="wrap">
-            <div class="panel page"><div class="sec-h">Upcoming events</div><div id="calup"></div></div>
-            <div class="panel page"><div class="calbar" style="margin:0"><div class="sec-h" style="margin:0">Tasks</div><span style="flex:1"></span><button class="sbtn hide" id="tkadd">+ Add task</button></div>
+            <div class="panel page"><div class="calsh"><span class="calsi" style="background:#E3EDFF;color:#1D5FE0" id="calui"></span><div class="sec-h" style="margin:0">Upcoming events</div></div><div id="calup"></div></div>
+            <div class="panel page"><div class="calbar" style="margin:0"><div class="calsh" style="margin:0"><span class="calsi" style="background:#FFF1D6;color:#8A5A00" id="calti"></span><div class="sec-h" style="margin:0">Tasks</div></div><span style="flex:1"></span><button class="sbtn hide" id="tkadd">+ Add task</button></div>
               <div class="tktabs" id="tktabs"></div><div id="tkform"></div><div id="tklist"></div></div>
           </div>
         </div></section>
@@ -892,12 +912,20 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       var evs=dayEvs(k);
       var max=3, chips=evs.slice(0,max).map(function(e){return '<span class="chip '+kc(e)+'" data-ev="'+esc(e.id)+'" title="'+esc(e.title)+'">'+(e.start_time&&k===e.starts_on?esc(t12(e.start_time).replace(':00','').replace(' ','').toLowerCase())+' ':'')+esc(e.title)+'</span>';}).join('');
       if(evs.length>max)chips+='<button class="more" data-day="'+k+'">+'+(evs.length-max)+' more</button>';
-      cells.push('<div class="cday'+(d.getMonth()!==calM.getMonth()?' out':'')+(k===today?' today':'')+(CAL.can?' can':'')+'" data-day="'+k+'"><b>'+d.getDate()+'</b>'+chips+'</div>');}
+      cells.push('<div class="cday'+(d.getMonth()!==calM.getMonth()?' out':'')+(d.getDay()===6?' sabb':'')+(k===today?' today':'')+(CAL.can?' can':'')+'" data-day="'+k+'"><b>'+d.getDate()+'</b>'+chips+'</div>');}
     $('caldays').innerHTML=cells.join('');
     }
     $('caldays').classList.toggle('cal-can',CAL.can);$('calhint').classList.toggle('hide',!CAL.can);
-    renderUp();renderTasks();
+    renderUp();renderTasks();calKpis();
   }
+  function calKpis(){var t=new Date();t.setHours(0,0,0,0);var td=ymd(t), V=CAL.view||[];
+    var mf=ymd(new Date(calM.getFullYear(),calM.getMonth(),1)), ml=ymd(new Date(calM.getFullYear(),calM.getMonth()+1,0));
+    var we=new Date(t);we.setDate(t.getDate()+6);var wk=ymd(we), sat=nextSatOf(addDays(td,-1));
+    var inR=function(a,b){return V.filter(function(e){var r=evDays(e);return r[1]>=a&&r[0]<=b;}).length;};
+    var kp=function(ic,bg,fg,n,l,main){return '<div class="pj-kpi'+(main?' main':'')+'"><div class="ic"'+(main?'':' style="background:'+bg+';color:'+fg+'"')+'>'+pjI(ic)+'</div><div style="min-width:0"><b>'+n+'</b><span>'+l+'</span></div></div>';};
+    $('calkpi').innerHTML=kp('cal','','',inR(mf,ml),'Events in '+calM.toLocaleDateString([], {month:'long'}),1)+kp('clip','#E3EDFF','#1D5FE0',inR(td,wk),'Next 7 days')+
+      kp('book','#F1E8FF','#7C3AED',inR(sat,sat),'This Sabbath, '+pday(sat).toLocaleDateString([], {month:'short',day:'numeric'}))+kp('target','#FFF1D6','#8A5A00',CAL.tasks.filter(function(k){return !k.done;}).length,'Open tasks');
+    var ui=$('calui'),ti=$('calti');if(ui&&!ui.innerHTML)ui.innerHTML=pjI('cal');if(ti&&!ti.innerHTML)ti.innerHTML=pjI('clip');}
   (function(){var base=null;function hsh(t){var h=0;for(var i=0;i<t.length;i++)h=(h*31+t.charCodeAt(i))|0;return h;}
     function chk(){fetch('/admin/?v='+Date.now(),{cache:'no-store'}).then(function(r){return r.text();}).then(function(t){var h=hsh(t);if(base===null){base=h;return;}
       if(h!==base&&!$('newver')){var b=document.createElement('div');b.id='newver';b.innerHTML='The admin was just updated with new features. <button type="button">Reload now</button>';
@@ -1649,9 +1677,11 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
   // ---- Members (same server and sign in) ----
   var MAPI=API;
   var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
-  var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','date'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
+  var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','bday'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
   function mapi(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(MAPI+path,opt).then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
   function fmtDate(d){if(!d)return '';var p=String(d).slice(0,10).split('-');if(p.length<3)return d;return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+(p[0]&&p[0]!=='1900'?', '+p[0]:'');}
+  var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  function fmtBday(d){if(!d)return '';var p=String(d).slice(0,10).split('-');return p.length<3?'':MONTHS[+p[1]-1]+' '+(+p[2]);} // birthdays show month and day only (Jimmy, Nov 23, 2026)
   function nextBday(d){if(!d)return null;var p=String(d).slice(0,10).split('-'),now=new Date(),t=new Date(now.getFullYear(),now.getMonth(),now.getDate());var n=new Date(now.getFullYear(),+p[1]-1,+p[2]);if(n<t)n.setFullYear(n.getFullYear()+1);return Math.round((n-t)/86400000);}
   function loadMembers(){$('mlist').innerHTML='<div class="empty">Loading...</div>';
     return mapi('/members').then(function(j){members=j.members||[];mStatuses=j.statuses||mStatuses;mRole=j.role||'';
@@ -1667,13 +1697,16 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     $('mcount').textContent=list.length+' of '+members.length+' people'+(members.length?' · '+Object.keys(counts).map(function(k){return counts[k]+' '+k;}).join(', '):'');
     $('mlist').innerHTML=list.length?list.map(function(m){return '<div class="card" style="border-left-color:var(--navy)"><div class="top"><span class="who">'+esc(m.first_name+' '+m.last_name)+'</span><span class="tag">'+esc(m.status)+'</span></div>'+
       '<div class="contact">'+[m.phone?'<a href="tel:'+esc(m.phone.replace(/[^0-9+]/g,''))+'">'+esc(m.phone)+'</a>':'',m.email?'<a href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a>':''].filter(Boolean).join(' · ')+'</div>'+
-      '<div class="meta">'+[m.address||m.city?esc([m.address,m.city,m.state,m.zip].filter(Boolean).join(', ')):'',m.birthday?'Birthday '+fmtDate(m.birthday):'',m.household?'Family: '+esc(m.household):'',m.member_since?'Member since '+fmtDate(m.member_since):'',m.baptism_date?'Baptized '+fmtDate(m.baptism_date):''].filter(Boolean).join(' · ')+'</div>'+
+      '<div class="meta">'+[m.address||m.city?esc([m.address,m.city,m.state,m.zip].filter(Boolean).join(', ')):'',m.birthday?'Birthday '+fmtBday(m.birthday):'',m.household?'Family: '+esc(m.household):'',m.member_since?'Member since '+fmtDate(m.member_since):'',m.baptism_date?'Baptized '+fmtDate(m.baptism_date):''].filter(Boolean).join(' · ')+'</div>'+
       (m.notes?'<div class="msg">'+esc(m.notes)+'</div>':'')+
       '<div class="act">'+(can('members_edit')?'<button class="lbtn" data-m="edit" data-id="'+m.id+'">Edit</button>':'')+(can('members_delete')?'<button class="dbtn" data-m="del" data-id="'+m.id+'">Delete</button>':'')+'</div></div>';}).join(''):'<div class="empty">'+(members.length?'No one matches that search.':'No members yet. Click Add member to start.')+'</div>';}
   function memberForm(m){m=m||{status:'Member'};
     $('mform').innerHTML='<div class="card" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">'+(m.id?'Edit member':'Add a member')+'</span></div><div class="ef">'+MF.map(function(f){var v=m[f[0]]==null?'':String(m[f[0]]);if(f[2]==='date')v=v.slice(0,10);var lab='<label'+(f[3]?' class="wide"':'')+'>'+f[1];
       if(f[2]==='status')return lab+'<select data-k="status">'+mStatuses.map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+esc(s)+'</option>';}).join('')+'</select></label>';
       if(f[2]==='textarea')return lab+'<textarea data-k="'+f[0]+'" rows="3">'+esc(v)+'</textarea></label>';
+      if(f[2]==='bday'){var bp=v.split('-'),bm=bp.length===3?+bp[1]:0,bd=bp.length===3?+bp[2]:0;
+        return lab+'<span class="bdsel"><select data-bm><option value="">Month</option>'+MONTHS.map(function(n,i){return '<option value="'+(i+1)+'"'+(bm===i+1?' selected':'')+'>'+n+'</option>';}).join('')+'</select>'+
+          '<select data-bd><option value="">Day</option>'+Array.from({length:31},function(_,i){return '<option'+(bd===i+1?' selected':'')+'>'+(i+1)+'</option>';}).join('')+'</select></span></label>';}
       return lab+'<input data-k="'+f[0]+'" type="'+f[2]+'" value="'+esc(v)+'"></label>';}).join('')+
       '</div><div class="act"><button class="pbtn" data-m="save" data-id="'+(m.id||'')+'">Save</button><button class="lbtn" data-m="cancel">Cancel</button><span class="saved" id="msave"></span></div></div>';
     $('mform').scrollIntoView({behavior:'smooth',block:'start'});}
@@ -1683,6 +1716,10 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     else if(a==='del'){var m=members.filter(function(x){return x.id==id;})[0];if(!m||!confirm('Delete '+m.first_name+' '+m.last_name+'? This cannot be undone.'))return;
       mapi('/members/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){members=members.filter(function(x){return x.id!=id;});renderMembers();}).catch(function(err){alert(err.message);});}
     else if(a==='save'){var o={id:id||undefined};$('mform').querySelectorAll('[data-k]').forEach(function(el){o[el.getAttribute('data-k')]=el.value;});
+      var bmE=$('mform').querySelector('[data-bm]'),bdE=$('mform').querySelector('[data-bd]');if(bmE){var mm=+bmE.value,dd=+bdE.value;
+        if((mm&&!dd)||(!mm&&dd)){$('msave').textContent='Pick both the month and the day for the birthday.';return;}
+        if(mm&&dd>new Date(2000,mm,0).getDate()){$('msave').textContent=MONTHS[mm-1]+' does not have '+dd+' days.';return;}
+        o.birthday=mm?'2000-'+String(mm).padStart(2,'0')+'-'+String(dd).padStart(2,'0'):'';} // no year is kept
       if(!String(o.first_name||'').trim()){$('msave').textContent='First name is required.';return;}
       $('msave').textContent='Saving...';
       mapi('/members/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({member:o})}).then(function(j){var m=j.member;var i=members.findIndex(function(x){return x.id==m.id;});if(i>=0)members[i]=m;else members.push(m);
