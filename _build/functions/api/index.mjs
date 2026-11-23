@@ -187,10 +187,10 @@ const ip = (req) => str((req.headers.get('x-forwarded-for') || '').split(',')[0]
 async function who(req) {
   const m = /^Bearer\s+(\S+)$/.exec(req.headers.get('authorization') || '');
   need(m, 401, 'Please sign in again.');
-  const a = await one(`SELECT a.email, a.role, a.title, a.perms, a.can_see_private FROM admin_sessions s JOIN admins a ON a.email = s.email
+  const a = await one(`SELECT a.email, a.role, a.title, a.perms, a.can_see_private, a.full_name FROM admin_sessions s JOIN admins a ON a.email = s.email
                        WHERE s.token_hash = $1 AND s.expires_at > now() AND a.suspended_at IS NULL`, [sha(m[1])]);
   need(a, 401, 'Please sign in again.');
-  return { email: a.email, token: m[1], ...access(a) };
+  return { email: a.email, token: m[1], full_name: a.full_name || '', ...access(a) };
 }
 const allow = (me, perm) => need(me.perms[perm], 403, 'You do not have access to this. Ask an admin if you need it.');
 
@@ -635,15 +635,83 @@ async function planReminders(only) {
   await q("DELETE FROM cal_reminders WHERE send_at < now() - interval '30 days'");
   return { ok: true, scheduled: made };
 }
-async function sendInvites(e, list, me) {
+// ---------- meeting emails: invitation and update, with a calendar file (.ics) ----------
+const icsEsc = (t) => String(t || '').replace(/\\/g, '\\\\').replace(/;/g, '\;').replace(/,/g, '\\,').replace(/\r?\n/g, '\\n');
+const icsFold = (l) => { const out = []; while (l.length > 74) { out.push(l.slice(0, 74)); l = ' ' + l.slice(74); } out.push(l); return out.join('\r\n'); };
+const ymd = (k) => k.replace(/-/g, '');
+const addDayKey = (k, n) => new Date(Date.parse(k + 'T12:00:00Z') + n * 864e5).toISOString().slice(0, 10);
+function meetingIcs(e) {
+  const L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Shekinah SDA Church//Calendar//EN', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VTIMEZONE', 'TZID:America/Chicago', 'BEGIN:DAYLIGHT', 'TZOFFSETFROM:-0600', 'TZOFFSETTO:-0500', 'TZNAME:CDT', 'DTSTART:19700308T020000', 'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU', 'END:DAYLIGHT',
+    'BEGIN:STANDARD', 'TZOFFSETFROM:-0500', 'TZOFFSETTO:-0600', 'TZNAME:CST', 'DTSTART:19701101T020000', 'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU', 'END:STANDARD', 'END:VTIMEZONE',
+    'BEGIN:VEVENT', 'UID:shekinah-event-' + e.id + '@shekinahsda.org', 'SEQUENCE:' + Math.floor(Date.now() / 1000), 'DTSTAMP:' + new Date().toISOString().replace(/[-:]/g, '').replace(/\.\d+/, '')];
+  if (e.start_time) {
+    const st = e.start_time.replace(':', '') + '00';
+    let et = e.end_time ? e.end_time.replace(':', '') + '00' : null, endDay = e.ends_on || e.starts_on;
+    if (!et) { const [h, m] = e.start_time.split(':').map(Number); const t = h * 60 + m + 60; et = String(Math.floor(t / 60) % 24).padStart(2, '0') + String(t % 60).padStart(2, '0') + '00'; if (t >= 1440) endDay = addDayKey(endDay, 1); }
+    L.push('DTSTART;TZID=America/Chicago:' + ymd(e.starts_on) + 'T' + st, 'DTEND;TZID=America/Chicago:' + ymd(endDay) + 'T' + et);
+  } else {
+    L.push('DTSTART;VALUE=DATE:' + ymd(e.starts_on), 'DTEND;VALUE=DATE:' + ymd(addDayKey(e.ends_on || e.starts_on, 1)));
+  }
+  if (e.repeat && e.repeat !== 'none') L.push('RRULE:FREQ=' + ({ weekly: 'WEEKLY', monthly: 'MONTHLY', yearly: 'YEARLY' }[e.repeat] || 'WEEKLY') + (e.repeat_until ? ';UNTIL=' + ymd(e.repeat_until) + 'T235959Z' : ''));
+  L.push('SUMMARY:' + icsEsc(e.title));
+  if (e.location) L.push('LOCATION:' + icsEsc(e.location));
+  L.push('DESCRIPTION:' + icsEsc((e.details ? e.details + '\n\n' : '') + 'Shekinah Haitian Seventh-day Adventist Church, ' + INV_ADDRESS));
+  L.push('ORGANIZER;CN=Shekinah SDA Church:mailto:info@shekinahsda.org', 'STATUS:CONFIRMED', 'END:VEVENT', 'END:VCALENDAR');
+  return L.map(icsFold).join('\r\n') + '\r\n';
+}
+const hEsc = (t) => String(t == null ? '' : t).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const whenOf = (e) => (e.start_time ? t12s(e.start_time) + (e.end_time ? ' to ' + t12s(e.end_time) : '') + ' (Central time)' : 'All day') + (e.ends_on && e.ends_on !== e.starts_on ? ', until ' + dayLongS(e.ends_on) : '');
+const MEET_FIELDS = [['title', 'Name'], ['starts_on', 'Date'], ['start_time', 'Starts'], ['end_time', 'Ends'], ['ends_on', 'Last day'], ['location', 'Where'], ['repeat', 'Repeats'], ['repeat_until', 'Repeats until'], ['details', 'Details']];
+const fieldText = (e, k) => k === 'starts_on' || k === 'ends_on' || k === 'repeat_until' ? (e[k] ? dayLongS(e[k]) : 'None') : k === 'start_time' || k === 'end_time' ? (e[k] ? t12s(e[k]) : 'None') : k === 'repeat' ? (repeatText(e) || 'Does not repeat') : (e[k] || 'None');
+function meetingChanges(old, e) { return MEET_FIELDS.filter(([k]) => String(old[k] || '') !== String(e[k] || '')).map(([k, label]) => ({ label, was: fieldText(old, k), now: fieldText(e, k) })); }
+function meetingMail(kind, e, me, changes) {
+  const who = me.full_name || me.email, upd = kind === 'update';
+  const subject = (upd ? 'Meeting updated: ' : 'Meeting invitation: ') + e.title;
+  const rep = repeatText(e) ? repeatText(e) + (e.repeat_until ? ' until ' + dayLongS(e.repeat_until) : '') : '';
+  const lead = upd ? `${who} changed a meeting you are invited to. Here are the new details.` : `${who} invited you to a meeting at Shekinah Haitian Seventh-day Adventist Church.`;
+  const remindLine = e.remind && e.start_time ? 'You will get a reminder email 30, 15, 5 and 1 minute before it starts.' : '';
+  const text = ['Hello,', '', lead, '', e.title, 'When: ' + dayLongS(e.starts_on) + ', ' + whenOf(e)]
+    .concat(rep ? ['Repeats: ' + rep] : [], e.location ? ['Where: ' + e.location] : [], e.details ? ['', e.details] : [],
+      upd && changes.length ? ['', 'What changed:'].concat(changes.map((c) => c.label + ': ' + c.was + ' -> ' + c.now)) : [],
+      ['', 'The calendar file attached adds this meeting to your phone or computer calendar.'], remindLine ? [remindLine] : [],
+      ['', 'Questions? Reply to this email to reach ' + who + '.', '', 'Shekinah Haitian Seventh-day Adventist Church', INV_ADDRESS]).join('\n');
+  const row = (ic, label, val) => `<tr><td style="padding:8px 0;width:92px;vertical-align:top;font-size:13px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:#6B7280">${label}</td><td style="padding:8px 0;font-size:16px;color:#13294B;font-weight:600">${val}</td></tr>`;
+  const mapUrl = e.location && !/zoom|online|meet\.google|teams/i.test(e.location) ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(e.location) : '';
+  const html = `<!doctype html><html><body style="margin:0;background:#FAF6EE">
+<div style="background:#FAF6EE;padding:28px 12px;font-family:${INV_F}">
+ <div style="max-width:600px;margin:0 auto;background:#FFFFFF;border-radius:16px;overflow:hidden;border:1px solid #EDE5D3">
+  <div style="background:#13294B;padding:22px 24px;text-align:center"><img src="${SITE}/assets/logo-dark.png" width="260" alt="Shekinah Haitian Seventh-day Adventist Church" style="width:260px;max-width:100%;height:auto;border:0"></div>
+  <div style="padding:28px 32px 6px;font-size:16px;line-height:1.6;color:#2C3443">
+   <div style="display:inline-block;background:${upd ? '#FFF1D6' : '#E3F6E8'};color:${upd ? '#8A5A00' : '#157A2F'};font-size:12px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;border-radius:999px;padding:4px 12px;margin-bottom:12px">${upd ? 'Meeting updated' : 'You are invited'}</div>
+   <h1 style="font-family:${INV_S};font-size:25px;line-height:1.3;color:#13294B;margin:0 0 10px;font-weight:700">${hEsc(e.title)}</h1>
+   <p style="margin:0 0 18px">${hEsc(lead)}</p>
+   <div style="background:#F4F7FB;border-left:4px solid #D9A72B;border-radius:10px;padding:8px 18px;margin:0 0 20px"><table role="presentation" style="border-collapse:collapse;width:100%">
+    ${row('', 'Date', hEsc(dayLongS(e.starts_on)))}
+    ${row('', 'Time', hEsc(whenOf(e)))}
+    ${rep ? row('', 'Repeats', hEsc(rep)) : ''}
+    ${e.location ? row('', 'Where', mapUrl ? `<a href="${mapUrl}" style="color:#0E4A36">${hEsc(e.location)}</a>` : hEsc(e.location)) : ''}
+   </table></div>
+   ${upd && changes.length ? `<div style="border:1px solid #F3D9A4;background:#FFFAF0;border-radius:10px;padding:12px 16px;margin:0 0 20px"><div style="font-size:13px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:#8A5A00;margin-bottom:6px">What changed</div>${changes.map((c) => `<div style="font-size:15px;margin:4px 0"><b style="color:#13294B">${hEsc(c.label)}:</b> <span style="color:#9AA1AD;text-decoration:line-through">${hEsc(c.was)}</span> &rarr; <b style="color:#13294B">${hEsc(c.now)}</b></div>`).join('')}</div>` : ''}
+   ${e.details ? `<p style="margin:0 0 18px;white-space:pre-line">${hEsc(e.details)}</p>` : ''}
+   <p style="margin:0 0 8px"><b style="color:#13294B">Add it to your calendar:</b> open the calendar file attached to this email (shekinah-meeting.ics). It works with iPhone, Android, Google and Outlook calendars${upd ? ' and updates the meeting you already saved' : ''}.</p>
+   ${remindLine ? `<p style="margin:0 0 8px;color:#5B6270">${remindLine}</p>` : ''}
+   <p style="margin:16px 0 24px">Questions? Just reply to this email to reach ${hEsc(who)}.</p>
+  </div>
+  <div style="border-top:1px solid #EDE5D3;padding:16px 32px 22px;font-size:12.5px;line-height:1.6;color:#6B7280;text-align:center">Shekinah Haitian Seventh-day Adventist Church<br>${INV_ADDRESS}</div>
+ </div>
+</div></body></html>`;
+  return { subject, text, html };
+}
+async function sendMeeting(kind, e, list, me, changes = []) {
+  const m = meetingMail(kind, e, me, changes), ics = Buffer.from(meetingIcs(e)).toString('base64');
   for (const to of list) {
-    const text = `Hello,\n\n${me.email} invited you to a meeting at Shekinah Haitian Seventh-day Adventist Church.\n\n${e.title}\nWhen: ${dayLongS(e.starts_on)}, ${e.start_time ? t12s(e.start_time) + (e.end_time ? ' to ' + t12s(e.end_time) : '') + ' (Central time)' : 'All day'}`
-      + (repeatText(e) ? '\nRepeats: ' + repeatText(e) + (e.repeat_until ? ' until ' + dayLongS(e.repeat_until) : '') : '') + (e.location ? '\nWhere: ' + e.location : '') + (e.details ? '\n\n' + e.details : '')
-      + (e.remind && e.start_time ? '\n\nYou will get a reminder email 30, 15, 5 and 1 minute before it starts.' : '') + '\n\nShekinah SDA Church, ' + INV_ADDRESS;
-    await mail({ to, subject: 'Meeting invitation: ' + e.title, tag: 'meeting-invite', text, reply_to: me.email });
+    await mail({ to, subject: m.subject, tag: kind === 'update' ? 'meeting-update' : 'meeting-invite', text: m.text, html: m.html, reply_to: me.email,
+      attachments: [{ filename: 'shekinah-meeting.ics', content: ics, content_type: 'text/calendar; charset=utf-8; method=PUBLISH' }] });
     await sleep(600);
   }
 }
+const sendInvites = (e, list, me) => sendMeeting('invite', e, list, me);
 const TK_COLS = "id, title, to_char(due_on, 'YYYY-MM-DD') AS due_on, assigned_to, event_id, done, notes, created_by, updated_by, updated_at";
 const calEdit = (me) => !!me.perms.calendar_edit; // Jimmy, Nov 11, 2026: the whole team can view; only people with "Edit the calendar" can add, edit or delete
 const dayOf = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !isNaN(Date.parse(String(v))) ? String(v) : null);
@@ -700,10 +768,16 @@ async function eventSave(me, b) {
   }
   const fresh = inv.filter((x) => x !== lower(me.email) && !(old ? inviteesOf(old).map(lower) : []).includes(x));
   if (fresh.length) await sendInvites(row, fresh, me);
+  // People already invited hear about changes to the date, time, place or details.
+  let updated = 0;
+  if (old) {
+    const changes = meetingChanges(old, row), keep = inv.filter((x) => x !== lower(me.email) && !fresh.includes(x));
+    if (changes.length && keep.length) { await sendMeeting('update', row, keep, me, changes); updated = keep.length; }
+  }
   // Any change can move the time, so the reminders not sent yet are planned again.
   if (old) await dropReminders([row.id]);
   if (row.remind) await planReminders(row.id);
-  return { event: row, invited: fresh.length };
+  return { event: row, invited: fresh.length, updated };
 }
 async function eventDelete(me, b) {
   need(calEdit(me), 403, 'You do not have access to this. Ask an admin if you need it.');

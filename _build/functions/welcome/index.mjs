@@ -316,10 +316,12 @@ async function relay(req) {
   // Meeting reminders: other people in the meeting go in bcc, and Resend sends it at scheduled_at (up to 30 days ahead).
   const bcc = Array.isArray(m.bcc) ? m.bcc.map((x) => String(x).trim()).filter((x) => EMAIL_RE.test(x) && x.toLowerCase() !== to.toLowerCase()).slice(0, 49) : [];
   const at = typeof m.scheduled_at === 'string' && !isNaN(Date.parse(m.scheduled_at)) ? new Date(m.scheduled_at).toISOString() : '';
+  // Small attachments only (a calendar file for meeting emails).
+  const attachments = Array.isArray(m.attachments) ? m.attachments.filter((x) => x && /^[\w .-]{1,80}$/.test(String(x.filename || '')) && typeof x.content === 'string' && x.content.length < 200000 && /^[A-Za-z0-9+/=]+$/.test(x.content)).slice(0, 3).map((x) => ({ filename: x.filename, content: x.content, ...(x.content_type ? { content_type: String(x.content_type).slice(0, 100) } : {}) })) : [];
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: m.noreply ? FROM_NOREPLY : FROM, to: [to], ...(m.noreply ? {} : { reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO }), subject, html, text, headers, ...(bcc.length ? { bcc } : {}), ...(at ? { scheduled_at: at } : {}), tags: [{ name: 'type', value: tag }] }),
+    body: JSON.stringify({ from: m.noreply ? FROM_NOREPLY : FROM, to: [to], ...(m.noreply ? {} : { reply_to: EMAIL_RE.test(String(m.reply_to || '')) ? m.reply_to : REPLY_TO }), subject, html, text, headers, ...(bcc.length ? { bcc } : {}), ...(at ? { scheduled_at: at } : {}), ...(attachments.length ? { attachments } : {}), tags: [{ name: 'type', value: tag }] }),
     signal: AbortSignal.timeout(15000),
   });
   const detail = (await r.text()).slice(0, 300);

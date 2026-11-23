@@ -338,6 +338,7 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   const M = r.j.event; ok(r.status === 200 && M.repeat === 'weekly' && M.invitees.length === 2 && M.remind === true && r.j.invited === 2, 'save a weekly meeting with invites', r.j);
   const inv = mails.filter((m) => m.tag === 'meeting-invite'), rem = mails.filter((m) => m.tag === 'meeting-reminder');
   ok(inv.length === 2 && inv.map((m) => m.to).sort().join() === 'a@x.org,b@x.org', 'invitations go to each person', inv.map((m) => m.to));
+  ok(inv[0].attachments && inv[0].attachments[0].filename === 'shekinah-meeting.ics' && /BEGIN:VEVENT/.test(Buffer.from(inv[0].attachments[0].content, 'base64').toString()) && /RRULE:FREQ=WEEKLY/.test(Buffer.from(inv[0].attachments[0].content, 'base64').toString()) && /You are invited/.test(inv[0].html), 'invitation has the calendar file and the branded page', inv[0].attachments);
   ok(rem.length === 4 && rem.every((m) => m.to === 'owner@x.org' && m.bcc.join() === 'a@x.org,b@x.org' && m.scheduled_at), 'four reminders scheduled for everyone', rem.map((m) => [m.to, m.bcc, m.subject]));
   const gaps = rem.map((m) => Math.round(Date.parse(m.scheduled_at) / 60e3)).sort((x, y) => x - y);
   ok(gaps.map((g) => g - gaps[0]).join() === '0,15,25,29', '30, 15, 5 and 1 minute before', gaps.map((g) => g - gaps[0]));
@@ -346,6 +347,12 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   mails.length = 0; cancels.length = 0;
   r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', repeat: 'weekly', invitees: ['a@x.org', 'b@x.org'], remind: true } } });
   ok(r.status === 200 && r.j.invited === 0 && cancels.length === 4 && mails.filter((m) => m.tag === 'meeting-reminder').length === 4, 'editing replans reminders and does not invite again', { c: cancels.length, m: mails.map((m) => m.tag) });
+  ok(!mails.some((m) => m.tag === 'meeting-update'), 'saving with no changes sends no update email', mails.map((m) => m.tag));
+  mails.length = 0;
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', location: 'Fellowship hall', repeat: 'weekly', invitees: ['a@x.org', 'b@x.org', 'c@x.org'], remind: true } } });
+  const up = mails.filter((m) => m.tag === 'meeting-update'), inv2 = mails.filter((m) => m.tag === 'meeting-invite');
+  ok(r.j.updated === 2 && up.map((m) => m.to).sort().join() === 'a@x.org,b@x.org' && inv2.length === 1 && inv2[0].to === 'c@x.org' && /Meeting updated/.test(up[0].subject) && /Fellowship hall/.test(up[0].text) && /What changed/.test(up[0].html) && up[0].attachments.length === 1, 'a change emails the people already invited, new people get the invitation', { u: up.map((m) => m.to), i: inv2.map((m) => m.to) });
+  r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting', location: 'Fellowship hall', repeat: 'weekly', invitees: ['a@x.org', 'b@x.org'], remind: true } } });
   r = await call('POST', '/calendar/event', { token: O, body: { event: { id: M.id, title: 'Board meeting', starts_on: day, start_time: time, category: 'Meeting' } } });
   ok(r.j.event.repeat === 'weekly' && r.j.event.invitees.length === 2 && r.j.event.remind === true, 'a move keeps repeat, invites and reminders', r.j.event);
   r = await call('POST', '/cron/reminders', {}); ok(r.status === 200 && r.j.scheduled === 0, 'daily run skips what is planned', r.j);
