@@ -440,8 +440,7 @@ body[data-t=team] #tkpis{display:none!important}
 .tm-row select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;width:100%;max-width:200px}
 .tm-sw{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:#1F2A44}.tm-sw input{width:20px;height:20px;accent-color:#1D5FE0}
 .tm-when{color:#33415C;font-weight:600}
-.pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.evinv{display:flex;flex-direction:column;gap:6px}.evinv>b{font-size:14px;color:var(--ink)}.evppl{display:flex;flex-wrap:wrap;gap:6px 14px}.evp{display:flex !important;flex-direction:row !important;align-items:center;gap:6px;font-size:14.5px;color:var(--ink)}.evp input{width:18px;height:18px;accent-color:#1D5FE0}
-.calkpis{margin-bottom:18px}#calkpi svg,.calsi svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pj-act .tm-cz{width:auto;padding:0 16px;font-weight:800;font-size:14px}.tm-rl b{display:block;font-weight:800;color:#0E1B3D}.tm-rl span{display:block;font-size:12.5px;color:#8A5A00;font-weight:700}.tm-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:13px;font-weight:800}.tm-st.on{background:#E3F6E8;color:#157A2F}.tm-st.inv{background:#EEF1F6;color:#5D6A80}.tm-st.sus{background:#FDE7EA;color:#B4232F}.tm-off .tm-p,.tm-off .tm-rl,.tm-off .tm-when{opacity:.55}.tm-mg{margin:14px 0 4px;padding:16px;border:1px solid #E6EBF3;border-radius:14px;background:#F8FAFD;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}.tm-sec{display:flex;flex-direction:column;gap:8px;min-width:0}.tm-sec>b{font-size:14px;color:#0E1B3D}.tm-wide{grid-column:1/-1}.tm-sec select{height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 10px;font-weight:700;background:#fff;max-width:240px}.tm-in{display:flex;gap:8px;flex-wrap:wrap}.tm-in input{flex:1;min-width:160px;height:42px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 12px;font:inherit}.tm-in button{height:42px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer}.calkpis{margin-bottom:18px}#calkpi svg,.calsi svg{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 #cal .calmain{padding:22px}
 #cal .calbar h2{font:900 26px Mulish,system-ui,sans-serif;color:#0E1B3D;letter-spacing:-.3px}
 #cal .cnav{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;padding:0;border:1.5px solid #D3DBE8;background:#fff;color:#0E1B3D}#cal .cnav:hover{background:#0B2A6B;border-color:#0B2A6B;color:#fff}
@@ -460,7 +459,29 @@ body[data-t=team] #tkpis{display:none!important}
 #cal .upi{border-radius:12px;padding:12px 8px;transition:background .15s}#cal .upi:hover{background:#F5F8FD}
 #cal .tktabs button.on{background:linear-gradient(135deg,#0B2A6B,#0A1F52);border-color:#0A1F52}
 @media (max-width:700px){#cal .calbar h2{font-size:20px}#cal .calhead{padding:8px 2px}#cal .calhead span{font-size:11px;letter-spacing:0}#cal .cday{border-radius:10px;padding:4px}}
-.evtop{display:flex;align-items:center;justify-content:space-between;gap:10px}.evtop h3{margin:0}.evx{border:1.5px solid #D3DBE8;background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;color:#33415C;cursor:pointer}.evx:hover{border-color:#C0283A;color:#C0283A}
+#calform:not(:empty),#tkform:not(:empty){position:fixed;inset:0;z-index:9500;background:rgba(10,20,45,.5);display:flex;justify-content:center;align-items:flex-start;padding:6vh 14px 20px;overflow:auto;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#cal .evbox{width:100%;max-width:720px;background:#fff;border:none;border-radius:20px;padding:0;margin:0;box-shadow:0 24px 60px rgba(10,20,45,.35);overflow:hidden;animation:evin .16s ease-out}
+@keyframes evin{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.evhd{display:flex;align-items:center;gap:12px;padding:16px 20px;background:linear-gradient(135deg,#0B2A6B,#0A1F52);color:#fff}.evhd h3{color:#fff;font:900 20px Mulish,system-ui,sans-serif;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.evhd small{display:block;color:#C9D6F2;font-weight:700;font-size:13.5px;margin-top:2px}
+.evhi{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;flex:none}.evhi svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.evx{width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:24px;line-height:1;cursor:pointer;flex:none}.evx:hover{background:rgba(255,255,255,.28)}
+.evbd{padding:16px 20px}.evbd p{margin:8px 0 0;color:#33415C}
+#cal .evbox .ef{margin-top:0;gap:12px}#cal .evbox .evef{grid-template-columns:repeat(4,minmax(0,1fr))}#cal .evbox .evef .s3{grid-column:span 3}
+#cal .evbox .ef label{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80;font-weight:800}
+#cal .evbox .ef input:not([type=checkbox]),#cal .evbox .ef select{height:42px;font-size:15px;border-radius:12px}
+.evsec{display:flex;align-items:flex-start;gap:12px;margin-top:14px}.evsec>b{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80;padding-top:9px;flex:none;width:52px}
+.evppl{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0}
+.evp{display:inline-flex;align-items:center;cursor:pointer;margin:0}.evp input{position:absolute;opacity:0;width:0;height:0}.evp span{display:inline-flex;align-items:center;gap:6px;border:1.5px solid #D3DBE8;border-radius:999px;padding:7px 13px;font-weight:800;font-size:14px;color:#33415C;background:#fff;transition:all .12s}
+.evp span:before{content:'+';font-weight:900;color:#8A94A6}.evp input:checked+span{background:linear-gradient(135deg,#2F74F0,#1D5FE0);border-color:#1D5FE0;color:#fff}.evp input:checked+span:before{content:'\2713';color:#fff}.evp input:focus-visible+span{outline:2px solid #9DBCF0}
+.evmail{flex:1 1 180px;min-width:150px;height:36px;border:1.5px dashed #C9D3E3;border-radius:999px;padding:0 14px;font:inherit;font-size:14px}.evmail:focus{border-style:solid;outline:none;border-color:#9DBCF0}
+.evsw{display:flex;gap:8px;margin-top:12px;padding-left:64px;flex-wrap:wrap}.evp.sw span:before{content:'';width:28px;height:16px;border-radius:999px;background:#D3DBE8;box-shadow:inset -12px 0 0 2px #fff;transition:all .15s}.evp.sw input:checked+span{background:#EEF4FF;color:#1D5FE0;border-color:#9DBCF0}.evp.sw input:checked+span:before{content:'';background:#1D5FE0;box-shadow:inset 12px 0 0 2px #fff}
+#cal .evp input:checked+span:not(.x){color:#fff}#cal .evp.sw input:checked+span{color:#1D5FE0}#cal .evbox .evef .evloc:has(+ .evrep.hide){grid-column:1/-1}
+.evmore{margin-top:12px;border-top:1px solid #EEF1F6;padding-top:10px}.evmore summary{cursor:pointer;font-weight:800;color:#1D5FE0;font-size:14px}.evmore .ef{margin-top:10px!important}
+#cal .mvrow{margin-top:12px;border-top:1px solid #EEF1F6;padding-top:10px}#cal .mvrow b{font-size:12.5px;text-transform:uppercase;letter-spacing:.4px;color:#5D6A80}#cal .mvrow .lbtn{border-radius:999px;padding:6px 12px;font-size:13px}
+.evft{display:flex;align-items:center;gap:10px;padding:14px 20px;border-top:1px solid #EEF1F6;background:#F8FAFD}.evft .pbtn,.evft .lbtn,.evft .dbtn{border-radius:12px;height:44px;padding:0 20px;font-weight:800}
+.evtags{display:flex;flex-wrap:wrap;gap:8px}.evtags .chip{display:inline-block;width:auto}.evtag{border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:800}.evtag.gold{background:#FFF1D6;color:#8A5A00}.evtag.blue{background:#E3EDFF;color:#1D5FE0}
+#cal .evbox .upi{padding:10px 6px}
+@media (max-width:640px){#calform:not(:empty),#tkform:not(:empty){padding:0;align-items:flex-end}#cal .evbox{border-radius:20px 20px 0 0;max-height:92vh;overflow:auto}#cal .evbox .evef{grid-template-columns:1fr 1fr}#cal .evbox .evef .s3{grid-column:1/-1}.evsec{flex-direction:column;gap:6px}.evsec>b{padding:0}.evsw{padding-left:0}.evft{position:sticky;bottom:0}.evmore .ef{grid-template-columns:1fr!important}}
 .bdsel{display:flex;gap:8px}.bdsel select{flex:1;min-width:0}
 .impdrop{display:flex;flex-direction:column;align-items:center;gap:4px;border:2px dashed #C9D3E3;border-radius:14px;padding:26px 16px;background:#F8FAFD;cursor:pointer;text-align:center}.impdrop.over{border-color:#1D5FE0;background:#EEF4FF}.impdrop input{display:none}.impdrop b{color:#1D5FE0;font-size:16px}.impdrop span{color:#5D6A80;font-size:14px}
 .imptbl{overflow-x:auto;border:1px solid #E6EBF3;border-radius:12px}.imptbl table{border-collapse:collapse;width:100%;min-width:900px;font-size:14px}.imptbl th{background:#F3F6FB;text-align:left;padding:8px;font-size:13px;color:#33415C;white-space:nowrap}.imptbl td{padding:4px 6px;border-top:1px solid #EEF1F6}.imptbl td input:not([type=checkbox]){width:100%;min-width:90px;height:34px;border:1px solid #D3DBE8;border-radius:8px;padding:0 8px;font:inherit}.imptbl td input[type=checkbox]{width:18px;height:18px;accent-color:#1F8A3E}
@@ -660,9 +681,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         <section id="cal" class="hide"><div class="pj-kpis calkpis" id="calkpi"></div><div class="calgrid">
           <div class="panel page calmain">
             <div class="calbar"><button class="sbtn cnav" data-c="prev" aria-label="Previous month"></button><h2 id="calttl"></h2><button class="sbtn cnav" data-c="next" aria-label="Next month"></button><button class="lbtn" data-c="today">Today</button><span style="flex:1"></span><div class="tktabs" id="calv" style="margin:0"><button data-cv="week">Week</button><button data-cv="month">Month</button><button data-cv="sat">Saturdays</button><button data-cv="year">Year</button></div><button class="pbtn hide" data-c="addev" id="caladd">+ Add event</button></div>
-            <p class="meta hide" id="calro" style="margin:-4px 0 12px">You can view the calendar. To add or change events and tasks, ask an admin to turn on "Edit the calendar" for you on the Team page.</p>
+            <p class="meta hide" id="calro" style="margin:-4px 0 12px">View only. Ask an admin for calendar editing.</p>
             <div id="calform"></div>
-            <p class="calhint hide" id="calhint">Tip: drag any event to another day to reschedule it. On a phone, press and hold the event for a moment, then drag. You can also open an event and use the Reschedule buttons.</p>
+            <p class="calhint hide" id="calhint">Tip: drag an event to another day to move it.</p>
             <div class="cal7 calhead" id="calhead"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
             <div class="cal7" id="caldays"></div>
           </div>
@@ -961,31 +982,33 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         '<div class="m">'+(e.is_public===false?'<b style="color:#8A6420">Team only</b> · ':'')+(isRep(e)?'<b style="color:#1D5FE0">&#8635; '+esc(REP[e.repeat])+'</b> · ':'')+esc(d.toLocaleDateString([], {weekday:'long'}))+(e.ends_on?' to '+esc(pday(e.ends_on).toLocaleDateString([], {month:'short',day:'numeric'})):'')+' · '+esc(evTime(e))+(e.location?' · '+esc(e.location):'')+'</div>'+
         '<span class="chip '+kc(e)+'" style="display:inline-block;width:auto;margin-top:6px;cursor:pointer">'+esc(e.category||'Other')+'</span></span></button>';}).join('')
       :'<p class="meta">No upcoming events yet.'+(CAL.can?' Click a day on the calendar or "Add event" to add one.':'')+'</p>';}
+  // One popup style for every calendar form (Jimmy, Nov 23, 2026: same look as the rest of the admin, little scrolling, little text).
+  function mHead(t,sub,close){return '<div class="evhd"><span class="evhi">'+pjI('cal')+'</span><div style="min-width:0;flex:1"><h3>'+t+'</h3>'+(sub?'<small>'+sub+'</small>':'')+'</div><button type="button" class="evx" '+(close||'data-c="close"')+' aria-label="Close">&times;</button></div>';}
   function evForm(e,day){e=e||{starts_on:day||ymd(new Date()),category:'Worship'};var ro=!CAL.can;
-    if(ro){$('calform').innerHTML='<div class="evbox evview"><span class="chip '+kc(e)+'" style="display:inline-block;width:auto">'+esc(e.category||'Other')+'</span><h3 style="margin-top:8px">'+esc(e.title)+'</h3>'+
-      (e.is_public===false?'<p><b style="color:#8A6420">Team only</b></p>':'')+'<p><b>'+esc(dayLong(e.starts_on))+(e.ends_on?' to '+esc(dayLong(e.ends_on)):'')+'</b> · '+esc(evTime(e))+'</p>'+(isRep(e)?'<p><b style="color:#1D5FE0">&#8635; '+esc(repTxt(e))+'</b></p>':'')+(e.location?'<p>'+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
-      ((e.invitees||[]).length?'<p><b>Invited:</b> '+esc((e.invitees||[]).map(nameOf).join(', '))+'</p>':'')+
-      '<div class="act"><button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
-    var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';};
-    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'"><div class="evtop"><h3>'+(e.id?'Edit event':'Add an event')+'</h3><button type="button" class="evx" data-c="close" aria-label="Cancel" title="Cancel">&times; Cancel</button></div><div class="ef evef">'+
-      '<label class="wide">Event name<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="For example: Youth Sabbath"></label>'+
-      '<label>Date<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'"></label>'+
-      '<label>End date (optional)<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label>'+
-      '<label>Starts at<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select></label>'+
-      '<label>Ends at<select name="end_time">'+timeOpts(e.end_time,'No end time')+'</select></label>'+
+    if(ro){$('calform').innerHTML='<div class="evbox evview">'+mHead(esc(e.title),esc(dayLong(e.starts_on))+' · '+esc(evTime(e)))+'<div class="evbd">'+
+      '<div class="evtags"><span class="chip '+kc(e)+'">'+esc(e.category||'Other')+'</span>'+(e.is_public===false?'<span class="evtag gold">Team only</span>':'')+(isRep(e)?'<span class="evtag blue">&#8635; '+esc(repTxt(e))+'</span>':'')+'</div>'+
+      (e.ends_on?'<p>Until '+esc(dayLong(e.ends_on))+'</p>':'')+(e.location?'<p><b>Where:</b> '+esc(e.location)+'</p>':'')+(e.details?'<p style="white-space:pre-wrap">'+esc(e.details)+'</p>':'')+
+      ((e.invitees||[]).length?'<p><b>Invited:</b> '+esc((e.invitees||[]).map(nameOf).join(', '))+'</p>':'')+'</div>'+
+      '<div class="evft"><button class="pbtn" data-c="close">Close</button></div></div>';return;}
+    var opt=function(v){return '<option'+(v===e.category?' selected':'')+'>'+esc(v)+'</option>';}, more=!!(e.details||e.ends_on);
+    $('calform').innerHTML='<div class="evbox" data-id="'+esc(e.id||'')+'">'+mHead(e.id?'Edit event':'New event',e.id?esc(dayLong(e.starts_on)):'')+'<div class="evbd"><div class="ef evef">'+
+      '<label class="s3">Name<input name="title" maxlength="200" value="'+esc(e.title||'')+'" placeholder="Youth Sabbath"></label>'+
       '<label>Type<select name="category">'+CAL.kinds.map(opt).join('')+'</select></label>'+
-      '<label class="loc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="For example: Fellowship hall"></label>'+
-      '<label class="wide">Details<textarea name="details" rows="3" maxlength="4000">'+esc(e.details||'')+'</textarea></label>'+
-      '<label>Repeats<select name="repeat">'+Object.keys(REP).map(function(k){return '<option value="'+k+'"'+((e.repeat||'none')===k?' selected':'')+'>'+REP[k]+'</option>';}).join('')+'</select></label>'+
-      '<label class="evrep'+(isRep(e)?'':' hide')+'">Repeat until (optional)<input type="date" name="repeat_until" value="'+esc(e.repeat_until||'')+'"></label>'+
-      '<div class="wide evinv"><b>Invite people</b><span class="meta">They get an email invitation with the date, time and place.</span><div class="evppl">'+
-        CAL.team.map(function(m){var on=(e.invitees||[]).indexOf(m)>=0;return '<label class="evp"><input type="checkbox" data-inv="'+esc(m)+'"'+(on?' checked':'')+'> '+esc(nameOf(m)==='You'?'You':nameOf(m))+'</label>';}).join('')+'</div>'+
-        '<label style="margin-top:8px">Other emails (separate with commas)<input name="inv_other" maxlength="2000" value="'+esc((e.invitees||[]).filter(function(m){return CAL.team.indexOf(m)<0;}).join(', '))+'" placeholder="name@example.com, other@example.com"></label></div>'+
-      '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="remind" style="width:20px;height:20px;flex:none;accent-color:#1D5FE0"'+(e.id?(e.remind?' checked':''):' checked')+'> Email reminders to everyone 30, 15, 5 and 1 minute before it starts (needs a start time).</label>'+
-      '<label class="wide" style="flex-direction:row;align-items:center;gap:10px;color:var(--ink);font-size:15px"><input type="checkbox" name="is_public" style="width:20px;height:20px;flex:none;accent-color:#1F8A3E"'+(e.is_public===false?'':' checked')+'> Show on the public website (shekinahsda.org/events). Uncheck for team only events like board meetings.</label></div>'+
-      (e.id?'<div class="mvrow"><b>Reschedule</b><button class="lbtn" data-mv="-1">1 day earlier</button><button class="lbtn" data-mv="1">1 day later</button><button class="lbtn" data-mv="-7">1 week earlier</button><button class="lbtn" data-mv="7">1 week later</button><button class="lbtn" data-mv="sat">Next Saturday</button></div>':'')+
-      '<div class="act"><button class="pbtn" data-c="saveev">'+(e.id?'Save changes':'Add event')+'</button><button class="lbtn" data-c="close">Cancel</button>'+(e.id?'<button class="dbtn" data-c="delev">Delete event</button>':'')+'<span class="saved" id="evmsg"></span></div></div>';
-    $('calform').scrollIntoView({behavior:'smooth',block:'nearest'});var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
+      '<label>Date<input type="date" name="starts_on" value="'+esc(e.starts_on||'')+'"></label>'+
+      '<label>Starts<select name="start_time">'+timeOpts(e.start_time,'All day')+'</select></label>'+
+      '<label>Ends<select name="end_time">'+timeOpts(e.end_time,'No end')+'</select></label>'+
+      '<label>Repeats<select name="repeat">'+Object.keys(REP).map(function(k){return '<option value="'+k+'"'+((e.repeat||'none')===k?' selected':'')+'>'+REP[k].replace('Does not repeat','Never')+'</option>';}).join('')+'</select></label>'+
+      '<label class="s3 evloc">Location<input name="location" maxlength="300" value="'+esc(e.location||'')+'" placeholder="Fellowship hall"></label>'+
+      '<label class="evrep'+(isRep(e)?'':' hide')+'">Until<input type="date" name="repeat_until" value="'+esc(e.repeat_until||'')+'"></label></div>'+
+      '<div class="evsec"><b>Invite</b><div class="evppl">'+CAL.team.map(function(m){var on=(e.invitees||[]).indexOf(m)>=0;return '<label class="evp"><input type="checkbox" data-inv="'+esc(m)+'"'+(on?' checked':'')+'><span>'+esc(nameOf(m))+'</span></label>';}).join('')+
+        '<input class="evmail" name="inv_other" maxlength="2000" value="'+esc((e.invitees||[]).filter(function(m){return CAL.team.indexOf(m)<0;}).join(', '))+'" placeholder="+ other emails"></div></div>'+
+      '<div class="evsw"><label class="evp sw"><input type="checkbox" name="remind"'+(e.id?(e.remind?' checked':''):' checked')+'><span title="Emails everyone 30, 15, 5 and 1 minute before it starts">Reminders</span></label>'+
+        '<label class="evp sw"><input type="checkbox" name="is_public"'+(e.is_public===false?'':' checked')+'><span title="Shows on shekinahsda.org/events">On website</span></label></div>'+
+      '<details class="evmore"'+(more?' open':'')+'><summary>Details and end date</summary><div class="ef" style="grid-template-columns:minmax(0,1fr) 200px">'+
+        '<label>Details<textarea name="details" rows="2" maxlength="4000">'+esc(e.details||'')+'</textarea></label><label>Ends on another day<input type="date" name="ends_on" value="'+esc(e.ends_on||'')+'"></label></div></details>'+
+      (e.id&&!isRep(e)?'<div class="mvrow"><b>Move</b><button class="lbtn" data-mv="-1">&minus;1 day</button><button class="lbtn" data-mv="1">+1 day</button><button class="lbtn" data-mv="-7">&minus;1 week</button><button class="lbtn" data-mv="7">+1 week</button><button class="lbtn" data-mv="sat">Next Saturday</button></div>':'')+
+      '</div><div class="evft">'+(e.id?'<button class="dbtn" data-c="delev">Delete</button>':'')+'<span class="saved" id="evmsg"></span><span style="flex:1"></span><button class="lbtn" data-c="close">Cancel</button><button class="pbtn" data-c="saveev">'+(e.id?'Save':'Add event')+'</button></div></div>';
+    var f=$('calform').querySelector('[name=title]');if(f&&!e.id)f.focus();}
   function saveEv(){var box=$('calform').querySelector('.evbox'), ev={id:box.getAttribute('data-id')};
     box.querySelectorAll('[name]').forEach(function(x){if(x.type==='radio'){if(x.checked)ev[x.name]=x.value;return;}ev[x.name]=x.type==='checkbox'?x.checked:x.value;});
     var inv=[];box.querySelectorAll('[data-inv]').forEach(function(c){if(c.checked)inv.push(c.getAttribute('data-inv'));});
@@ -1000,6 +1023,8 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
       CAL.events.sort(function(a,b){return (a.starts_on+(a.start_time||'')).localeCompare(b.starts_on+(b.start_time||''));});
       $('calform').innerHTML='';var d=pday(e.starts_on);calM=pday(e.starts_on);renderCal();toast((ev.id?'Event saved':'Event added')+(j.invited?'. Invitation sent to '+j.invited+(j.invited>1?' people':' person'):''));
     }).catch(function(err){$('evmsg').textContent='Not saved: '+err.message;});}
+  ['calform','tkform'].forEach(function(id){$(id).addEventListener('mousedown',function(e){if(e.target===$(id))$(id).innerHTML='';});});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'){if($('calform').innerHTML)$('calform').innerHTML='';else if($('tkform').innerHTML)$('tkform').innerHTML='';}});
   $('calform').addEventListener('change',function(e){if(e.target.name==='repeat'){var u=$('calform').querySelector('.evrep');if(u)u.classList.toggle('hide',e.target.value==='none');}});
   function delEv(){var id=$('calform').querySelector('.evbox').getAttribute('data-id'), e=evById(id);
     if(!confirm('Delete "'+(e?e.title:'this event')+'"? This cannot be undone.'))return;
@@ -1022,14 +1047,13 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
         (CAL.can?'<div class="x"><button data-tedit>Edit</button><button data-tdel>Delete</button></div>':'')+'</div>';}).join('')
       :'<p class="meta">'+(tkTab==='done'?'No finished tasks in the last 30 days.':tkTab==='mine'?'Nothing assigned to you.':'No open tasks.')+'</p>';}
   function tkForm(k){k=k||{};var up=CAL.events.filter(function(e){return evDays(e)[1]>=ymd(new Date())||String(e.id)===String(k.event_id);});
-    $('tkform').innerHTML='<div class="evbox" data-id="'+esc(k.id||'')+'"><h3>'+(k.id?'Edit task':'Add a task')+'</h3><div class="ef tkef">'+
-      '<label class="wide">Task<input name="title" maxlength="300" value="'+esc(k.title||'')+'" placeholder="For example: Print the programs"></label>'+
+    $('tkform').innerHTML='<div class="evbox" data-id="'+esc(k.id||'')+'">'+mHead(k.id?'Edit task':'New task','',('data-tcancel'))+'<div class="evbd"><div class="ef tkef">'+
+      '<label class="wide">Task<input name="title" maxlength="300" value="'+esc(k.title||'')+'" placeholder="Print the programs"></label>'+
       '<label>Due date<input type="date" name="due_on" value="'+esc(k.due_on||'')+'"></label>'+
-      '<label>Assign to<select name="assigned_to"><option value="">No one yet</option>'+CAL.team.map(function(m){return '<option value="'+esc(m)+'"'+(m===k.assigned_to?' selected':'')+'>'+esc(m)+'</option>';}).join('')+'</select></label>'+
-      '<label class="wide">For event (optional)<select name="event_id"><option value="">None</option>'+up.map(function(e){return '<option value="'+esc(e.id)+'"'+(String(e.id)===String(k.event_id)?' selected':'')+'>'+esc(pday(e.starts_on).toLocaleDateString([], {month:'short',day:'numeric'})+' · '+e.title)+'</option>';}).join('')+'</select></label>'+
-      '<label class="wide">Notes<textarea name="notes" rows="2" maxlength="2000">'+esc(k.notes||'')+'</textarea></label></div>'+
-      '<div class="act"><button class="pbtn" data-tsave>'+(k.id?'Save':'Add task')+'</button><button class="lbtn" data-tcancel>Cancel</button><span class="saved" id="tkmsg"></span></div>'+
-      (!k.id?'<p class="meta" style="margin-top:8px">The person you assign gets an email about it.</p>':'')+'</div>';
+      '<label>Assign to<select name="assigned_to"><option value="">No one yet</option>'+CAL.team.map(function(m){return '<option value="'+esc(m)+'"'+(m===k.assigned_to?' selected':'')+'>'+esc(nameOf(m))+'</option>';}).join('')+'</select></label>'+
+      '<label class="wide">For event<select name="event_id"><option value="">None</option>'+up.map(function(e){return '<option value="'+esc(e.id)+'"'+(String(e.id)===String(k.event_id)?' selected':'')+'>'+esc(pday(e.starts_on).toLocaleDateString([], {month:'short',day:'numeric'})+' · '+e.title)+'</option>';}).join('')+'</select></label>'+
+      '<label class="wide">Notes<textarea name="notes" rows="2" maxlength="2000">'+esc(k.notes||'')+'</textarea></label></div></div>'+
+      '<div class="evft"><span class="saved" id="tkmsg"></span><span style="flex:1"></span><button class="lbtn" data-tcancel>Cancel</button><button class="pbtn" data-tsave>'+(k.id?'Save':'Add task')+'</button></div></div>';
     var f=$('tkform').querySelector('[name=title]');if(f)f.focus();}
   function saveTk(){var box=$('tkform').querySelector('.evbox'), k={id:box.getAttribute('data-id')};
     box.querySelectorAll('[name]').forEach(function(x){k[x.name]=x.value;});$('tkmsg').textContent='Saving...';
@@ -1058,9 +1082,9 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     var yd=e.target.closest('[data-yday]');if(yd){var yk=yd.getAttribute('data-yday');if(yd.classList.contains('has')){var fake=document.createElement('button');fake.className='more';fake.setAttribute('data-day',yk);e={target:fake};}else{if(CAL.can)evForm(null,yk);return;}}
     var more=e.target.closest('.more'), dsm=e.target.closest('.cday');
     if(!more&&dsm&&window.innerWidth<=700&&dsm.querySelector('.chip'))more=dsm;
-    if(more){var k=more.getAttribute('data-day'), evs=CAL.events.filter(function(x){var r=evDays(x);return k>=r[0]&&k<=r[1];});
-      $('calform').innerHTML='<div class="evbox"><h3>'+esc(dayLong(k))+'</h3>'+evs.map(function(x){return '<button class="upi" data-ev="'+esc(x.id)+'"><span class="chip k-'+esc(x.category||'Other')+'" style="width:auto">'+esc(x.category||'Other')+'</span><span><span class="t">'+esc(x.title)+'</span><div class="m">'+esc(evTime(x))+'</div></span></button>';}).join('')+
-        '<div class="act">'+(CAL.can?'<button class="pbtn" data-c="addon" data-day="'+k+'">+ Add event this day</button>':'')+'<button class="lbtn" data-c="close">Close</button></div></div>';$('calform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
+    if(more){var k=more.getAttribute('data-day'), evs=(CAL.view||CAL.events).filter(function(x){var r=evDays(x);return k>=r[0]&&k<=r[1];});
+      $('calform').innerHTML='<div class="evbox">'+mHead(esc(dayLong(k)),evs.length+(evs.length===1?' event':' events'))+'<div class="evbd">'+evs.map(function(x){return '<button class="upi" data-ev="'+esc(x.id)+'"><span class="chip k-'+esc(x.category||'Other')+'" style="width:auto">'+esc(x.category||'Other')+'</span><span><span class="t">'+esc(x.title)+'</span><div class="m">'+esc(evTime(x))+'</div></span></button>';}).join('')+
+        '</div><div class="evft"><span style="flex:1"></span><button class="lbtn" data-c="close">Close</button>'+(CAL.can?'<button class="pbtn" data-c="addon" data-day="'+k+'">+ Add event</button>':'')+'</div></div>';return;}
     var day=e.target.closest('.cday');
     if(day&&CAL.can){evForm(null,day.getAttribute('data-day'));return;}
     var tt=e.target.closest('[data-tt]');if(tt){tkTab=tt.getAttribute('data-tt');renderTasks();return;}
@@ -1068,7 +1092,7 @@ body[data-t=mem] #tkpis{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))
     if(e.target.closest('[data-tsave]')){saveTk();return;}
     if(e.target.closest('[data-tcancel]')){$('tkform').innerHTML='';return;}
     var row=e.target.closest('[data-tk]');if(!row)return;var id=row.getAttribute('data-tk'), tk=CAL.tasks.filter(function(x){return String(x.id)===id;})[0];
-    if(e.target.closest('[data-tedit]')){tkForm(tk);$('tkform').scrollIntoView({behavior:'smooth',block:'nearest'});return;}
+    if(e.target.closest('[data-tedit]')){tkForm(tk);return;}
     if(e.target.closest('[data-tdel]')){if(!confirm('Delete the task "'+tk.title+'"?'))return;
       api('/calendar/task/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){CAL.tasks=CAL.tasks.filter(function(x){return String(x.id)!==id;});renderTasks();toast('Task deleted');}).catch(function(err){alert('Could not delete: '+err.message);});}
   });
