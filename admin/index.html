@@ -245,6 +245,9 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .al-row label{display:flex;gap:6px;align-items:center;font:600 14px Mulish,system-ui,sans-serif;color:#13254F}.al-row input[type=text],.al-row input[type=number]{width:90px;padding:6px 8px;border:1px solid #CBD5E4;border-radius:6px;font:14px Mulish,system-ui,sans-serif}
 .al-pill{display:inline-block;padding:3px 10px;border-radius:999px;font:700 12px Mulish,system-ui,sans-serif}.al-on{background:#DDF3E2;color:#1D7438}.al-off{background:#EEF1F6;color:#5D6A80}.al-warn{background:#FDE7D2;color:#C25E0C}
 .al-tbl{width:100%;border-collapse:collapse;font:13px Mulish,system-ui,sans-serif}.al-tbl td,.al-tbl th{padding:6px 8px;border-bottom:1px solid #EEF1F6;text-align:left}.al-tbl th{color:#5D6A80;font-weight:700}
+.al-conn{display:flex;flex-direction:column;gap:10px;margin:12px 0;padding:14px;border:1px solid #E3E8F0;border-radius:12px;background:#FAFBFD}
+.al-mode{display:inline-flex;border:1px solid #CBD5E4;border-radius:999px;padding:3px;align-self:flex-start;background:#fff}.al-mode button{border:0;background:none;padding:7px 18px;border-radius:999px;font:700 13px Mulish,system-ui,sans-serif;color:#5D6A80;cursor:pointer}.al-mode button.on{background:#153673;color:#fff}
+.al-key{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end}.al-key .al-f{flex:1 1 280px}.al-key input{width:100%}
 .pj-empty{padding:40px 16px;text-align:center;color:#5D6A80;font-weight:600}
 .pj-foot{margin:-6px 0 0;text-align:right}
 .pj-modal{position:fixed;inset:0;background:rgba(10,20,45,.45);z-index:9500;display:flex;align-items:center;justify-content:center;padding:16px}.pj-modal.hide{display:none}
@@ -2365,7 +2368,12 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function alMD(v){var m=/^(\d\d)-(\d\d)$/.exec(v||'');if(!m)return v||'';return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[1]-1]+' '+(+m[2]);}
   function autoHtml(){var j=CARDST,st=j.settings,k=j.key;
     var when={birthday:'A week before their birthday',visitor:'New visitors, within 30 days','we-miss-you':'Inactive members, once a year',christmas:'Everyone, '+alMD(st.christmas_on),'new-year':'Everyone, '+alMD(st.new_year_on),'supporter-thank-you':'Donors, once a year'};
-    var note=k==='live'?'<div class="al-note ok">Live Lob key. Real cards are printed and mailed.</div>':k==='test'?'<div class="al-note test">Test Lob key. Nothing is printed or mailed.</div>':'<div class="al-note">Lob is not connected yet. Add LOB_API_KEY to the api function in Neon.</div>';
+    var ks=j.keys||{},md=st.mode||'test';
+    var note=k==='live'?'<div class="al-note ok">Live mode. Real cards are printed and mailed.</div>':k==='test'?'<div class="al-note test">Test mode. Nothing is printed or mailed.</div>':'<div class="al-note">Add your Lob '+(md==='live'?'live':'test')+' key below to connect Lob.</div>';
+    var keyRow=function(m,label,hint){return '<div class="al-key"><label class="al-f">'+label+'<input type="password" id="alk_'+m+'" autocomplete="off" spellcheck="false" placeholder="'+(ks[m]?'Saved, ends in '+esc(ks[m]):hint)+'"></label><button type="button" class="al-b" data-key="'+m+'">'+(ks[m]?'Replace':'Save key')+'</button>'+(ks[m]?'<button type="button" class="al-b" data-keyrm="'+m+'">Remove</button>':'')+'</div>';};
+    note+='<div class="al-conn"><div class="al-mode" role="group" aria-label="Lob mode"><button type="button" data-mode="test" class="'+(md==='test'?'on':'')+'">Test</button><button type="button" data-mode="live" class="'+(md==='live'?'on':'')+'">Live</button></div>'+
+      keyRow('test','Lob test secret key','Paste the key that starts with test_')+keyRow('live','Lob live secret key','Paste the key that starts with live_')+
+      '<p class="al-sub">Find both in Lob under Settings, API Keys, Secret API Keys. Keys are stored on our server and never shown again.</p></div>';
     var rows=j.recent.length?'<table class="al-tbl"><tr><th>When</th><th>Who</th><th>Card</th><th>Result</th></tr>'+j.recent.map(function(r){return '<tr><td>'+esc(r.at)+'</td><td>'+esc(((r.first_name||'')+' '+(r.last_name||'')).trim()||'Removed member')+'</td><td>'+esc((j.cards[r.card]||{}).name||r.card)+'</td><td>'+(r.status==='sent'?'Sent'+(r.mode==='test'?' (test)':''):'Not sent: '+esc(r.detail||r.status))+'</td></tr>';}).join('')+'</table>':'<div class="al-empty">No cards mailed yet</div>';
     return '<div class="al-hd"><div class="ic">'+alI('mail')+'</div><div class="tx"><h3>Automatic mailing</h3><p>Cards go out each morning from the Members list.</p></div>'+
       '<span class="al-pill '+(st.on?'al-on':'al-off')+'"><i></i>'+(st.on?'On':'Off')+'</span><button type="button" id="alturn" class="al-go'+(st.on?' off':'')+'">'+(st.on?'Turn off':'Turn on')+'</button></div>'+note+
@@ -2379,7 +2387,11 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function saveAuto(extra){var st={cards:{},christmas_on:$('alxm').value.trim(),new_year_on:$('alny').value.trim(),daily_cap:Number($('alcap').value)};
     document.querySelectorAll('[data-cc]').forEach(function(x){st.cards[x.getAttribute('data-cc')]=x.checked;});Object.assign(st,extra||{});
     api('/admin/cards/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({settings:st})}).then(function(){toast('Saved');loadAuto();}).catch(function(e){toast(e.message);});}
+  function saveKey(m,v){api('/admin/cards/key',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:m,key:v})}).then(function(){toast(v?'Key saved':'Key removed');loadAuto();}).catch(function(e){toast(e.message);});}
   $('alauto').addEventListener('click',function(e){var t=e.target;if(!CARDST)return;
+    var kb=t.closest('[data-key]');if(kb){var m=kb.getAttribute('data-key'),v=$('alk_'+m).value.trim();if(!v){toast('Paste the key first');return;}saveKey(m,v);return;}
+    var kr=t.closest('[data-keyrm]');if(kr){var m2=kr.getAttribute('data-keyrm');if(window.confirm('Remove the saved '+m2+' key?'))saveKey(m2,'');return;}
+    var mb=t.closest('[data-mode]');if(mb){var nm=mb.getAttribute('data-mode');if(nm===(CARDST.settings.mode||'test'))return;if(nm==='live'&&!window.confirm('Switch to Live? When mailing is on, real cards are printed and mailed, and Lob charges for each one.'))return;saveAuto({mode:nm});return;}
     if(t.id==='alsave')saveAuto();
     if(t.id==='alturn'){var on=!CARDST.settings.on;if(on&&!window.confirm(CARDST.key==='live'?'Turn on? Real cards will be mailed every morning, and Lob charges for each one.':'Turn on? With a test key nothing is mailed, so you can check it safely.'))return;saveAuto({on:on});}
     if(t.id==='alprev'){$('alprevout').innerHTML='<p class="al-sub">Checking...</p>';api('/admin/cards/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(j){

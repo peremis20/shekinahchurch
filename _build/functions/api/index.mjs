@@ -1184,7 +1184,7 @@ const ROUTES = {
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
-  'POST /admin/cards/save': cardsSave, 'POST /admin/cards/preview': cardsPreview,
+  'POST /admin/cards/save': cardsSave, 'POST /admin/cards/key': cardsKey, 'POST /admin/cards/preview': cardsPreview,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
@@ -1206,7 +1206,7 @@ export const CARDS = {
   'new-year': { name: 'New Year', hello: 'B&ograve;n Ane' },
   'supporter-thank-you': { name: 'Supporter Thank You', hello: 'M&egrave;si anpil' },
 };
-const CARD_DEFAULT = { on: false, cards: Object.fromEntries(Object.keys(CARDS).map((k) => [k, true])), christmas_on: '12-08', new_year_on: '12-27', daily_cap: 50 };
+const CARD_DEFAULT = { on: false, mode: 'test', cards: Object.fromEntries(Object.keys(CARDS).map((k) => [k, true])), christmas_on: '12-08', new_year_on: '12-27', daily_cap: 50 };
 const CHURCH_FROM = { name: 'Shekinah Haitian SDA Church', address_line1: '205 E Carver St', address_city: 'Alvarado', address_state: 'TX', address_zip: '76009' };
 const hx = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const MMDD = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
@@ -1217,6 +1217,14 @@ export function cardHtml(card, side, first) {
   return top + "#n{position:absolute;left:.5in;top:2.62in;width:3.9in;font-family:'Lora',Georgia,serif;font-size:.19in;color:#fff;white-space:nowrap;overflow:hidden}</style>"
     + '<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet"></head><body><img id="bg" src="' + CARD_IMG + card + '/back.jpg"><div id="n">Dear ' + (first ? hx(first) : 'Friend') + ',</div></body></html>';
 }
+// Keys are pasted by a team manager in Asset Library and kept in automation_status (never sent back to the browser).
+async function lobKeys() {
+  const r = await rows("SELECT key, value FROM automation_status WHERE key IN ('lob_key_test', 'lob_key_live')");
+  const k = Object.fromEntries(r.map((x) => [x.key, x.value]));
+  const env = process.env.LOB_API_KEY || '';
+  return { test: k.lob_key_test || (env.startsWith('test_') ? env : ''), live: k.lob_key_live || (env.startsWith('live_') ? env : '') };
+}
+async function lobKey(st) { const k = await lobKeys(); return st.mode === 'live' ? k.live : k.test; }
 async function cardSettings() {
   const r = await one("SELECT value FROM automation_status WHERE key = 'lob_cards'");
   let v = {}; try { v = r ? JSON.parse(r.value) : {}; } catch (e) { v = {}; }
@@ -1244,8 +1252,7 @@ export async function cardsDue(st, today) {
   const seen = new Set(done.map((d) => d.member_id + '|' + d.card + '|' + d.period));
   return out.filter((x) => !seen.has(x.m.id + '|' + x.card + '|' + x.period));
 }
-async function lobSend(x, claim) {
-  const key = process.env.LOB_API_KEY || '';
+async function lobSend(x, claim, key) {
   const m = x.m;
   const r = await fetch(LOB_URL, {
     method: 'POST',
@@ -1265,7 +1272,8 @@ async function lobSend(x, claim) {
 export async function cardsRun() {
   const st = await cardSettings();
   if (!st.on) return { on: false };
-  if (!process.env.LOB_API_KEY) return { on: true, error: 'LOB_API_KEY is not set' };
+  const key = await lobKey(st);
+  if (!key) return { on: true, error: 'No Lob ' + st.mode + ' key yet' };
   const today = (await one("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') AS d")).d;
   const due = (await cardsDue(st, today)).slice(0, Math.max(0, Math.min(Number(st.daily_cap) || 0, 500)));
   let sent = 0, failed = 0;
@@ -1273,24 +1281,26 @@ export async function cardsRun() {
     // Claim first so a second run can never mail the same card twice.
     const claim = await wrote("INSERT INTO lob_mail (member_id, card, period) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id", [x.m.id, x.card, x.period], 'id');
     if (!claim) continue;
-    const r = await lobSend(x, claim.id);
-    await q('UPDATE lob_mail SET status = $2, lob_id = $3, detail = $4, mode = $5 WHERE id = $1', [claim.id, r.ok ? 'sent' : 'failed', r.id || null, r.detail || '', (process.env.LOB_API_KEY || '').startsWith('live_') ? 'live' : 'test']);
+    const r = await lobSend(x, claim.id, key);
+    await q('UPDATE lob_mail SET status = $2, lob_id = $3, detail = $4, mode = $5 WHERE id = $1', [claim.id, r.ok ? 'sent' : 'failed', r.id || null, r.detail || '', key.startsWith('live_') ? 'live' : 'test']);
     r.ok ? sent++ : failed++;
   }
   return { on: true, due: due.length, sent, failed };
 }
 async function cardsGet(me) {
   allow(me, 'team_manage');
-  const key = process.env.LOB_API_KEY || '';
+  const k = await lobKeys(), st = await cardSettings();
   const recent = await rows(`SELECT l.id, l.card, l.period, l.status, l.mode, l.detail, l.lob_id, to_char(l.created_at, 'YYYY-MM-DD HH24:MI') AS at, m.first_name, m.last_name
     FROM lob_mail l LEFT JOIN members m ON m.id = l.member_id ORDER BY l.id DESC LIMIT 60`);
-  return { settings: await cardSettings(), key: key ? (key.startsWith('live_') ? 'live' : 'test') : '', recent, cards: CARDS };
+  const tail = (v) => (v ? v.slice(-4) : '');
+  return { settings: st, keys: { test: tail(k.test), live: tail(k.live) }, key: (st.mode === 'live' ? k.live : k.test) ? st.mode : '', recent, cards: CARDS };
 }
 async function cardsSave(me, b) {
   allow(me, 'team_manage');
   const old = await cardSettings(), n = (b && b.settings) || {};
   const v = {
     on: typeof n.on === 'boolean' ? n.on : old.on,
+    mode: n.mode === 'live' || n.mode === 'test' ? n.mode : old.mode,
     cards: Object.fromEntries(Object.keys(CARDS).map((k) => [k, n.cards && typeof n.cards[k] === 'boolean' ? n.cards[k] : old.cards[k]])),
     christmas_on: MMDD.test(n.christmas_on || '') ? n.christmas_on : old.christmas_on,
     new_year_on: MMDD.test(n.new_year_on || '') ? n.new_year_on : old.new_year_on,
@@ -1298,6 +1308,14 @@ async function cardsSave(me, b) {
   };
   await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ('lob_cards', $1, now()) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = now()`, [JSON.stringify({ ...v, updated_by: me.email })]);
   return { settings: v };
+}
+async function cardsKey(me, b) {
+  allow(me, 'team_manage');
+  const mode = b && b.mode === 'live' ? 'live' : 'test', key = str(b && b.key, 200);
+  if (!key) { await q('DELETE FROM automation_status WHERE key = $1', ['lob_key_' + mode]); return { ok: true, removed: mode }; }
+  need(new RegExp('^' + mode + '_[A-Za-z0-9]{10,}$').test(key), 400, mode === 'live' ? 'That is not a Lob live secret key. It starts with live_' : 'That is not a Lob test secret key. It starts with test_');
+  await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ($1, $2, now()) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = now()`, ['lob_key_' + mode, key]);
+  return { ok: true, mode, last4: key.slice(-4) };
 }
 async function cardsPreview(me) {
   allow(me, 'team_manage');
