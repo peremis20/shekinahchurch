@@ -185,3 +185,28 @@
   tick(); new MutationObserver(tick).observe(document.documentElement, { childList: true, subtree: true });
   var n = 0, iv = setInterval(function () { tick(); if (++n > 20) clearInterval(iv); }, 500);
 })();
+
+/* Phone fields format themselves as (817) 555-1234 (Jimmy, Nov 27, 2026). Numbers starting with + or longer than a US number are left as typed. */
+(function () {
+  function fmt(v) {
+    if (!v || /^\s*\+/.test(v)) return v;
+    var d = v.replace(/\D/g, '');
+    if (d.length === 11 && d[0] === '1') d = d.slice(1);
+    if (d.length > 10) return v;
+    if (!d) return '';
+    if (d.length < 4) return '(' + d;
+    if (d.length < 7) return '(' + d.slice(0, 3) + ') ' + d.slice(3);
+    return '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+  }
+  document.addEventListener('input', function (e) {
+    var el = e.target;
+    if (!el || el.type !== 'tel') return;
+    if (e.inputType && e.inputType.indexOf('delete') === 0) return;
+    var n = fmt(el.value); if (n !== el.value) el.value = n;
+  });
+  document.addEventListener('focusout', function (e) {
+    var el = e.target;
+    if (!el || el.type !== 'tel') return;
+    var n = fmt(el.value); if (n.replace(/\D/g, '').length === 10 && n !== el.value) el.value = n;
+  });
+})();
