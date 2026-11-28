@@ -4,7 +4,7 @@
 // Sign in: POST /admin/login/start, POST /admin/login/verify, GET /admin/check, POST /admin/logout
 // Admin:   /admin/list, update, assign, reply, create, edit, delete, subscribers, broadcast,
 //          content, content/save, admins, admins/add, admins/update, admins/remove
-// Members: GET /members, POST /members/save, POST /members/delete
+// Members: GET /members, POST /members/list (paged), POST /members/find, POST /members/save, POST /members/delete
 // Every permission is checked HERE, on the server. The admin screen only hides what a person cannot use.
 // Mail goes through the "welcome" function (POST /send), which holds the Resend key. The two functions
 // share a secret kept in automation_status (key mail_relay_key). DATABASE_URL is injected by Neon.
@@ -531,6 +531,54 @@ async function members(me) {
   allow(me, 'members_view');
   return { members: await rows(`SELECT ${M_COLS} FROM members ORDER BY lower(last_name), lower(first_name), id`), statuses: M_STATUSES, role: me.role,
     can_edit: me.perms.members_edit, can_delete: me.perms.members_delete };
+}
+// Paged list for large member lists (Jimmy, Nov 27, 2026: plan for 100,000 contacts). Search, filters, counts and birthdays run in the database.
+const M_TODAY = "(now() AT TIME ZONE 'America/Chicago')::date";
+const M_NEXTB = `(CASE WHEN birthday IS NULL THEN NULL ELSE (SELECT CASE WHEN x < ${M_TODAY} THEN (birthday + make_interval(years => extract(year FROM ${M_TODAY})::int + 1 - extract(year FROM birthday)::int))::date ELSE x END
+  FROM (SELECT (birthday + make_interval(years => extract(year FROM ${M_TODAY})::int - extract(year FROM birthday)::int))::date AS x) y) - ${M_TODAY} END)`;
+const M_FILTERS = {
+  mem: "status IN ('Member', 'Baptized member')", bap: "(status = 'Baptized member' OR baptism_date IS NOT NULL)", reg: "status = 'Regular attender'",
+  vis: "status = 'Visitor'", ina: "status IN ('Inactive', 'Transferred out')", bday: `${M_NEXTB} <= 30`,
+};
+const M_SORTS = { name: 'lower(last_name), lower(first_name), id', recent: 'updated_at DESC NULLS LAST, id DESC', status: 'status, lower(last_name), lower(first_name), id', birthday: `${M_NEXTB} NULLS LAST, lower(last_name), id` };
+async function memberList(me, b) {
+  allow(me, 'members_view');
+  const per = [25, 50, 100, 200, 1000].includes(+b.per) ? +b.per : 100;
+  const page = Math.max(1, Math.min(100000, parseInt(b.page, 10) || 1));
+  const text = str(b.q, 120).trim().toLowerCase();
+  const digits = text.replace(/\D/g, '');
+  const where = [], params = [];
+  if (text) {
+    params.push('%' + text.replace(/[\\%_]/g, (c) => '\\' + c) + '%');
+    const n = params.length;
+    let w = `(lower(first_name || ' ' || last_name) LIKE $${n} OR lower(last_name || ' ' || first_name) LIKE $${n} OR lower(email) LIKE $${n} OR lower(household) LIKE $${n} OR lower(city) LIKE $${n}`;
+    if (digits.length >= 3) { params.push('%' + digits + '%'); w += ` OR regexp_replace(phone, '\\D', '', 'g') LIKE $${params.length}`; }
+    where.push(w + ')');
+  }
+  if (M_STATUSES.includes(b.status)) { params.push(b.status); where.push(`status = $${params.length}`); }
+  if (M_FILTERS[b.filter]) where.push(M_FILTERS[b.filter]);
+  const W = where.length ? 'WHERE ' + where.join(' AND ') : '';
+  const order = M_SORTS[b.sort] || M_SORTS.name;
+  const [list, tot, counts, bdays] = await Promise.all([
+    rows(`SELECT ${M_COLS}, ${M_NEXTB} AS bday_in FROM members ${W} ORDER BY ${order} LIMIT ${per} OFFSET ${(page - 1) * per}`, params),
+    one(`SELECT count(*)::int AS n FROM members ${W}`, params),
+    one(`SELECT count(*)::int AS "all", ${Object.entries(M_FILTERS).map(([k, f]) => `count(*) FILTER (WHERE ${f})::int AS ${k}`).join(', ')},
+      coalesce((SELECT json_object_agg(status, n) FROM (SELECT status, count(*)::int AS n FROM members GROUP BY status) s), '{}'::json) AS by_status FROM members`),
+    b.page > 1 ? [] : rows(`SELECT id, first_name, last_name, phone, to_char(birthday, 'YYYY-MM-DD') AS birthday, ${M_NEXTB} AS bday_in FROM members WHERE ${M_FILTERS.bday} ORDER BY ${M_NEXTB}, lower(last_name) LIMIT 40`),
+  ]);
+  return { members: list, total: tot ? tot.n : 0, page, per, counts, birthdays: bdays, statuses: M_STATUSES, role: me.role,
+    can_edit: me.perms.members_edit, can_delete: me.perms.members_delete };
+}
+// Import check: which people on a list are already in Members (same email, phone or full name).
+async function memberFind(me, b) {
+  allow(me, 'members_view');
+  const list = (Array.isArray(b.people) ? b.people.slice(0, 1000) : []).map((p, i) => ({ i, e: str(p && p.email, 200).trim().toLowerCase(),
+    p: str(p && p.phone, 60).replace(/\D/g, '').slice(-10), n: (str(p && p.first_name, 120) + ' ' + str(p && p.last_name, 120)).trim().toLowerCase() }));
+  if (!list.length) return { found: [] };
+  const r = await rows(`SELECT y.i, (SELECT first_name || ' ' || last_name FROM members m WHERE (y.e <> '' AND lower(m.email) = y.e)
+      OR (length(y.p) >= 7 AND right(regexp_replace(m.phone, '\\D', '', 'g'), 10) = y.p) OR (length(y.n) > 2 AND lower(trim(m.first_name || ' ' || m.last_name)) = y.n) LIMIT 1) AS name
+    FROM jsonb_to_recordset($1::jsonb) AS y(i int, e text, p text, n text)`, [JSON.stringify(list)]);
+  return { found: r.filter((x) => x.name).map((x) => ({ i: x.i, name: x.name })) };
 }
 async function memberSave(me, b) {
   allow(me, 'members_edit');
@@ -1101,7 +1149,7 @@ const ROUTES = {
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
-  'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
+  'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
