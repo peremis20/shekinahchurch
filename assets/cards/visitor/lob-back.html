@@ -1,0 +1,18 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0}
+  body{width:9.25in;height:6.25in;margin:0;position:relative}
+  #bg{position:absolute;left:0;top:0;width:9.25in;height:6.25in}
+  #name{position:absolute;left:.5in;top:2.62in;width:3.9in;font-family:'Lora',serif;font-size:.19in;color:#ffffff;white-space:nowrap;overflow:hidden}
+  #note{position:absolute;left:.5in;top:4.98in;width:3.85in;max-height:.85in;overflow:hidden;padding-left:.14in;border-left:.03in solid #F5C24A;font-family:'Lora',serif;font-style:italic;font-size:.15in;line-height:1.45;color:#ffffff}
+</style>
+</head>
+<body>
+  <img id="bg" src="https://shekinahsda.org/assets/cards/visitor/back.jpg">
+  <div id="name">Dear {{first_name}},</div>
+  {{#if personal_note}}<div id="note">{{personal_note}}</div>{{/if}}
+</body>
+</html>

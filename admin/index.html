@@ -218,6 +218,14 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .pj-pr b{display:block;font-weight:800;margin-bottom:6px}.pj-pr .pj-track{height:12px;width:120px;max-width:100%}
 .pj-act{display:flex;gap:10px}.pj-act button{width:40px;height:40px;border-radius:10px;background:#fff;display:grid;place-items:center;cursor:pointer}.pj-act svg{width:20px;height:20px}
 .pj-act .e{border:1.5px solid #1D5FE0;color:#1D5FE0}.pj-act .x{border:1.5px solid #E5484D;color:#E5484D}
+.al-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:18px;font-family:Mulish,system-ui,sans-serif}
+.al-card{background:#fff;border:1px solid #E3E8F0;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.al-card h3{margin:0;font-size:18px;color:#13254F}.al-card .al-sub{margin:2px 0 0;color:#5D6A80;font-size:14px;line-height:1.45}
+.al-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}.al-sides a{display:block;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(19,37,79,.15)}.al-sides img{display:block;width:100%;height:auto}
+.al-sides figcaption{font-size:12px;color:#5D6A80;text-align:center;margin-top:4px;font-weight:700}.al-sides figure{margin:0}
+.al-meta{font-size:13px;color:#33415C}.al-meta b{color:#13254F}
+.al-btns{display:flex;flex-wrap:wrap;gap:8px}.al-btns button,.al-btns a{font:600 13px Mulish,system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:1px solid #CBD5E4;background:#F5F8FC;color:#13254F;cursor:pointer;text-decoration:none}
+.al-btns button:hover,.al-btns a:hover{background:#E8EEF8}
 .pj-empty{padding:40px 16px;text-align:center;color:#5D6A80;font-weight:600}
 .pj-foot{margin:-6px 0 0;text-align:right}
 .pj-modal{position:fixed;inset:0;background:rgba(10,20,45,.45);z-index:9500;display:flex;align-items:center;justify-content:center;padding:16px}.pj-modal.hide{display:none}
@@ -1036,6 +1044,11 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
           </div>
         </div></section>
 
+        <section id="assets" class="hide"><div class="al">
+          <p class="pj-note">Each card lives here once. Lob reads the images straight from our website, so when a design changes here, every Lob campaign that uses it changes too. Copy a link or open a template to set up a campaign in Lob.</p>
+          <div class="al-grid" id="algrid"></div>
+        </div></section>
+
         <section id="reports" class="hide"><div class="pj pjx"><div class="wrap" id="rep"></div></div></section>
 
         <aside id="rail">
@@ -1097,6 +1110,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
     pin:'<path d="M12 21s-6.5-6-6.5-11a6.5 6.5 0 0 1 13 0c0 5-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
     caret:'<path d="m6 9 6 6 6-6"/>',
+    image:'<rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.8"/><path d="m4 17 5-4.5 4 3.5 3-2.5 4.5 3.5"/>',
     menu:'<path d="M4 7h16M4 12h16M4 17h16"/>',
     next:'<path d="m9 6 6 6-6 6"/>',prev:'<path d="m15 6-6 6 6 6"/>',
     plusc:'<circle cx="12" cy="12" r="9" fill="#2FA855" stroke="none"/><path d="M12 8v8M8 12h8" stroke="#fff" stroke-width="2.2"/>',
@@ -1132,10 +1146,11 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     {k:'mem',grp:'ppl',label:'Members',icon:'group',title:'Members',sub:'Church family records, birthdays and households.',need:'members_view'},
     {k:'proj',grp:'mng',label:'Projects',icon:'clip',title:'Church Projects',sub:'Add projects and their cost. The total updates as you add.'},
     {k:'team',grp:'ppl',label:'Team',icon:'team',title:'Team',sub:'Who can sign in and what they can do.',need:'team_manage'},
+    {k:'assets',grp:'mng',label:'Asset Library',icon:'image',title:'Asset Library',sub:'Mail card designs for our Lob campaigns. One place, always up to date.'},
     {k:'reports',grp:'mng',label:'Reports',icon:'chart',title:'Reports',sub:'How the website is serving people, by the numbers.',need:'messages_manage'},
     {k:'site',grp:'mng',label:'Settings',icon:'gear',title:'Settings',sub:'Edit website content: announcement, sermons, ministries and posts.',need:'site_edit'}
   ];
-  var SECTIONS_ALL=['app','team','news','mem','site','reports','cal','proj'];
+  var SECTIONS_ALL=['app','team','news','mem','site','reports','cal','proj','assets'];
   function navItem(k){return NAV.filter(function(n){return n.k===k;})[0];}
   var NAVG={com:'Communications',ppl:'People',mng:'Manage'}, navShut={};
   try{navShut=JSON.parse(localStorage.getItem('shk_navgrp')||'{}')||{};}catch(x){}
@@ -1163,7 +1178,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     $('bt').textContent=n.title;$('bs').textContent=n.sub;
     var sec='app';
     if(k==='newsletter'&&can('email_list')&&!forceApp)sec='news';
-    else if(k==='mem'||k==='team'||k==='site'||k==='reports'||k==='cal'||k==='proj')sec=k;
+    else if(k==='mem'||k==='team'||k==='site'||k==='reports'||k==='cal'||k==='proj'||k==='assets')sec=k;
     if(sec==='app'){kind=({prayer:'prayer',contact:'contact',visit:'visit',newsletter:'newsletter'})[k]||'all';if(k==='dash'||k==='messages'){}page=1;openId=null;}
     SECTIONS_ALL.forEach(function(x){$(x).classList.toggle('hide',x!==sec);});
     var T=sec==='news'?'newsletter':(sec==='mem'||sec==='team')?sec:(sec==='app'&&kind!=='all'?kind:'');if(sec==='mem'){memF=null;memK='';}
@@ -1184,6 +1199,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     if(sec==='reports')reports();
     if(sec==='cal')loadCal();
     if(sec==='proj')loadProj();
+    if(sec==='assets')loadAssets();
     renderStats();
     window.scrollTo(0,0);
   }
@@ -2312,6 +2328,33 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function usd(n){return '$'+Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});}
   function pjMine(p){return PJ.manage||String(p.created_by||'').toLowerCase()===String(PJ.me||'').toLowerCase();}
   function pjPost(path,o){return mapi(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}
+  // ---------- asset library ----------
+  var CARDS=[
+    {k:'birthday',n:'Birthday',w:'Members on their birthday',lob:'Shekinah Birthday Cards'},
+    {k:'visitor',n:'Visitor Welcome',w:'First time visitors, to say thank you for coming',lob:'Shekinah Visitor Welcome'},
+    {k:'we-miss-you',n:'We Miss You',w:'Members who have not come in a while',lob:'Shekinah We Miss You'},
+    {k:'christmas',n:'Christmas',w:'The whole church family in December',lob:'Shekinah Christmas Greeting'},
+    {k:'new-year',n:'New Year',w:'The whole church family in January',lob:'Shekinah New Year Greeting'},
+    {k:'supporter-thank-you',n:'Supporter Thank You',w:'Faithful givers who do not attend often',lob:'Shekinah Supporter Thank You'}
+  ];
+  function cardUrl(k,f){return location.origin+'/assets/cards/'+k+'/'+f;}
+  function loadAssets(){
+    $('algrid').innerHTML=CARDS.map(function(c){var b='/assets/cards/'+c.k+'/';
+      return '<article class="al-card"><div><h3>'+esc(c.n)+'</h3><p class="al-sub">For: '+esc(c.w)+'</p></div>'+
+      '<div class="al-sides"><figure><a href="'+b+'front.jpg" target="_blank" rel="noopener"><img loading="lazy" src="'+b+'preview-front.jpg" alt="'+esc(c.n)+' card front"></a><figcaption>Front</figcaption></figure>'+
+      '<figure><a href="'+b+'back.jpg" target="_blank" rel="noopener"><img loading="lazy" src="'+b+'preview-back.jpg" alt="'+esc(c.n)+' card back"></a><figcaption>Back</figcaption></figure></div>'+
+      '<div class="al-meta">Lob campaign: <b>'+esc(c.lob)+'</b> &middot; 6x9 postcard &middot; fields: first_name, personal_note</div>'+
+      '<div class="al-btns"><button type="button" data-cp="'+c.k+'|front.jpg">Copy front image link</button><button type="button" data-cp="'+c.k+'|back.jpg">Copy back image link</button>'+
+      '<button type="button" data-code="'+b+'lob-front.html">Copy Lob front code</button><button type="button" data-code="'+b+'lob-back.html">Copy Lob back code</button></div></article>';}).join('')+
+      '<article class="al-card"><div><h3>Mailing list template</h3><p class="al-sub">Fill one row per person, then upload it to the Lob campaign. Leave personal_note blank if you have none.</p></div><div class="al-btns"><a href="/assets/cards/mailing-list-template.csv" download>Download mailing list template</a></div></article>';
+  }
+  $('algrid').addEventListener('click',function(e){var b=e.target.closest('[data-cp]');if(!b)return;var a=b.getAttribute('data-cp').split('|'),u=cardUrl(a[0],a[1]);
+    (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Link copied');},function(){window.prompt('Copy this link',u);});});
+  $('algrid').addEventListener('click',function(e){var b=e.target.closest('[data-code]');if(!b)return;
+    fetch(b.getAttribute('data-code'),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text();}).then(function(t){
+      return (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){toast('Template code copied. Paste it in Lob under Creative, HTML Templates.');});
+    }).catch(function(){window.open(b.getAttribute('data-code'),'_blank');toast('Could not copy. The template opened in a new tab.');});});
+
   function loadProj(){$('pjlist').innerHTML='<div class="pj-empty">Loading...</div>';
     mapi('/projects').then(function(j){PJ.list=j.projects||[];PJ.depts=j.depts||[];PJ.statuses=j.statuses||PJ.statuses;PJ.budget=+j.budget||0;PJ.me=j.me||'';PJ.manage=!!j.can_manage;renderProj();})
     .catch(function(e){if(e.status===401)logout('Your session ended. Please sign in again.');else $('pjlist').innerHTML='<div class="pj-empty">Could not load projects. '+esc(e.message)+'</div>';});}
