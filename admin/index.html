@@ -224,9 +224,24 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .al-sides{display:grid;grid-template-columns:1fr 1fr;gap:10px}.al-sides a{display:block;border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(19,37,79,.15)}.al-sides img{display:block;width:100%;height:auto}
 .al-sides figcaption{font-size:12px;color:#5D6A80;text-align:center;margin-top:4px;font-weight:700}.al-sides figure{margin:0}
 .al-meta{font-size:13px;color:#33415C}.al-meta b{color:#13254F}
-.al-btns{display:flex;flex-wrap:wrap;gap:8px}.al-btns button,.al-btns a{font:600 13px Mulish,system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:1px solid #CBD5E4;background:#F5F8FC;color:#13254F;cursor:pointer;text-decoration:none}
-.al-btns button:hover,.al-btns a:hover{background:#E8EEF8}
-.al-auto{margin-bottom:18px}.al-auto h3{margin:0}.al-row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.al-btns{display:flex;flex-wrap:wrap;gap:8px}.al-btns button,.al-btns a{font:700 13px Mulish,system-ui,sans-serif;padding:9px 14px;border-radius:10px;border:1.5px solid #D5DDEA;background:#fff;color:#0B2152;cursor:pointer;text-decoration:none;transition:background .15s,border-color .15s}
+.al-btns button:hover,.al-btns a:hover{background:#F1F5FD;border-color:#9DBCF0}
+.al-auto{margin-bottom:22px;padding:22px 24px!important;gap:18px!important;box-shadow:0 8px 24px rgba(19,37,79,.06)}.al-auto h3{margin:0}
+.al-hd{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.al-hd .ic{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,#2C6BE8,#1A4FC4);display:grid;place-items:center;flex:none;box-shadow:0 4px 12px rgba(29,95,224,.28)}
+.al-hd .ic svg,.al-tiles .tgi svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.al-tiles .tgi svg{stroke:#6B7A93;width:20px;height:20px}
+.al-hd .tx{flex:1;min-width:200px}.al-hd .tx h3{font-size:20px;color:#0B2152;font-weight:800}.al-hd .tx p{margin:2px 0 0;color:#5D6A80;font-size:14px}
+.al-pill{display:inline-flex;align-items:center;gap:6px}.al-pill i{width:8px;height:8px;border-radius:50%;background:currentColor}
+.al-go{height:44px;padding:0 18px;border-radius:12px;font:800 14.5px Mulish,system-ui,sans-serif;cursor:pointer;border:0;color:#fff;background:linear-gradient(180deg,#22A052,#178441);box-shadow:0 4px 12px rgba(27,138,74,.28);transition:transform .12s}.al-go:hover{transform:translateY(-1px)}.al-go.off{background:#fff;color:#B42318;border:1.5px solid #F3C4BF;box-shadow:none}
+.al-note{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;background:#FFF6EC;border:1px solid #FBD9B5;color:#8A4B0B;font:600 13.5px Mulish,system-ui,sans-serif}.al-note.ok{background:#F1FAF3;border-color:#BFE3CA;color:#1D6A34}.al-note.test{background:#EEF4FF;border-color:#C8D9F8;color:#1F4FA8}
+.al-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:12px}
+.al-set{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;padding-top:16px;border-top:1px solid #EEF1F6}
+.al-f{display:flex;flex-direction:column;gap:6px;font:700 12px Mulish,system-ui,sans-serif;color:#5D6A80;text-transform:uppercase;letter-spacing:.04em}
+.al-f input{width:120px;height:44px;padding:0 12px;border:1.5px solid #D5DDEA;border-radius:12px;font:700 15px Mulish,system-ui,sans-serif;color:#0B2152;background:#fff;text-transform:none;letter-spacing:0}
+.al-set .sp{flex:1}
+.al-b{height:44px;padding:0 18px;border-radius:12px;font:800 14.5px Mulish,system-ui,sans-serif;cursor:pointer;border:1.5px solid #CBD6E8;background:#fff;color:#0B2152;transition:transform .12s,box-shadow .15s}.al-b:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(16,24,40,.1)}.al-b.pri{background:linear-gradient(180deg,#2C6BE8,#1A4FC4);border:0;color:#fff;box-shadow:0 4px 12px rgba(29,95,224,.25)}
+.al-recent h4{margin:0 0 8px;font:800 13px Mulish,system-ui,sans-serif;color:#5D6A80;text-transform:uppercase;letter-spacing:.05em}.al-empty{padding:16px;border:1.5px dashed #D5DDEA;border-radius:12px;color:#6B7A93;font:600 14px Mulish,system-ui,sans-serif;text-align:center}
+.al-intro{font-size:15px}
+.al-card .al-meta{display:flex;flex-wrap:wrap;gap:6px}.al-chip{display:inline-block;padding:4px 10px;border-radius:999px;background:#EEF2F8;color:#33415C;font:700 12px Mulish,system-ui,sans-serif}.al-row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
 .al-row label{display:flex;gap:6px;align-items:center;font:600 14px Mulish,system-ui,sans-serif;color:#13254F}.al-row input[type=text],.al-row input[type=number]{width:90px;padding:6px 8px;border:1px solid #CBD5E4;border-radius:6px;font:14px Mulish,system-ui,sans-serif}
 .al-pill{display:inline-block;padding:3px 10px;border-radius:999px;font:700 12px Mulish,system-ui,sans-serif}.al-on{background:#DDF3E2;color:#1D7438}.al-off{background:#EEF1F6;color:#5D6A80}.al-warn{background:#FDE7D2;color:#C25E0C}
 .al-tbl{width:100%;border-collapse:collapse;font:13px Mulish,system-ui,sans-serif}.al-tbl td,.al-tbl th{padding:6px 8px;border-bottom:1px solid #EEF1F6;text-align:left}.al-tbl th{color:#5D6A80;font-weight:700}
@@ -1049,7 +1064,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
         </div></section>
 
         <section id="assets" class="hide"><div class="al">
-          <p class="pj-note">Each card lives here once. Lob reads the images straight from our website, so when a design changes here, every Lob campaign that uses it changes too. Copy a link or open a template to set up a campaign in Lob.</p>
+          <p class="pj-note al-intro">Change a design here and every Lob campaign that uses it updates too.</p>
           <div class="al-card al-auto hide" id="alauto"></div>
           <div class="al-grid" id="algrid"></div>
         </div></section>
@@ -2344,16 +2359,19 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   ];
   function cardUrl(k,f){return location.origin+'/assets/cards/'+k+'/'+f;}
   var CARDST=null;
+  var ALI={mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3.5 6.5 8.5 6.5 8.5-6.5"/>',birthday:'<rect x="3.5" y="9" width="17" height="11" rx="2"/><path d="M3.5 13h17M12 9v11M12 9c-2-4-6-3-5-1s5 1 5 1Zm0 0c2-4 6-3 5-1s-5 1-5 1Z"/>',visitor:'<path d="M3 11 12 4l9 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/>','we-miss-you':'<path d="M12 20s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.4 4.3 4.3 0 0 1 19.5 10c0 5.4-7.5 10-7.5 10Z"/>',christmas:'<path d="m12 3 3 5h-2l3 5h-2.5l3.5 5h-10l3.5-5H8l3-5H9l3-5Z"/><path d="M12 18v3"/>','new-year':'<path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="2.5"/>','supporter-thank-you':'<path d="M12 21s-6-3.6-6-8.5a3.5 3.5 0 0 1 6-2.4 3.5 3.5 0 0 1 6 2.4C18 17.4 12 21 12 21Z"/><path d="M12 3v3M7 4.5l1.2 2.2M17 4.5l-1.2 2.2"/>'};
+  function alI(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+(ALI[n]||ALI.mail)+'</svg>';}
+  function alMD(v){var m=/^(\d\d)-(\d\d)$/.exec(v||'');if(!m)return v||'';return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[1]-1]+' '+(+m[2]);}
   function autoHtml(){var j=CARDST,st=j.settings,k=j.key;
-    var keyMsg=k==='live'?'<span class="al-pill al-on">Live key: real cards are mailed</span>':k==='test'?'<span class="al-pill al-warn">Test key: nothing is printed or mailed</span>':'<span class="al-pill al-warn">No Lob key yet</span>';
-    var rows=j.recent.length?'<table class="al-tbl"><tr><th>When</th><th>Who</th><th>Card</th><th>Result</th></tr>'+j.recent.map(function(r){return '<tr><td>'+esc(r.at)+'</td><td>'+esc(((r.first_name||'')+' '+(r.last_name||'')).trim()||'Removed member')+'</td><td>'+esc((j.cards[r.card]||{}).name||r.card)+'</td><td>'+(r.status==='sent'?'Sent'+(r.mode==='test'?' (test)':''):'Not sent: '+esc(r.detail||r.status))+'</td></tr>';}).join('')+'</table>':'<p class="al-sub">No cards mailed yet.</p>';
-    return '<div class="al-row" style="justify-content:space-between"><h3>Mail cards automatically</h3><span class="al-pill '+(st.on?'al-on':'al-off')+'">'+(st.on?'On':'Off')+'</span></div>'+
-      '<p class="al-sub">Every morning the website checks the Members list and mails each card through Lob: Birthday a week before, Visitor Welcome to visitors added in the last 30 days, We Miss You once a year to Inactive members, Supporter Thank You once a year to Donors, and Christmas and New Year to everyone on the dates below. Members need a full address. Nobody gets the same card twice.</p>'+
-      '<div class="al-row">'+keyMsg+(k?'':'<span class="al-sub">Ask whoever manages Neon to add LOB_API_KEY to the api function.</span>')+'</div>'+
-      '<div class="al-row">'+Object.keys(j.cards).map(function(c){return '<label><input type="checkbox" data-cc="'+c+'"'+(st.cards[c]?' checked':'')+'>'+esc(j.cards[c].name)+'</label>';}).join('')+'</div>'+
-      '<div class="al-row"><label>Christmas mail date (MM-DD)<input type="text" id="alxm" value="'+esc(st.christmas_on)+'" maxlength="5"></label><label>New Year mail date<input type="text" id="alny" value="'+esc(st.new_year_on)+'" maxlength="5"></label><label>Most cards per day<input type="number" id="alcap" min="0" max="500" value="'+esc(st.daily_cap)+'"></label></div>'+
-      '<div class="al-btns"><button type="button" id="alsave">Save</button><button type="button" id="alturn">'+(st.on?'Turn off':'Turn on')+'</button><button type="button" id="alprev">Who gets a card today?</button></div><div id="alprevout"></div>'+
-      '<h3 style="font-size:15px;margin-top:6px">Recent cards</h3>'+rows;}
+    var when={birthday:'A week before their birthday',visitor:'New visitors, within 30 days','we-miss-you':'Inactive members, once a year',christmas:'Everyone, '+alMD(st.christmas_on),'new-year':'Everyone, '+alMD(st.new_year_on),'supporter-thank-you':'Donors, once a year'};
+    var note=k==='live'?'<div class="al-note ok">Live Lob key. Real cards are printed and mailed.</div>':k==='test'?'<div class="al-note test">Test Lob key. Nothing is printed or mailed.</div>':'<div class="al-note">Lob is not connected yet. Add LOB_API_KEY to the api function in Neon.</div>';
+    var rows=j.recent.length?'<table class="al-tbl"><tr><th>When</th><th>Who</th><th>Card</th><th>Result</th></tr>'+j.recent.map(function(r){return '<tr><td>'+esc(r.at)+'</td><td>'+esc(((r.first_name||'')+' '+(r.last_name||'')).trim()||'Removed member')+'</td><td>'+esc((j.cards[r.card]||{}).name||r.card)+'</td><td>'+(r.status==='sent'?'Sent'+(r.mode==='test'?' (test)':''):'Not sent: '+esc(r.detail||r.status))+'</td></tr>';}).join('')+'</table>':'<div class="al-empty">No cards mailed yet</div>';
+    return '<div class="al-hd"><div class="ic">'+alI('mail')+'</div><div class="tx"><h3>Automatic mailing</h3><p>Cards go out each morning from the Members list.</p></div>'+
+      '<span class="al-pill '+(st.on?'al-on':'al-off')+'"><i></i>'+(st.on?'On':'Off')+'</span><button type="button" id="alturn" class="al-go'+(st.on?' off':'')+'">'+(st.on?'Turn off':'Turn on')+'</button></div>'+note+
+      '<div class="al-tiles">'+Object.keys(j.cards).map(function(c){return '<label class="tgl"><input type="checkbox" data-cc="'+c+'"'+(st.cards[c]?' checked':'')+'><span class="tgi">'+alI(c)+'</span><span class="tgt"><b>'+esc(j.cards[c].name)+'</b><small>'+esc(when[c]||'')+'</small></span><span class="sw"></span></label>';}).join('')+'</div>'+
+      '<div class="al-set"><label class="al-f">Christmas date<input type="text" id="alxm" value="'+esc(st.christmas_on)+'" maxlength="5" placeholder="MM-DD"></label><label class="al-f">New Year date<input type="text" id="alny" value="'+esc(st.new_year_on)+'" maxlength="5" placeholder="MM-DD"></label><label class="al-f">Daily limit<input type="number" id="alcap" min="0" max="500" value="'+esc(st.daily_cap)+'"></label><span class="sp"></span>'+
+      '<button type="button" id="alprev" class="al-b">Who gets a card today?</button><button type="button" id="alsave" class="al-b pri">Save changes</button></div><div id="alprevout"></div>'+
+      '<div class="al-recent"><h4>Recent cards</h4>'+rows+'</div>';}
   function loadAuto(){var b=$('alauto');if(!can('team_manage')){b.classList.add('hide');return;}
     b.classList.remove('hide');b.innerHTML='<p class="al-sub">Loading...</p>';
     api('/admin/cards').then(function(j){CARDST=j;b.innerHTML=autoHtml();}).catch(function(e){b.innerHTML='<p class="al-sub">'+esc(e.message)+'</p>';});}
@@ -2369,13 +2387,13 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function loadAssets(){
     loadAuto();
     $('algrid').innerHTML=CARDS.map(function(c){var b='/assets/cards/'+c.k+'/';
-      return '<article class="al-card"><div><h3>'+esc(c.n)+'</h3><p class="al-sub">For: '+esc(c.w)+'</p></div>'+
+      return '<article class="al-card"><div><h3>'+esc(c.n)+'</h3><p class="al-sub">'+esc(c.w)+'</p></div>'+
       '<div class="al-sides"><figure><a href="'+b+'front.jpg" target="_blank" rel="noopener"><img loading="lazy" src="'+b+'preview-front.jpg" alt="'+esc(c.n)+' card front"></a><figcaption>Front</figcaption></figure>'+
       '<figure><a href="'+b+'back.jpg" target="_blank" rel="noopener"><img loading="lazy" src="'+b+'preview-back.jpg" alt="'+esc(c.n)+' card back"></a><figcaption>Back</figcaption></figure></div>'+
-      '<div class="al-meta">Lob campaign: <b>'+esc(c.lob)+'</b> &middot; 6x9 postcard &middot; fields: first_name, personal_note</div>'+
-      '<div class="al-btns"><button type="button" data-cp="'+c.k+'|front.jpg">Copy front image link</button><button type="button" data-cp="'+c.k+'|back.jpg">Copy back image link</button>'+
-      '<button type="button" data-code="'+b+'lob-front.html">Copy Lob front code</button><button type="button" data-code="'+b+'lob-back.html">Copy Lob back code</button></div></article>';}).join('')+
-      '<article class="al-card"><div><h3>Mailing list template</h3><p class="al-sub">Fill one row per person, then upload it to the Lob campaign. Leave personal_note blank if you have none.</p></div><div class="al-btns"><a href="/assets/cards/mailing-list-template.csv" download>Download mailing list template</a></div></article>';
+      '<div class="al-meta" title="Fields: first_name, personal_note"><span class="al-chip">'+esc(c.lob)+'</span><span class="al-chip">6x9 postcard</span></div>'+
+      '<div class="al-btns"><button type="button" data-cp="'+c.k+'|front.jpg">Front link</button><button type="button" data-cp="'+c.k+'|back.jpg">Back link</button>'+
+      '<button type="button" data-code="'+b+'lob-front.html">Front code</button><button type="button" data-code="'+b+'lob-back.html">Back code</button></div></article>';}).join('')+
+      '<article class="al-card"><div><h3>Mailing list template</h3><p class="al-sub">One row per person, for manual Lob uploads.</p></div><div class="al-btns"><a href="/assets/cards/mailing-list-template.csv" download>Download template</a></div></article>';
   }
   $('algrid').addEventListener('click',function(e){var b=e.target.closest('[data-cp]');if(!b)return;var a=b.getAttribute('data-cp').split('|'),u=cardUrl(a[0],a[1]);
     (navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Link copied');},function(){window.prompt('Copy this link',u);});});
