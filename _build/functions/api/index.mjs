@@ -647,6 +647,39 @@ async function memberImport(me, b) {
   const added = r[0] ? (typeof r[0].j === 'string' ? JSON.parse(r[0].j) : r[0].j) : [];
   return { added: added.length, members: added };
 }
+// ---- possible households (Jimmy, Nov 27, 2026): people at the same address, or with the same last name and no household yet.
+// The team answers Yes (one household name for all) or No (remembered, asked again only if the group changes).
+const M_ADDR = "lower(regexp_replace(address || ' ' || zip, '[^a-zA-Z0-9]', '', 'g'))";
+async function householdSuggest(me) {
+  allow(me, 'members_view');
+  const groups = await rows(`WITH a AS (
+      SELECT 'addr' AS kind, ${M_ADDR} AS k, array_agg(id ORDER BY id) AS ids FROM members WHERE trim(address) <> ''
+      GROUP BY ${M_ADDR} HAVING count(*) > 1 AND NOT (min(household) = max(household) AND min(household) <> '')),
+    n AS (
+      SELECT 'name' AS kind, lower(trim(last_name)) AS k, array_agg(id ORDER BY id) AS ids FROM members m
+      WHERE trim(last_name) <> '' AND household = '' AND length(trim(last_name)) > 2
+        AND NOT EXISTS (SELECT 1 FROM a WHERE m.id = ANY(a.ids))
+      GROUP BY lower(trim(last_name)) HAVING count(*) > 1 AND count(DISTINCT CASE WHEN trim(address) = '' THEN NULL ELSE ${M_ADDR} END) <= 1),
+    g AS (SELECT kind, k, ids, kind || ':' || array_to_string(ids, ',') AS key FROM a UNION ALL SELECT kind, k, ids, kind || ':' || array_to_string(ids, ',') FROM n)
+    SELECT g.kind, g.key, (SELECT json_agg(json_build_object('id', m.id, 'name', trim(m.title || ' ' || m.first_name || ' ' || m.last_name), 'last_name', m.last_name,
+        'address', trim(concat_ws(', ', nullif(m.address, ''), nullif(m.city, ''), nullif(m.state, ''), nullif(m.zip, ''))), 'household', m.household, 'status', m.status) ORDER BY m.id)
+      FROM members m WHERE m.id = ANY(g.ids)) AS people
+    FROM g WHERE NOT EXISTS (SELECT 1 FROM member_household_skips s WHERE s.key = g.key)
+    ORDER BY (g.kind = 'addr') DESC, cardinality(g.ids) DESC LIMIT 25`);
+  return { groups };
+}
+async function householdAnswer(me, b) {
+  allow(me, 'members_edit');
+  const key = str(b.key, 4000);
+  need(/^(addr|name):[0-9,]+$/.test(key), 400, 'That suggestion is not valid any more. Please refresh.');
+  if (b.same !== true) { await q('INSERT INTO member_household_skips (key, by) VALUES ($1, $2) ON CONFLICT (key) DO NOTHING', [key, me.email]); return { ok: true }; }
+  const name = str(b.household, 120).trim();
+  need(name, 400, 'Please give the household a name.');
+  const ids = (Array.isArray(b.ids) ? b.ids : []).map(idOf).filter(Boolean).slice(0, 50);
+  need(ids.length > 1, 400, 'Pick at least two people.');
+  const r = await q('UPDATE members SET household = $1, updated_by = $2, updated_at = now() WHERE id = ANY($3::int[]) RETURNING id', [name, me.email, '{' + ids.join(',') + '}']);
+  return { ok: true, updated: r.length };
+}
 async function memberDelete(me, b) {
   allow(me, 'members_delete');
   await q('DELETE FROM members WHERE id = $1', [idOf(b.id)]);
@@ -1150,7 +1183,7 @@ const ROUTES = {
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
-  'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
+  'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {

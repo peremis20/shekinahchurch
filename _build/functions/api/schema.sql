@@ -57,3 +57,4 @@ CREATE INDEX IF NOT EXISTS members_name_idx ON members (lower(last_name), lower(
 ALTER TABLE members DROP CONSTRAINT IF EXISTS members_status_check;
 ALTER TABLE members ADD CONSTRAINT members_status_check CHECK (status IN ('Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'));
 ALTER TABLE members ADD COLUMN IF NOT EXISTS title text NOT NULL DEFAULT '';
+CREATE TABLE IF NOT EXISTS member_household_skips (key text PRIMARY KEY, by text, at timestamptz NOT NULL DEFAULT now());

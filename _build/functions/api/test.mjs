@@ -195,6 +195,17 @@ r = await call('POST', '/members/save', { token: O, body: { member: { id: r.j.me
 { const s = await call('POST', '/members/save', { token: O, body: { member: { title: 'Pastor', first_name: 'Tee', last_name: 'Tle', status: 'Visitor', birthday: '2000-03-04' } } }); ok(s.status === 200 && s.j.member.title === 'Pastor' && s.j.member.status === 'Visitor' && s.j.member.birthday === '2000-03-04', 'member title saves', s.j);
   const u = await call('POST', '/members/save', { token: O, body: { member: { ...s.j.member, title: 'Elder' } } }); ok(u.j.member.title === 'Elder' && u.j.member.first_name === 'Tee', 'member title updates', u.j); await db.query("DELETE FROM members WHERE last_name = 'Tle'"); }
 r = await call('POST', '/members/delete', { token: O, body: { id: r.j.member.id } }); ok(r.status === 200, 'admin deletes a member');
+// Possible households (Nov 27, 2026)
+{ await db.query("INSERT INTO members (first_name, last_name, address, zip, household) VALUES ('Ann', 'Hhx', '12 Oak St.', '76009', ''), ('Bob', 'Hhy', '12 oak st', '76009', ''), ('Cy', 'Qqz', '', '', ''), ('Di', 'Qqz', '', '', ''), ('Ed', 'Rrw', '9 Elm', '1', 'Rrw home'), ('Fe', 'Rrw', '9 Elm', '1', 'Rrw home'), ('Gi', 'Ssv', '1 A St', '1', ''), ('Ho', 'Ssv', '2 B St', '2', '')");
+  let s = await call('POST', '/members/households', { token: O, body: {} });
+  const ga = (s.j.groups || []).find((g) => g.people.some((p) => p.name === 'Ann Hhx')), gn = (s.j.groups || []).find((g) => g.people.some((p) => p.name === 'Cy Qqz'));
+  ok(s.status === 200 && ga && ga.kind === 'addr' && ga.people.length === 2 && gn && gn.kind === 'name' && !(s.j.groups || []).some((g) => g.people.some((p) => p.name === 'Ed Rrw')) && !(s.j.groups || []).some((g) => g.people.some((p) => p.name === 'Gi Ssv')), 'possible households found', s.j);
+  let y = await call('POST', '/members/household', { token: O, body: { key: ga.key, same: true, household: 'Oak family', ids: ga.people.map((p) => p.id) } });
+  ok(y.status === 200 && y.j.updated === 2, 'yes sets one household', y.j);
+  let n = await call('POST', '/members/household', { token: O, body: { key: gn.key, same: false } }); ok(n.status === 200, 'no is remembered', n.j);
+  s = await call('POST', '/members/households', { token: O, body: {} }); ok(!(s.j.groups || []).some((g) => g.key === ga.key || g.key === gn.key), 'answered groups are not asked again', s.j.groups);
+  n = await P('vol', '/members/household', { key: gn.key, same: false }); ok(n.status === 403, 'volunteers cannot answer');
+  await db.query("DELETE FROM members WHERE last_name IN ('Hhx', 'Hhy', 'Qqz', 'Rrw', 'Ssv')"); }
 // Paged member list (Nov 27, 2026)
 { const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })); const mm = String(today.getMonth() + 1).padStart(2, '0'), dd = String(today.getDate()).padStart(2, '0');
   await db.query(`INSERT INTO members (first_name, last_name, email, phone, household, city, status, birthday) SELECT 'P' || g, 'Zed' || lpad(g::text, 3, '0'), 'p' || g || '@x.org', '(817) 555-' || lpad(g::text, 4, '0'), CASE WHEN g < 4 THEN 'Zed family' ELSE '' END, 'Keene', CASE WHEN g % 5 = 0 THEN 'Visitor' ELSE 'Member' END, CASE WHEN g = 7 THEN '2000-${mm}-${dd}'::date ELSE NULL END FROM generate_series(1, 120) g`);
