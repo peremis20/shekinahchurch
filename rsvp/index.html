@@ -32,6 +32,16 @@ input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 4px rgba(19,4
 .done a{display:inline-block;margin-top:14px;color:var(--navy);font-weight:800}
 .msg{text-align:center;color:var(--navy);font-weight:700}
 .hide{display:none!important}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:#F4EFE3;border-radius:40px;padding:5px;margin-bottom:22px}
+.seg button{height:46px;border:0;border-radius:40px;background:transparent;font:800 16px Mulish,system-ui,sans-serif;color:#6B6F78;cursor:pointer}
+.seg button.on{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(19,41,75,.12)}
+.seg button.on.no{color:#B42318}
+.mine{margin:0 28px;padding:16px 18px;border-radius:16px;background:#F1FAF3;border:1px solid #BFE3CA;color:#1D6A34;font-weight:700;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:22px;margin-bottom:26px}
+.mine.no{background:#FFF4F2;border-color:#F3C4BF;color:#B42318}
+.mine button{margin-left:auto;border:0;background:none;color:var(--navy);font:800 15px Mulish,system-ui,sans-serif;text-decoration:underline;cursor:pointer;padding:0}
+.go.no{background:var(--navy);color:#fff;box-shadow:none}
+.done .ok.no{background:#FDE7E4}.done .ok.no svg{stroke:#B42318}
+.done button{border:0;background:none;color:var(--navy);font:800 15px Mulish,system-ui,sans-serif;text-decoration:underline;cursor:pointer;margin-top:12px}
 footer{text-align:center;font-size:14px;color:#6B6F78;margin-top:22px}footer a{color:#6B6F78}
 </style></head><body>
 <header><a href="/"><img src="/assets/logo-dark.png?v=4" alt="Shekinah Haitian Seventh-day Adventist Church" width="191" height="52"></a></header>
@@ -44,22 +54,24 @@ footer{text-align:center;font-size:14px;color:#6B6F78;margin-top:22px}footer a{c
       <ul class="facts" id="facts"></ul>
       <p class="desc hide" id="desc"></p>
     </div>
+    <div class="mine hide" id="mine"><span id="minetx"></span><button type="button" id="change">Change my answer</button></div>
     <form id="f" class="hide" novalidate>
-      <label for="n">Your name</label>
-      <input type="text" id="n" autocomplete="name" required maxlength="120">
+      <div class="seg" role="group" aria-label="Your answer"><button type="button" class="on" id="yes" aria-pressed="true">I'm coming</button><button type="button" id="no" aria-pressed="false">Can't make it</button></div>
+      <div id="nameb"><label for="n">Your name</label>
+      <input type="text" id="n" autocomplete="name" required maxlength="120"></div>
       <label for="em">Email</label>
       <input type="email" id="em" autocomplete="email" inputmode="email" required maxlength="254">
-      <label>How many people are coming, you included?</label>
-      <div class="count"><button type="button" id="minus" aria-label="One less">&minus;</button><output id="g" aria-live="polite">1</output><button type="button" id="plus" aria-label="One more">+</button><span id="gl">person</span></div>
+      <div id="countb"><label>How many people are coming, you included?</label>
+      <div class="count"><button type="button" id="minus" aria-label="One less">&minus;</button><output id="g" aria-live="polite">1</output><button type="button" id="plus" aria-label="One more">+</button><span id="gl">person</span></div></div>
       <div class="hp" aria-hidden="true"><label for="website">Website</label><input type="text" id="website" tabindex="-1" autocomplete="off"></div>
       <p class="err" id="err" role="alert"></p>
       <button class="go" id="go" type="submit">Count me in</button>
     </form>
     <div class="done hide" id="done">
-      <div class="ok"><svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
-      <h2>See you there!</h2>
+      <div class="ok" id="dok"><svg viewBox="0 0 24 24"><path id="dic" d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+      <h2 id="dh">See you there!</h2>
       <p id="dmsg"></p>
-      <a href="/plan-your-visit/">Plan your visit</a>
+      <a href="/plan-your-visit/" id="dvisit">Plan your visit</a><br><button type="button" id="again">Change my answer</button>
     </div>
     <div class="msg hide" id="closed"></div>
   </div>
@@ -70,14 +82,24 @@ footer{text-align:center;font-size:14px;color:#6B6F78;margin-top:22px}footer a{c
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/rsvp';
   var $=function(i){return document.getElementById(i);};
   var code=(new URLSearchParams(location.search).get('e')||'').toLowerCase().replace(/[^a-z0-9]/g,'');
-  var n=1,EV=null;
+  var n=1,EV=null,yes=true,KEY='shk_rsvp_'+code;
+  function saved(){try{return localStorage.getItem(KEY)||'';}catch(x){return '';}}
+  function save(v){try{localStorage.setItem(KEY,v);}catch(x){}}
   function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
   var IC={cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',pin:'<path d="M12 21s-6.5-6-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5-6.5 11-6.5 11Z"/><circle cx="12" cy="10" r="2.3"/>'};
   function fact(i,t){return '<li><svg viewBox="0 0 24 24" aria-hidden="true">'+IC[i]+'</svg>'+esc(t)+'</li>';}
   function niceDate(d){var p=d.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});}
   function niceTime(t){if(!t)return '';var p=t.split(':'),h=+p[0];return (h%12||12)+':'+p[1]+' '+(h<12?'AM':'PM');}
-  function show(id){['loading','top','f','done','closed'].forEach(function(x){$(x).classList.toggle('hide',id.indexOf(x)<0);});}
+  function show(id){['loading','top','f','done','closed','mine'].forEach(function(x){$(x).classList.toggle('hide',id.indexOf(x)<0);});}
   function setN(v){n=Math.max(1,Math.min(50,v));$('g').textContent=n;$('gl').textContent=n===1?'person':'people';}
+  function setYes(v){yes=v;$('yes').classList.toggle('on',v);$('no').classList.toggle('on',!v);$('no').classList.toggle('no',!v);$('yes').setAttribute('aria-pressed',v);$('no').setAttribute('aria-pressed',!v);
+    $('countb').classList.toggle('hide',!v);$('nameb').classList.toggle('hide',!v);$('go').textContent=v?'Count me in':'Send my answer';$('go').classList.toggle('no',!v);$('err').textContent='';}
+  $('yes').onclick=function(){setYes(true);};$('no').onclick=function(){setYes(false);};
+  function post(o){o.e=code;o.website=$('website').value;return fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)}).then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Please try again.');return j;});});}
+  function people(k){return k+(k===1?' person':' people');}
+  function mine(j){$('minetx').textContent=j.coming?'You RSVP\'d: '+people(j.guests)+' coming.':'You said you can\'t make it.';$('mine').classList.toggle('no',!j.coming);if(j.coming)setN(j.guests);setYes(j.coming);}
+  function form(){var em=saved();if(em&&!$('em').value)$('em').value=em;show(['top','f']);}
+  $('change').onclick=form;$('again').onclick=form;
   $('minus').onclick=function(){setN(n-1);};$('plus').onclick=function(){setN(n+1);};
   function fail(m){$('closed').textContent=m;show(['closed']);}
   if(!code){fail('This RSVP link is not complete. Please scan the QR code again.');return;}
@@ -87,17 +109,21 @@ footer{text-align:center;font-size:14px;color:#6B6F78;margin-top:22px}footer a{c
     $('facts').innerHTML=fact('cal',niceDate(EV.date))+(EV.time?fact('clock',niceTime(EV.time)):'')+(EV.location?fact('pin',EV.location):'');
     if(EV.description){$('desc').textContent=EV.description;$('desc').classList.remove('hide');}
     if(EV.closed||EV.past){$('closed').textContent=EV.past?'This event has already happened. Thank you for your interest!':'RSVPs for this event are closed.';show(['top','closed']);}
-    else show(['top','f']);
+    else{var em=saved();if(!em){show(['top','f']);return;}
+      post({email:em,check:true}).then(function(r){if(r.found){mine(r);$('em').value=em;show(['top','mine']);}else show(['top','f']);}).catch(function(){show(['top','f']);});}
   }).catch(function(e){fail(e.message||'We could not load this event. Please try again.');});
   $('f').addEventListener('submit',function(e){e.preventDefault();var name=$('n').value.trim(),em=$('em').value.trim();
-    if(!name){$('err').textContent='Please add your name.';$('n').focus();return;}
+    if(yes&&!name){$('err').textContent='Please add your name.';$('n').focus();return;}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){$('err').textContent='Please enter a valid email address.';$('em').focus();return;}
-    $('err').textContent='';$('go').disabled=true;$('go').textContent='Sending...';
-    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({e:code,name:name,email:em,guests:n,website:$('website').value})})
-    .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.error||'Please try again.');return j;});})
-    .then(function(j){$('dmsg').textContent=(j.updated?'We updated your RSVP: ':'We saved your RSVP: ')+n+(n===1?' person':' people')+' for '+EV.title+'.';show(['top','done']);try{gtag('event','rsvp',{event_title:EV.title,guests:n});}catch(x){}})
+    $('err').textContent='';$('go').disabled=true;var lbl=$('go').textContent;$('go').textContent='Sending...';
+    post(yes?{name:name,email:em,guests:n}:{name:name,email:em,coming:false})
+    .then(function(j){save(em);
+      $('dok').classList.toggle('no',!j.coming);$('dic').setAttribute('d',j.coming?'m5 12.5 4.5 4.5L19 7.5':'M7 7l10 10M17 7 7 17');
+      $('dh').textContent=j.coming?'See you there!':'Thanks for letting us know';$('dvisit').classList.toggle('hide',!j.coming);
+      $('dmsg').textContent=j.coming?((j.updated?'We updated your RSVP: ':'We saved your RSVP: ')+people(j.guests)+' for '+EV.title+'.'):'We took you off the list for '+EV.title+'. If your plans change, you can RSVP again anytime.';
+      show(['top','done']);try{gtag('event',j.coming?'rsvp':'rsvp_decline',{event_title:EV.title,guests:j.coming?j.guests:0});}catch(x){}})
     .catch(function(x){$('err').textContent=x.message;})
-    .then(function(){$('go').disabled=false;$('go').textContent='Count me in';});});
+    .then(function(){$('go').disabled=false;$('go').textContent=lbl;});});
 })();
 </script>
 </body></html>

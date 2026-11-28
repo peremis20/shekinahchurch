@@ -490,6 +490,19 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Late', email: 'late@x.org', guests: 1 } }); ok(r.status === 400, 'closed event takes no rsvp');
   r = await call('POST', '/rsvp/event', { token: O, body: { title: 'Old', date: '2000-01-01' } }); const old = r.j.event;
   r = await call('POST', '/rsvp', { body: { e: old.code, name: 'A', email: 'a@x.org', guests: 1 } }); ok(r.status === 400, 'past event takes no rsvp');
+  {
+    const ev2 = (await call('POST', '/rsvp/event', { token: O, body: { title: 'Two way', date: '2099-07-01' } })).j.event;
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, name: 'Mia', email: 'mia@x.org', guests: 3 }, ip: '7.7.8.1' });
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, email: 'mia@x.org', check: true }, ip: '7.7.8.1' }); ok(r.j.found && r.j.coming === true && r.j.guests === 3 && !r.j.name, 'person can see their answer', r.j);
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, email: 'MIA@x.org', coming: false }, ip: '7.7.8.1' }); ok(r.status === 200 && r.j.coming === false && r.j.updated, 'person declines with just the email', r.j);
+    r = await call('GET', '/rsvp/events', { token: O }); let x = r.j.events.find((y) => y.id === ev2.id); ok(x.responses === 0 && x.people === 0 && x.declined === 1, 'decline leaves the headcount', x);
+    r = await call('POST', '/rsvp/responses', { token: O, body: { id: ev2.id } }); const rr = r.j.responses[0]; ok(rr.coming === false && rr.name === 'Mia' && rr.guests === 3, 'decline keeps the name', rr);
+    r = await call('POST', '/rsvp/response/update', { token: O, body: { id: rr.id, coming: true, guests: 2 } }); ok(r.j.coming && r.j.guests === 2, 'team marks coming again');
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, email: 'mia@x.org', check: true }, ip: '7.7.8.1' }); ok(r.j.coming === true && r.j.guests === 2, 'team change shows for the person', r.j);
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, email: 'new@x.org', check: true }, ip: '7.7.8.1' }); ok(r.j.found === false, 'unknown email not found');
+    r = await call('POST', '/rsvp', { body: { e: ev2.code, email: 'nobody@x.org', coming: false }, ip: '7.7.8.1' }); ok(r.status === 200, 'decline without an earlier rsvp is fine');
+    await call('POST', '/rsvp/event/delete', { token: O, body: { id: ev2.id } });
+  }
   r = await call('POST', '/rsvp/event/delete', { token: O, body: { id: ev.id } }); ok(r.j.deleted === 1, 'rsvp event deleted');
   r = await call('GET', '/rsvp/events'); ok(r.status === 401, 'rsvp list needs sign in');
 }

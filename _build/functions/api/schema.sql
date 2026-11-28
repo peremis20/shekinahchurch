@@ -70,3 +70,4 @@ CREATE TABLE IF NOT EXISTS rsvps (
   id serial PRIMARY KEY, event_id int NOT NULL REFERENCES rsvp_events(id) ON DELETE CASCADE, name text NOT NULL, email text NOT NULL,
   guests int NOT NULL DEFAULT 1 CHECK (guests BETWEEN 1 AND 50), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
   UNIQUE (event_id, email));
+ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS coming boolean NOT NULL DEFAULT true; -- false: they said they cannot come

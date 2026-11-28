@@ -1185,7 +1185,7 @@ const ROUTES = {
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /admin/cards/save': cardsSave, 'POST /admin/cards/key': cardsKey, 'POST /admin/cards/preview': cardsPreview,
-  'POST /rsvp/event': rsvpEventSave, 'POST /rsvp/event/delete': rsvpEventDelete, 'POST /rsvp/responses': rsvpResponses, 'POST /rsvp/response/delete': rsvpResponseDelete, 'POST /rsvp/response/add': rsvpResponseAdd,
+  'POST /rsvp/event': rsvpEventSave, 'POST /rsvp/event/delete': rsvpEventDelete, 'POST /rsvp/responses': rsvpResponses, 'POST /rsvp/response/delete': rsvpResponseDelete, 'POST /rsvp/response/add': rsvpResponseAdd, 'POST /rsvp/response/update': rsvpResponseUpdate,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
@@ -1334,8 +1334,9 @@ const rsvpEdit = (me) => need(!!(me.perms.calendar_edit || me.perms.team_manage)
 async function rsvpEvents(me) {
   const events = await rows(`SELECT e.id, e.code, e.title, to_char(e.starts_on, 'YYYY-MM-DD') AS date, e.start_time AS time, e.location, e.description, e.closed, e.created_by, e.created_at,
       (e.starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past,
-      (SELECT count(*) FROM rsvps r WHERE r.event_id = e.id)::int AS responses,
-      (SELECT coalesce(sum(guests), 0) FROM rsvps r WHERE r.event_id = e.id)::int AS people
+      (SELECT count(*) FROM rsvps r WHERE r.event_id = e.id AND r.coming)::int AS responses,
+      (SELECT count(*) FROM rsvps r WHERE r.event_id = e.id AND NOT r.coming)::int AS declined,
+      (SELECT coalesce(sum(guests), 0) FROM rsvps r WHERE r.event_id = e.id AND r.coming)::int AS people
     FROM rsvp_events e ORDER BY e.starts_on DESC, e.id DESC`);
   return { events, can_edit: !!(me.perms.calendar_edit || me.perms.team_manage) };
 }
@@ -1365,12 +1366,22 @@ async function rsvpEventDelete(me, b) {
 }
 async function rsvpResponses(me, b) {
   const id = Number(b && b.id) || 0;
-  return { responses: await rows("SELECT id, name, email, guests, created_at, updated_at FROM rsvps WHERE event_id = $1 ORDER BY created_at DESC, id DESC", [id]) };
+  return { responses: await rows("SELECT id, name, email, guests, coming, created_at, updated_at FROM rsvps WHERE event_id = $1 ORDER BY coming DESC, updated_at DESC, id DESC", [id]) };
 }
 async function rsvpResponseDelete(me, b) {
   rsvpEdit(me);
   await q('DELETE FROM rsvps WHERE id = $1', [Number(b && b.id) || 0]);
   return { ok: true };
+}
+async function rsvpResponseUpdate(me, b) {
+  rsvpEdit(me);
+  const id = Number(b && b.id) || 0, had = await one('SELECT guests, coming FROM rsvps WHERE id = $1', [id]);
+  need(had, 404, 'That RSVP was not found.');
+  const coming = typeof (b && b.coming) === 'boolean' ? b.coming : had.coming;
+  let guests = b && b.guests != null ? Math.round(Number(b.guests)) : had.guests;
+  need(isFinite(guests) && guests >= 1 && guests <= 50, 400, 'Please enter a number of people from 1 to 50.');
+  await q('UPDATE rsvps SET coming = $2, guests = $3, updated_at = now() WHERE id = $1', [id, coming, guests]);
+  return { ok: true, coming, guests };
 }
 async function rsvpResponseAdd(me, b) {
   rsvpEdit(me);
@@ -1379,15 +1390,17 @@ async function rsvpResponseAdd(me, b) {
   return rsvpPut(ev.id, b);
 }
 async function rsvpPut(eventId, b) {
-  const name = str(b && b.name, 120), email = str(b && b.email, 254).toLowerCase();
-  let guests = Math.round(Number(b && b.guests)); if (!isFinite(guests)) guests = 1;
-  need(name, 400, 'Please add your name.');
+  const email = str(b && b.email, 254).toLowerCase(), coming = !(b && b.coming === false);
+  let name = str(b && b.name, 120), guests = Math.round(Number(b && b.guests)); if (!isFinite(guests)) guests = 1;
   need(EMAIL_RE.test(email), 400, 'Please enter a valid email address.');
+  const had = await one('SELECT name, guests FROM rsvps WHERE event_id = $1 AND email = $2', [eventId, email]);
+  if (!coming) { name = name || (had && had.name) || ''; guests = had ? had.guests : 1; }
+  need(name || !coming, 400, 'Please add your name.');
   need(guests >= 1 && guests <= 50, 400, 'Please enter how many people are coming, from 1 to 50.');
-  const r = await wrote(`INSERT INTO rsvps (event_id, name, email, guests) VALUES ($1, $2, $3, $4)
-    ON CONFLICT (event_id, email) DO UPDATE SET name = excluded.name, guests = excluded.guests, updated_at = now()
-    RETURNING id, (xmax <> 0) AS updated`, [eventId, name, email, guests]);
-  return { ok: true, updated: !!(r && r.updated) };
+  const r = await wrote(`INSERT INTO rsvps (event_id, name, email, guests, coming) VALUES ($1, $2, $3, $4, $5)
+    ON CONFLICT (event_id, email) DO UPDATE SET name = excluded.name, guests = excluded.guests, coming = excluded.coming, updated_at = now()
+    RETURNING id, (xmax <> 0) AS updated`, [eventId, name, email, guests, coming]);
+  return { ok: true, updated: !!(r && r.updated), coming, guests };
 }
 async function rsvpPublicGet(req) {
   const code = str(new URL(req.url).searchParams.get('e'), 12).toLowerCase();
@@ -1404,6 +1417,12 @@ async function rsvpPublicPost(req) {
   need(await limit('rsvp-ip:' + ip(req), 20, 60), 429, 'Please wait a few minutes and try again.');
   const e = await one(`SELECT id, closed, (starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past FROM rsvp_events WHERE code = $1`, [code]);
   need(e, 404, 'This RSVP link is not valid.');
+  if (b && b.check === true) { // the page asks what this email answered, so changes made by the team show up for the person too
+    const email = str(b.email, 254).toLowerCase();
+    need(EMAIL_RE.test(email), 400, 'Please enter a valid email address.');
+    const r = await one('SELECT guests, coming FROM rsvps WHERE event_id = $1 AND email = $2', [e.id, email]);
+    return r ? { found: true, coming: r.coming, guests: r.guests } : { found: false };
+  }
   need(!e.closed && !e.past, 400, 'RSVPs for this event are closed.');
   return rsvpPut(e.id, b);
 }
