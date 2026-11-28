@@ -192,6 +192,8 @@ for (const w of ['vol', 'pastor', 'elder', 'clerk', 'editor', 'leader', 'old-sta
 }
 r = await call('GET', '/members', { token: O }); ok(r.j.members.length === 3 && r.j.statuses.length === 7, 'members list', r.j.members.length);
 r = await call('POST', '/members/save', { token: O, body: { member: { id: r.j.members[0].id, first_name: 'Changed', last_name: 'Test', birthday: '', status: 'Nope' } } }); ok(r.status === 200 && r.j.member.first_name === 'Changed' && r.j.member.birthday === null && r.j.member.status === 'Member', 'member update', r);
+{ const s = await call('POST', '/members/save', { token: O, body: { member: { title: 'Pastor', first_name: 'Tee', last_name: 'Tle', status: 'Visitor', birthday: '2000-03-04' } } }); ok(s.status === 200 && s.j.member.title === 'Pastor' && s.j.member.status === 'Visitor' && s.j.member.birthday === '2000-03-04', 'member title saves', s.j);
+  const u = await call('POST', '/members/save', { token: O, body: { member: { ...s.j.member, title: 'Elder' } } }); ok(u.j.member.title === 'Elder' && u.j.member.first_name === 'Tee', 'member title updates', u.j); await db.query("DELETE FROM members WHERE last_name = 'Tle'"); }
 r = await call('POST', '/members/delete', { token: O, body: { id: r.j.member.id } }); ok(r.status === 200, 'admin deletes a member');
 // Paged member list (Nov 27, 2026)
 { const today = new Date(new Date().toLocaleString('en-US', { timeZone: 'America/Chicago' })); const mm = String(today.getMonth() + 1).padStart(2, '0'), dd = String(today.getDate()).padStart(2, '0');

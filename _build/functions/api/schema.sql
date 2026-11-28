@@ -56,3 +56,4 @@ CREATE INDEX IF NOT EXISTS members_name_idx ON members (lower(last_name), lower(
 -- Live database has a status check on members; Donor added Nov 27, 2026 (former members who still give).
 ALTER TABLE members DROP CONSTRAINT IF EXISTS members_status_check;
 ALTER TABLE members ADD CONSTRAINT members_status_check CHECK (status IN ('Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'));
+ALTER TABLE members ADD COLUMN IF NOT EXISTS title text NOT NULL DEFAULT '';

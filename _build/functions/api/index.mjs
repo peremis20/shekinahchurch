@@ -524,7 +524,8 @@ async function teamRemove(me, b) {
 
 // ---------- members ----------
 const M_STATUSES = ['Member', 'Baptized member', 'Regular attender', 'Visitor', 'Inactive', 'Transferred out', 'Donor']; // Donor: a former member who still gives (Jimmy, Nov 27, 2026)
-const M_TEXT = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'household', 'notes'];
+const M_TEXT = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'household', 'notes', 'title']; // title: Pastor, Elder, Deacon... (Nov 27, 2026)
+const M_N = M_TEXT.length;
 const M_DATES = ['birthday', 'member_since', 'baptism_date'];
 const M_COLS = ['id', ...M_TEXT, ...M_DATES.map((d) => `to_char(${d}, 'YYYY-MM-DD') AS ${d}`), 'status', 'updated_at', 'updated_by'].join(', ');
 async function members(me) {
@@ -583,19 +584,19 @@ async function memberFind(me, b) {
 async function memberSave(me, b) {
   allow(me, 'members_edit');
   const m = b.member && typeof b.member === 'object' ? b.member : {};
-  const v = M_TEXT.map((k) => str(m[k], k === 'notes' ? 4000 : 300));
+  const v = M_TEXT.map((k) => str(m[k], k === 'notes' ? 4000 : k === 'title' ? 40 : 300));
   const d = M_DATES.map((k) => (/^\d{4}-\d{2}-\d{2}$/.test(String(m[k] || '')) ? String(m[k]) : null));
   const status = M_STATUSES.includes(m.status) ? m.status : 'Member';
   need(v[0], 400, 'Please add a first name.');
   const params = [...v, ...d, status, me.email];
   let row;
   if (m.id != null && m.id !== '') {
-    row = await wrote(`UPDATE members SET ${M_TEXT.map((k, i) => `${k} = $${i + 1}`).join(', ')}, ${M_DATES.map((k, i) => `${k} = $${i + 11}::date`).join(', ')}, status = $14, updated_by = $15, updated_at = now()
-      WHERE id = $16 RETURNING *`, [...params, idOf(m.id)], M_COLS);
+    row = await wrote(`UPDATE members SET ${M_TEXT.map((k, i) => `${k} = $${i + 1}`).join(', ')}, ${M_DATES.map((k, i) => `${k} = $${i + M_N + 1}::date`).join(', ')}, status = $${M_N + 4}, updated_by = $${M_N + 5}, updated_at = now()
+      WHERE id = $${M_N + 6} RETURNING *`, [...params, idOf(m.id)], M_COLS);
     need(row, 404, 'That member was not found.');
   } else {
     row = await wrote(`INSERT INTO members (${[...M_TEXT, ...M_DATES].join(', ')}, status, updated_by)
-      VALUES (${M_TEXT.map((_, i) => '$' + (i + 1)).join(', ')}, ${M_DATES.map((_, i) => `$${i + 11}::date`).join(', ')}, $14, $15) RETURNING *`, params, M_COLS);
+      VALUES (${M_TEXT.map((_, i) => '$' + (i + 1)).join(', ')}, ${M_DATES.map((_, i) => `$${i + M_N + 1}::date`).join(', ')}, $${M_N + 4}, $${M_N + 5}) RETURNING *`, params, M_COLS);
   }
   return { member: row };
 }

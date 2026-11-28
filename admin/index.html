@@ -1675,7 +1675,7 @@ section#mem #mlist{display:block}
         K=[['','group',act.length,'People on the list'],['','userplus',subs.filter(function(x){return (new Date()-pdate(x.created_at))/86400000<=30;}).length,'Joined in last 30 days'],['','bell',L.filter(function(i){return i.status==='new';}).length,'New sign ups to welcome'],['','mail',(window.__bc||0),'Emails sent'],['','down',subs.filter(function(x){return x.unsubscribed;}).length,'Unsubscribed']];}
       else K=[['all','group',L.length,'Email sign ups'],['new','bell',st('new'),'New sign ups'],['recent','userplus',L.filter(function(i){return tabMatch(i,'recent');}).length,'Joined in last 30 days'],['closed','plus',all.filter(function(i){return tabMatch(i,'closed');}).length,'Welcomed or closed'],['in_progress','clock',st('in_progress'),'In progress']];}
     if(T==='mem'){var cnt=function(k){return nf(mCounts[k.slice(2)]||0);};
-      K=[['m:all','group',cnt('m:all'),'All records'],['m:mem','userplus',cnt('m:mem'),'Members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regulars'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:don','contacts',cnt('m:don'),'Donors'],['m:ina','clock',cnt('m:ina'),'Inactive'],['m:bday','cal',cnt('m:bday'),'Birthdays soon']];}
+      K=[['m:all','group',cnt('m:all'),'All records'],['m:mem','userplus',cnt('m:mem'),'Members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regulars'],['m:vis','pin',cnt('m:vis'),'Visitors (potential members)'],['m:don','contacts',cnt('m:don'),'Donors'],['m:ina','clock',cnt('m:ina'),'Inactive'],['m:bday','cal',cnt('m:bday'),'Birthdays soon']];}
     if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(rs){return tl.filter(function(a){return rs.indexOf(a.title||a.role)>=0;}).length;};
       K=[['x','team',tl.length,'People on the team'],['x','gear',rc(['admin']),'Admins'],['x','contacts',rc(['pastor','elder','clerk','staff','editor']),'Pastors, elders and staff'],['x','userplus',rc(['leader','volunteer']),'Leaders and volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
     $('tkpis').classList.toggle('many',K.length>5);
@@ -2075,7 +2075,7 @@ section#mem #mlist{display:block}
   // ---- Members (same server and sign in) ----
   var MAPI=API;
   var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'], mRole='';
-  var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','bday'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
+  var MF=[['title','Title (Pastor, Elder...)','text'],['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','bday'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
   function mapi(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(MAPI+path,opt).then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
   function fmtDate(d){if(!d)return '';var p=String(d).slice(0,10).split('-');if(p.length<3)return d;return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+(p[0]&&p[0]!=='1900'?', '+p[0]:'');}
   var MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -2100,7 +2100,7 @@ section#mem #mlist{display:block}
     $('mcount').textContent=mTotal?'Showing '+nf(from)+' to '+nf(to)+' of '+nf(mTotal)+(filt?' matching':'')+' '+(mTotal===1?'person':'people')+(filt?' ('+nf(mCounts.all)+' in all)':''):'';
     var SI={};mStatuses.forEach(function(s,i){SI[s]=i;});
     $('mlist').innerHTML=members.length?'<div class="mtwrap"><table class="mtable"><thead><tr><th>Name</th><th>Phone</th><th class="c-email">Email</th><th class="c-city">City</th><th>Status</th><th class="c-bday">Birthday</th><th class="ma"></th></tr></thead><tbody>'+
-      members.map(function(m){var nm=(m.first_name+' '+m.last_name).trim(),ini=((m.first_name||'')[0]||'')+((m.last_name||'')[0]||''),op=mOpen==m.id;
+      members.map(function(m){var nm=((m.title?m.title+' ':'')+m.first_name+' '+m.last_name).trim(),ini=((m.first_name||'')[0]||'')+((m.last_name||'')[0]||''),op=mOpen==m.id;
         return '<tr class="mrow'+(op?' open':'')+'" data-m="open" data-id="'+m.id+'"><td><div class="mn"><span class="mav">'+esc(ini.toUpperCase()||'?')+'</span><div><b>'+esc(nm)+'</b>'+(m.household?'<small>'+esc(m.household)+'</small>':'')+'</div></div></td>'+
           '<td>'+(m.phone?'<a href="tel:'+esc(m.phone.replace(/[^0-9+]/g,''))+'">'+esc(P(m.phone))+'</a>':'')+'</td>'+
           '<td class="c-email">'+(m.email?'<a href="mailto:'+esc(m.email)+'">'+esc(m.email)+'</a>':'')+'</td>'+
@@ -2347,7 +2347,7 @@ section#mem #mlist{display:block}
   $('nwrite').onclick=function(){var c=$('ncompose');c.classList.remove('hide');c.scrollIntoView({behavior:'smooth',block:'start'});var f=$('nsub');if(f)setTimeout(function(){f.focus();},300);};
   $('nclose').onclick=function(){$('ncompose').classList.add('hide');if(nqEdit){nqEdit=null;$('nsched').textContent='Schedule';$('nsub').value='';$('nbody').value='';$('nwhen').value='';$('nmsg').textContent='';}};
   $('mimp').onclick=function(){impForm();impStatus();impRender();};
-  $('mcsv').onclick=function(){var btn=$('mcsv'),cols=['first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'],all=[],pg=1,lab=btn.textContent;
+  $('mcsv').onclick=function(){var btn=$('mcsv'),cols=['title','first_name','last_name','phone','email','address','city','state','zip','birthday','status','member_since','baptism_date','household','notes'],all=[],pg=1,lab=btn.textContent;
     btn.disabled=true;
     (function next(){btn.textContent='Preparing '+nf(all.length)+'...';mapi('/members/list',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({page:pg,per:1000,sort:'name'})}).then(function(j){all=all.concat(j.members||[]);
       if((j.members||[]).length===1000&&all.length<(j.total||0)){pg++;return next();}
