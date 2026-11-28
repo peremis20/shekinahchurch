@@ -52,3 +52,4 @@ CREATE TABLE IF NOT EXISTS newsletter_queue (
   updated_at timestamptz NOT NULL DEFAULT now()
 );
 CREATE INDEX IF NOT EXISTS newsletter_queue_due ON newsletter_queue (status, send_on);
+CREATE INDEX IF NOT EXISTS members_name_idx ON members (lower(last_name), lower(first_name), id);
