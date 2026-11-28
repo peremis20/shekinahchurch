@@ -271,7 +271,9 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .rv-empty{background:#fff;border:1.5px dashed #D5DDEA;border-radius:16px;padding:36px;text-align:center;color:#5D6A80;font-weight:700}
 .rv-det{background:#fff;border:1px solid #E3E8F0;border-radius:16px;padding:22px 24px;box-shadow:0 8px 24px rgba(19,37,79,.06)}
 .rv-dh{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
-.rv-qr{width:170px;text-align:center}.rv-qr .q{background:#fff;border:1px solid #E3E8F0;border-radius:14px;padding:10px}.rv-qr svg{width:100%;height:auto;display:block}.rv-qr small{display:block;margin-top:6px;color:#5D6A80;font-weight:700;font-size:12px}
+.rv-qr{width:170px;text-align:center}.rv-qr .q{display:block;width:100%;cursor:zoom-in;background:#fff;border:1px solid #E3E8F0;border-radius:14px;padding:10px;transition:box-shadow .15s,border-color .15s}.rv-qr .q:hover{border-color:#9DBCF0;box-shadow:0 6px 16px rgba(16,24,40,.1)}
+.rvq{position:fixed;inset:0;z-index:1000;background:rgba(11,22,48,.6);display:grid;place-items:center;padding:16px;font-family:Mulish,system-ui,sans-serif}.rvq-box{position:relative;background:#fff;border-radius:20px;padding:20px;width:min(500px,100%);max-height:calc(100vh - 32px);overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+.rvq-box img{display:block;width:100%;height:auto;border:1px solid #E3E8F0;border-radius:12px}.rvq-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;justify-content:center}.rvq-x{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);font-size:22px;line-height:1;cursor:pointer;color:#0B2152}.rv-qr svg{width:100%;height:auto;display:block}.rv-qr small{display:block;margin-top:6px;color:#5D6A80;font-weight:700;font-size:12px}
 .rv-tbl{width:100%;border-collapse:separate;border-spacing:0;margin-top:16px;font-size:14.5px;border:1px solid #E6EBF3;border-radius:14px;overflow:hidden}.rv-tbl th{background:#F3F6FB;text-align:left;padding:11px 14px;color:#33415C;font-weight:800;font-size:13px}.rv-tbl td{padding:11px 14px;border-top:1px solid #EEF1F6;color:#0B2152}.rv-tbl td.n{font-weight:800}.rv-tbl .x,.rv-tbl .t{border:0;background:none;color:#B42318;cursor:pointer;font:800 13.5px Mulish,system-ui,sans-serif;padding:4px 6px}.rv-tbl .t{color:#1A4FC4}.rv-tbl td.ra{white-space:nowrap;text-align:right}
 .rv-tbl tr.dec td{background:#FCFCFD;color:#8A94A6}.rv-tbl tr.dec td.n{text-decoration:line-through;text-decoration-color:#C5CCD8}
 .rv-ans{display:inline-block;padding:3px 10px;border-radius:999px;font:800 12px Mulish,system-ui,sans-serif}.rv-ans.yes{background:#DDF3E2;color:#1D6A34}.rv-ans.no{background:#FDE7E4;color:#B42318}
@@ -2408,7 +2410,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function pjPost(path,o){return mapi(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}
   // ---------- RSVP (Nov 27, 2026) ----------
   var RV={list:[],edit:null,open:null,can:false,resp:[]};
-  var RVI={plus:'<path d="M12 5v14M5 12h14"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.8.8 2.8 2.6 3 5.2"/>',qr:'<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3v3h-3zM20.5 14v.01M17 20.5h3.5V17"/>',link:'<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>',trash:'<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>',cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',ticket:'<path d="M3.5 9V7.5a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1V9a2.5 2.5 0 0 0 0 5v1.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V14a2.5 2.5 0 0 0 0-5Z"/>',dl:'<path d="M12 4v11M7 10.5l5 5 5-5M4.5 20h15"/>',back:'<path d="m15 6-6 6 6 6"/>'};
+  var RVI={plus:'<path d="M12 5v14M5 12h14"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.6 3.3-5.5 6.5-5.5s5.9 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.8.8 2.8 2.6 3 5.2"/>',qr:'<rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3v3h-3zM20.5 14v.01M17 20.5h3.5V17"/>',link:'<path d="M10 14a4.5 4.5 0 0 0 6.4 0l3-3a4.5 4.5 0 0 0-6.4-6.4l-1 1"/><path d="M14 10a4.5 4.5 0 0 0-6.4 0l-3 3a4.5 4.5 0 0 0 6.4 6.4l1-1"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16v4Z"/><path d="m13.5 6.5 4 4"/>',trash:'<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l1 13h9l1-13"/>',cal:'<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',ticket:'<path d="M3.5 9V7.5a1 1 0 0 1 1-1h15a1 1 0 0 1 1 1V9a2.5 2.5 0 0 0 0 5v1.5a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V14a2.5 2.5 0 0 0 0-5Z"/>',dl:'<path d="M12 4v11M7 10.5l5 5 5-5M4.5 20h15"/>',copy:'<rect x="8.5" y="8.5" width="12" height="12" rx="2"/><path d="M15.5 8.5V5a1.5 1.5 0 0 0-1.5-1.5H5A1.5 1.5 0 0 0 3.5 5v9A1.5 1.5 0 0 0 5 15.5h3.5"/>',back:'<path d="m15 6-6 6 6 6"/>'};
   function rvI(n){return '<svg viewBox="0 0 24 24" aria-hidden="true">'+RVI[n]+'</svg>';}
   function rvUrl(e){return location.origin+'/rsvp/?e='+e.code;}
   function rvDate(d,o){var p=String(d).split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-US',o||{weekday:'short',month:'short',day:'numeric',year:'numeric'});}
@@ -2450,14 +2452,14 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
       '<div class="rv-det"><div class="rv-dh"><div><div class="rv-h" style="margin-bottom:14px"><div class="rv-d"><i>'+esc(rvDate(e.date,{month:'short'}).toUpperCase())+'</i><b>'+esc(String(+e.date.slice(8)))+'</b></div><div><h4 style="font-size:21px">'+esc(e.title)+'</h4><p>'+esc(rvDate(e.date,{weekday:'long',month:'long',day:'numeric',year:'numeric'}))+(e.time?' at '+esc(rvTime(e.time)):'')+(e.location?' &middot; '+esc(e.location):'')+'</p></div><span class="rv-st '+s[0]+'">'+s[1]+'</span></div>'+
       (e.description?'<p style="margin:0 0 14px;color:#33415C">'+esc(e.description)+'</p>':'')+
       '<div class="rv-n" style="max-width:520px"><div><b>'+e.responses+'</b><span>RSVPs</span></div><div><b>'+e.people+'</b><span>People coming</span></div><div><b>'+(e.declined||0)+'</b><span>Can\'t come</span></div></div>'+
-      '<div class="rv-acts"><button type="button" class="rv-b sec" data-rv="qr" data-id="'+e.id+'">'+rvI('dl')+'Download QR</button><button type="button" class="rv-b" data-rv="copy" data-id="'+e.id+'">'+rvI('link')+'Copy link</button>'+(RV.resp.length?'<button type="button" class="rv-b" data-rv="csv">'+rvI('dl')+'Download list</button>':'')+
+      '<div class="rv-acts"><button type="button" class="rv-b sec" data-rv="qr" data-id="'+e.id+'">'+rvI('qr')+'View QR code</button><button type="button" class="rv-b" data-rv="copy" data-id="'+e.id+'">'+rvI('link')+'Copy link</button>'+(RV.resp.length?'<button type="button" class="rv-b" data-rv="csv">'+rvI('dl')+'Download list</button>':'')+
       (RV.can?'<button type="button" class="rv-b" data-rv="edit" data-id="'+e.id+'">'+rvI('edit')+'Edit</button><button type="button" class="rv-b del" data-rv="del" data-id="'+e.id+'">'+rvI('trash')+'Delete</button>':'')+'</div></div>'+
-      '<div class="rv-qr"><div class="q">'+rvSvg(e)+'</div><small>Scan to RSVP</small></div></div>'+rows+
+      '<div class="rv-qr"><button type="button" class="q" data-rv="qr" data-id="'+e.id+'" title="Open the QR code">'+rvSvg(e)+'</button><small>Click to open</small></div></div>'+rows+
       (RV.can&&!e.past?'<div class="rv-add"><label class="rv-f">Add someone by hand<input id="rvan" maxlength="120" placeholder="Name"></label><label class="rv-f">&nbsp;<input id="rvae" type="email" maxlength="254" placeholder="Email"></label><label class="rv-f s">People<input id="rvag" type="number" min="1" max="50" value="1"></label><button type="button" class="rv-b" data-rv="add">'+rvI('plus')+'Add</button></div>':'')+'</div>';}
   function rvOpen(id){RV.open=id;RV.resp=[];RV.edit=null;$('rv').innerHTML='<div class="rv-empty">Loading...</div>';
     api('/rsvp/responses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(j){RV.resp=j.responses||[];rvDetail();}).catch(function(e){toast(e.message);RV.open=null;rvRender();});}
   function rvPost(path,o){return api(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(o)});}
-  function rvPng(e){var q=rvQr(e);if(!q){toast('QR maker did not load. Refresh the page.');return;}
+  function rvCanvas(e){var q=rvQr(e);if(!q){toast('QR maker did not load. Refresh the page.');return null;}
     var W=1200,H=1560,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);
     x.fillStyle='#13294B';x.fillRect(0,0,W,150);x.fillStyle='#E2B85C';x.fillRect(0,150,W,10);
     x.fillStyle='#fff';x.textAlign='center';x.font='800 44px Mulish, Arial, sans-serif';x.fillText('SHEKINAH HAITIAN SDA CHURCH',W/2,95);
@@ -2468,7 +2470,22 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     for(var r=0;r<n;r++)for(var cc=0;cc<n;cc++)if(q.isDark(r,cc))x.fillRect(ox+cc*cell,oy+r*cell,cell,cell);
     x.fillStyle='#13294B';x.font='800 60px Mulish, Arial, sans-serif';x.fillText('Scan to RSVP',W/2,oy+qs+95);
     x.font='600 30px Mulish, Arial, sans-serif';x.fillStyle='#5D6A80';x.fillText(rvUrl(e).replace(/^https?:\/\//,''),W/2,oy+qs+145);
-    var a=document.createElement('a');a.download='RSVP '+e.title.replace(/[^\w ]+/g,'').trim()+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();toast('QR code downloaded. Print it or share it.');}
+    return c;}
+  function rvPng(e){var c=rvCanvas(e);if(!c)return;var a=document.createElement('a');a.download='RSVP '+e.title.replace(/[^\w ]+/g,'').trim()+'.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();toast('QR code downloaded. Print it or share it.');}
+  // QR viewer (Nov 27, 2026): see the QR code, copy it to paste anywhere, no download needed.
+  var RVQ=null;
+  function rvQrClose(){if(RVQ){RVQ.remove();RVQ=null;}}
+  function rvQrOpen(e){var c=rvCanvas(e);if(!c)return;rvQrClose();var url=c.toDataURL('image/png');
+    RVQ=document.createElement('div');RVQ.className='rvq';RVQ.setAttribute('role','dialog');RVQ.setAttribute('aria-label','QR code for '+e.title);
+    RVQ.innerHTML='<div class="rvq-box"><button type="button" class="rvq-x" data-q="x" aria-label="Close">&times;</button><img src="'+url+'" alt="QR code for '+esc(e.title)+'">'+
+      '<div class="rvq-acts"><button type="button" class="rv-b pri" data-q="copy">'+rvI('copy')+'Copy QR image</button><button type="button" class="rv-b" data-q="link">'+rvI('link')+'Copy link</button><button type="button" class="rv-b" data-q="dl">'+rvI('dl')+'Download</button></div></div>';
+    document.body.appendChild(RVQ);
+    RVQ.addEventListener('click',function(ev){var b=ev.target.closest('[data-q]');if(ev.target===RVQ||(b&&b.getAttribute('data-q')==='x')){rvQrClose();return;}if(!b)return;var k=b.getAttribute('data-q');
+      if(k==='copy'){if(!(navigator.clipboard&&window.ClipboardItem)){toast('This browser cannot copy images. Right click the QR and choose Copy image.');return;}
+        navigator.clipboard.write([new ClipboardItem({'image/png':new Promise(function(res){c.toBlob(res,'image/png');})})]).then(function(){toast('QR image copied. Paste it anywhere.');},function(){toast('Could not copy. Right click the QR and choose Copy image.');});}
+      else if(k==='link'){var u=rvUrl(e);(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Link copied');},function(){window.prompt('Copy this link',u);});}
+      else if(k==='dl')rvPng(e);});}
+  document.addEventListener('keydown',function(ev){if(ev.key==='Escape'&&RVQ)rvQrClose();});
   // Two way sync: answers people send (or change) show up here on their own, and team changes show up on their RSVP page.
   function rvSync(quiet){if(!RV.open)return loadRsvp();var oid=RV.open;
     return api('/rsvp/events').then(function(k){RV.list=k.events||[];RV.can=!!k.can_edit;return api('/rsvp/responses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:oid})});})
@@ -2485,7 +2502,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     else if(a==='edit'){RV.edit=id;RV.open=null;rvRender();}
     else if(a==='back'){RV.open=null;rvRender();}
     else if(a==='open')rvOpen(id);
-    else if(a==='qr'&&e){document.fonts&&document.fonts.ready?document.fonts.ready.then(function(){rvPng(e);}):rvPng(e);}
+    else if(a==='qr'&&e){document.fonts&&document.fonts.ready?document.fonts.ready.then(function(){rvQrOpen(e);}):rvQrOpen(e);}
     else if(a==='copy'&&e){var u=rvUrl(e);(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Link copied');},function(){window.prompt('Copy this link',u);});}
     else if(a==='save'){var o={title:$('rvt').value.trim(),date:$('rvd').value,time:$('rvh').value,location:$('rvl').value.trim(),description:$('rvs').value.trim()};if(RV.edit!=='new'){o.id=RV.edit;o.closed=!!($('rvc')&&$('rvc').checked);}
       if(!o.title){toast('Please add a title.');$('rvt').focus();return;}if(!o.date){toast('Please pick the date.');$('rvd').focus();return;}
