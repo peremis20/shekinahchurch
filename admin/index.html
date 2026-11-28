@@ -864,6 +864,10 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
 #mimp.mbtn svg,#mcsv.mbtn svg{color:#1F63D8}
 #mem .bar #mq{min-width:200px!important;flex:1 1 200px!important;width:auto!important}
 #mem .bar select{flex:0 0 160px!important;width:160px!important;min-width:0!important}
+
+#mform .card>.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#mform .mx{width:36px;height:36px;border-radius:50%;border:1px solid #D3DBE8;background:#fff;color:#5D6A80;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;padding:0}
+#mform .mx:hover{background:#F1F4FA;color:#0B2152;border-color:#0B2152}
 </style>
 </head>
 <body>
@@ -2143,8 +2147,8 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     var nums=[1],s0=Math.max(2,mPage-2),s1=Math.min(pages-1,mPage+2);if(s0>2)nums.push('…');for(var k=s0;k<=s1;k++)nums.push(k);if(s1<pages-1)nums.push('…');nums.push(pages);
     pg.innerHTML='<button data-pg="'+(mPage-1)+'"'+(mPage<2?' disabled':'')+' aria-label="Previous page">‹ Prev</button>'+nums.map(function(n){return n==='…'?'<span>…</span>':'<button data-pg="'+n+'"'+(n===mPage?' class="on" aria-current="page"':'')+'>'+n+'</button>';}).join('')+'<button data-pg="'+(mPage+1)+'"'+(mPage>=pages?' disabled':'')+' aria-label="Next page">Next ›</button>';}
   $('mpager').addEventListener('click',function(e){var b=e.target.closest('[data-pg]');if(!b||b.disabled)return;mPage=+b.getAttribute('data-pg');loadMembers();var w=document.querySelector('.mtwrap');if(w)w.scrollTop=0;$('mcount').scrollIntoView({block:'nearest',behavior:'smooth'});});
-  function memberForm(m){m=m||{status:'Member'};
-    $('mform').innerHTML='<div class="card" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">'+(m.id?'Edit member':'Add a member')+'</span></div><div class="ef">'+MF.map(function(f){var v=m[f[0]]==null?'':String(m[f[0]]);if(f[2]==='date')v=v.slice(0,10);var lab='<label'+(f[3]?' class="wide"':'')+'>'+f[1];
+  function memberForm(m){m=m||{status:'Member'};mDirty=false;
+    $('mform').innerHTML='<div class="card" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">'+(m.id?'Edit member':'Add a member')+'</span><button type="button" class="mx" data-m="cancel" aria-label="Close" title="Close">&times;</button></div><div class="ef">'+MF.map(function(f){var v=m[f[0]]==null?'':String(m[f[0]]);if(f[2]==='date')v=v.slice(0,10);var lab='<label'+(f[3]?' class="wide"':'')+'>'+f[1];
       if(f[2]==='status')return lab+'<select data-k="status">'+mStatuses.map(function(s){return '<option'+(s===m.status?' selected':'')+'>'+esc(s)+'</option>';}).join('')+'</select></label>';
       if(f[2]==='textarea')return lab+'<textarea data-k="'+f[0]+'" rows="3">'+esc(v)+'</textarea></label>';
       if(f[2]==='bday'){var bp=v.split('-'),bm=bp.length===3?+bp[1]:0,bd=bp.length===3?+bp[2]:0;
@@ -2156,7 +2160,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function onMem(e){if(e.target.closest('a'))return;var b=e.target.closest('[data-m]');if(!b)return;var a=b.getAttribute('data-m'),id=+b.getAttribute('data-id')||0;
     if(a==='open'){mOpen=mOpen==id?null:id;renderMembers();return;}
     if(a==='edit')memberForm(members.filter(function(x){return x.id==id;})[0]);
-    else if(a==='cancel')$('mform').innerHTML='';
+    else if(a==='cancel')mCloseForm(true);
     else if(a==='del'){var m=members.filter(function(x){return x.id==id;})[0];if(!m||!confirm('Delete '+m.first_name+' '+m.last_name+'? This cannot be undone.'))return;
       mapi('/members/delete',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id})}).then(function(){mOpen=null;loadMembers(true);}).catch(function(err){alert(err.message);});}
     else if(a==='save'){var o={id:id||undefined};$('mform').querySelectorAll('[data-k]').forEach(function(el){o[el.getAttribute('data-k')]=el.value;});
@@ -2169,9 +2173,24 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
       mapi('/members/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({member:o})}).then(function(j){var m=j.member;mOpen=m.id;$('mform').innerHTML='';loadMembers(true);})
       .catch(function(err){$('msave').textContent='Not saved: '+err.message;});}}
   $('mform').addEventListener('click',onMem);$('mlist').addEventListener('click',onMem);
+  // Click away or press Escape to close an open row, the member form or the import panel (Jimmy, Nov 27, 2026).
+  var mDirty=false;
+  $('mform').addEventListener('input',function(){mDirty=true;});$('mform').addEventListener('change',function(){mDirty=true;});
+  new MutationObserver(function(){if(!$('mform').innerHTML)mDirty=false;}).observe($('mform'),{childList:true});
+  function mCloseForm(ask){var f=$('mform');if(!f.innerHTML)return true;
+    var isImp=!!f.querySelector('.imp');if(isImp&&impBusy)return false;
+    var unsaved=isImp?imp.length>0:mDirty;
+    if(ask&&unsaved&&!confirm(isImp?'Close the import? The list you added will be cleared.':'Close without saving your changes?'))return false;
+    if(isImp){imp=[];impMsgs=[];}f.innerHTML='';mDirty=false;return true;}
+  document.addEventListener('click',function(e){if(document.body.getAttribute('data-t')!=='mem')return;var tg=e.target;if(!tg||!tg.closest||!document.contains(tg))return;
+    if(tg.closest('#mlist [data-m],#mlist a,#mlist .mdet,#mform,#madd,#mimp,#mcsv,#mpager,.mtable thead'))return;
+    if(mOpen!=null){mOpen=null;renderMembers();}
+    if($('mform').innerHTML&&!tg.closest('#mem .bar,#mem .mhead'))mCloseForm(true);});
+  document.addEventListener('keydown',function(e){if(e.key!=='Escape'||document.body.getAttribute('data-t')!=='mem')return;
+    if($('mform').innerHTML){mCloseForm(true);return;}if(mOpen!=null){mOpen=null;renderMembers();}});
   // ---- Import a list: photo or handwritten list (read by AI on the server), CSV or Excel (read here). A preview comes first; nothing is saved until "Add". ----
   var imp=[], impBusy=0, impMsgs=[];
-  function impForm(){$('mform').innerHTML='<div class="card imp" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">Import a list</span></div>'+
+  function impForm(){$('mform').innerHTML='<div class="card imp" style="border-left-color:var(--gold);margin-bottom:12px"><div class="top"><span class="who">Import a list</span><button type="button" class="mx" data-m="cancel" aria-label="Close" title="Close">&times;</button></div>'+
       '<p class="meta" style="margin:6px 0 12px">Add a photo of a written list, or a CSV or Excel file. You will see everyone first and can fix or untick anyone before they are added.</p>'+
       '<label class="impdrop" id="impdrop"><input type="file" id="impfile" multiple accept="image/*,.csv,.txt,.xlsx,.xls"><b>Choose photos or files</b><span>or drag them here. Photos (JPG, PNG), CSV or Excel.</span></label>'+
       '<div id="impst" class="meta" style="margin:10px 0"></div><div id="impprev"></div></div>';
