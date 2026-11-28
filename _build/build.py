@@ -281,7 +281,8 @@ for key, path in routes:
             page = page.replace('<html lang="en">', '<html lang="ht">', 1)
     write(path.lstrip('/') + 'index.html', page)
 
-write('404.html', assemble(seo('home'), '', noindex=True))
+RSVP_LINK = '<script>/* clean RSVP links (Nov 27, 2026): /rsvp/e922c7 opens the RSVP page */(function(){var m=location.pathname.match(/^\\/rsvp\\/([a-z0-9]{4,12})\\/?$/i);if(m)location.replace("/rsvp/?e="+m[1].toLowerCase());})();</script>'  # clean RSVP links: /rsvp/<code> opens /rsvp/?e=<code>
+write('404.html', assemble(seo('home'), '', noindex=True).replace('<meta charset="utf-8">', '<meta charset="utf-8">\n' + RSVP_LINK, 1))
 KREYOL.build(POSTS)
 HOPE.build()  # after the home page, so it copies the current footer
 EVENTS.build()

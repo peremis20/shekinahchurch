@@ -82,6 +82,7 @@ footer{text-align:center;font-size:14px;color:#6B6F78;margin-top:22px}footer a{c
   var API='https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/rsvp';
   var $=function(i){return document.getElementById(i);};
   var code=(new URLSearchParams(location.search).get('e')||'').toLowerCase().replace(/[^a-z0-9]/g,'');
+  if(code&&history.replaceState){try{history.replaceState(null,'','/rsvp/'+code);}catch(x){}}
   var n=1,EV=null,yes=true,KEY='shk_rsvp_'+code;
   function saved(){try{return localStorage.getItem(KEY)||'';}catch(x){return '';}}
   function save(v){try{localStorage.setItem(KEY,v);}catch(x){}}
