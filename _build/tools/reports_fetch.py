@@ -95,8 +95,10 @@ try:
     S['daily'] = sorted(gsc(['date'], d(93), d(1), limit=200), key=lambda r: r['date'])
     S['last28'] = (gsc([], d(30), d(3), limit=1) or [{'clicks': 0, 'impressions': 0, 'ctr': 0, 'position': 0}])[0]
     S['prev28'] = (gsc([], d(58), d(31), limit=1) or [{'clicks': 0, 'impressions': 0, 'ctr': 0, 'position': 0}])[0]
-    S['queries'] = gsc(['query'], d(30), d(3), limit=30)
-    S['pages'] = gsc(['page'], d(30), d(3), limit=20)
+    S['queries'] = gsc(['query'], d(30), d(3), limit=100)
+    S['pages'] = gsc(['page'], d(30), d(3), limit=30)
+    # Which searches show each page (Nov 27, 2026), so title and content fixes follow real queries.
+    S['page_queries'] = gsc(['page', 'query'], d(30), d(3), limit=300)
     S['countries'] = gsc(['country'], d(30), d(3), limit=8)
 except SystemExit as e:
     S['error'] = str(e)
