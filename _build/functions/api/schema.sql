@@ -60,3 +60,13 @@ ALTER TABLE members ADD COLUMN IF NOT EXISTS title text NOT NULL DEFAULT '';
 CREATE TABLE IF NOT EXISTS member_household_skips (key text PRIMARY KEY, by text, at timestamptz NOT NULL DEFAULT now());
 -- Mail cards through Lob (Nov 27, 2026): one row per card mailed (or tried) so nobody gets the same card twice in a period.
 CREATE TABLE IF NOT EXISTS lob_mail (id bigserial PRIMARY KEY, member_id integer NOT NULL, card text NOT NULL, period text NOT NULL, status text NOT NULL DEFAULT 'claimed', mode text NOT NULL DEFAULT '', lob_id text, detail text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), UNIQUE (member_id, card, period));
+
+-- RSVP (Nov 27, 2026): events made in Admin > RSVP, answered from a QR code. One answer per email per event.
+CREATE TABLE IF NOT EXISTS rsvp_events (
+  id serial PRIMARY KEY, code text NOT NULL UNIQUE, title text NOT NULL, starts_on date NOT NULL,
+  start_time text NOT NULL DEFAULT '', location text NOT NULL DEFAULT '', description text NOT NULL DEFAULT '',
+  closed boolean NOT NULL DEFAULT false, created_by text, created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now());
+CREATE TABLE IF NOT EXISTS rsvps (
+  id serial PRIMARY KEY, event_id int NOT NULL REFERENCES rsvp_events(id) ON DELETE CASCADE, name text NOT NULL, email text NOT NULL,
+  guests int NOT NULL DEFAULT 1 CHECK (guests BETWEEN 1 AND 50), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
+  UNIQUE (event_id, email));

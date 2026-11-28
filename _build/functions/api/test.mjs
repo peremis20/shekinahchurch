@@ -467,6 +467,33 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   delete process.env.LOB_API_KEY;
 }
 
+// ---- RSVP ----
+{
+  r = await call('POST', '/rsvp/event', { token: O, body: { title: 'Family Picnic', date: '2099-06-01', time: '13:30', location: 'Church lawn', description: 'Bring a dish' } });
+  ok(r.status === 200 && /^[a-z0-9]{6}$/.test(r.j.event.code) && r.j.event.time === '13:30', 'rsvp event made with a code', r.j);
+  const ev = r.j.event;
+  r = await call('POST', '/rsvp/event', { token: O, body: { title: '', date: '2099-06-01' } }); ok(r.status === 400, 'rsvp needs a title');
+  r = await call('POST', '/rsvp/event', { token: O, body: { title: 'x', date: 'nope' } }); ok(r.status === 400, 'rsvp needs a date');
+  r = await call('GET', '/rsvp?e=' + ev.code); ok(r.status === 200 && r.j.event.title === 'Family Picnic' && !('id' in r.j.event) && r.headers.get('access-control-allow-origin') === '*', 'public rsvp page data', r.j);
+  r = await call('GET', '/rsvp?e=zzzzzz'); ok(r.status === 404, 'unknown rsvp code');
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Rose J', email: 'Rose@x.org', guests: 3 }, ip: '7.7.7.1' }); ok(r.status === 200 && r.j.updated === false, 'rsvp saved', r.j);
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Rose Jean', email: 'rose@x.org', guests: 4 }, ip: '7.7.7.1' }); ok(r.status === 200 && r.j.updated === true, 'same email updates, no duplicate', r.j);
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Bot', email: 'b@x.org', guests: 1, website: 'spam' } }); ok(r.status === 200, 'honeypot answers ok quietly');
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Sam', email: 'bad', guests: 1 } }); ok(r.status === 400, 'rsvp email checked');
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Sam', email: 's@x.org', guests: 0 } }); ok(r.status === 400, 'rsvp count checked');
+  r = await call('POST', '/rsvp/response/add', { token: O, body: { id: ev.id, name: 'Paul', email: 'paul@x.org', guests: 2 } }); ok(r.status === 200, 'team adds an rsvp by hand');
+  r = await call('GET', '/rsvp/events', { token: O }); const e1 = r.j.events.find((x) => x.id === ev.id); ok(e1 && e1.responses === 2 && e1.people === 6 && r.j.can_edit, 'rsvp counts', r.j);
+  r = await call('POST', '/rsvp/responses', { token: O, body: { id: ev.id } }); ok(r.j.responses.length === 2 && r.j.responses.some((x) => x.name === 'Rose Jean' && x.guests === 4), 'rsvp list', r.j);
+  const rid = r.j.responses[0].id;
+  r = await call('POST', '/rsvp/response/delete', { token: O, body: { id: rid } }); r = await call('POST', '/rsvp/responses', { token: O, body: { id: ev.id } }); ok(r.j.responses.length === 1, 'rsvp removed');
+  r = await call('POST', '/rsvp/event', { token: O, body: { id: ev.id, title: 'Family Picnic', date: '2099-06-01', closed: true } }); ok(r.j.event.closed === true, 'rsvp closed');
+  r = await call('POST', '/rsvp', { body: { e: ev.code, name: 'Late', email: 'late@x.org', guests: 1 } }); ok(r.status === 400, 'closed event takes no rsvp');
+  r = await call('POST', '/rsvp/event', { token: O, body: { title: 'Old', date: '2000-01-01' } }); const old = r.j.event;
+  r = await call('POST', '/rsvp', { body: { e: old.code, name: 'A', email: 'a@x.org', guests: 1 } }); ok(r.status === 400, 'past event takes no rsvp');
+  r = await call('POST', '/rsvp/event/delete', { token: O, body: { id: ev.id } }); ok(r.j.deleted === 1, 'rsvp event deleted');
+  r = await call('GET', '/rsvp/events'); ok(r.status === 401, 'rsvp list needs sign in');
+}
+
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);
 r = await call('GET', '/admin/check', { token: O }); ok(r.status === 401, 'all sessions ended', r.status);

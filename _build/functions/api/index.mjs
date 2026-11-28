@@ -1185,12 +1185,14 @@ const ROUTES = {
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /admin/cards/save': cardsSave, 'POST /admin/cards/key': cardsKey, 'POST /admin/cards/preview': cardsPreview,
+  'POST /rsvp/event': rsvpEventSave, 'POST /rsvp/event/delete': rsvpEventDelete, 'POST /rsvp/responses': rsvpResponses, 'POST /rsvp/response/delete': rsvpResponseDelete, 'POST /rsvp/response/add': rsvpResponseAdd,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
   'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects, 'GET /admin/newsletters': newsQueue,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
   'GET /admin/cards': cardsGet,
+  'GET /rsvp/events': rsvpEvents,
 };
 // ---------- mail cards through Lob (Jimmy, Nov 27, 2026: "sync the members to Lob") ----------
 // Runs daily from /cron/reminders. Stays off until a team manager turns it on in Admin > Asset Library.
@@ -1324,6 +1326,88 @@ async function cardsPreview(me) {
   const due = await cardsDue({ ...st, cards: st.cards }, today);
   return { today, cap: st.daily_cap, due: due.map((x) => ({ card: x.card, name: ((x.m.first_name || '') + ' ' + (x.m.last_name || '')).trim(), city: x.m.city })) };
 }
+// ---------- RSVP (Jimmy, Nov 27, 2026): events made in Admin > RSVP, people answer from a QR code ----------
+// Only events created here take RSVPs. One answer per email per event: a second answer updates the first.
+const RSVP_COLS = "id, code, title, to_char(starts_on, 'YYYY-MM-DD') AS date, start_time AS time, location, description, closed, created_by, created_at";
+const RSVP_TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
+const rsvpEdit = (me) => need(!!(me.perms.calendar_edit || me.perms.team_manage), 403, 'You do not have permission to change RSVP events.');
+async function rsvpEvents(me) {
+  const events = await rows(`SELECT e.id, e.code, e.title, to_char(e.starts_on, 'YYYY-MM-DD') AS date, e.start_time AS time, e.location, e.description, e.closed, e.created_by, e.created_at,
+      (e.starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past,
+      (SELECT count(*) FROM rsvps r WHERE r.event_id = e.id)::int AS responses,
+      (SELECT coalesce(sum(guests), 0) FROM rsvps r WHERE r.event_id = e.id)::int AS people
+    FROM rsvp_events e ORDER BY e.starts_on DESC, e.id DESC`);
+  return { events, can_edit: !!(me.perms.calendar_edit || me.perms.team_manage) };
+}
+async function rsvpEventSave(me, b) {
+  rsvpEdit(me);
+  const id = Number(b && b.id) || 0, title = str(b && b.title, 160), date = str(b && b.date, 10), time = str(b && b.time, 5);
+  const location = str(b && b.location, 200), description = str(b && b.description, 600), closed = !!(b && b.closed);
+  need(title, 400, 'Please add a title.');
+  need(/^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(Date.parse(date)), 400, 'Please pick the date.');
+  need(!time || RSVP_TIME.test(time), 400, 'Please pick a valid time.');
+  if (id) {
+    const r = await wrote(`UPDATE rsvp_events SET title = $2, starts_on = $3::date, start_time = $4, location = $5, description = $6, closed = $7, updated_at = now() WHERE id = $1 RETURNING ${RSVP_COLS}`, [id, title, date, time, location, description, closed]);
+    need(r, 404, 'That event was not found.');
+    return { event: r };
+  }
+  for (let i = 0; i < 5; i++) {
+    const code = randomBytes(6).toString('base64').replace(/[^a-zA-Z0-9]/g, '').toLowerCase().slice(0, 6);
+    if (code.length < 6 || await one('SELECT 1 AS x FROM rsvp_events WHERE code = $1', [code])) continue;
+    return { event: await wrote(`INSERT INTO rsvp_events (code, title, starts_on, start_time, location, description, closed, created_by) VALUES ($1, $2, $3::date, $4, $5, $6, $7, $8) RETURNING ${RSVP_COLS}`, [code, title, date, time, location, description, closed, me.email]) };
+  }
+  throw new Fail(500, 'Please try again.');
+}
+async function rsvpEventDelete(me, b) {
+  rsvpEdit(me);
+  const r = await q('DELETE FROM rsvp_events WHERE id = $1 RETURNING id', [Number(b && b.id) || 0]);
+  return { ok: true, deleted: r.length };
+}
+async function rsvpResponses(me, b) {
+  const id = Number(b && b.id) || 0;
+  return { responses: await rows("SELECT id, name, email, guests, created_at, updated_at FROM rsvps WHERE event_id = $1 ORDER BY created_at DESC, id DESC", [id]) };
+}
+async function rsvpResponseDelete(me, b) {
+  rsvpEdit(me);
+  await q('DELETE FROM rsvps WHERE id = $1', [Number(b && b.id) || 0]);
+  return { ok: true };
+}
+async function rsvpResponseAdd(me, b) {
+  rsvpEdit(me);
+  const ev = await one('SELECT id FROM rsvp_events WHERE id = $1', [Number(b && b.id) || 0]);
+  need(ev, 404, 'That event was not found.');
+  return rsvpPut(ev.id, b);
+}
+async function rsvpPut(eventId, b) {
+  const name = str(b && b.name, 120), email = str(b && b.email, 254).toLowerCase();
+  let guests = Math.round(Number(b && b.guests)); if (!isFinite(guests)) guests = 1;
+  need(name, 400, 'Please add your name.');
+  need(EMAIL_RE.test(email), 400, 'Please enter a valid email address.');
+  need(guests >= 1 && guests <= 50, 400, 'Please enter how many people are coming, from 1 to 50.');
+  const r = await wrote(`INSERT INTO rsvps (event_id, name, email, guests) VALUES ($1, $2, $3, $4)
+    ON CONFLICT (event_id, email) DO UPDATE SET name = excluded.name, guests = excluded.guests, updated_at = now()
+    RETURNING id, (xmax <> 0) AS updated`, [eventId, name, email, guests]);
+  return { ok: true, updated: !!(r && r.updated) };
+}
+async function rsvpPublicGet(req) {
+  const code = str(new URL(req.url).searchParams.get('e'), 12).toLowerCase();
+  need(/^[a-z0-9]{4,12}$/.test(code), 404, 'This RSVP link is not valid.');
+  const e = await one(`SELECT title, to_char(starts_on, 'YYYY-MM-DD') AS date, start_time AS time, location, description, closed,
+    (starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past FROM rsvp_events WHERE code = $1`, [code]);
+  need(e, 404, 'This RSVP link is not valid.');
+  return { event: e };
+}
+async function rsvpPublicPost(req) {
+  const b = await body(req);
+  if (b && str(b.website, 100)) return { ok: true }; // hidden field: robots fill it, people do not
+  const code = str(b && b.e, 12).toLowerCase();
+  need(await limit('rsvp-ip:' + ip(req), 20, 60), 429, 'Please wait a few minutes and try again.');
+  const e = await one(`SELECT id, closed, (starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past FROM rsvp_events WHERE code = $1`, [code]);
+  need(e, 404, 'This RSVP link is not valid.');
+  need(!e.closed && !e.past, 400, 'RSVPs for this event are closed.');
+  return rsvpPut(e.id, b);
+}
+
 // ---------- likes (public, Nov 17, 2026) ----------
 const LIKE_PAGE = /^\/(kreyol|blog)\/[a-z0-9-]{1,120}\/$/;
 async function likesGet(req) {
@@ -1356,6 +1440,8 @@ async function route(req, path) {
   if (key === 'GET /events') return publicEvents();
   if (key === 'GET /likes') return likesGet(req);
   if (key === 'POST /likes') return likesPost(req);
+  if (key === 'GET /rsvp') return rsvpPublicGet(req);
+  if (key === 'POST /rsvp') return rsvpPublicPost(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
   if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } let cards = null; try { cards = await cardsRun(); } catch (e) { cards = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news, cards }; }
@@ -1376,7 +1462,7 @@ async function route(req, path) {
 export default {
   async fetch(req) {
     const path = new URL(req.url).pathname.replace(/\/+$/, '') || '/';
-    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/likes' || path === '/';
+    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/likes' || path === '/rsvp' || path === '/';
     const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' || path === '/events' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     try {
