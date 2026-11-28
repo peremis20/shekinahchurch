@@ -190,7 +190,7 @@ for (const w of ['vol', 'pastor', 'elder', 'clerk', 'editor', 'leader', 'old-sta
   r = await P(w, '/members/save', { member: { first_name: 'M ' + w, last_name: 'Test', birthday: '1990-05-01', status: 'Member' } }); ok(r.status === (me ? 200 : 403) && (!me || (r.j.member.birthday === '1990-05-01' && r.j.member.updated_by === w + '@x.org')), w + ' members edit ' + me, r);
   r = await P(w, '/members/delete', { id: 1 }); ok(r.status === 403, w + ' cannot delete members');
 }
-r = await call('GET', '/members', { token: O }); ok(r.j.members.length === 3 && r.j.statuses.length === 6, 'members list', r.j.members.length);
+r = await call('GET', '/members', { token: O }); ok(r.j.members.length === 3 && r.j.statuses.length === 7, 'members list', r.j.members.length);
 r = await call('POST', '/members/save', { token: O, body: { member: { id: r.j.members[0].id, first_name: 'Changed', last_name: 'Test', birthday: '', status: 'Nope' } } }); ok(r.status === 200 && r.j.member.first_name === 'Changed' && r.j.member.birthday === null && r.j.member.status === 'Member', 'member update', r);
 r = await call('POST', '/members/delete', { token: O, body: { id: r.j.member.id } }); ok(r.status === 200, 'admin deletes a member');
 // Paged member list (Nov 27, 2026)

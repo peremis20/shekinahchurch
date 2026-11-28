@@ -826,7 +826,7 @@ section#mem #mlist{display:block}
 .mn{display:flex;align-items:center;gap:10px}.mn b{display:block;font-weight:800;color:#14213D}.mn small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
 .mav{flex:none;width:32px;height:32px;border-radius:50%;background:#E4EAF5;color:#0B2152;font-weight:800;font-size:12.5px;display:grid;place-items:center}
 .mpill{display:inline-block;font-size:12px;font-weight:800;padding:3px 10px;border-radius:20px;background:#EEF1F6;color:#4A5568}
-.mpill.s0,.mpill.s1{background:#E3F4EA;color:#1B6B3A}.mpill.s2{background:#E4EDFB;color:#1F3F8A}.mpill.s3{background:#FBF1DE;color:#8A6420}
+.mpill.s0,.mpill.s1{background:#E3F4EA;color:#1B6B3A}.mpill.s2{background:#E4EDFB;color:#1F3F8A}.mpill.s3{background:#FBF1DE;color:#8A6420}.mpill.s6{background:#F1E8FA;color:#6B3FA0}
 .mtable small.in{color:var(--muted);font-weight:600;margin-left:6px}.mtable .ma{text-align:right;width:1%}
 .mtable .ib{border:0;background:none;padding:6px;border-radius:8px;cursor:pointer;color:#5D6A80;font-weight:800}.mtable .ib:hover{background:#E4EAF5;color:#0B2152}
 .mdet td{background:#F7F9FD!important;white-space:normal;max-width:none;padding:14px 16px 16px}
@@ -1675,7 +1675,7 @@ section#mem #mlist{display:block}
         K=[['','group',act.length,'People on the list'],['','userplus',subs.filter(function(x){return (new Date()-pdate(x.created_at))/86400000<=30;}).length,'Joined in last 30 days'],['','bell',L.filter(function(i){return i.status==='new';}).length,'New sign ups to welcome'],['','mail',(window.__bc||0),'Emails sent'],['','down',subs.filter(function(x){return x.unsubscribed;}).length,'Unsubscribed']];}
       else K=[['all','group',L.length,'Email sign ups'],['new','bell',st('new'),'New sign ups'],['recent','userplus',L.filter(function(i){return tabMatch(i,'recent');}).length,'Joined in last 30 days'],['closed','plus',all.filter(function(i){return tabMatch(i,'closed');}).length,'Welcomed or closed'],['in_progress','clock',st('in_progress'),'In progress']];}
     if(T==='mem'){var cnt=function(k){return nf(mCounts[k.slice(2)]||0);};
-      K=[['m:all','group',cnt('m:all'),'All records'],['m:mem','userplus',cnt('m:mem'),'Members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regulars'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:ina','clock',cnt('m:ina'),'Inactive'],['m:bday','cal',cnt('m:bday'),'Birthdays soon']];}
+      K=[['m:all','group',cnt('m:all'),'All records'],['m:mem','userplus',cnt('m:mem'),'Members'],['m:bap','plus',cnt('m:bap'),'Baptized'],['m:reg','home',cnt('m:reg'),'Regulars'],['m:vis','pin',cnt('m:vis'),'Visitors'],['m:don','contacts',cnt('m:don'),'Donors'],['m:ina','clock',cnt('m:ina'),'Inactive'],['m:bday','cal',cnt('m:bday'),'Birthdays soon']];}
     if(T==='team'){var tl=(window.__team&&window.__team.admins)||[],rc=function(rs){return tl.filter(function(a){return rs.indexOf(a.title||a.role)>=0;}).length;};
       K=[['x','team',tl.length,'People on the team'],['x','gear',rc(['admin']),'Admins'],['x','contacts',rc(['pastor','elder','clerk','staff','editor']),'Pastors, elders and staff'],['x','userplus',rc(['leader','volunteer']),'Leaders and volunteers'],['x','pray',tl.filter(function(a){return a.can_see_private;}).length,'Can see private prayer'],['x','clock',tl.filter(function(a){return !a.last_login;}).length,'Not signed in yet']];}
     $('tkpis').classList.toggle('many',K.length>5);
@@ -2074,7 +2074,7 @@ section#mem #mlist{display:block}
     var rb=e.target.closest('[data-rm]'),em=rb&&rb.getAttribute('data-rm');if(!em)return;if(!confirm('Remove '+em+' from the team? They will be signed out right away.'))return;api('/admin/admins/remove',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em})}).then(team).catch(function(e){$('terr').textContent=e.message;});});
   // ---- Members (same server and sign in) ----
   var MAPI=API;
-  var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out'], mRole='';
+  var members=[], mStatuses=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'], mRole='';
   var MF=[['first_name','First name','text'],['last_name','Last name','text'],['phone','Phone','tel'],['email','Email','email'],['address','Street address','text',1],['city','City','text'],['state','State','text'],['zip','ZIP','text'],['birthday','Birthday','bday'],['status','Membership status','status'],['member_since','Member since','date'],['baptism_date','Baptism date','date'],['household','Family or household','text'],['notes','Notes','textarea',1]];
   function mapi(path,opt){opt=opt||{};opt.headers=Object.assign({'Authorization':'Bearer '+pw()},opt.headers||{});return fetch(MAPI+path,opt).then(function(r){return r.json().catch(function(){return {};}).then(function(j){if(!r.ok){var e=new Error(j.error||'Error');e.status=r.status;throw e;}return j;});});}
   function fmtDate(d){if(!d)return '';var p=String(d).slice(0,10).split('-');if(p.length<3)return d;return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+(p[0]&&p[0]!=='1900'?', '+p[0]:'');}

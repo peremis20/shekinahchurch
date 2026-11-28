@@ -523,7 +523,7 @@ async function teamRemove(me, b) {
 }
 
 // ---------- members ----------
-const M_STATUSES = ['Member', 'Baptized member', 'Regular attender', 'Visitor', 'Inactive', 'Transferred out'];
+const M_STATUSES = ['Member', 'Baptized member', 'Regular attender', 'Visitor', 'Inactive', 'Transferred out', 'Donor']; // Donor: a former member who still gives (Jimmy, Nov 27, 2026)
 const M_TEXT = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zip', 'household', 'notes'];
 const M_DATES = ['birthday', 'member_since', 'baptism_date'];
 const M_COLS = ['id', ...M_TEXT, ...M_DATES.map((d) => `to_char(${d}, 'YYYY-MM-DD') AS ${d}`), 'status', 'updated_at', 'updated_by'].join(', ');
@@ -538,7 +538,7 @@ const M_NEXTB = `(CASE WHEN birthday IS NULL THEN NULL ELSE (SELECT CASE WHEN x 
   FROM (SELECT (birthday + make_interval(years => extract(year FROM ${M_TODAY})::int - extract(year FROM birthday)::int))::date AS x) y) - ${M_TODAY} END)`;
 const M_FILTERS = {
   mem: "status IN ('Member', 'Baptized member')", bap: "(status = 'Baptized member' OR baptism_date IS NOT NULL)", reg: "status = 'Regular attender'",
-  vis: "status = 'Visitor'", ina: "status IN ('Inactive', 'Transferred out')", bday: `${M_NEXTB} <= 30`,
+  vis: "status = 'Visitor'", don: "status = 'Donor'", ina: "status IN ('Inactive', 'Transferred out')", bday: `${M_NEXTB} <= 30`,
 };
 const M_SORTS = { name: 'lower(last_name), lower(first_name), id', recent: 'updated_at DESC NULLS LAST, id DESC', status: 'status, lower(last_name), lower(first_name), id', birthday: `${M_NEXTB} NULLS LAST, lower(last_name), id` };
 async function memberList(me, b) {
