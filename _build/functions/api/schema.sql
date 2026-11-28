@@ -58,3 +58,5 @@ ALTER TABLE members DROP CONSTRAINT IF EXISTS members_status_check;
 ALTER TABLE members ADD CONSTRAINT members_status_check CHECK (status IN ('Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'));
 ALTER TABLE members ADD COLUMN IF NOT EXISTS title text NOT NULL DEFAULT '';
 CREATE TABLE IF NOT EXISTS member_household_skips (key text PRIMARY KEY, by text, at timestamptz NOT NULL DEFAULT now());
+-- Mail cards through Lob (Nov 27, 2026): one row per card mailed (or tried) so nobody gets the same card twice in a period.
+CREATE TABLE IF NOT EXISTS lob_mail (id bigserial PRIMARY KEY, member_id integer NOT NULL, card text NOT NULL, period text NOT NULL, status text NOT NULL DEFAULT 'claimed', mode text NOT NULL DEFAULT '', lob_id text, detail text NOT NULL DEFAULT '', created_at timestamptz NOT NULL DEFAULT now(), UNIQUE (member_id, card, period));

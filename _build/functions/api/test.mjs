@@ -29,7 +29,7 @@ try { await db.query('SELECT gen_random_bytes(4)'); } catch { mig = mig.replace(
 await db.exec(mig); await db.exec(mig); // twice: must be safe to run again
 await db.exec(`INSERT INTO admins (email, added_by, role, can_see_private) VALUES ('owner@x.org','seed','admin',true), ('old-staff@x.org','seed','staff',false), ('bot@x.org','automation','staff',false);`);
 
-const mails = []; let mailOk = true; const runs = [];
+const mails = []; let mailOk = true; const runs = []; const lobCalls = [];
 const realFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt = {}) => {
   url = String(url);
@@ -47,6 +47,7 @@ globalThis.fetch = async (url, opt = {}) => {
   if (url === 'https://api.anthropic.com/v1/messages') { const b = JSON.parse(opt.body); if (opt.headers['x-api-key'] !== 'test-key' || b.messages[0].content[0].type !== 'image') return new Response('{}', { status: 401 });
     return new Response(JSON.stringify({ content: [{ type: 'text', text: 'Here: [{"first_name":"Marie","last_name":"Joseph","phone":"817-555-0101"},{"first_name":"Jean","last_name":"Pierre","birthday":"May 3","unsure":true}]' }] }), { status: 200 }); }
   if (url.endsWith('/content-defaults.json')) return new Response(JSON.stringify({ posts: [{ id: 'p1', title: 'Old', slug: 'old-slug', seoTitle: 'SEO Old', metaDesc: 'md', keywords: ['k'], lang: 'ht' }] }), { status: 200 });
+  if (url === 'https://api.lob.com/v1/postcards') { const b = JSON.parse(opt.body); lobCalls.push({ b, h: opt.headers }); return new Response(JSON.stringify(b.to.address_zip === '00000' ? { error: { message: 'bad address' } } : { id: 'psc_' + lobCalls.length }), { status: b.to.address_zip === '00000' ? 422 : 200 }); }
   throw new Error('unexpected fetch ' + url);
 };
 const api = (await import(API_SRC)).default;
@@ -430,6 +431,36 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   r = await call('GET', '/events'); ok(!r.j.events.some((e) => e.title === 'Choir' && /-(02|04|06|09|11)-31$/.test(e.starts_on)), 'monthly skips months without that day');
   cancels.length = 0;
   r = await call('POST', '/calendar/event/delete', { token: O, body: { id: M.id } }); ok(r.status === 200 && cancels.length >= 3, 'deleting cancels the reminders not sent', cancels.length);
+}
+
+// ---- mail cards through Lob ----
+{
+  const today = (await db.query("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') AS d")).rows[0].d;
+  const bday = (await db.query("SELECT to_char(($1::date + 7), 'YYYY-MM-DD') AS d", [today])).rows[0].d.replace(/^\d{4}/, '1980');
+  await db.query(`INSERT INTO members (first_name, last_name, address, city, state, zip, status, birthday) VALUES
+    ('Vee','Visitor','1 A St','Alvarado','tx','76009','Visitor',NULL), ('Ina','Gone','2 B St','Alvarado','TX','76009','Inactive',NULL),
+    ('Dee','Giver','3 C St','Alvarado','TX','76009','Donor',NULL), ('Bea','Day','4 D St','Alvarado','TX','76009','Member',$1),
+    ('No','Address','','','','','Visitor',NULL), ('Bad','Zip','5 E St','Alvarado','TX','00000','Inactive',NULL), ('Tom','Moved','6 F St','Alvarado','TX','76009','Transferred out',$1)`, [bday]);
+  delete process.env.LOB_API_KEY;
+  r = await call('POST', '/cron/reminders', {}); ok(r.status === 200 && r.j.cards && r.j.cards.on === false && lobCalls.length === 0, 'cards stay off until turned on', r.j.cards);
+  r = await call('GET', '/admin/cards', { token: O }); ok(r.status === 200 && r.j.settings.on === false && r.j.key === '' && r.j.cards.birthday, 'card settings readable', r.j);
+  r = await call('POST', '/admin/cards/save', { token: O, body: { settings: { on: true, daily_cap: 9999, christmas_on: 'bad' } } });
+  ok(r.status === 200 && r.j.settings.on === true && r.j.settings.daily_cap === 500 && r.j.settings.christmas_on === '12-08', 'settings cleaned when saved', r.j);
+  r = await call('POST', '/cron/reminders', {}); ok(r.j.cards.error && lobCalls.length === 0, 'no key, nothing mailed', r.j.cards);
+  r = await call('POST', '/admin/cards/preview', { token: O });
+  const names = r.j.due.map((d) => d.card + ':' + d.name).sort();
+  ok(r.status === 200 && names.join() === ['birthday:Bea Day', 'supporter-thank-you:Dee Giver', 'visitor:Vee Visitor', 'we-miss-you:Bad Zip', 'we-miss-you:Ina Gone'].sort().join(), 'preview lists who is due, skips no address and moved away', names);
+  process.env.LOB_API_KEY = 'test_abc';
+  r = await call('POST', '/cron/reminders', {});
+  ok(r.j.cards.sent === 4 && r.j.cards.failed === 1 && lobCalls.length === 5, 'cards mailed, bad address recorded as failed', r.j.cards);
+  const v = lobCalls.find((c) => c.b.metadata.card === 'visitor');
+  ok(v && v.b.size === '6x9' && v.b.to.address_state === 'TX' && v.b.front.includes('Byenveni, Vee!') && v.b.back.includes('Dear Vee,') && v.b.front.includes('/assets/cards/visitor/front.jpg') && v.h.Authorization === 'Basic ' + Buffer.from('test_abc:').toString('base64') && v.h['Idempotency-Key'], 'postcard request is right', v && v.b);
+  await db.query("UPDATE members SET first_name = '<b>x</b>' WHERE first_name = 'Dee'");
+  r = await call('POST', '/cron/reminders', {}); ok(r.j.cards.due === 0 && lobCalls.length === 5, 'nobody gets the same card twice', r.j.cards);
+  r = await call('GET', '/admin/cards', { token: O }); ok(r.j.key === 'test' && r.j.recent.length === 5 && r.j.recent.some((x) => x.status === 'failed' && x.detail === 'bad address') && r.j.recent.every((x) => x.mode === 'test'), 'recent cards shown with test mode', r.j.recent);
+  const { cardHtml } = await import(API_SRC); ok(cardHtml('birthday', 'front', '<b>').includes('&lt;b&gt;'), 'names are escaped in the card');
+  r = await call('POST', '/admin/cards/save', { token: O, body: { settings: { on: false } } });
+  delete process.env.LOB_API_KEY;
 }
 
 // ---- sign out everywhere ----

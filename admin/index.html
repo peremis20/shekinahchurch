@@ -226,6 +226,10 @@ svg.i{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-widt
 .al-meta{font-size:13px;color:#33415C}.al-meta b{color:#13254F}
 .al-btns{display:flex;flex-wrap:wrap;gap:8px}.al-btns button,.al-btns a{font:600 13px Mulish,system-ui,sans-serif;padding:8px 12px;border-radius:8px;border:1px solid #CBD5E4;background:#F5F8FC;color:#13254F;cursor:pointer;text-decoration:none}
 .al-btns button:hover,.al-btns a:hover{background:#E8EEF8}
+.al-auto{margin-bottom:18px}.al-auto h3{margin:0}.al-row{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.al-row label{display:flex;gap:6px;align-items:center;font:600 14px Mulish,system-ui,sans-serif;color:#13254F}.al-row input[type=text],.al-row input[type=number]{width:90px;padding:6px 8px;border:1px solid #CBD5E4;border-radius:6px;font:14px Mulish,system-ui,sans-serif}
+.al-pill{display:inline-block;padding:3px 10px;border-radius:999px;font:700 12px Mulish,system-ui,sans-serif}.al-on{background:#DDF3E2;color:#1D7438}.al-off{background:#EEF1F6;color:#5D6A80}.al-warn{background:#FDE7D2;color:#C25E0C}
+.al-tbl{width:100%;border-collapse:collapse;font:13px Mulish,system-ui,sans-serif}.al-tbl td,.al-tbl th{padding:6px 8px;border-bottom:1px solid #EEF1F6;text-align:left}.al-tbl th{color:#5D6A80;font-weight:700}
 .pj-empty{padding:40px 16px;text-align:center;color:#5D6A80;font-weight:600}
 .pj-foot{margin:-6px 0 0;text-align:right}
 .pj-modal{position:fixed;inset:0;background:rgba(10,20,45,.45);z-index:9500;display:flex;align-items:center;justify-content:center;padding:16px}.pj-modal.hide{display:none}
@@ -1046,6 +1050,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
 
         <section id="assets" class="hide"><div class="al">
           <p class="pj-note">Each card lives here once. Lob reads the images straight from our website, so when a design changes here, every Lob campaign that uses it changes too. Copy a link or open a template to set up a campaign in Lob.</p>
+          <div class="al-card al-auto hide" id="alauto"></div>
           <div class="al-grid" id="algrid"></div>
         </div></section>
 
@@ -2338,7 +2343,31 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     {k:'supporter-thank-you',n:'Supporter Thank You',w:'Faithful givers who do not attend often',lob:'Shekinah Supporter Thank You'}
   ];
   function cardUrl(k,f){return location.origin+'/assets/cards/'+k+'/'+f;}
+  var CARDST=null;
+  function autoHtml(){var j=CARDST,st=j.settings,k=j.key;
+    var keyMsg=k==='live'?'<span class="al-pill al-on">Live key: real cards are mailed</span>':k==='test'?'<span class="al-pill al-warn">Test key: nothing is printed or mailed</span>':'<span class="al-pill al-warn">No Lob key yet</span>';
+    var rows=j.recent.length?'<table class="al-tbl"><tr><th>When</th><th>Who</th><th>Card</th><th>Result</th></tr>'+j.recent.map(function(r){return '<tr><td>'+esc(r.at)+'</td><td>'+esc(((r.first_name||'')+' '+(r.last_name||'')).trim()||'Removed member')+'</td><td>'+esc((j.cards[r.card]||{}).name||r.card)+'</td><td>'+(r.status==='sent'?'Sent'+(r.mode==='test'?' (test)':''):'Not sent: '+esc(r.detail||r.status))+'</td></tr>';}).join('')+'</table>':'<p class="al-sub">No cards mailed yet.</p>';
+    return '<div class="al-row" style="justify-content:space-between"><h3>Mail cards automatically</h3><span class="al-pill '+(st.on?'al-on':'al-off')+'">'+(st.on?'On':'Off')+'</span></div>'+
+      '<p class="al-sub">Every morning the website checks the Members list and mails each card through Lob: Birthday a week before, Visitor Welcome to visitors added in the last 30 days, We Miss You once a year to Inactive members, Supporter Thank You once a year to Donors, and Christmas and New Year to everyone on the dates below. Members need a full address. Nobody gets the same card twice.</p>'+
+      '<div class="al-row">'+keyMsg+(k?'':'<span class="al-sub">Ask whoever manages Neon to add LOB_API_KEY to the api function.</span>')+'</div>'+
+      '<div class="al-row">'+Object.keys(j.cards).map(function(c){return '<label><input type="checkbox" data-cc="'+c+'"'+(st.cards[c]?' checked':'')+'>'+esc(j.cards[c].name)+'</label>';}).join('')+'</div>'+
+      '<div class="al-row"><label>Christmas mail date (MM-DD)<input type="text" id="alxm" value="'+esc(st.christmas_on)+'" maxlength="5"></label><label>New Year mail date<input type="text" id="alny" value="'+esc(st.new_year_on)+'" maxlength="5"></label><label>Most cards per day<input type="number" id="alcap" min="0" max="500" value="'+esc(st.daily_cap)+'"></label></div>'+
+      '<div class="al-btns"><button type="button" id="alsave">Save</button><button type="button" id="alturn">'+(st.on?'Turn off':'Turn on')+'</button><button type="button" id="alprev">Who gets a card today?</button></div><div id="alprevout"></div>'+
+      '<h3 style="font-size:15px;margin-top:6px">Recent cards</h3>'+rows;}
+  function loadAuto(){var b=$('alauto');if(!can('team_manage')){b.classList.add('hide');return;}
+    b.classList.remove('hide');b.innerHTML='<p class="al-sub">Loading...</p>';
+    api('/admin/cards').then(function(j){CARDST=j;b.innerHTML=autoHtml();}).catch(function(e){b.innerHTML='<p class="al-sub">'+esc(e.message)+'</p>';});}
+  function saveAuto(extra){var st={cards:{},christmas_on:$('alxm').value.trim(),new_year_on:$('alny').value.trim(),daily_cap:Number($('alcap').value)};
+    document.querySelectorAll('[data-cc]').forEach(function(x){st.cards[x.getAttribute('data-cc')]=x.checked;});Object.assign(st,extra||{});
+    api('/admin/cards/save',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({settings:st})}).then(function(){toast('Saved');loadAuto();}).catch(function(e){toast(e.message);});}
+  $('alauto').addEventListener('click',function(e){var t=e.target;if(!CARDST)return;
+    if(t.id==='alsave')saveAuto();
+    if(t.id==='alturn'){var on=!CARDST.settings.on;if(on&&!window.confirm(CARDST.key==='live'?'Turn on? Real cards will be mailed every morning, and Lob charges for each one.':'Turn on? With a test key nothing is mailed, so you can check it safely.'))return;saveAuto({on:on});}
+    if(t.id==='alprev'){$('alprevout').innerHTML='<p class="al-sub">Checking...</p>';api('/admin/cards/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(j){
+      $('alprevout').innerHTML=j.due.length?'<p class="al-sub">'+j.due.length+' card'+(j.due.length>1?'s':'')+' due today'+(j.due.length>j.cap?' (only '+j.cap+' go out per day, the rest follow)':'')+':</p><table class="al-tbl">'+j.due.map(function(d){return '<tr><td>'+esc(d.name)+'</td><td>'+esc((CARDST.cards[d.card]||{}).name||d.card)+'</td><td>'+esc(d.city)+'</td></tr>';}).join('')+'</table>':'<p class="al-sub">Nobody is due a card today.</p>';}).catch(function(e){$('alprevout').innerHTML='<p class="al-sub">'+esc(e.message)+'</p>';});}
+  });
   function loadAssets(){
+    loadAuto();
     $('algrid').innerHTML=CARDS.map(function(c){var b='/assets/cards/'+c.k+'/';
       return '<article class="al-card"><div><h3>'+esc(c.n)+'</h3><p class="al-sub">For: '+esc(c.w)+'</p></div>'+
       '<div class="al-sides"><figure><a href="'+b+'front.jpg" target="_blank" rel="noopener"><img loading="lazy" src="'+b+'preview-front.jpg" alt="'+esc(c.n)+' card front"></a><figcaption>Front</figcaption></figure>'+

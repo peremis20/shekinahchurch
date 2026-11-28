@@ -1184,12 +1184,128 @@ const ROUTES = {
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
   'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
+  'POST /admin/cards/save': cardsSave, 'POST /admin/cards/preview': cardsPreview,
   'POST /projects/save': projectSave, 'POST /projects/delete': projectDelete, 'POST /projects/approve': projectApprove, 'POST /projects/budget': projectBudget,
 };
 const GETS = {
   'GET /admin/list': list, 'GET /admin/subscribers': subscribers, 'GET /admin/admins': team, 'GET /members': members, 'GET /calendar': calendar, 'GET /admin/reports': reportsGet, 'GET /admin/reports/share': shareGet, 'GET /projects': projects, 'GET /admin/newsletters': newsQueue,
   'GET /admin/content': async (me) => { allow(me, 'site_edit'); return { content: await contentRows() }; },
+  'GET /admin/cards': cardsGet,
 };
+// ---------- mail cards through Lob (Jimmy, Nov 27, 2026: "sync the members to Lob") ----------
+// Runs daily from /cron/reminders. Stays off until a team manager turns it on in Admin > Asset Library.
+// Needs LOB_API_KEY in this function's environment (a test_ key prints nothing; a live_ key mails real cards).
+// Each card goes once per person per period (lob_mail unique key), and a daily cap limits spending.
+const LOB_URL = 'https://api.lob.com/v1/postcards';
+const CARD_IMG = 'https://shekinahsda.org/assets/cards/';
+export const CARDS = {
+  birthday: { name: 'Birthday', hello: 'B&Ograve;n F&egrave;t' },
+  visitor: { name: 'Visitor Welcome', hello: 'Byenveni' },
+  'we-miss-you': { name: 'We Miss You', hello: 'Nou sonje ou' },
+  christmas: { name: 'Christmas', hello: 'Jwaye Now&egrave;l' },
+  'new-year': { name: 'New Year', hello: 'B&ograve;n Ane' },
+  'supporter-thank-you': { name: 'Supporter Thank You', hello: 'M&egrave;si anpil' },
+};
+const CARD_DEFAULT = { on: false, cards: Object.fromEntries(Object.keys(CARDS).map((k) => [k, true])), christmas_on: '12-08', new_year_on: '12-27', daily_cap: 50 };
+const CHURCH_FROM = { name: 'Shekinah Haitian SDA Church', address_line1: '205 E Carver St', address_city: 'Alvarado', address_state: 'TX', address_zip: '76009' };
+const hx = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+const MMDD = /^(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/;
+export function cardHtml(card, side, first) {
+  const top = '<html><head><meta charset="UTF-8"><style>*{margin:0;padding:0}body{width:9.25in;height:6.25in;margin:0;position:relative}#bg{position:absolute;left:0;top:0;width:9.25in;height:6.25in}';
+  if (side === 'front') return top + "#n{position:absolute;left:0;top:3.5in;width:9.25in;text-align:center;font-family:'Cinzel',Georgia,serif;font-weight:700;font-size:.27in;letter-spacing:.06in;color:#fff;white-space:nowrap;text-transform:uppercase}</style>"
+    + '<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet"></head><body><img id="bg" src="' + CARD_IMG + card + '/front.jpg"><div id="n">' + CARDS[card].hello + (first ? ', ' + hx(first) : '') + '!</div></body></html>';
+  return top + "#n{position:absolute;left:.5in;top:2.62in;width:3.9in;font-family:'Lora',Georgia,serif;font-size:.19in;color:#fff;white-space:nowrap;overflow:hidden}</style>"
+    + '<link href="https://fonts.googleapis.com/css2?family=Lora&display=swap" rel="stylesheet"></head><body><img id="bg" src="' + CARD_IMG + card + '/back.jpg"><div id="n">Dear ' + (first ? hx(first) : 'Friend') + ',</div></body></html>';
+}
+async function cardSettings() {
+  const r = await one("SELECT value FROM automation_status WHERE key = 'lob_cards'");
+  let v = {}; try { v = r ? JSON.parse(r.value) : {}; } catch (e) { v = {}; }
+  return { ...CARD_DEFAULT, ...v, cards: { ...CARD_DEFAULT.cards, ...(v.cards || {}) } };
+}
+const HAS_ADDR = "btrim(coalesce(address, '')) <> '' AND btrim(coalesce(city, '')) <> '' AND btrim(coalesce(state, '')) <> '' AND btrim(coalesce(zip, '')) <> ''";
+const M_FIELDS = 'id, first_name, last_name, address, city, state, zip, status';
+// Who is due a card today. Returns [{ m, card, period }].
+export async function cardsDue(st, today) {
+  const y = today.slice(0, 4), md = today.slice(5), out = [];
+  const add = (list, card, period) => list.forEach((m) => out.push({ m, card, period }));
+  const c = st.cards;
+  // Birthday: a week ahead so the card arrives in time.
+  if (c.birthday) add(await rows(`SELECT ${M_FIELDS}, to_char(($1::date + 7), 'YYYY') AS y FROM members WHERE ${HAS_ADDR} AND status <> 'Transferred out' AND birthday IS NOT NULL AND to_char(birthday, 'MM-DD') = to_char($1::date + 7, 'MM-DD')`, [today]), 'birthday', null);
+  if (c.visitor) add(await rows(`SELECT ${M_FIELDS} FROM members WHERE ${HAS_ADDR} AND status = 'Visitor' AND created_at >= $1::date - 30`, [today]), 'visitor', 'once');
+  if (c['we-miss-you']) add(await rows(`SELECT ${M_FIELDS} FROM members WHERE ${HAS_ADDR} AND status = 'Inactive'`), 'we-miss-you', y);
+  if (c['supporter-thank-you']) add(await rows(`SELECT ${M_FIELDS} FROM members WHERE ${HAS_ADDR} AND status = 'Donor'`), 'supporter-thank-you', y);
+  const family = async () => rows(`SELECT ${M_FIELDS} FROM members WHERE ${HAS_ADDR} AND status <> 'Transferred out'`);
+  if (c.christmas && md === st.christmas_on) add(await family(), 'christmas', y);
+  if (c['new-year'] && md === st.new_year_on) add(await family(), 'new-year', String(Number(y) + (md >= '07-01' ? 1 : 0)));
+  out.forEach((x) => { if (!x.period) x.period = x.m.y; });
+  // Drop the ones already mailed (or tried) for that period.
+  if (!out.length) return out;
+  const done = await rows('SELECT member_id, card, period FROM lob_mail WHERE member_id::text IN (SELECT jsonb_array_elements_text($1::jsonb))', [JSON.stringify([...new Set(out.map((x) => String(x.m.id)))])]);
+  const seen = new Set(done.map((d) => d.member_id + '|' + d.card + '|' + d.period));
+  return out.filter((x) => !seen.has(x.m.id + '|' + x.card + '|' + x.period));
+}
+async function lobSend(x, claim) {
+  const key = process.env.LOB_API_KEY || '';
+  const m = x.m;
+  const r = await fetch(LOB_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: 'Basic ' + Buffer.from(key + ':').toString('base64'), 'Idempotency-Key': 'shk-card-' + claim },
+    body: JSON.stringify({
+      description: CARDS[x.card].name + ' card for member ' + m.id,
+      to: { name: str((m.first_name || '') + ' ' + (m.last_name || ''), 40), address_line1: str(m.address, 64), address_city: str(m.city, 200), address_state: str(m.state, 2).toUpperCase(), address_zip: str(m.zip, 10) },
+      from: CHURCH_FROM, size: '6x9', use_type: 'marketing',
+      front: cardHtml(x.card, 'front', m.first_name), back: cardHtml(x.card, 'back', m.first_name),
+      metadata: { member_id: String(m.id), card: x.card },
+    }),
+    signal: AbortSignal.timeout(20000),
+  });
+  const j = await r.json().catch(() => ({}));
+  return r.ok ? { ok: true, id: j.id } : { ok: false, detail: str((j.error && j.error.message) || ('HTTP ' + r.status), 300) };
+}
+export async function cardsRun() {
+  const st = await cardSettings();
+  if (!st.on) return { on: false };
+  if (!process.env.LOB_API_KEY) return { on: true, error: 'LOB_API_KEY is not set' };
+  const today = (await one("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') AS d")).d;
+  const due = (await cardsDue(st, today)).slice(0, Math.max(0, Math.min(Number(st.daily_cap) || 0, 500)));
+  let sent = 0, failed = 0;
+  for (const x of due) {
+    // Claim first so a second run can never mail the same card twice.
+    const claim = await wrote("INSERT INTO lob_mail (member_id, card, period) VALUES ($1, $2, $3) ON CONFLICT DO NOTHING RETURNING id", [x.m.id, x.card, x.period], 'id');
+    if (!claim) continue;
+    const r = await lobSend(x, claim.id);
+    await q('UPDATE lob_mail SET status = $2, lob_id = $3, detail = $4, mode = $5 WHERE id = $1', [claim.id, r.ok ? 'sent' : 'failed', r.id || null, r.detail || '', (process.env.LOB_API_KEY || '').startsWith('live_') ? 'live' : 'test']);
+    r.ok ? sent++ : failed++;
+  }
+  return { on: true, due: due.length, sent, failed };
+}
+async function cardsGet(me) {
+  allow(me, 'team_manage');
+  const key = process.env.LOB_API_KEY || '';
+  const recent = await rows(`SELECT l.id, l.card, l.period, l.status, l.mode, l.detail, l.lob_id, to_char(l.created_at, 'YYYY-MM-DD HH24:MI') AS at, m.first_name, m.last_name
+    FROM lob_mail l LEFT JOIN members m ON m.id = l.member_id ORDER BY l.id DESC LIMIT 60`);
+  return { settings: await cardSettings(), key: key ? (key.startsWith('live_') ? 'live' : 'test') : '', recent, cards: CARDS };
+}
+async function cardsSave(me, b) {
+  allow(me, 'team_manage');
+  const old = await cardSettings(), n = (b && b.settings) || {};
+  const v = {
+    on: typeof n.on === 'boolean' ? n.on : old.on,
+    cards: Object.fromEntries(Object.keys(CARDS).map((k) => [k, n.cards && typeof n.cards[k] === 'boolean' ? n.cards[k] : old.cards[k]])),
+    christmas_on: MMDD.test(n.christmas_on || '') ? n.christmas_on : old.christmas_on,
+    new_year_on: MMDD.test(n.new_year_on || '') ? n.new_year_on : old.new_year_on,
+    daily_cap: Number.isFinite(Number(n.daily_cap)) ? Math.max(0, Math.min(500, Math.round(Number(n.daily_cap)))) : old.daily_cap,
+  };
+  await q(`INSERT INTO automation_status (key, value, updated_at) VALUES ('lob_cards', $1, now()) ON CONFLICT (key) DO UPDATE SET value = excluded.value, updated_at = now()`, [JSON.stringify({ ...v, updated_by: me.email })]);
+  return { settings: v };
+}
+async function cardsPreview(me) {
+  allow(me, 'team_manage');
+  const st = await cardSettings();
+  const today = (await one("SELECT to_char((now() AT TIME ZONE 'America/Chicago')::date, 'YYYY-MM-DD') AS d")).d;
+  const due = await cardsDue({ ...st, cards: st.cards }, today);
+  return { today, cap: st.daily_cap, due: due.map((x) => ({ card: x.card, name: ((x.m.first_name || '') + ' ' + (x.m.last_name || '')).trim(), city: x.m.city })) };
+}
 // ---------- likes (public, Nov 17, 2026) ----------
 const LIKE_PAGE = /^\/(kreyol|blog)\/[a-z0-9-]{1,120}\/$/;
 async function likesGet(req) {
@@ -1224,7 +1340,7 @@ async function route(req, path) {
   if (key === 'POST /likes') return likesPost(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
-  if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news }; }
+  if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } let cards = null; try { cards = await cardsRun(); } catch (e) { cards = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news, cards }; }
   if (key === 'GET /reports/view') return reportsView();
   if (key === 'POST /admin/login/start') return loginStart(req);
   if (key === 'POST /admin/login/verify') return loginVerify(req);
