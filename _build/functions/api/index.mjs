@@ -647,6 +647,85 @@ async function memberImport(me, b) {
   const added = r[0] ? (typeof r[0].j === 'string' ? JSON.parse(r[0].j) : r[0].j) : [];
   return { added: added.length, members: added };
 }
+// ---- member update form (Jimmy, Nov 28, 2026): shekinahsda.org/update, no login. People send their own contact details
+// and their household; nothing changes in Members until someone on the team approves it under Members > To review.
+const U_PHONE = (s) => { const d = str(s, 40).replace(/\D/g, '').replace(/^1(?=\d{10}$)/, ''); return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : str(s, 40); };
+const U_BDAY = (s) => { s = str(s, 10); if (/^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(Date.parse(s))) return s; const m = /^(\d{1,2})-(\d{1,2})$/.exec(s); if (!m) return ''; const v = `2000-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}`; return isNaN(Date.parse(v)) ? '' : v; };
+const U_CONNECT = { member: 'Member', attending: 'Regular attender', visiting: 'Visitor' };
+async function updatePublic(req) {
+  const b = await body(req);
+  if (b && str(b.website, 100)) return { ok: true }; // hidden field: robots fill it, people do not
+  need(await limit('update-ip:' + ip(req), 10, 60), 429, 'Please wait a few minutes and try again.');
+  const people = (Array.isArray(b && b.people) ? b.people : []).slice(0, 12).map((p) => ({
+    first_name: str(p && p.first_name, 80), last_name: str(p && p.last_name, 80), phone: U_PHONE(p && p.phone),
+    email: str(p && p.email, 200).toLowerCase(), birthday: U_BDAY(p && p.birthday) })).filter((p) => p.first_name || p.last_name);
+  need(people.length && people[0].first_name && people[0].last_name, 400, 'Please add your first and last name.');
+  need(people[0].email || people[0].phone, 400, 'Please add your phone number or email so we can reach you.');
+  for (const p of people) need(!p.email || EMAIL_RE.test(p.email), 400, `Please check the email for ${p.first_name || 'each person'}.`);
+  const data = { people, address: str(b.address, 200), city: str(b.city, 80), state: str(b.state, 40), zip: str(b.zip, 20),
+    connected: U_CONNECT[b.connected] ? b.connected : '', note: str(b.note, 600) };
+  await q('INSERT INTO member_updates (data) VALUES ($1::jsonb)', [JSON.stringify(data)]);
+  return { ok: true };
+}
+// A phone or email counts as the same person only when the first name matches too: families often share one phone.
+async function updateMatch(people) {
+  const list = people.map((p, i) => ({ i, e: p.email || '', p: String(p.phone || '').replace(/\D/g, '').slice(-10), f: String(p.first_name || '').trim().toLowerCase(), n: `${p.first_name} ${p.last_name}`.trim().toLowerCase() }));
+  const E = "(y.e <> '' AND lower(m.email) = y.e AND lower(trim(m.first_name)) = y.f)", P = "(length(y.p) = 10 AND right(regexp_replace(m.phone, '\\D', '', 'g'), 10) = y.p AND lower(trim(m.first_name)) = y.f)";
+  const r = await rows(`SELECT y.i, m.id, m.first_name, m.last_name, m.status, m.household, (CASE WHEN ${E} THEN 'email' WHEN ${P} THEN 'phone' ELSE 'name' END) AS how
+    FROM jsonb_to_recordset($1::jsonb) AS y(i int, e text, p text, f text, n text)
+    JOIN LATERAL (SELECT * FROM members m WHERE ${E} OR ${P} OR (length(y.n) > 3 AND lower(trim(m.first_name || ' ' || m.last_name)) = y.n)
+      ORDER BY ${E} DESC, ${P} DESC, m.id LIMIT 1) m ON true`, [JSON.stringify(list)]);
+  const by = {}; for (const x of r) by[x.i] = x; return by;
+}
+async function updatesList(me) {
+  allow(me, 'members_view');
+  const list = await rows("SELECT id, data, created_at FROM member_updates WHERE status = 'new' ORDER BY created_at, id LIMIT 50");
+  for (const u of list) {
+    const d = typeof u.data === 'string' ? JSON.parse(u.data) : u.data; u.data = d;
+    const by = await updateMatch(d.people || []);
+    d.people.forEach((p, i) => { const m = by[i]; p.match = m ? { id: m.id, name: `${m.first_name} ${m.last_name}`.trim(), status: m.status, household: m.household, how: m.how } : null; });
+  }
+  return { updates: list, can_edit: !!me.perms.members_edit };
+}
+async function updatesApprove(me, b) {
+  allow(me, 'members_edit');
+  const u = await one("SELECT id, data FROM member_updates WHERE id = $1 AND status = 'new'", [Number(b && b.id) || 0]);
+  need(u, 404, 'That answer was already handled.');
+  const d = typeof u.data === 'string' ? JSON.parse(u.data) : u.data, people = d.people || [];
+  const status = M_STATUSES.includes(b.status) ? b.status : (U_CONNECT[d.connected] || 'Member');
+  const by = await updateMatch(people);
+  const pick = Array.isArray(b.people) ? b.people : [];
+  const act = people.map((p, i) => { const c = pick.find((x) => x && x.i === i) || {}; const a = ['update', 'new', 'skip'].includes(c.action) ? c.action : (by[i] ? 'update' : 'new');
+    return { p, a: a === 'update' && !by[i] ? 'new' : a, m: by[i] }; });
+  const kept = act.filter((x) => x.a !== 'skip');
+  let hh = (kept.find((x) => x.a === 'update' && x.m.household) || {}).m;
+  hh = hh ? hh.household : (kept.length > 1 && people[0].last_name ? `${people[0].last_name} family` : '');
+  const ids = [], note = `Sent their own details with the update form on ${new Date().toLocaleDateString('en-US', { timeZone: 'America/Chicago', month: 'short', day: 'numeric', year: 'numeric' })}.`;
+  const said = d.note ? `Their note: ${d.note}` : '';
+  for (const x of kept) {
+    const v = { ...x.p, address: d.address, city: d.city, state: d.state, zip: d.zip }, mine = x.p === people[0] ? said : '';
+    if (x.a === 'update') {
+      const r = await wrote(`UPDATE members SET first_name = CASE WHEN first_name = '' THEN $2 ELSE first_name END, last_name = CASE WHEN last_name = '' THEN $3 ELSE last_name END, phone = coalesce(nullif($4, ''), phone),
+          email = coalesce(nullif($5, ''), email), address = coalesce(nullif($6, ''), address), city = coalesce(nullif($7, ''), city), state = coalesce(nullif($8, ''), state), zip = coalesce(nullif($9, ''), zip),
+          birthday = coalesce($10::date, birthday), household = CASE WHEN household = '' THEN $11 ELSE household END, updated_by = $12, updated_at = now(),
+          notes = CASE WHEN $13 = '' THEN notes ELSE trim(notes || E'\n' || $13) END WHERE id = $1 RETURNING id`,
+        [x.m.id, v.first_name, v.last_name, v.phone, v.email, v.address, v.city, v.state, v.zip, v.birthday || null, hh, me.email, mine]);
+      if (r) ids.push(r.id);
+    } else {
+      const r = await wrote(`INSERT INTO members (first_name, last_name, phone, email, address, city, state, zip, birthday, household, notes, status, updated_by)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9::date, $10, $11, $12, $13) RETURNING id`,
+        [v.first_name || v.last_name, v.first_name ? v.last_name : '', v.phone, v.email, v.address, v.city, v.state, v.zip, v.birthday || null, hh, mine ? note + ' ' + mine : note, status, me.email]);
+      ids.push(r.id);
+    }
+  }
+  await q("UPDATE member_updates SET status = 'approved', reviewed_by = $2, reviewed_at = now(), result = $3::jsonb WHERE id = $1", [u.id, me.email, JSON.stringify({ member_ids: ids, household: hh })]);
+  return { ok: true, saved: ids.length, household: hh };
+}
+async function updatesDismiss(me, b) {
+  allow(me, 'members_edit');
+  await q("UPDATE member_updates SET status = 'dismissed', reviewed_by = $2, reviewed_at = now() WHERE id = $1 AND status = 'new'", [Number(b && b.id) || 0, me.email]);
+  return { ok: true };
+}
 // ---- possible households (Jimmy, Nov 27, 2026): people at the same address, or with the same last name and no household yet.
 // The team answers Yes (one household name for all) or No (remembered, asked again only if the group changes).
 const M_ADDR = "lower(regexp_replace(address || ' ' || zip, '[^a-zA-Z0-9]', '', 'g'))";
@@ -1183,6 +1262,7 @@ const ROUTES = {
   'POST /admin/admins/add': teamAdd, 'POST /admin/admins/update': teamUpdate, 'POST /admin/admins/remove': teamRemove, 'POST /admin/admins/name': teamName, 'POST /admin/admins/suspend': teamSuspend,
   'POST /calendar/event': eventSave, 'POST /calendar/event/delete': eventDelete, 'POST /calendar/event/resend': eventResend, 'POST /calendar/task': taskSave, 'POST /calendar/task/done': taskDone, 'POST /calendar/task/delete': taskDelete,
   'POST /admin/reports/share/new': shareMake, 'POST /admin/reports/share/off': shareOff,
+  'POST /members/updates': updatesList, 'POST /members/updates/approve': updatesApprove, 'POST /members/updates/dismiss': updatesDismiss,
   'POST /members/households': householdSuggest, 'POST /members/household': householdAnswer, 'POST /members/list': memberList, 'POST /members/find': memberFind, 'POST /members/save': memberSave, 'POST /members/delete': memberDelete, 'POST /members/read': memberRead, 'POST /members/import': memberImport,
   'POST /admin/cards/save': cardsSave, 'POST /admin/cards/key': cardsKey, 'POST /admin/cards/preview': cardsPreview,
   'POST /rsvp/event': rsvpEventSave, 'POST /rsvp/event/delete': rsvpEventDelete, 'POST /rsvp/responses': rsvpResponses, 'POST /rsvp/response/delete': rsvpResponseDelete, 'POST /rsvp/response/add': rsvpResponseAdd, 'POST /rsvp/response/update': rsvpResponseUpdate,
@@ -1469,6 +1549,7 @@ async function route(req, path) {
   if (key === 'GET /rsvp') return rsvpPublicGet(req);
   if (key === 'POST /rsvp') return rsvpPublicPost(req);
   if (key === 'POST /rsvp/feed') return rsvpFeed(req);
+  if (key === 'POST /update') return updatePublic(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
   if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } let cards = null; try { cards = await cardsRun(); } catch (e) { cards = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news, cards }; }
@@ -1489,7 +1570,7 @@ async function route(req, path) {
 export default {
   async fetch(req) {
     const path = new URL(req.url).pathname.replace(/\/+$/, '') || '/';
-    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/likes' || path === '/rsvp' || path === '/';
+    const pub = path === '/reports/view' || path === '/content' || path === '/events' || path === '/submit' || path === '/likes' || path === '/rsvp' || path === '/update' || path === '/';
     const headers = { 'Content-Type': 'application/json', 'Cache-Control': path === '/content' || path === '/events' ? 'public, max-age=60' : 'no-store', ...cors(req, pub) };
     if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers });
     try {

@@ -71,3 +71,8 @@ CREATE TABLE IF NOT EXISTS rsvps (
   guests int NOT NULL DEFAULT 1 CHECK (guests BETWEEN 1 AND 50), created_at timestamptz NOT NULL DEFAULT now(), updated_at timestamptz NOT NULL DEFAULT now(),
   UNIQUE (event_id, email));
 ALTER TABLE rsvps ADD COLUMN IF NOT EXISTS coming boolean NOT NULL DEFAULT true; -- false: they said they cannot come
+
+-- Member update form (Nov 28, 2026): answers from shekinahsda.org/update wait here until the team approves them.
+CREATE TABLE IF NOT EXISTS member_updates (id serial PRIMARY KEY, data jsonb NOT NULL, status text NOT NULL DEFAULT 'new',
+  created_at timestamptz NOT NULL DEFAULT now(), reviewed_by text, reviewed_at timestamptz, result jsonb);
+CREATE INDEX IF NOT EXISTS member_updates_new_idx ON member_updates (created_at) WHERE status = 'new';

@@ -508,6 +508,33 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   r = await call('POST', '/rsvp/feed', { body: {} }); ok(r.status === 401, 'rsvp feed needs the GitHub token');
 }
 
+// ---- member update form ----
+{
+  r = await call('POST', '/update', { body: { people: [{ first_name: 'Nadia', last_name: '' }] }, ip: '9.9.9.1' }); ok(r.status === 400, 'update needs a full name');
+  r = await call('POST', '/update', { body: { people: [{ first_name: 'Nadia', last_name: 'Fils' }] }, ip: '9.9.9.1' }); ok(r.status === 400, 'update needs phone or email');
+  r = await call('POST', '/update', { body: { website: 'x', people: [{ first_name: 'Bot', last_name: 'Bot', email: 'b@x.org' }] }, ip: '9.9.9.1' }); ok(r.status === 200, 'update honeypot quiet');
+  await call('POST', '/members/save', { token: O, body: { member: { first_name: 'Paul', last_name: 'Fils', phone: '(817) 555-9101', status: 'Member' } } });
+  r = await call('POST', '/update', { body: { connected: 'attending', note: 'New baby soon', address: '12 Oak St', city: 'Alvarado', state: 'TX', zip: '76009', people: [
+    { first_name: 'Nadia', last_name: 'Fils', email: 'NADIA@x.org', phone: '8175550199', birthday: '03-14' },
+    { first_name: 'Paul', last_name: 'Fils', phone: '817-555-9101' }, { first_name: 'Kid', last_name: 'Fils', birthday: '2015-06-01' }] }, ip: '9.9.9.1' });
+  ok(r.status === 200 && r.headers.get('access-control-allow-origin') === '*', 'update saved', r.j);
+  r = await call('POST', '/members/updates', { token: O }); const u = r.j.updates.find((x) => x.data.people[0].first_name === 'Nadia');
+  ok(u && u.data.people[0].phone === '(817) 555-0199' && u.data.people[0].birthday === '2000-03-14' && !u.data.people[0].match && u.data.people[1].match && u.data.people[1].match.how === 'phone', 'update listed with matches', r.j);
+  r = await call('POST', '/members/updates/approve', { token: O, body: { id: u.id } }); ok(r.status === 200 && r.j.saved === 3 && r.j.household === 'Fils family', 'update approved', r.j);
+  r = await call('POST', '/members/list', { token: O, body: { q: 'Fils', per: 50 } }); const fl = (r.j.members || []);
+  ok(fl.length === 3 && fl.every((m) => m.household === 'Fils family' && m.address === '12 Oak St') && fl.find((m) => m.first_name === 'Paul').status === 'Member' && fl.find((m) => m.first_name === 'Nadia').status === 'Regular attender' && /New baby soon/.test(fl.find((m) => m.first_name === 'Nadia').notes), 'approve updates and adds without duplicates', fl.map((m) => [m.first_name, m.household, m.address, m.status].join('|')).join(' ; '));
+  r = await call('POST', '/members/updates/approve', { token: O, body: { id: u.id } }); ok(r.status === 404, 'approve only once');
+  await call('POST', '/members/save', { token: O, body: { member: { first_name: 'Mom', last_name: 'Zz', phone: '(817) 555-7777', status: 'Member' } } });
+  await call('POST', '/update', { body: { people: [{ first_name: 'Kidz', last_name: 'Zz', phone: '817 555 7777' }] }, ip: '9.9.9.3' });
+  r = await call('POST', '/members/updates', { token: O }); const kz = r.j.updates.find((x) => x.data.people[0].first_name === 'Kidz');
+  ok(kz && !kz.data.people[0].match, 'shared family phone is not the same person');
+  await call('POST', '/members/updates/dismiss', { token: O, body: { id: kz.id } });
+  r = await call('POST', '/update', { body: { people: [{ first_name: 'Spam', last_name: 'Y', email: 's@x.org' }] }, ip: '9.9.9.2' });
+  r = await call('POST', '/members/updates', { token: O }); const s = r.j.updates.find((x) => x.data.people[0].first_name === 'Spam');
+  await call('POST', '/members/updates/dismiss', { token: O, body: { id: s.id } }); r = await call('POST', '/members/updates', { token: O }); ok(!r.j.updates.some((x) => x.id === s.id), 'dismissed is gone');
+  r = await call('POST', '/members/updates'); ok(r.status === 401, 'review list needs sign in');
+}
+
 // ---- sign out everywhere ----
 r = await call('POST', '/admin/logout-all', { token: O }); ok(r.status === 200 && r.j.ended >= 1, 'sign out of all devices', r.j);
 r = await call('GET', '/admin/check', { token: O }); ok(r.status === 401, 'all sessions ended', r.status);

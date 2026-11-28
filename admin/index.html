@@ -960,6 +960,16 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
 .hh-yes,.hh-no,.hh-more{height:40px;padding:0 16px;border-radius:10px;font-weight:800;cursor:pointer;font:inherit;font-weight:800}
 .hh-yes{background:#1B8A4A;color:#fff;border:0}.hh-yes:hover{background:#157A40}.hh-no{background:#fff;border:1.5px solid #D3DBE8;color:#14213D}.hh-no:hover{border-color:#0B2152}
 .hh-more{margin-top:10px;background:none;border:0;color:#1F63D8;padding:0}
+/* Member update form review (Nov 28, 2026) */
+.up{border:1px solid #C8D9F8;background:linear-gradient(180deg,#F3F7FF,#fff);border-radius:16px;padding:16px 18px;margin:0 0 14px}
+.up .hh-ic{background:#E3EDFF;color:#1D5FE0}
+.up-i{border-top:1px solid #DCE6F8;padding:14px 0 6px}.up-top{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:8px}.up-top b{font-size:15.5px;color:#0E1B3D}.up-top span{color:#5D6A80;font-size:13.5px;font-weight:600}
+.up-p{display:grid;gap:8px;margin-bottom:10px}.up-r{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;background:#fff;border:1px solid #E3E9F3;border-radius:12px;padding:9px 12px}
+.up-r .nm{font-weight:800;color:#14213D;min-width:150px}.up-r .dt{color:#5D6A80;font-size:13.5px;font-weight:600;flex:1;min-width:180px}
+.up-tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:800}.up-tag.m{background:#DDF3E2;color:#1D6A34}.up-tag.n{background:#E3EDFF;color:#1A4FC4}
+.up-r select,.up-st{height:36px;border:1.5px solid #D3DBE8;border-radius:10px;padding:0 8px;font:inherit;font-size:13.5px;font-weight:700;background:#fff;color:#14213D}
+.up-note{background:#FFFBF2;border:1px solid #F0D9A8;border-radius:10px;padding:8px 12px;color:#5A4413;font-size:14px;margin-bottom:10px}
+.up-a{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.up-a label{font-size:13.5px;font-weight:700;color:#5D6A80;display:flex;align-items:center;gap:6px}
 </style>
 </head>
 <body>
@@ -1046,8 +1056,10 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
               <button class="pbtn mbtn" id="madd"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg>Add member</button>
               <button class="sbtn mbtn" id="mimp"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>Import a list</button>
               <button class="sbtn mbtn" id="mcsv"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Download CSV</button>
+              <button class="sbtn mbtn" id="mshare"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="14" y="3.5" width="6.5" height="6.5" rx="1"/><rect x="3.5" y="14" width="6.5" height="6.5" rx="1"/><path d="M14 14h3v3h-3zM20.5 14v.01M17 20.5h3.5V17"/></svg>Share update form</button>
             </div>
             <div class="mhead"><p class="meta" id="mcount"></p><label class="meta mper">Show <select id="mper"><option>25</option><option>50</option><option selected>100</option><option>200</option></select> per page</label></div>
+            <div id="mupd"></div>
             <div id="mhh"></div>
             <div id="mform"></div>
             <div id="mlist"></div>
@@ -2226,7 +2238,7 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
   function loadMembers(keep){if(!keep)mOpen=null;var my=++mSeq;if(!members.length)$('mlist').innerHTML='<div class="empty">Loading...</div>';
     var body={q:$('mq').value.trim(),status:$('mst').value,filter:memK?memK.slice(2):'',sort:$('msort').value,page:mPage,per:mPer};
     return mapi('/members/list',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(j){if(my!==mSeq)return;
-      members=j.members||[];mTotal=j.total||0;if(!keep||j.page===1)setTimeout(loadHH,0);mCounts=j.counts||{};mRole=j.role||'';if(j.page===1)window.__mbdays=j.birthdays||[];
+      members=j.members||[];mTotal=j.total||0;if(!keep||j.page===1){setTimeout(loadHH,0);setTimeout(loadUpd,0);}mCounts=j.counts||{};mRole=j.role||'';if(j.page===1)window.__mbdays=j.birthdays||[];
       if(j.statuses&&$('mst').options.length<2){mStatuses=j.statuses;$('mst').innerHTML='<option value="">All statuses</option>'+mStatuses.map(function(s){return '<option>'+esc(s)+'</option>';}).join('');}
       if(!members.length&&mPage>1&&mTotal){mPage=Math.max(1,Math.ceil(mTotal/mPer));return loadMembers(keep);}
       renderMembers();})
@@ -2303,6 +2315,52 @@ body[data-t=mem] #tkpis>.tk:nth-child(5){--c:#C2386B;--cb:#FBE7EF}
     g.style.opacity='.5';
     mapi('/members/household',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(){mHH=mHH.filter(function(x){return x.key!==key;});renderHH();if(a==='yes'){toast('Saved as '+body.household);loadMembers(true);}})
       .catch(function(err){g.style.opacity='';alert(err.message);});});
+
+  // ---- Member update form (Nov 28, 2026): answers from shekinahsda.org/update wait here. Approve adds or updates people, never duplicates.
+  var mUP=[],mUPAll=false;
+  function loadUpd(){if(!can('members_view')){$('mupd').innerHTML='';return;}
+    mapi('/members/updates',{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}).then(function(j){mUP=j.updates||[];renderUpd(!!j.can_edit);}).catch(function(){});}
+  var UPC={member:'Member',attending:'Regular attender',visiting:'Visitor'};
+  function upBday(b){if(!b)return '';var p=b.split('-'),dd=new Date(+p[0],+p[1]-1,+p[2]);return dd.toLocaleDateString('en-US',p[0]==='2000'?{month:'short',day:'numeric'}:{month:'short',day:'numeric',year:'numeric'});}
+  function renderUpd(canEdit){var el=$('mupd');if(!mUP.length){el.innerHTML='';return;}
+    var list=mUPAll?mUP:mUP.slice(0,3),sts=['Member','Baptized member','Regular attender','Visitor','Inactive','Transferred out','Donor'];
+    el.innerHTML='<div class="up"><div class="hh-h"><span class="hh-ic">'+I('userplus')+'</span><div><b>To review: '+mUP.length+' from the update form</b><span>Check each one, then approve. Matches are updated, new people are added. Nothing changes until you approve.</span></div></div>'+
+      list.map(function(u){var d=u.data||{},pp=d.people||[],addr=[d.address,d.city,d.state,d.zip].filter(Boolean).join(', ');var def=UPC[d.connected]||'Member';
+        return '<div class="up-i" data-u="'+u.id+'"><div class="up-top"><b>'+esc((pp[0]||{}).first_name+' '+(pp[0]||{}).last_name)+(pp.length>1?' and '+(pp.length-1)+' more':'')+'</b><span>'+esc(new Date(u.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric'}))+(d.connected?' · Says: '+esc(UPC[d.connected]):'')+(addr?' · '+esc(addr):'')+'</span></div>'+
+          (d.note?'<div class="up-note">'+esc(d.note)+'</div>':'')+
+          '<div class="up-p">'+pp.map(function(p,i){var m=p.match;var dt=[p.phone,p.email,p.birthday?'Birthday '+upBday(p.birthday):''].filter(Boolean).join(' · ');
+            return '<div class="up-r"><span class="nm">'+esc(p.first_name+' '+p.last_name)+'</span><span class="dt">'+esc(dt||'No phone or email')+'</span>'+
+              (m?'<span class="up-tag m" title="Matched by '+esc(m.how)+'">Matches '+esc(m.name)+' ('+esc(m.status)+')</span>':'<span class="up-tag n">New person</span>')+
+              (canEdit?'<select data-i="'+i+'" aria-label="What to do with '+esc(p.first_name)+'">'+(m?'<option value="update">Update '+esc(m.name)+'</option>':'')+'<option value="new">Add as new</option><option value="skip">Skip</option></select>':'')+'</div>';}).join('')+'</div>'+
+          (canEdit?'<div class="up-a"><label>New people as <select class="up-st">'+sts.map(function(s){return '<option'+(s===def?' selected':'')+'>'+s+'</option>';}).join('')+'</select></label><button class="hh-yes" data-up="ok">Approve</button><button class="hh-no" data-up="no">Dismiss</button></div>':'')+'</div>';}).join('')+
+      (mUP.length>3?'<button class="hh-more" data-up="more">'+(mUPAll?'Show fewer':'Show all '+mUP.length)+'</button>':'')+'</div>';}
+  $('mupd').addEventListener('click',function(e){var b=e.target.closest('[data-up]');if(!b)return;var a=b.getAttribute('data-up');
+    if(a==='more'){mUPAll=!mUPAll;renderUpd(true);return;}
+    var box=b.closest('.up-i'),id=Number(box.getAttribute('data-u'));
+    if(a==='no'&&!window.confirm('Dismiss this answer? Nothing will be added to Members.'))return;
+    var body={id:id};if(a==='ok'){body.status=box.querySelector('.up-st').value;body.people=[].map.call(box.querySelectorAll('select[data-i]'),function(s){return {i:Number(s.getAttribute('data-i')),action:s.value};});}
+    box.style.opacity='.5';
+    mapi(a==='ok'?'/members/updates/approve':'/members/updates/dismiss',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+      .then(function(j){mUP=mUP.filter(function(x){return x.id!==id;});renderUpd(true);if(a==='ok'){toast('Saved '+j.saved+(j.saved===1?' person':' people')+(j.household?' in '+j.household:''));loadMembers(true);}else toast('Dismissed');})
+      .catch(function(err){box.style.opacity='';alert(err.message);});});
+  // Share the update form: link and QR code to copy, no download needed.
+  function updCanvas(){if(!window.qrcode)return null;var url=location.origin+'/update/',q=qrcode(0,'M');q.addData(url);q.make();
+    var W=1200,H=1500,c=document.createElement('canvas');c.width=W;c.height=H;var x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,W,H);
+    x.fillStyle='#13294B';x.fillRect(0,0,W,150);x.fillStyle='#E2B85C';x.fillRect(0,150,W,10);x.fillStyle='#fff';x.textAlign='center';x.font='800 44px Mulish, Arial, sans-serif';x.fillText('SHEKINAH HAITIAN SDA CHURCH',W/2,95);
+    x.fillStyle='#13294B';x.font='700 66px "Libre Baskerville", Georgia, serif';x.fillText('Update your',W/2,270);x.fillText('contact information',W/2,355);
+    x.font='700 38px Mulish, Arial, sans-serif';x.fillStyle='#5D6A80';x.fillText('About one minute. No account needed.',W/2,425);
+    var n=q.getModuleCount(),cell=Math.floor(800/n),qs=cell*n,ox=(W-qs)/2,oy=480;x.fillStyle='#000';for(var r=0;r<n;r++)for(var cc=0;cc<n;cc++)if(q.isDark(r,cc))x.fillRect(ox+cc*cell,oy+r*cell,cell,cell);
+    x.fillStyle='#13294B';x.font='800 60px Mulish, Arial, sans-serif';x.fillText('Scan to update',W/2,oy+qs+95);x.font='600 34px Mulish, Arial, sans-serif';x.fillStyle='#5D6A80';x.fillText(url.replace(/^https?:\/\//,''),W/2,oy+qs+150);return c;}
+  $('mshare').addEventListener('click',function(){var go=function(){var c=updCanvas();if(!c){toast('QR maker did not load. Refresh the page.');return;}var url=location.origin+'/update/';
+      var box=document.createElement('div');box.className='rvq';box.setAttribute('role','dialog');box.setAttribute('aria-label','Share the update form');
+      box.innerHTML='<div class="rvq-box"><button type="button" class="rvq-x" data-q="x" aria-label="Close">&times;</button><img src="'+c.toDataURL('image/png')+'" alt="QR code for the update form">'+
+        '<p style="text-align:center;margin:12px 0 0;font-weight:800;color:#0B2152">'+esc(url.replace(/^https?:\/\//,''))+'</p><div class="rvq-acts"><button type="button" class="rv-b pri" data-q="copy">Copy QR image</button><button type="button" class="rv-b" data-q="link">Copy link</button><button type="button" class="rv-b" data-q="dl">Download</button></div></div>';
+      document.body.appendChild(box);var close=function(){box.remove();document.removeEventListener('keydown',esc2);},esc2=function(ev){if(ev.key==='Escape')close();};document.addEventListener('keydown',esc2);
+      box.addEventListener('click',function(ev){var b=ev.target.closest('[data-q]');if(ev.target===box||(b&&b.getAttribute('data-q')==='x')){close();return;}if(!b)return;var k=b.getAttribute('data-q');
+        if(k==='copy'){if(!(navigator.clipboard&&window.ClipboardItem)){toast('This browser cannot copy images. Right click the QR and choose Copy image.');return;}navigator.clipboard.write([new ClipboardItem({'image/png':new Promise(function(res){c.toBlob(res,'image/png');})})]).then(function(){toast('QR image copied. Paste it anywhere.');},function(){toast('Could not copy. Right click the QR and choose Copy image.');});}
+        else if(k==='link'){(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(function(){toast('Link copied');},function(){window.prompt('Copy this link',url);});}
+        else if(k==='dl'){var a=document.createElement('a');a.download='Shekinah update form QR.png';a.href=c.toDataURL('image/png');document.body.appendChild(a);a.click();a.remove();}});};
+    document.fonts&&document.fonts.ready?document.fonts.ready.then(go):go();});
   var mDirty=false;
   $('mform').addEventListener('input',function(){mDirty=true;});$('mform').addEventListener('change',function(){mDirty=true;});
   new MutationObserver(function(){if(!$('mform').innerHTML)mDirty=false;}).observe($('mform'),{childList:true});
