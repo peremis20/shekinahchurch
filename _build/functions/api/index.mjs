@@ -655,7 +655,8 @@ const U_CONNECT = { member: 'Member', attending: 'Regular attender', visiting: '
 async function updatePublic(req) {
   const b = await body(req);
   if (b && str(b.website, 100)) return { ok: true }; // hidden field: robots fill it, people do not
-  need(await limit('update-ip:' + ip(req), 10, 60), 429, 'Please wait a few minutes and try again.');
+  // Whole families and a full church on one Wi-Fi share an address (Nov 28, 2026: 10 an hour blocked people), so allow 150 an hour.
+  need(await limit('update-ip:' + ip(req), 150, 60), 429, 'Please wait a few minutes and try again.');
   const people = (Array.isArray(b && b.people) ? b.people : []).slice(0, 12).map((p) => ({
     first_name: str(p && p.first_name, 80), last_name: str(p && p.last_name, 80), phone: U_PHONE(p && p.phone),
     email: str(p && p.email, 200).toLowerCase(), birthday: U_BDAY(p && p.birthday) })).filter((p) => p.first_name || p.last_name);
@@ -1501,7 +1502,7 @@ async function rsvpPublicPost(req) {
   const b = await body(req);
   if (b && str(b.website, 100)) return { ok: true }; // hidden field: robots fill it, people do not
   const code = str(b && b.e, 12).toLowerCase();
-  need(await limit('rsvp-ip:' + ip(req), 20, 60), 429, 'Please wait a few minutes and try again.');
+  need(await limit('rsvp-ip:' + ip(req), 150, 60), 429, 'Please wait a few minutes and try again.');
   const e = await one(`SELECT id, closed, (starts_on < (now() AT TIME ZONE 'America/Chicago')::date) AS past FROM rsvp_events WHERE code = $1`, [code]);
   need(e, 404, 'This RSVP link is not valid.');
   if (b && b.check === true) { // the page asks what this email answered, so changes made by the team show up for the person too
