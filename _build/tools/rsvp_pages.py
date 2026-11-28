@@ -125,13 +125,14 @@ def page(template, e, img_v):
     q = lambda s: html.escape(s, quote=True)
     tags = ('<link rel="canonical" href="%s"><meta property="og:type" content="website"><meta property="og:site_name" content="Shekinah Haitian SDA Church">'
             '<meta property="og:title" content="%s"><meta property="og:description" content="%s"><meta property="og:url" content="%s">'
-            '<meta property="og:image" content="%s"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
+            '<meta property="og:image" content="%s"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">'
             '<meta property="og:image:alt" content="%s"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="%s">'
             '<meta name="twitter:description" content="%s"><meta name="twitter:image" content="%s">') % (
         q(url), q(title), q(desc), q(url), q(img), q(title), q(title), q(desc), q(img))
     out = template.replace('<title>RSVP | Shekinah SDA Church</title>', '<title>%s | Shekinah SDA Church</title>' % q(title), 1)
     out = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="%s">' % q(desc).replace('\\', '\\\\'), out, count=1)
-    return out.replace('</head>', tags + '</head>', 1)
+    # WhatsApp only reads the start of a page, so the preview tags go right after the charset line.
+    return out.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + tags, 1)
 
 
 def main():
