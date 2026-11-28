@@ -778,6 +778,8 @@ body:has(#pjmodal:not(.hide)) #side,body:has(#pjbmodal:not(.hide)) #side,body:ha
 .pj-dlg #pjmt{margin:-24px -24px 16px!important;padding:16px 24px;background:#0B2152;color:#fff;border-radius:18px 18px 0 0;font-size:19px!important}
 /* focus rings */
 #main button:focus-visible,#main [tabindex]:focus-visible,#main select:focus-visible,#main input:focus-visible,#side button:focus-visible{outline:2px solid #1D5FE0;outline-offset:2px}
+#main input:not([type=checkbox]):not([type=radio]):not([type=range]):focus,#main input:not([type=checkbox]):not([type=radio]):not([type=range]):focus-visible,#main select:focus,#main select:focus-visible,#main textarea:focus,#main textarea:focus-visible,.ef input:focus,.ef select:focus,.ef textarea:focus{outline:none!important;border-color:#1D5FE0!important;box-shadow:0 0 0 3px rgba(29,95,224,.15)!important}
+#main label.search input,#main label.search #q:focus,#main label.search #q:focus-visible,.pj-search input,#main .pj-search #pjq:focus,#main .pj-search #pjq:focus-visible{outline:none!important;box-shadow:none!important;border:0!important;background:transparent}
 .pj-search:focus-within,#main label.search:focus-within{border-color:#1D5FE0!important;box-shadow:0 0 0 3px rgba(29,95,224,.15)}
 #siteed input[type=checkbox]{width:18px!important;height:18px!important;margin:0 8px 0 0}
 #addentry,#main .rail>.pbtn{height:38px!important;font-size:14px!important}
