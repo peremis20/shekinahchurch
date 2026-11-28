@@ -505,6 +505,7 @@ ok(r.status === 200 && r.j.added === 2 && r.j.members[0].status === 'Visitor' &&
   }
   r = await call('POST', '/rsvp/event/delete', { token: O, body: { id: ev.id } }); ok(r.j.deleted === 1, 'rsvp event deleted');
   r = await call('GET', '/rsvp/events'); ok(r.status === 401, 'rsvp list needs sign in');
+  r = await call('POST', '/rsvp/feed', { body: {} }); ok(r.status === 401, 'rsvp feed needs the GitHub token');
 }
 
 // ---- sign out everywhere ----

@@ -1,0 +1,48 @@
+name: RSVP share pages
+# Shared RSVP links (shekinahsda.org/rsvp/<code>) show a banner in WhatsApp, Facebook and texts only when
+# the page has real preview tags. Every 10 minutes this reads the RSVP events from the church API
+# (proved with GitHub's own signed token, no stored secret) and writes rsvp/<code>/ with a banner image.
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch: {}
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: rsvp-pages
+  cancel-in-progress: false
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Read RSVP events
+        run: |
+          ID=$(curl -sS -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=shekinah-reports" | python3 -c 'import sys,json;print(json.load(sys.stdin)["value"])')
+          curl -sS --fail-with-body -X POST -H "Authorization: Bearer $ID" -H 'Content-Type: application/json' -d '{}' \
+            https://br-old-sea-b51wuht3-api.compute.c-7.us-east-2.aws.neon.tech/rsvp/feed -o "$RUNNER_TEMP/feed.json"
+      - name: Write share pages
+        run: |
+          python3 -m pip install --quiet pillow==11.0.0
+          python3 _build/tools/rsvp_pages.py "$RUNNER_TEMP/feed.json"
+      - name: Commit changes
+        id: commit
+        run: |
+          git config user.name "shekinah-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A rsvp
+          if git diff --cached --quiet; then
+            echo "changed=no" >> "$GITHUB_OUTPUT"
+          else
+            git commit -m "RSVP share pages: refresh event banners"
+            git pull --rebase --quiet && git push
+            echo "changed=yes" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Publish to GitHub Pages
+        if: steps.commit.outputs.changed == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

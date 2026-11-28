@@ -1402,6 +1402,13 @@ async function rsvpPut(eventId, b) {
     RETURNING id, (xmax <> 0) AS updated`, [eventId, name, email, guests, coming]);
   return { ok: true, updated: !!(r && r.updated), coming, guests };
 }
+// The share page job (.github/workflows/rsvp-pages.yml) reads the event list with GitHub's signed token,
+// then writes rsvp/<code>/ pages with a banner so shared links show a preview (Nov 28, 2026).
+async function rsvpFeed(req) {
+  await githubOidc(req);
+  return { events: await rows(`SELECT code, title, to_char(starts_on, 'YYYY-MM-DD') AS date, start_time AS time, location, description
+    FROM rsvp_events WHERE starts_on > (now() AT TIME ZONE 'America/Chicago')::date - 60 ORDER BY starts_on, id LIMIT 300`) };
+}
 async function rsvpPublicGet(req) {
   const code = str(new URL(req.url).searchParams.get('e'), 12).toLowerCase();
   need(/^[a-z0-9]{4,12}$/.test(code), 404, 'This RSVP link is not valid.');
@@ -1461,6 +1468,7 @@ async function route(req, path) {
   if (key === 'POST /likes') return likesPost(req);
   if (key === 'GET /rsvp') return rsvpPublicGet(req);
   if (key === 'POST /rsvp') return rsvpPublicPost(req);
+  if (key === 'POST /rsvp/feed') return rsvpFeed(req);
   if (key === 'POST /reports/ingest') return reportsIngest(req);
   // Daily Neon trigger: plan the meeting reminders for the next two days (safe to run any time, it skips what is planned).
   if (key === 'POST /cron/reminders') { const r = await planReminders(); let news = null; try { news = await newsQueueRun(); } catch (e) { news = { error: String(e.message || e).slice(0, 200) }; } let cards = null; try { cards = await cardsRun(); } catch (e) { cards = { error: String(e.message || e).slice(0, 200) }; } return { ...r, news, cards }; }
